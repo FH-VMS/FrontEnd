@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>登录</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link href="./static/login.css" rel="stylesheet">
+</head>
+<body>
+    登录页
+  <div id="login"></div>
+<script src="./static/jquery.min.js"></script>
+
+
+{% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+
+<script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+{% } %}
+
+</body>
+</html>

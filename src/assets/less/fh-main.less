@@ -1,0 +1,87 @@
+body {
+    font-size: 62.5%;
+    font-family: 'microsoft yahei';
+    position: relative;
+}
+
+@toalWidth:1200px;
+@menuHeight:62px;
+@headHeight:54px;
+@bannerHeight:420px;
+@topBarHeight:44px;
+@mainColor:#f7b500;
+@marginDistance:40px;
+@hoverColor:#f39801;
+
+/********************公用方法*****************/
+.boxShadow(@x: 0px, @y: 0px, @spread: 5px, @color: #ccc) {
+    box-shadow: @x @y @spread @color;
+}
+
+.gradientTopToBottom(@topColor: rgba(123,133,184,0.8),@bottomColor: rgba(212,212,227,0.8)) {
+    background: -webkit-gradient(linear, 0 30%, 0 100%, from(@topColor), to(@bottomColor));
+    background: -moz-linear-gradient(top, @topColor, @bottomColor);
+    background: -ms-linear-gradient(top, @topColor, @bottomColor);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@topColor, endColorstr=@bottomColor);
+}
+
+.gradientLeftToRight (@scolor, @ecolor) {
+    background: -webkit-gradient(linear, 30% 0, 100% 0, from(@scolor), to(@ecolor));
+    background: -moz-linear-gradient(left, @scolor, @ecolor);
+    background: -ms-linear-gradient(left, @scolor, @ecolor);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@scolor, endColorstr=@ecolor);
+}
+
+//圆角方法
+.roundedCorners(@radius: 10px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.marginAuto{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+//右侧浮动框
+.rightFloatContainer{
+    position: fixed;
+    right: 0;
+    top: 30%;
+}
+
+.rightFloatContainer>ul{
+    background-color: @mainColor;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: #fff;
+    float: right;
+}
+
+.rightFloatContainer>ul>li{
+    text-align: center;
+    padding: 8px;
+    border-bottom: 1px solid #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.rightFloatContainer>ul>li:hover{
+    background-color: @hoverColor;
+}
+
+.rightFloatContainer>ul>li:last-child{
+     border-bottom: none;
+}
+
+.rightFloatContainer>span{
+    display: inline-block;
+    float: right;
+    background-color: @hoverColor;
+    padding: 13px 10px 14px 10px;
+    margin-top: 54px;
+    color: #fff;
+    font-size: 1.8rem;
+}
+

@@ -1,0 +1,338 @@
+@import "./antd-customer.less";
+
+body{
+   font-size: 62.5%;
+   margin: 0;
+   overflow-x:hidden;
+   overflow-y: hidden;
+}
+
+/*******************公共变量与方法***********************/
+@mainColor:#f8b62a;
+@headerHeight:50px;
+@leftMenuWidth:200px;
+.transform(@angle: 90deg) {
+    transform: rotate(@angle);
+  	-ms-transform:rotate(@angle); 	/* IE 9 */
+  	-moz-transform:rotate(@angle); 	/* Firefox */
+  	-webkit-transform:rotate(@angle); /* Safari 和 Chrome */
+  	-o-transform:rotate(@angle); 	/* Opera */
+}
+
+//圆角方法
+.roundedCorners(@radius: 10px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.boxShadow(@x: 0px, @y: 0px, @spread: 5px, @color: #ccc) {
+    box-shadow: @x @y @spread @color;
+}
+
+.marginAuto{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.globalStyle {
+    font-size: 1.4rem;
+    height: 100%;
+    background-color: #dcdedd;
+}
+
+
+
+.globalStyle:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  clear: both;
+  display: none;
+}
+
+#app{
+  height: 100%;
+}
+
+/**************************整体布局************************/
+
+@menuWidth:200px;
+@headerHeight:50px;
+.leftMenu{
+  width: @menuWidth;
+  position: absolute;
+  height: 100%;
+   background-color: #fff;
+   overflow-y: auto;
+   padding-top: @headerHeight;
+   position: fixed;
+   left: 0;
+}
+
+.rightArea{
+  width: 100%;
+  padding: 10px;
+  padding-left: @menuWidth+10;
+  overflow: auto;
+  padding-top: @headerHeight+10;
+  height: 100%;
+}
+
+.rightArea:after{
+  display: block;
+  clear: both;
+  content: '.';
+  visibility: hidden;
+  height: 0;
+}
+
+.headerArea{
+  height:@headerHeight;
+  width: 100%;
+  background-color:#383735;
+  position: fixed;
+  top:0;
+  z-index: 5;
+}
+
+.userArea{
+  float: right;
+  width: 200px;
+  text-align: right;
+  padding-right: 20px;
+  color:#fff;
+   line-height: @headerHeight;
+   font-size: 1.6rem;
+}
+
+.userArea>span{
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.userArea>span>i{
+  margin-right: 5px;
+}
+
+.logo{
+  text-align: center;
+  width: @menuWidth;
+  height: @headerHeight;
+  text-align: center;
+  line-height: @headerHeight;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  float: left;
+}
+
+
+.childrenContainer{
+  background-color: #fff;
+  padding: 10px;
+}
+
+.rightContainer{
+  width: 100%;
+}
+
+.rightContainer:after{
+  visibility: hidden;
+  content: '.';
+  height: 0;
+  clear: both;
+  display: block;
+}
+
+.tool-container{
+  margin-bottom: 10px;
+}
+
+
+// 树形结构
+
+.treeNode{
+  
+   display: block;
+}
+
+.treeNode:after{
+  content: '.';
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.treeNode li{
+  border-left: 1px dotted;
+  padding: 5px;
+}
+
+.treeNode ul{
+  padding-left: 20px;
+}
+
+.treeNode i{
+  margin-right: 5px;
+}
+
+.treeNode input{
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.treeNode label{
+  font-weight: normal;
+   font-size: 1.6rem;
+}
+
+.herizonLine {
+  display: inline-block;
+  width: 10px;
+  border-top: 1px dotted;
+}
+
+.treeNode label{
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.add{
+  color: #44ef10;
+}
+
+.del{
+  color: #f6201b;
+}
+
+.mod{
+  color: #3cf5ad;
+}
+
+.sear{
+  color: #f8b62a;
+}
+
+.adddelmodsear label{
+  margin-left: 7px;
+  margin-right: 7px;
+}
+
+
+/*************************货道配置******************************/
+.tunnelConfigArea{
+  width: 100%;
+  padding: 10px;
+  min-height: 600px;
+  border: 1px solid @mainColor;
+}
+
+.tunnelTemplate{
+  width: 100%;
+}
+
+.tunnelTemplate:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+
+.tunnelTemplate>li{
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted @mainColor;
+}
+
+.tunnelTemplate>li:last-child{
+  border-bottom: none;
+}
+
+
+.tunnelTemplate>li:after{
+ content: '.';
+  height: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+
+.tunnelTemplate>li>div{
+  float: left;
+  min-height: 150px;
+  
+}
+
+.tunnelTemplate>li>div:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+
+.tunnelTemplate>li>div:first-child{
+  width: 80px;
+  margin-right: -80px;
+  padding-top: 70px;
+}
+
+.tunnelTemplate>li>div:last-child{
+  width: 100%;
+  padding-left: 80px;
+}
+
+.tunnelTemplate>li>div:last-child>div{
+  float: left;
+  width: 150px;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  border:1px solid @mainColor;
+  height: 180px;
+  padding: 5px;
+}
+
+.rowNumber{
+  width: 50px;
+  height: 50px;
+  .roundedCorners(50%);
+  border:1px solid @mainColor;
+  text-align: center;
+  line-height: 50px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: @mainColor;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.everyTunnel{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.everyTunnel>div{
+   width: 100%;
+   padding-top: 3px;
+   padding-bottom: 3px;
+}
+
+.tunnelSaveButton{
+  width:100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.textRequiredStyle{
+  border: 1px solid #fd0707 !important;
+}
+
+.tunnelTitle{
+  font-weight: bold;
+  text-align: center;
+}

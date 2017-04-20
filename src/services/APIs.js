@@ -1,0 +1,212 @@
+﻿/* ****************
+*	
+*	平台数据API列表
+*	
+*	@后台自动生成
+*	2016/12/11
+* 
+**************** */
+import apiService from './apiService'
+const api = {
+  Base: {
+      GetAll: function (data) {
+          return apiService('Base', 'GetAll', 'GET', data)
+      }
+  }, 
+  Common: {
+      GetMenus: function (data) {
+          return apiService('Common', 'GetMenus', 'GET', data)
+      },
+      PostLogin: function (data) {
+          return apiService('Common', 'PostLogin', 'POST', data)
+      },
+      GetDic: function (data) {
+          return apiService('Common', 'GetDic', 'GET', data)
+      },
+      GetRank: function (data) {
+          return apiService('Common', 'GetRank', 'GET', data)
+      },
+      GetUserByClientId: function (data) {
+          return apiService('Common', 'GetUserByClientId', 'GET', data)
+      },
+      GetMachineDic: function (data) {
+          return apiService('Common', 'GetMachineDic', 'GET', data)
+      },
+      GetPictureDic: function(data) {
+          return apiService('Common', 'GetPictureDic', 'GET', data)
+      },
+      GetProductDic: function(data) {
+          return apiService('Common', 'GetProductDic', 'GET', data)
+      },
+      GetCabinetDic: function(data) {
+          return apiService('Common', 'GetCabinetDic', 'GET', data)
+      }
+	}, 
+  User: {
+      GetData: function (data) {
+          return apiService('User', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('User', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('User', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('User', 'DeleteData', 'DELETE', data)
+      },
+      GetClientDic: function (data) {
+          return apiService('User', 'GetClientDic', 'GET', data)
+      },
+      GetAuthDic: function (data) {
+          return apiService('User', 'GetAuthDic', 'GET', data)
+      }
+	}, 
+  Auth: {
+      GetData: function (data) {
+          return apiService('Auth', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('Auth', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('Auth', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('Auth', 'DeleteData', 'DELETE', data)
+      },
+      GetAuthDic: function (data) {
+          return apiService('Auth', 'GetAuthDic', 'GET', data)
+      }
+	}, 
+  Customer: {
+      GetData: function (data) {
+          return apiService('Customer', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('Customer', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('Customer', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('Customer', 'DeleteData', 'DELETE', data)
+      }
+	}, 
+  MachineType: {
+      GetData: function (data) {
+          return apiService('MachineType', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('MachineType', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('MachineType', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('MachineType', 'DeleteData', 'DELETE', data)
+      }
+	}, 
+  MachineList: {
+      GetData: function (data) {
+          return apiService('MachineList', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('MachineList', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('MachineList', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('MachineList', 'DeleteData', 'DELETE', data)
+      },
+      GetMachineTypeDic: function (data) {
+          return apiService('MachineList', 'GetMachineTypeDic', 'GET', data)
+      }
+	}, 
+  MachineConfig: {
+      GetData: function (data) {
+          return apiService('MachineConfig', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('MachineConfig', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('MachineConfig', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('MachineConfig', 'DeleteData', 'DELETE', data)
+      }
+	}, 
+  TunnelConfig: {
+      GetData: function (data) {
+          return apiService('TunnelConfig', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('TunnelConfig', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('TunnelConfig', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('TunnelConfig', 'DeleteData', 'DELETE', data)
+      }
+	}, 
+  ProductList: {
+      GetData: function (data) {
+          return apiService('ProductList', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('ProductList', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('ProductList', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('ProductList', 'DeleteData', 'DELETE', data)
+      }
+	}, 
+    SaleCashless: {
+      GetData: function (data) {
+          return apiService('SaleCashless', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('SaleCashless', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('SaleCashless', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('SaleCashless', 'DeleteData', 'DELETE', data)
+      }
+	}, // 货道信息
+    TunnelInfo: {
+      GetData: function (data) {
+          return apiService('TunnelInfo', 'GetData', 'GET', data)
+      },
+      PostData: function (data) {
+          return apiService('TunnelInfo', 'PostData', 'POST', data)
+      },
+      PutData: function (data) {
+          return apiService('TunnelInfo', 'PutData', 'PUT', data)
+      },
+      DeleteData: function (data) {
+          return apiService('TunnelInfo', 'DeleteData', 'DELETE', data)
+      }
+	},
+    /* ***********************支付************************ */
+    Pay: {
+        GetData: function (data) {
+            return apiService('Payment', 'GetData', 'GET', data)
+        }
+    },
+    Machine: {
+        GetProductByMachine: function (data) {
+            return apiService('Machine', 'GetProductByMachine', 'GET', data)
+        }
+    }
+    
+}
+ 
+export default api
+	

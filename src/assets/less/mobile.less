@@ -1,0 +1,113 @@
+.mobileGlobalStyle{
+    font-size: 0.5rem;
+    color: black;
+}
+
+/*******************支付页面****************/
+.payContainer{
+    margin-top: 0.5rem;
+    a {
+        margin-top: 0.5rem;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .productNum{
+        display: inline-block;
+         margin-left: 12;
+         font-size: '0.5rem';
+         font-weight: bold;
+         color: #21b68a;
+    }
+
+    .productPrice{
+         display: inline-block;
+         margin-left: 12;
+         font-size: '0.5rem';
+         font-weight: bold;
+         color: #f96268;
+    }
+
+}
+
+
+// 列表每行样式
+.rowStyle{
+    border-bottom: 0.15rem solid #f5f5f9;
+    .row {
+        padding: 0 0.2rem;
+        background-color: white;
+       
+            &>div{
+                align-items:center;
+                padding: 0.05rem 0;
+                &>div{
+                   flex: 1;
+                   &:first-child{
+                       flex: 0 0 25%;
+                   }
+
+                }
+                
+                img{
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    margin-right: 0.25rem;
+                    margin-top: 0.2rem;
+                }
+                
+            }
+        }
+        .row-title {
+            height: 1rem;
+            line-height: 1rem;
+            color: #888;
+            font-size: 0.36rem;
+            border-bottom: 1px solid #F6F6F6;
+        }
+        .row-text {
+            font-size: 0.32rem;
+            line-height: 1;
+        }
+
+        .stepperContainer{
+            display: '-webkit-box';
+            display: flex;
+            align-items:center;
+            &>div{
+                flex:1;
+            }
+        }
+}
+
+
+//去结算样式
+.sumContainer{
+    display: flex;
+    position: fixed;
+    width: 100%; 
+    height: 1.28rem;
+    align-items: center;
+    z-index: 5;
+    bottom: 0;
+    background-color: #fff;
+    align-items: center;
+    padding: 0 0.2rem;
+    font-size: 0.35rem;
+    border-top: 1px solid #f96268;
+    &>div{
+        flex:1;
+    }
+
+    .moneyIcon{
+      color: #f96268;
+    }
+
+    .moneySum{
+      color: #f96268;
+      font-size: 0.45rem;
+    }
+
+}
+
