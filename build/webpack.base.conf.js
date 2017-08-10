@@ -16,6 +16,10 @@ var commonPath = {
 
 const pxtorem = require('postcss-pxtorem'); //手机高清方案
 const autoprefixer = require('autoprefixer');
+const svgDirs = [
+  // require.resolve('antd-mobile').replace(/warn\.js$/, '')  // 1. 属于 antd-mobile 内置 svg 文件
+  // path.resolve(__dirname, 'src/my-project-svg-foler'),  // 2. 自己私人的 svg 存放目录
+];
 
 module.exports = {
   commonPath: commonPath,
@@ -23,6 +27,7 @@ module.exports = {
     app: path.join(src, 'app.js'),
     mobile: path.join(src, 'mobile.js'),
     login: path.join(src, 'login.js'),
+    h5: path.join(src, 'h5.js'),
     // ================================
     // 框架 / 类库 分离打包
     // ================================
@@ -35,7 +40,8 @@ module.exports = {
       'react-router',
       'react-router-redux',
       'redux',
-      'redux-thunk'
+      'redux-thunk',
+      'echarts'
     ]
   },
   output: {
@@ -74,13 +80,12 @@ module.exports = {
           cacheDirectory: true,
           plugins: [
             'transform-runtime',
-            'transform-decorators-legacy',
-		        ['antd', { 'style': true }]
+            'transform-decorators-legacy'
           ],
           presets: ['es2015', 'react', 'stage-0'],
           env: {
             production: {
-              //presets: ['react-optimize']
+              // presets: ['react-optimize']
             }
           }
         }), 'eslint'];
@@ -114,6 +119,11 @@ module.exports = {
         test: /\.css$/,
         include: path.resolve(__dirname, 'node_modules'),
         loader: 'style!css!postcss'
+      },
+      {
+        test: /\.(svg)$/,
+        loader: 'svg-sprite',
+        include: svgDirs  // 把 svgDirs 路径下的所有 svg 文件交给 svg-sprite-loader 插件处理
       }
     ]
   },

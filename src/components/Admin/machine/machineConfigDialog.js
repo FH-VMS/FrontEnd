@@ -70,10 +70,11 @@ const MachineTypeDialog = Form.create({
     }
 
     checkNum = (rule, value, callback) => {
-      if (value) {
+      if (value || value == 0) {
          callback()
          return
       }
+      callback()
     }
  
 
@@ -168,7 +169,8 @@ const MachineTypeDialog = Form.create({
         >
           {getFieldDecorator('McArea1Temp', {
             rules: [{
-              validator: this.checkNum
+              validator: this.checkNum,
+              message: '温度必填'
             }]
           })(
              <InputNumber />

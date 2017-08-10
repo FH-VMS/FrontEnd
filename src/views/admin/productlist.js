@@ -247,11 +247,27 @@ class ProductList extends Component {
                         title="生产日期"
                         dataIndex="WaresManufactureDate"
                         key="WaresManufactureDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                     <Column
                         title="保质期"
                         dataIndex="WaresQualityPeriod"
                         key="WaresQualityPeriod"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                      <Column
                         title="所属客户"
@@ -277,6 +293,14 @@ class ProductList extends Component {
                         title="更新日期"
                         dataIndex="UpdateDate"
                         key="UpdateDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                    {this.DeleteAndModify}
               </Table>

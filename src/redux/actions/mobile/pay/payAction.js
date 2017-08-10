@@ -3,6 +3,7 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_PAYINFO = 'FETCH_PAYINFO'
+const FETCH_PAYINFOA = 'FETCH_PAYINFOA'
 
 // ================================
 // Action Creator
@@ -10,7 +11,7 @@ const FETCH_PAYINFO = 'FETCH_PAYINFO'
 const fetchPayInfo = (queryBody) => dispatch =>
   apis
     .Pay
-    .GetData(queryBody)
+    .GetDataW(queryBody)
     .then(msgs => {
       dispatch({
          type: FETCH_PAYINFO,
@@ -19,10 +20,22 @@ const fetchPayInfo = (queryBody) => dispatch =>
   })
 
 
+  const fetchPayInfoA = (queryBody) => dispatch =>
+  apis
+    .Pay
+    .GetDataA(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PAYINFOA,
+         payload: msgs
+      })
+  })
+
+
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchPayInfo
+  fetchPayInfo, fetchPayInfoA
 }
 
 // ================================
@@ -34,6 +47,10 @@ export default {
 // ================================
 export const ACTION_HANDLERS = {
   [FETCH_PAYINFO]: (result, { payload }) => {
+      result.data = payload
+      return result
+  },
+  [FETCH_PAYINFOA]: (result, { payload }) => {
       result.data = payload
       return result
   }

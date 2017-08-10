@@ -18,8 +18,8 @@ class EveryTunnel extends Component {
         this.setState({AlipayPrices: value})
     }
     wPayChange = (value) => {
-        this.props.datasource.WapyPrices = value
-         this.setState({WapyPrices: value})
+        this.props.datasource.WpayPrices = value
+         this.setState({WpayPrices: value})
     }
 
     productSelect = (value) => {
@@ -71,11 +71,11 @@ class EveryTunnel extends Component {
                      <InputNumber value={this.state.AlipayPrices} placeholder="支付宝" min={0} onChange={this.zPayChange} style={{ width: '48%', marginRight: '1%' }} />
                   </Tooltip>
                   <Tooltip title="微信" trigger="focus">
-                     <InputNumber title="微信价格" value={this.state.WapyPrices} placeholder="微信" min={0} onChange={this.wPayChange} style={{ width: '48%' }} />
+                     <InputNumber title="微信价格" value={this.state.WpayPrices} placeholder="微信" min={0} onChange={this.wPayChange} style={{ width: '48%' }} />
                   </Tooltip>
                </div>
                <div>
-                  <Tooltip title="微信" trigger="focus">
+                  <Tooltip title="现金" trigger="focus">
                      <InputNumber value={this.state.CashPrices} placeholder="现金" onChange={this.xPayChange} className="textRequired" min={0} style={{ width: '48%', marginRight: '1%' }} />
                   </Tooltip>
                   <Tooltip title="IC卡" trigger="focus">
@@ -84,7 +84,7 @@ class EveryTunnel extends Component {
                </div>
                 <div>
                   <Tooltip title="货道最大放量" trigger="focus">
-                     <InputNumber title="货道最大放量" value={this.state.MaxPuts} className="textRequired" placeholder="最大排放" onChange={this.inputChange} min={0} style={{ width: '100%' }} />
+                     <InputNumber title="货道最大放量" value={this.state.MaxPuts} className="textRequired" placeholder="最大排放" onChange={this.inputChange} min={0} max={30} style={{ width: '100%' }} />
                   </Tooltip>
                </div>
            </div>

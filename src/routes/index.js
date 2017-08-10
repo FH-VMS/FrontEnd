@@ -33,7 +33,11 @@ export default {
      require('./admin/customerInfo').default,  // 客户运营信息
      require('./admin/userInfo').default,  // 用户运营信息
      require('./admin/machineConfigInfo').default,  // 机器配置信息
-      require('./admin/tunnelInfo').default,  // 货道信息
+     require('./admin/tunnelInfo').default,  // 货道信息
+     require('./admin/machinemap').default,  // 机器地图
+     require('./admin/changepwd').default,  // 修改密码
+     require('./admin/tunnelfullfil').default,  // 补货单生成
+      require('./admin/machinecabinet').default,  // 机柜列表
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     
@@ -42,7 +46,7 @@ export default {
   ]
  },
  login: {
-  path: 'login',
+  path: '/',
   component: require('VIEW/admin/login').default,
   indexRoute: {
     component: require('VIEW/admin/login').default
@@ -70,7 +74,31 @@ export default {
   }
   },
   childRoutes: [
-    require('./mobile/productList').default // 根据机器编号取商品列表
+    require('./mobile/productList').default, // 根据机器编号取商品列表
+    require('./mobile/payResult').default, // 支付结果页
+    require('./mobile/notService').default
+  ]
+ },
+ hfive: {
+  path: '/',
+  component: require('VIEW/h5/frame').default,
+  indexRoute: {
+    getComponent (nextState, cb) {
+     
+      require.ensure([], (require) => {
+        // 立即注入 Reducer
+        // injectReducer('mobile', require('REDUCER/mobile/pay/payReducer').default)
+      
+        cb(null, connectComponent(require('VIEW/h5/login').default))
+      }, 'h5LoginView')
+      
+      
+  }
+  },
+  childRoutes: [
+      require('./h5/main').default, // 主页九宫格
+      require('./h5/choosemachine').default, // 选择机器
+       require('./h5/stockmanageh5').default // 库存管理
   ]
  }
 }

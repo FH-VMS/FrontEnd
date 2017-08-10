@@ -3,8 +3,8 @@ import LoginInput from 'COMPONENT/admin/common/loginInput'
 import { Spin } from 'antd'
 import Utility from 'UTIL/utility'
 
-import rootRouter from 'ROUTE/index'
-import {hashHistory} from 'react-router'
+// import rootRouter from 'ROUTE/index'
+// import {hashHistory} from 'react-router'
 
 import login from 'ACTION/Admin/common/loginAction'
 import { bindActionCreators } from 'redux'
@@ -30,13 +30,16 @@ class Frame extends Component {
 	}
 
   componentWillMount() {
-   
+    Utility.Cookie.clear('UserInfo')
+    sessionStorage.removeItem('chosenMenuVal')
   }
 
-  login = (values) => {
-   
+  login = (e) => {
+    // console.log('ooooooooooooo', arguments)
+    e.preventDefault()
     const form = this.form
     form.validateFields((err, values) => {
+      
       if (err) {
         return
       }
@@ -46,9 +49,9 @@ class Frame extends Component {
          
           let userInfo = this.props.loginData
           if (userInfo && userInfo.Id != '' && this.props.loginData.Id != null) {
-            console.log('login')
              Utility.Cookie.setValue('UserInfo', {UserAccount: userInfo.UserAccount, UserAccessId: userInfo.UserAccessId, UserClientId: userInfo.UserClientId, Sts: userInfo.Sts})
-             hashHistory.push({ pathname: rootRouter.admin.path})
+             // hashHistory.push({ pathname: rootRouter.admin.path})
+             location.href = 'index.html'
           } else {
             
           }
@@ -56,7 +59,7 @@ class Frame extends Component {
           this.setState({loading: false})
           
       })
-      
+      return
      
     })
   }

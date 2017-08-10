@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import Model from 'STORE/model'
 // import rootRouter from 'ROUTE/index'
-// import {hashHistory} from 'react-router'
+import {hashHistory} from 'react-router'
 import Utility from 'UTIL/utility'
 
 class ApiService {
@@ -82,11 +82,19 @@ class ApiService {
                     var RetMsg = msg.hasOwnProperty('RetMsg') ? msg.RetMsg : '返回消息缺失' 
                     var RetObj = msg.hasOwnProperty('RetObj') ? msg.RetObj : undefined 
 					var RetPagination = msg.hasOwnProperty('RetPagination') ? msg.RetPagination : undefined 
-					console.log()
+				
 					if (RetCode == 1) {
                         if (RetMsg && RetMsg != '操作成功！') {
-                            message.warning(RetMsg) 
+							// 返回消息判断 
+							if (RetMsg == '机器不存在' || RetMsg == '机器不在线') {
+                                hashHistory.push('/notservice')
+							} else {
+                              message.warning(RetMsg) 
+							}
+                            
                         }
+						
+
 						if (RetPagination) {
 							deferred.resolve({data: RetObj, pager: RetPagination}, response)
 						} else {

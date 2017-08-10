@@ -110,8 +110,8 @@ const MachineTypeDialog = Form.create({
         message.success(`上传成功`)
         if (info.file.response) {
        
-          let id = $.parseXML(info.file.response).children[0].children[2].children[0].children[0].innerHTML
-          let name = $.parseXML(info.file.response).children[0].children[2].children[0].children[1].innerHTML
+          let id = info.file.response.RetObj[0].Id
+          let name = info.file.response.RetObj[0].Name
           this.PicData.push({Id: id, Name: name})
           this.getPicSelect(this.PicData)
           form.setFieldsValue({PicId: id})

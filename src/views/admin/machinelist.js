@@ -38,6 +38,7 @@ class MachineList extends Component {
     componentWillMount() {
      
      this.getData(this.searchPara)
+     
      // 页面级权限
      this.setState({auth: Utility.Cookie.getAuth()})
      
@@ -289,6 +290,24 @@ class MachineList extends Component {
                         dataIndex="ClientText"
                         key="ClientText"
                     />
+                     <Column
+                        title="当前状态"
+                        dataIndex="LatestOnline"
+                        key="LatestOnline"
+                        render={(text, record) => {
+                            if (text) {
+                                if (parseInt(text, 0) > 900) {
+                                  return <span style={{color: 'red'}}>离线</span>
+                                } else {
+                                  return <span style={{color: 'green'}}>在线</span>
+                                }
+                                
+                            } else {
+                                return '未启用'
+                            }
+                        }
+                      }
+                    />
                     <Column
                         title="登录账号"
                         dataIndex="UserAccountName"
@@ -298,11 +317,27 @@ class MachineList extends Component {
                         title="启用日期"
                         dataIndex="StartDate"
                         key="StartDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                     <Column
                         title="停用日期"
                         dataIndex="StopDate"
                         key="StopDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                      <Column
                         title="创建人"
@@ -313,6 +348,14 @@ class MachineList extends Component {
                         title="创建日期"
                         dataIndex="CreateDate"
                         key="CreateDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                     <Column
                         title="更新者"
@@ -323,6 +366,14 @@ class MachineList extends Component {
                         title="更新日期"
                         dataIndex="UpdateDate"
                         key="UpdateDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                    {this.DeleteAndModify}
               </Table>

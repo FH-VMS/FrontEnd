@@ -94,6 +94,7 @@ class ToolControl extends Component {
         </Col>
       )
     }
+    // <Button type="ghost" size="large" onClick={this.exportData}>导出</Button>  导出功能暂时取消
         return (
             <div className="tool-container">
                 <Row>
@@ -116,7 +117,7 @@ class ToolControl extends Component {
                                 </Button>
                                  
                                 <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanAdd }} onClick={this.create}>创建</Button>
-                                <Button type="ghost" size="large" onClick={this.exportData}>导出</Button>
+                                
                              </Col>
                         </Row>
                         </Form>

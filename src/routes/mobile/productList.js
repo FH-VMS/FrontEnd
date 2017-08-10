@@ -7,7 +7,7 @@ const connectComponent = createContainer(
 )
 
 export default {
-  path: 'product',
+  path: 'p/:id',
 
   /* 布局基页 */
   getComponent (nextState, cb) {

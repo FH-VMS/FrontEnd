@@ -40,6 +40,9 @@ const api = {
       },
       GetCabinetDic: function(data) {
           return apiService('Common', 'GetCabinetDic', 'GET', data)
+      },
+      PutPassword: function(data) {
+          return apiService('Common', 'PutPassword', 'PUT', data)
       }
 	}, 
   User: {
@@ -178,6 +181,9 @@ const api = {
       },
       DeleteData: function (data) {
           return apiService('SaleCashless', 'DeleteData', 'DELETE', data)
+      },
+      GetRefundDetail: function (data) {
+          return apiService('SaleCashless', 'GetRefundDetail', 'GET', data)
       }
 	}, // 货道信息
     TunnelInfo: {
@@ -192,17 +198,53 @@ const api = {
       },
       DeleteData: function (data) {
           return apiService('TunnelInfo', 'DeleteData', 'DELETE', data)
+      },
+      GetFullfilData: function (data) {
+          return apiService('TunnelInfo', 'GetFullfilAll', 'GET', data)
+      },
+      UpdateStockWithMobile: function (data) {
+          return apiService('TunnelInfo', 'PutStockWithMobile', 'PUT', data)
       }
 	},
     /* ***********************支付************************ */
     Pay: {
-        GetData: function (data) {
-            return apiService('Payment', 'GetData', 'GET', data)
+        GetDataW: function (data) {
+            return apiService('Payment', 'GetDataW', 'GET', data)
+        },
+        GetDataA: function (data) {
+            return apiService('Payment', 'GetDataA', 'GET', data)
         }
     },
     Machine: {
         GetProductByMachine: function (data) {
             return apiService('Machine', 'GetProductByMachine', 'GET', data)
+        },
+        PostPayResult: function (data) {
+            return apiService('Machine', 'PostPayResultA', 'POST', data)
+        }
+    },
+    MachineCabinet: {
+        GetData: function (data) {
+          return apiService('MachineCabinet', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+            return apiService('MachineCabinet', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+            return apiService('MachineCabinet', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+            return apiService('MachineCabinet', 'DeleteData', 'DELETE', data)
+        }
+    },
+    CabinetConfig: {
+        GetCabinetByMachineId: function (data) {
+          return apiService('CabinetConfig', 'GetCabinetByMachineId', 'GET', data)
+        }
+    },
+    Refund: {
+        PostRefund: function (data) {
+          return apiService('Refund', 'PostRefund', 'POST', data)
         }
     }
     

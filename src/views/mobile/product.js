@@ -8,15 +8,14 @@ class Frame extends Component {
 	}
 
   componentWillMount() {
-   
+    document.title = this.props.params.id
   }
 
   render() {
-
       return (
-        <div>
-          <ListConrol fetchProductByMachine={this.props.fetchProductByMachine}/>
-        </div>
+          <div>
+            <ListConrol keyVal={this.props.params.id} fetchProductByMachine={this.props.fetchProductByMachine}/>
+          </div>
         )
  }
   

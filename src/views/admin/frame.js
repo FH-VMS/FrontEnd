@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import SlideNav from 'COMPONENT/admin/common/slideNav'
-import rootRouter from 'ROUTE/index'
- import {hashHistory} from 'react-router'
+// import rootRouter from 'ROUTE/index'
+ // import {hashHistory} from 'react-router'
  import Utility from 'UTIL/utility'
 
 import common from 'ACTION/Admin/common/frameAction'
@@ -38,14 +38,17 @@ class Frame extends Component {
           this.setState({menus: this.props.commonInfo.menus})
        })
     } else {
-      hashHistory.push({ pathname: rootRouter.login.path})
+      // hashHistory.push({ pathname: rootRouter.login.path})
+      location.href = 'login.html'
     }
     
   }
 
   logout = () =>{
+     Utility.Cookie.clear('MenuAuth')
     Utility.Cookie.clear('UserInfo')
-    hashHistory.push({ pathname: rootRouter.login.path})
+    // hashHistory.push({ pathname: rootRouter.login.path})
+     location.href = 'login.html'
   }
 
 

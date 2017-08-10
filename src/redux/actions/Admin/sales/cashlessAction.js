@@ -7,6 +7,9 @@ const ADD_CASHLESSLIST = 'ADD_CASHLESSLIST'
 const UPDATE_CASHLESSLIST = 'UPDATE_CASHLESSLIST'
 const DELETE_CASHLESSLIST = 'DELETE_CASHLESSLIST'
 
+const FETCH_REFUNDDETAIL = 'FETCH_REFUNDDETAIL' // 退款详情
+const POST_REFUND = 'POST_REFUND' // 手动退款
+
 // ================================
 // Action Creator
 // ================================
@@ -58,11 +61,32 @@ const updateCashlessList = (updBody) => dispatch =>
      return msgs
   })
 
+const fetchRefundDetail = (params) => dispatch =>
+  apis
+    .SaleCashless
+    .GetRefundDetail(params)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_REFUNDDETAIL,
+         payload: msgs
+      })
+  })
 
+const postRefund = (params) => dispatch =>
+  apis
+    .Refund
+    .PostRefund(params)
+    .then(msgs => {
+      dispatch({
+         type: POST_REFUND,
+         payload: msgs
+      })
+      return msgs
+  })
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchCashlessList, addCashlessList, updateCashlessList, deleteCashlessList
+  fetchCashlessList, addCashlessList, updateCashlessList, deleteCashlessList, fetchRefundDetail, postRefund
 }
 
 // ================================
@@ -80,7 +104,12 @@ export const ACTION_HANDLERS = {
   },
   [ADD_CASHLESSLIST]: (result, { payload }) => ({payload}),
   [UPDATE_CASHLESSLIST]: (result, { payload }) => ({payload}),
-  [DELETE_CASHLESSLIST]: (result, { payload }) => ({payload})
+  [DELETE_CASHLESSLIST]: (result, { payload }) => ({payload}),
+  [FETCH_REFUNDDETAIL]: (result, { payload }) => {
+      result.refundDetail = payload
+      return result
+  },
+  [POST_REFUND]: (result, { payload }) => ({payload})
 }
 
 

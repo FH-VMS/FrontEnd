@@ -53,6 +53,11 @@ config.plugins.push(
     template:  'src/login.html',
     chunksSortMode: 'none'
   }),
+  new HtmlWebpackPlugin({
+    filename: 'h5.html',
+    template:  'src/h5.html',
+    chunksSortMode: 'none'
+  }),
   new BrowserSyncPlugin({
     host: '127.0.0.1',
     port: 9090,

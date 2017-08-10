@@ -286,6 +286,14 @@ class Customer extends Component {
                         title="创建日期"
                         dataIndex="CreateDate"
                         key="CreateDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                    {this.DeleteAndModify}
               </Table>

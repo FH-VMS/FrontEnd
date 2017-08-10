@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
 class SlideNav extends Component {
     constructor(props) {
 		super(props)
+    
 	}
 
 
@@ -29,14 +30,14 @@ class SlideNav extends Component {
 		// frameInfo.fetchMenu()
 	}
 
-  chosenMenu = (cItem, e) => {
+  chosenMenu = (cItem, pItem, e) => {
      let auth = {
 
      }
-      auth.CanAdd = 'inline'
-      auth.CanDelete = 'inline'
-      auth.CanModify = 'inline'
-      auth.CanSerach = 'inline'
+      auth.CanAdd = (cItem.Add == 1 ? 'inline' : 'none')
+      auth.CanDelete = (cItem.Del == 1 ? 'inline' : 'none')
+      auth.CanModify = (cItem.Mod == 1 ? 'inline' : 'none')
+      auth.CanSerach = (cItem.Sear == 1 ? 'inline' : 'none')
      
      switch (cItem.Url.toLowerCase()) {
         case 'customerinfo':
@@ -68,21 +69,36 @@ class SlideNav extends Component {
           auth.CanDelete = 'none'
           auth.CanModify = 'none'
         break
+        case 'tunnelfullfil':
+          auth.CanAdd = 'none'
+          auth.CanDelete = 'none'
+          auth.CanModify = 'none'
+        break
+        case 'salecashless':
+          auth.CanAdd = 'none'
+          auth.CanDelete = 'none'
+          auth.CanModify = 'none'
+        break
      }
-
-     
+     // 刷新时选中菜单缓存
+     sessionStorage.setItem('chosenMenuVal', JSON.stringify({PId: 'p' + pItem.MenuId, CId: 'c' + cItem.MenuId}))
      Utility.Cookie.setAuth(auth)
      hashHistory.push({ pathname: rootRouter.admin.path + cItem.Url})
+  }
+
+  gotoMain = () => {
+     sessionStorage.setItem('chosenMenuVal', JSON.stringify({CId: 'chome'}))
+     hashHistory.push({ pathname: rootRouter.admin.path })
   }
 
   getMenus = (datasource) => {
     const htmlMenu = datasource.map((item, index) => {
         return (
-           <SubMenu key={'p' + item.MenuId} title={<span><i className="fa fa-circle-thin" aria-hidden="true"></i> &nbsp;<span>{item.MenuName}</span></span>}>
+           <SubMenu key={'p' + item.MenuId} title={<span><i className={item.Remark} aria-hidden="true"></i> &nbsp;<span>{item.MenuName}</span></span>}>
               {
                 item.Menus.map((cItem, cIndex) => {
                   return (
-                     <Menu.Item key={'c' + cItem.MenuId}><div onClick={this.chosenMenu.bind(this, cItem)}>{cItem.MenuName}</div></Menu.Item>
+                     <Menu.Item key={'c' + cItem.MenuId}><div onClick={this.chosenMenu.bind(this, cItem, item)}>{cItem.MenuName}</div></Menu.Item>
                   )
                 })
               }
@@ -104,13 +120,24 @@ class SlideNav extends Component {
 
 
     render() {
+      
         this.getMenus(this.props.datasource)
+        let defaultOpenKey = ''
+        let defaultSelectedKey = 'chome'
+        let chosenMenuVal = sessionStorage.getItem('chosenMenuVal')
+        if (chosenMenuVal) {
+           let obj = JSON.parse(chosenMenuVal) 
+           defaultOpenKey = obj.PId
+           defaultSelectedKey = obj.CId
+        }
         return (
             <Menu 
             theme='light'
             mode="inline"
-            onClick={this.handleClick}
+            defaultSelectedKeys={[defaultSelectedKey]}
+            defaultOpenKeys={[defaultOpenKey]}
           >
+          <Menu.Item key="chome"><div onClick={this.gotoMain} style={{paddingLeft: '25px'}}><i className="fa fa-home" aria-hidden="true"></i> &nbsp;主页</div></Menu.Item>
         {this.htmlMenu}
       </Menu>
         ) 

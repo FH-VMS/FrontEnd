@@ -5,7 +5,10 @@ import apis from 'SERVICE/apis'
 // ================================
 const FETCH_TUNNELINFO = 'FETCH_TUNNELINFO'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
-
+const FETCH_FULLFILTUNNEL = 'FETCH_FULLFILTUNNEL'
+const UPDATE_TUNNELINFO = 'UPDATE_TUNNELINFO'
+const FETCH_CABINETBYMACHINE = 'FETCH_CABINETBYMACHINE'
+const BATCH_UPDATETUNNELINFO = 'BATCH_UPDATETUNNELINFO'
 // ================================
 // Action Creator
 // ================================
@@ -33,11 +36,61 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
          payload: msgs
       })
   })
+
+    // 根据机器ID取对应货柜
+  const fetchCabinetByMachine = (qrys) => dispatch =>
+  apis
+    .CabinetConfig
+    .GetCabinetByMachineId(qrys)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_CABINETBYMACHINE,
+         payload: msgs
+      })
+  })
+
+
+  const fetchFullfilTunnel = (queryBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .GetFullfilData(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_FULLFILTUNNEL,
+         payload: msgs
+      })
+  })
+
+
+  const updateTunnelInfo = (updBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .PutData(updBody)
+    .then(msgs => {
+      dispatch({
+         type: UPDATE_TUNNELINFO,
+         payload: msgs
+      })
+     return msgs
+  })
+
+
+   const batchUpdateTunnelInfo = (updBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .UpdateStockWithMobile(updBody)
+    .then(msgs => {
+      dispatch({
+         type: BATCH_UPDATETUNNELINFO,
+         payload: msgs
+      })
+     return msgs
+  })
   
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo
 }
 
 // ================================
@@ -56,7 +109,18 @@ export const ACTION_HANDLERS = {
   [FETCH_MACHINEDIC]: (result, { payload }) => {
       result.machineDic = payload
       return result
-  }
+  },
+  [FETCH_CABINETBYMACHINE]: (result, { payload }) => {
+      result.cabinetInfo = payload
+      return result
+  },
+  [FETCH_FULLFILTUNNEL]: (result, { payload }) => {
+      result.data = payload.data
+      result.pager = payload.pager
+      return result
+  },
+  [UPDATE_TUNNELINFO]: (result, { payload }) => ({payload}),
+  [BATCH_UPDATETUNNELINFO]: (result, { payload }) => ({payload})
 }
 
 

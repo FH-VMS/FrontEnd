@@ -1,3 +1,7 @@
+body{
+    background-color: #eeeeee;
+}
+
 .mobileGlobalStyle{
     font-size: 0.5rem;
     color: black;
@@ -5,18 +9,10 @@
 
 /*******************支付页面****************/
 .payContainer{
-    margin-top: 0.5rem;
-    a {
-        margin-top: 0.5rem;
-        width: 95%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
+    margin-top: 0.3rem;
+    text-align: center;
+    font-size: 0.5rem;
     .productNum{
-        display: inline-block;
-         margin-left: 12;
-         font-size: '0.5rem';
          font-weight: bold;
          color: #21b68a;
     }
@@ -24,10 +20,12 @@
     .productPrice{
          display: inline-block;
          margin-left: 12;
-         font-size: '0.5rem';
+         font-size: 0.5rem;
          font-weight: bold;
          color: #f96268;
     }
+
+
 
 }
 
@@ -111,3 +109,20 @@
 
 }
 
+/*********************支付结果页*********************/
+.payResultContainer{
+    text-align: center;
+     background-color: #fff;
+     padding: 1rem 0 1rem 0;;
+    .icon {
+    color: rgb(31, 144, 230);
+    font-size: 2rem;
+    }
+
+    &>div{
+        margin-top: 0.5rem;
+    }
+
+   
+}
+ 

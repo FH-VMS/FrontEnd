@@ -130,6 +130,7 @@ class User extends Component {
          if (txt == '创建') {
            this.setState({ visible: true, savePara: model.User.UserModel })
          } else {
+            item.UserPassword = ''
             this.setState({ visible: true, savePara: item })
          }
          
@@ -168,9 +169,13 @@ class User extends Component {
        if (this.state.savePara.Id) {
            values.Id = this.state.savePara.Id
            this.props.updateUser({userInfo: values}).then((msg) => {
-               if (msg) {
+               if (msg == 1) {
                   message.success('更新成功')
+                  form.resetFields()
+                  this.setState({ visible: false })
                   this.getData(this.searchPara)
+               } else if (msg == -1) {
+                   message.warning('用户名已存在')
                } else {
                   message.warning('更新失败')
                }
@@ -178,19 +183,21 @@ class User extends Component {
           
        } else {
            this.props.addUser({userInfo: values}).then((msg) => {
-             if (msg) {
+             if (msg == 1) {
                 message.success('保存成功')
                 this.getData(this.searchPara)
+             } else if (msg == -1) {
+                 message.warning('用户名已存在')
              } else {
                 message.warning('保存失败')
              }
               
         })
        }
-        
+         form.resetFields()
+         this.setState({ visible: false })
      
-        form.resetFields()
-        this.setState({ visible: false })
+        
         })
     }
 

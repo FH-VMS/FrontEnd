@@ -36,7 +36,6 @@ const MOUNT_NODE = document.getElementById('app')
 ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory} > 
-       <Route path = {routes.login.path} component={routes.login.component} indexRoute={routes.login.indexRoute} childRoutes={routes.login.childRoutes} />
         <Route path = {routes.admin.path} component={routes.admin.component} indexRoute={routes.admin.indexRoute} childRoutes={routes.admin.childRoutes} />
     </Router>
   </Provider>,

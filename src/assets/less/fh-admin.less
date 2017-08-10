@@ -98,7 +98,7 @@ body{
 
 .userArea{
   float: right;
-  width: 200px;
+  width: 300px;
   text-align: right;
   padding-right: 20px;
   color:#fff;
@@ -335,4 +335,65 @@ body{
 .tunnelTitle{
   font-weight: bold;
   text-align: center;
+}
+
+// 地图
+.mapContainer>div{
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+}
+
+
+/*********************主页******************/
+.homeContainer{
+  text-align: center;
+  &>div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &>div{
+      flex: 1;
+        
+        
+      
+    }
+  }
+
+}
+
+  .everyChartsHeight {
+     height: 435px;
+  }
+        
+
+
+//退款详情
+.refundDetail{
+  padding: 10px;
+  width: 100%;
+  &>div{
+    width: 100%;
+    &:after{
+      clear: both;
+      content: '.';
+      visibility: hidden;
+      height: 0;
+      display: block;
+    }
+    padding: 10px 0;
+    &>div{
+
+      float: left;
+      &:first-child{
+        width: 40%;
+        font-weight: bold;
+        text-align: right;
+      }
+      &:last-child{
+        width: 60%;
+        text-align: left;
+      }
+    }
+  }
 }

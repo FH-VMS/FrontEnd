@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, Spin, Input, Select } from 'antd'
+import { Table, Spin, Input, Select, Popconfirm } from 'antd'
+import Dialog from 'COMPONENT/admin/sales/refundDialog'
 
 const { Column } = Table
 
@@ -21,7 +22,10 @@ class SalesCashless extends Component {
             pagination: {
                 defaultPageSize: model.BaseSetting.PageSize
             },
-            loading: false
+            loading: false,
+            refundDetail: {},
+            outTradeNo: '',
+            payType: ''
         }
 
         this.searchPara = {
@@ -80,20 +84,63 @@ class SalesCashless extends Component {
     }
     
 
-   
+    RefundDetail = (record, ev) => {
+      let orderNoVal = ''
+      let typeVal = ''
+      if (record.PayType == '微信') {
+        orderNoVal = record.TradeNo
+        typeVal = 'w'
+      } else if (record.PayType == '支付宝') {
+         orderNoVal = record.ComId
+         typeVal = 'a'
+      } else {
+          return
+      }
+      this.props.fetchRefundDetail({orderNo: orderNoVal, typ: typeVal}).then(()=> {
+         
+         try {
+           this.setState({ visible: true, refundDetail: JSON.parse(this.props.salesCashless.refundDetail.RefundDetail), outTradeNo: record.TradeNo, payType: typeVal })
+         } catch (e) {
+
+         }
+         
+      })
+      
+    }
+
+
+    MannualRefund = (record, ev) => {
+       this.props.postRefund({lstTradeNo: [record.TradeNo]}).then(msg => {
+           if (msg) {
+              setTimeout(() => {
+                   this.searchPara.pageIndex = 1
+                   this.getData(this.searchPara)
+              }, 2000)
+             
+           }
+       })
+    }
+
+    handleCancel = () => {
+        this.setState({ visible: false })
+    }
+
+    handleCreate = () => {
+        this.setState({ visible: false })
+    }
     
 
      /* ****************************对弹出框form的操作方法********************************** */
      
      // 修改和删除的权限控制
-    getAuth = () =>{
+    getAuth = () => {
         
     }
     
 
     render() {
         this.getAuth()
-        
+
         
  // 查询条件
         let searchDatasource = [{
@@ -120,10 +167,23 @@ class SalesCashless extends Component {
                         dataIndex="DeviceId"
                         key="DeviceId"
                     />
+                     <Column
+                        title="货道编号"
+                        dataIndex="GoodsId"
+                        key="GoodsId"
+                    />
                     <Column
                         title="销售日期"
                         dataIndex="SalesDate"
                         key="SalesDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                     <Column
                         title="数量"
@@ -144,9 +204,17 @@ class SalesCashless extends Component {
                         title="支付时间"
                         dataIndex="PayDate"
                         key="PayDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                      <Column
-                        title="交易号"
+                        title="商户交易号"
                         dataIndex="TradeNo"
                         key="TradeNo"
                     />
@@ -155,18 +223,58 @@ class SalesCashless extends Component {
                         dataIndex="TradeAmount"
                         key="TradeAmount"
                     />
-                    <Column
-                        title="交易状态"
-                        dataIndex="TradeStatus"
-                        key="TradeStatus"
-                    />
                      <Column
                         title="客户名称"
                         dataIndex="ClientName"
                         key="ClientName"
                     />
+                    <Column
+                        title="交易状态"
+                        dataIndex="TradeStatus"
+                        key="TradeStatus"
+                        render={(text, record) => {
+                            if (text == '1') {
+                                return '待出货'
+                            } else if (text == '2') {
+                                return '已出货'
+                            } else if (text == 3) {
+                                return <span style={{color: 'red'}}>未退款(部分失败)</span>
+                            } else if (text == 4) {
+                                return <span style={{color: 'green'}}>已退款(部分失败)</span>
+                            } else if (text == 5) {
+                                return <span style={{color: 'red'}}>出货失败</span>
+                            } else if (text == 6) {
+                                return <span style={{color: 'green'}}>已退款</span>
+                            }
+                        }
+                      }
+                    />
+                     <Column
+                        title="退款详情"
+                        dataIndex="RefundDetail"
+                        render={(text, record) => {
+                            if (record.TradeStatus == 4 || record.TradeStatus == 6) {
+                                return <a onClick={this.RefundDetail.bind(this, record)}>退款详情</a>
+                            } else if (record.TradeStatus == 5) {
+                                return <Popconfirm title="确认手动退款?" onConfirm={this.MannualRefund.bind(this, record)} okText="确定" cancelText="取消"><a>手动退款</a></Popconfirm>
+                            }
+                            
+                        }
+                      }
+                    />
+                    
               </Table>
                 </Spin>
+                 <Dialog 
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        onCreate={this.handleCreate}
+                        title="退款详情"
+                        tradeNo={this.state.outTradeNo}
+                        refundDetail={this.state.refundDetail}
+                        payType={this.state.payType}
+                       
+                 />
            </div>
         )
     }

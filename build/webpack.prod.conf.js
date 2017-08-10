@@ -6,11 +6,11 @@ var webpack = require('webpack'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   SOURCE_MAP = false;
 
-  var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
+  //var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
 
 
-config.output.filename = '[name].js';
-config.output.chunkFilename = '[id].js';
+config.output.filename = '[name]-[hash:6].js';
+config.output.chunkFilename = '[id]-[chunkhash:6].js';
 
 config.devtool = SOURCE_MAP ? 'source-map' : false;
 
@@ -81,6 +81,11 @@ config.plugins.push(
     template:  'src/m.html',
     chunksSortMode: 'none'
   }),
+  new HtmlWebpackPlugin({
+    filename: '../h5.html',
+    template:  'src/h5.html',
+    chunksSortMode: 'none'
+  }),
   new CopyWebpackPlugin([ // 复制高度静态资源
     {
       from: config.commonPath.staticDir,
@@ -92,7 +97,10 @@ config.plugins.push(
       warnings: false
     }
   }),
-  CommonsChunkPlugin
+  new webpack.optimize.CommonsChunkPlugin({
+    // 公共代码分离打包
+    names: ['vendor', 'mainifest']
+  })
 );
 
 module.exports = config;

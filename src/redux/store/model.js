@@ -8,8 +8,9 @@
 **************** */
 const Front = { 
    BaseSetting: {
-      Root: 'http://120.27.217.224/api', // http://localhost:2734/api   //http://120.27.217.224:8080/api
-      PageSize: 10
+      Root: 'http://106.14.190.9:8088/api', // 开发 http://localhost:2734/api   // 测试 http://120.27.217.224:8088/api  // 正式  http://106.14.190.9:8088/api
+      PageSize: 30,
+      NoPage: 100 // 控制那些不需要翻页的，又为了保持方法共用
    }, 
  
   Model: {
@@ -80,6 +81,17 @@ const Front = {
           LayerGoodsNumber: '',
           Remark: ''
       },
+      MachineCabinetModel: {
+          CabinetId: '',
+          CabinetName: '',
+          CabinetType: '',
+          LayerNumber: '',
+          LayerGoodsNumber: '',
+          Remark: '',
+          CabinetDisplay: '',
+          PageIndex: '',
+          PageSize: ''
+      },
       MachineConfigModel: {
           MachineId: '',
           MachineIdB: '',
@@ -145,7 +157,7 @@ const Front = {
           TunnelId: '',
           MaxPuts: '',
           CashPrices: '',
-          WapyPrices: '',
+          WpayPrices: '',
           AlipayPrices: '',
           IcPrices: '',
           WaresId: '',

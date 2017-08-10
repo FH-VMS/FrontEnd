@@ -168,6 +168,7 @@ class TunnelConfig extends Component {
            } else {
               $(dom).addClass('textRequiredStyle')
                 canSave = false
+                this.setState({loading: false})
                return true
            }
            
@@ -198,6 +199,7 @@ class TunnelConfig extends Component {
 
     render() {
        
+       let showSaveButton = this.state.auth.CanModify
         
         return (
             <div>
@@ -208,7 +210,7 @@ class TunnelConfig extends Component {
                      {this.state.templateHtml}
                    </ul>
                 </div>
-                <div className="tunnelSaveButton"> <Button type="primary" style={{width: '150px'}} size="large" onClick={this.saveTunnels}>保存</Button></div>
+                <div className="tunnelSaveButton"> <Button type="primary" style={{width: '150px', display: showSaveButton}} size="large" onClick={this.saveTunnels}>保存</Button></div>
                 </Spin>
            </div>
         )

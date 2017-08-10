@@ -3,7 +3,7 @@
   "plugins": [
     "transform-runtime",
     "transform-decorators-legacy",
-     ["import", [{ "style": "css", "libraryName": "antd-mobile" }]]
+     ["import", [{ "style": "css", "libraryName": "antd-mobile" }, { "style": "css", "libraryName": "antd" }]]
    ],
   "comments": false
 }

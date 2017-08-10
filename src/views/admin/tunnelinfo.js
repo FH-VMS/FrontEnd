@@ -144,7 +144,20 @@ class TunnelInfo extends Component {
        
     }
     
-  
+    changeTunnelStatus = (typeVal, record, ev) => {
+       console.log('ddddd', this.props)
+       if (typeVal == '停用') {
+           record.CurrStatus = 2
+       } else {
+            record.CurrStatus = 1
+       }
+       this.props.updateTunnelInfo({tunnelConfigInfo: record}).then((msg) => {
+           if (msg) {
+               message.success(typeVal + '成功')
+               this.getData(this.searchPara)
+           }
+       })
+    }
 
 
 
@@ -167,11 +180,6 @@ class TunnelInfo extends Component {
                         key="CurrStock"
                     />
                     <Column
-                        title="当前缺货数"
-                        dataIndex="CurrMissing"
-                        key="CurrMissing"
-                    />
-                    <Column
                         title="故障码"
                         dataIndex="FaultCode"
                         key="FaultCode"
@@ -185,11 +193,46 @@ class TunnelInfo extends Component {
                         title="当前状态"
                         dataIndex="CurrStatus"
                         key="CurrStatus"
+                         render={(text, record) => {
+                            if (text == '1') {
+                                return '正常'
+                            } else if (text == '2') {
+                                return '停用'
+                            } else {
+                                return '异常'
+                            }
+                        }
+                      }
                     />
                      <Column
                         title="更新日期"
                         dataIndex="UpdateDate"
                         key="UpdateDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
+                    />
+                    <Column
+                        title="操作"
+                        key="action"
+                        render={(text, record) => {
+                            if (record.CurrStatus == '1') {
+                                return <span>
+                                            <a onClick={this.changeTunnelStatus.bind(this, '停用', record)}>停用</a>
+                                        </span>
+                            } else {
+                                return <span>
+                                            <a onClick={this.changeTunnelStatus.bind(this, '启用', record)} style={{color: 'red'}}>启用</a>
+                                        </span>
+                            }
+                       
+                        }
+                        }
                     />
                     
               </Table>

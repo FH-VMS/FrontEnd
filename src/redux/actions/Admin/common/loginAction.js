@@ -3,6 +3,7 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const LOG_IN = 'LOG_IN'
+const CHANGE_PWD = 'CHANGE_PWD'
 
 // ================================
 // Action Creator
@@ -18,9 +19,21 @@ const login = (loginbody) => dispatch =>
       })
   })
 
+  const changePassword = (body) => dispatch =>
+  apis
+    .Common
+    .PutPassword(body)
+    .then(msgs => {
+      dispatch({
+         type: CHANGE_PWD,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-  login
+  login, changePassword
 }
 
 // ================================
@@ -34,6 +47,9 @@ export const ACTION_HANDLERS = {
   [LOG_IN]: (loginData, { payload }) => {
       loginData = payload
       return loginData
+  },
+  [CHANGE_PWD]: (loginData, { payload }) => {
+      return {loginData, ...payload}
   }
 }
 

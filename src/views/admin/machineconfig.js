@@ -145,11 +145,15 @@ class MachineConfig extends Component {
     }
 
     handleCreate = () => {
+       
         const form = this.form
+        
         form.validateFields((err, values) => {
+            
         if (err) {
             return
         }
+         
         if (!this.state.savePara.MachineIdB) {
             return
         }
