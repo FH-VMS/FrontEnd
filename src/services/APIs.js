@@ -246,6 +246,11 @@ const api = {
         PostRefund: function (data) {
           return apiService('Refund', 'PostRefund', 'POST', data)
         }
+    },
+    TotalMoney: {
+        GetData: function (data) {
+          return apiService('TotalMoney', 'GetData', 'GET', data)
+        }
     }
     
 }

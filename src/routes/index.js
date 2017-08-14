@@ -16,7 +16,15 @@ export default {
   path: '/',
   component: require('VIEW/admin/frame').default,
   indexRoute: {
-    component: require('VIEW/admin/home').default
+    // component: require('VIEW/admin/home').default
+    getComponent (nextState, cb) {
+      require.ensure([], (require) => {
+        // 立即注入 Reducer
+        injectReducer('totalMoneyData', require('REDUCER/Admin/home/totalMoneyReducer').default)
+
+        cb(null, connectComponent(require('VIEW/admin/home').default))
+      }, 'totalMoney')
+    }
   },
 
   childRoutes: [

@@ -57,7 +57,7 @@ export default {
 
     },
     dateFormaterString: function(value) {
-        
+        return value.format('YYYY/MM/DD')
     },
     getUploadObj: function() {
         return {

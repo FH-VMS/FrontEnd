@@ -2,10 +2,12 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, Spin, Input, Select, Popconfirm } from 'antd'
+import { Table, Spin, Input, Select, Popconfirm, DatePicker } from 'antd'
 import Dialog from 'COMPONENT/admin/sales/refundDialog'
 
 const { Column } = Table
+
+const { RangePicker } = DatePicker
 
 class SalesCashless extends Component {
     constructor(props) {
@@ -77,9 +79,14 @@ class SalesCashless extends Component {
         
 
           this.searchPara.payType = value.payType
-         
+         if (value.salesDate) {
+            this.searchPara.salesDate = Utility.dateFormaterString(value.salesDate[0]) + '^' + Utility.dateFormaterString(value.salesDate[1])
+         }
+          
+          this.searchPara.tradeStatus = value.tradeStatus
          
          this.searchPara.pageIndex = 1
+         
          this.getData(this.searchPara)
     }
     
@@ -155,6 +162,21 @@ class SalesCashless extends Component {
                     <Option value="支付宝">支付宝</Option>
                     <Option value="微信">微信</Option>
                 </Select>
+        },
+        {
+            label: '状态',
+            name: 'tradeStatus',
+            control: <Select placeholder="状态">
+                    <Option value="1">待出货</Option>
+                    <Option value="2">已出货</Option>
+                    <Option value="5">出货失败</Option>
+                    <Option value="6">已退款</Option>
+                </Select>
+        },
+        {
+            label: '销售日期',
+            name: 'salesDate',
+            control: <RangePicker />
         }]
         
         return (

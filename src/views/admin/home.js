@@ -16,7 +16,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.generateMachineSituation()
-        this.generateIncome()
+        // this.generateIncome()
         this.generateDynamicData()
     }
 
@@ -213,13 +213,17 @@ class Home extends Component {
         return (
             <div className="homeContainer">
                <div>
-                  <div>
+                  <div style={{borderRight: '5px solid #eee' }}>
                      <div id="machineSituation" className="everyChartsHeight"></div>
                   </div>
-                  <div><div id="incomeSituation" className="everyChartsHeight"></div></div>
+                  <div style={{borderLeft: '5px solid #eee' }}>
+                      <div id="incomeSituation" className="everyChartsHeight">
+                          
+                      </div>
+                  </div>
                </div>
                <div>
-                  <div className="everyChartsHeight" id = "dynamicData" style={{marginTop: '10px', borderTop: '1px solid #37cb15'}}>
+                  <div className="everyChartsHeight" id = "dynamicData" style={{marginTop: '10px', borderTop: '10px solid #eee'}}>
                       
                   </div>
                </div>
