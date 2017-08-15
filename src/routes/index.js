@@ -8,6 +8,11 @@ const connectComponent = createContainer(
   require('ACTION/mobile/pay/payAction').default               // mapActionCreators
 )
 
+const connectTotalMoeny = createContainer(
+  ({totalMoney}) => ({ totalMoney }), // mapStateToProps
+  require('ACTION/Admin/home/totalMoneyAction').default               // mapActionCreators
+)
+
 export default {
   main: {
   
@@ -20,10 +25,10 @@ export default {
     getComponent (nextState, cb) {
       require.ensure([], (require) => {
         // 立即注入 Reducer
-        injectReducer('totalMoneyData', require('REDUCER/Admin/home/totalMoneyReducer').default)
+        injectReducer('totalMoney', require('REDUCER/Admin/home/totalMoneyReducer').default)
 
-        cb(null, connectComponent(require('VIEW/admin/home').default))
-      }, 'totalMoney')
+        cb(null, connectTotalMoeny(require('VIEW/admin/home').default))
+      }, 'totalMoneyView')
     }
   },
 

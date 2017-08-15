@@ -5,7 +5,10 @@ var echarts = require('echarts')
 class Home extends Component {
     constructor(props) {
 		super(props)
-       
+        this.state = {
+            aliMoney: 0,
+            wxMoney: 0
+        }
 	}
     
 
@@ -18,51 +21,94 @@ class Home extends Component {
         this.generateMachineSituation()
         // this.generateIncome()
         this.generateDynamicData()
+        this.generateTotalMoney()
+    }
+
+    generateTotalMoney = () => {
+         this.props.fetchTotalMoney().then(msg => {
+            if (this.props.totalMoney && this.props.totalMoney.data && this.props.totalMoney.data instanceof Array) {
+                let aliM = 0
+                let wxM = 0
+                
+                this.props.totalMoney.data.map((item, index) => {
+                    
+                    if (item.AliAccount) {
+                        aliM = aliM + parseFloat(item.AliAccount)
+                    }
+                    if (item.WxAccount) {
+                        wxM = wxM + item.WxAccount
+                    }
+                    
+                })
+
+                this.setState({aliMoney: aliM, wxMoney: wxM})
+            }
+        })
     }
 
     generateMachineSituation = () => {
        // 基于准备好的dom，初始化echarts实例
         let myChart = echarts.init(document.getElementById('machineSituation'))
-        // 绘制图表
-        myChart.setOption({
-            title: {
-                text: '机器情况',
-                x: 'center',
-                subtext: '共345台'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['正常', '异常']
-            },
-            series: [
-                {
-                    name: '机器情况',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: [
+        this.props.fetchTotalMachineCount().then(msg => {
+            if (this.props.totalMoney.totalMachine) {
+                let countData = JSON.parse(this.props.totalMoney.totalMachine)
+                
+                 // 绘制图表
+                myChart.setOption({
+                    title: {
+                        text: '机器情况',
+                        x: 'center',
+                        subtext: parseInt(countData[0].VALS, 0) + parseInt(countData[1].VALS, 0) + parseInt(countData[2].VALS, 0)
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['未启用', '离线', '在线']
+                    },
+                    series: [
                         {
-                            value: 335, 
-                            name: '正常',
-                            itemStyle: {
-                                normal: {
-                                    // 设置扇形的颜色
-                                    color: '#54bd14',
-                                    shadowBlur: 10,
-                                    shadowColor: 'rgba(0, 0, 0, 0.1)'
+                            name: '机器情况',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '60%'],
+                            data: [
+                                {
+                                    value: parseInt(countData[0].VALS, 0), 
+                                    name: '未启用',
+                                    itemStyle: {
+                                        normal: {
+                                            // 设置扇形的颜色
+                                            color: '#E6E6E2',
+                                            shadowBlur: 10,
+                                            shadowColor: 'rgba(0, 0, 0, 0.1)'
+                                        }
+                                    }
+                                },
+                                {value: parseInt(countData[1].VALS, 0), name: '离线'},
+                                {
+                                    value: parseInt(countData[2].VALS, 0), 
+                                    name: '在线',
+                                    itemStyle: {
+                                        normal: {
+                                            // 设置扇形的颜色
+                                            color: '#54bd14',
+                                            shadowBlur: 10,
+                                            shadowColor: 'rgba(0, 0, 0, 0.1)'
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        {value: 10, name: '异常'}
+                                 
+                            ]
+                        }
                     ]
-                }
-            ]
+                })
+            }
         })
+       
     }
 
     generateIncome = () => {
@@ -206,10 +252,10 @@ class Home extends Component {
     
 
     shouldComponentUpdate(nextProps, nextState) { // 组件判断是否重新渲染时调用
+        return true
     }
 
     render() {
-
         return (
             <div className="homeContainer">
                <div>
@@ -217,8 +263,11 @@ class Home extends Component {
                      <div id="machineSituation" className="everyChartsHeight"></div>
                   </div>
                   <div style={{borderLeft: '5px solid #eee' }}>
+                       <h4 style={{fontWeight: 'bold'}}>余额</h4>
                       <div id="incomeSituation" className="everyChartsHeight">
-                          
+                         
+                          <div><div>支付宝余额：</div><div>{this.state.aliMoney}</div></div>
+                          <div><div>微信余额：</div><div>{this.state.wxMoney}</div></div>
                       </div>
                   </div>
                </div>

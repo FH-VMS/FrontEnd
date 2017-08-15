@@ -3,11 +3,13 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_TOTALMONEY = 'FETCH_TOTALMONEY'
+const FETCH_TOTALMACHINECOUNT = 'FETCH_TOTALMACHINECOUNT'
 
 // ================================
 // Action Creator
 // ================================
 const fetchTotalMoney = () => dispatch =>
+  
   apis
     .TotalMoney
     .GetData()
@@ -18,11 +20,23 @@ const fetchTotalMoney = () => dispatch =>
       })
   })
 
+  const fetchTotalMachineCount = () => dispatch =>
+  
+  apis
+    .Home
+    .GetTotalMachineCount()
+    .then(msgs => {
+      dispatch({
+         type: FETCH_TOTALMACHINECOUNT,
+         payload: msgs
+      })
+
+  })
 
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTotalMoney
+  fetchTotalMoney, fetchTotalMachineCount
 }
 
 // ================================
@@ -34,7 +48,11 @@ export default {
 // ================================
 export const ACTION_HANDLERS = {
   [FETCH_TOTALMONEY]: (totalMoney, { payload }) => {
-      totalMoney.data = payload.data
+      totalMoney.data = payload
+      return totalMoney
+  },
+  [FETCH_TOTALMACHINECOUNT]: (totalMoney, { payload }) => {
+      totalMoney.totalMachine = payload
       return totalMoney
   }
 }

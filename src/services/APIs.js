@@ -251,6 +251,11 @@ const api = {
         GetData: function (data) {
           return apiService('TotalMoney', 'GetData', 'GET', data)
         }
+    },
+    Home: {
+        GetTotalMachineCount: function (data) {
+          return apiService('Home', 'GetTotalMachineCount', 'GET', data)
+        }
     }
     
 }
