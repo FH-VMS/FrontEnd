@@ -10,7 +10,7 @@ const connectComponent = createContainer(
 
 const connectTotalMoeny = createContainer(
   ({totalMoney}) => ({ totalMoney }), // mapStateToProps
-  require('ACTION/Admin/home/totalMoneyAction').default               // mapActionCreators
+  require('ACTION/Admin/home/homeAction').default               // mapActionCreators
 )
 
 export default {
@@ -25,7 +25,7 @@ export default {
     getComponent (nextState, cb) {
       require.ensure([], (require) => {
         // 立即注入 Reducer
-        injectReducer('totalMoney', require('REDUCER/Admin/home/totalMoneyReducer').default)
+        injectReducer('totalMoney', require('REDUCER/Admin/home/homeReducer').default)
 
         cb(null, connectTotalMoeny(require('VIEW/admin/home').default))
       }, 'totalMoneyView')

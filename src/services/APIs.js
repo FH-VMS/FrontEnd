@@ -255,6 +255,9 @@ const api = {
     Home: {
         GetTotalMachineCount: function (data) {
           return apiService('Home', 'GetTotalMachineCount', 'GET', data)
+        },
+        GetSalesAmountByMachine: function (data) {
+          return apiService('Home', 'GetSalesAmountByMachine', 'GET', data)
         }
     }
     

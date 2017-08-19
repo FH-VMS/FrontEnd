@@ -19,8 +19,8 @@ class Home extends Component {
 
     componentDidMount() {
         this.generateMachineSituation()
-        // this.generateIncome()
-        this.generateDynamicData()
+        this.generateIncome()
+        // this.generateDynamicData()
         this.generateTotalMoney()
     }
 
@@ -113,50 +113,62 @@ class Home extends Component {
 
     generateIncome = () => {
         // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('incomeSituation'))
-        // 绘制图表
-        myChart.setOption({
-            title: {
-                text: '收入情况',
-                x: 'center',
-                subtext: '共248534元'
-            },
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        let myChart = echarts.init(document.getElementById('dynamicData'))
+         this.props.fetchAmountByMachine().then(msg => {
+                if (this.props.totalMoney && this.props.totalMoney.amountByMachine) {
+                    let finalData = JSON.parse(this.props.totalMoney.amountByMachine)
+                    let xData = []
+                    let yData = []
+                    $.each(finalData, (index, item) => {
+                        xData.push(item.MACHINE_ID)
+                        yData.push(item.TOTAL)
+                    })
+                    // 绘制图表
+                    myChart.setOption({
+                        title: {
+                            text: '收入情况',
+                            x: 'center',
+                            subtext: ''
+                        },
+                        color: ['#3398DB'],
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: xData,
+                                axisTick: {
+                                    alignWithLabel: true
+                                }
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value'
+                            }
+                        ],
+                        series: [
+                            {
+                                name: '销售额',
+                                type: 'bar',
+                                barWidth: '40%',
+                                data: yData
+                            }
+                        ]
+                    })
                 }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['现金', '支付宝', '微信', 'IC刷卡', '其它'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '收入',
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: [10, 128900, 118900, 334, 390]
-                }
-            ]
-        })
+         })
+        
     }
 
 
