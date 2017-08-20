@@ -186,7 +186,7 @@ class MachineList extends Component {
         if (err) {
             return
         }
-        
+        console.log('dddddd', values)
         // 更新
        if (this.state.savePara.MachineId) {
            values.MachineId = this.state.savePara.MachineId
@@ -281,11 +281,17 @@ class MachineList extends Component {
                         dataIndex="DeviceId"
                         key="DeviceId"
                     />
+                     <Column
+                        title="名称"
+                        dataIndex="Remark"
+                        key="Remark"
+                    />
                     <Column
                         title="机型"
                         dataIndex="TypeText"
                         key="TypeText"
                     />
+
                     <Column
                         title="所属客户"
                         dataIndex="ClientText"

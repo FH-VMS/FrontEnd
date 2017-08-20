@@ -10,6 +10,10 @@ const MachineTypeDialog = Form.create({
         ...props.DeviceId,
         value: props.DeviceId
       },
+      Remark: {
+        ...props.Remark,
+        value: props.Remark
+      },
        TypeId: {
         ...props.TypeId,
         value: props.TypeId
@@ -113,6 +117,19 @@ const MachineTypeDialog = Form.create({
             }]
           })(
            <Input disabled={isDisable}/>
+          )}
+        </FormItem>
+          <FormItem
+          {...formItemLayout}
+          label="机器名称："
+          hasFeedback
+        >
+          {getFieldDecorator('Remark', {
+            rules: [{
+              required: true, message: '机器名称必填'
+            }]
+          })(
+           <Input />
           )}
         </FormItem>
          <FormItem

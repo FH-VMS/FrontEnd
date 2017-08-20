@@ -34,6 +34,7 @@ class SlideNav extends Component {
      let auth = {
 
      }
+      auth.CanExport = 'none'
       auth.CanAdd = (cItem.Add == 1 ? 'inline' : 'none')
       auth.CanDelete = (cItem.Del == 1 ? 'inline' : 'none')
       auth.CanModify = (cItem.Mod == 1 ? 'inline' : 'none')
@@ -73,6 +74,7 @@ class SlideNav extends Component {
           auth.CanAdd = 'none'
           auth.CanDelete = 'none'
           auth.CanModify = 'none'
+          auth.CanExport = 'inline'
         break
         case 'salecashless':
           auth.CanAdd = 'none'

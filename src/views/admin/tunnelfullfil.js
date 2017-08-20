@@ -19,7 +19,8 @@ class TunnelFullfil extends Component {
                 CanAdd: 'none',
                 CanDelete: 'none',
                 CanModify: 'none',
-                CanSearch: 'none'
+                CanSearch: 'none',
+                CanExport: 'inline'
             },
             pagination: {
                 defaultPageSize: model.BaseSetting.PageSize
@@ -143,6 +144,23 @@ class TunnelFullfil extends Component {
        
        
     }
+
+    // 导出补货单
+    onExportData = (value) => {
+       if (!value.machineId) {
+           message.warning('请选择机器')
+           return
+       }
+
+       if (!value.cabinetId) {
+           message.warning('请选择机柜')
+           return
+       }
+        console.log('ddddd', this.props)
+        this.props.exportData({machineId: value.machineId, cabinetId: value.cabinetId}).then(msg => {
+
+        })
+    }
     
   
 
@@ -154,7 +172,7 @@ class TunnelFullfil extends Component {
         return (
              <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} onExportData={this.onExportData} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="货道编号"

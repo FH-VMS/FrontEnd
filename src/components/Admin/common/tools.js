@@ -42,9 +42,16 @@ class ToolControl extends Component {
     }
 
     exportData = (e) => {
-      if (this.props.onExportData) {
-          this.props.onExportData(e)
-        }
+        e.preventDefault()
+        this.props.form.validateFields((err, values) => {
+            if (err) {
+                
+            }
+            if (this.props.onExportData) {
+              this.props.onExportData(values)
+            }
+        })
+      
     }
 
     componentWillMount() {
@@ -95,7 +102,8 @@ class ToolControl extends Component {
       )
     }
     // <Button type="ghost" size="large" onClick={this.exportData}>导出</Button>  导出功能暂时取消
-        return (
+    
+    return (
             <div className="tool-container">
                 <Row>
                    <Col span={24}> 
@@ -117,7 +125,7 @@ class ToolControl extends Component {
                                 </Button>
                                  
                                 <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanAdd }} onClick={this.create}>创建</Button>
-                                
+                                <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanExport }} onClick={this.exportData}>导出</Button>
                              </Col>
                         </Row>
                         </Form>

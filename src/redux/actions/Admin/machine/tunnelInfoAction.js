@@ -9,6 +9,7 @@ const FETCH_FULLFILTUNNEL = 'FETCH_FULLFILTUNNEL'
 const UPDATE_TUNNELINFO = 'UPDATE_TUNNELINFO'
 const FETCH_CABINETBYMACHINE = 'FETCH_CABINETBYMACHINE'
 const BATCH_UPDATETUNNELINFO = 'BATCH_UPDATETUNNELINFO'
+const EXPORT_DATA = 'EXPORT_DATA'
 // ================================
 // Action Creator
 // ================================
@@ -86,11 +87,24 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
       })
      return msgs
   })
+
+  // 导出补货单
+  const exportData = (updBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .GetExportFullfilData(updBody)
+    .then(msgs => {
+      dispatch({
+         type: EXPORT_DATA,
+         payload: msgs
+      })
+  })
+  
   
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData
 }
 
 // ================================
@@ -120,7 +134,8 @@ export const ACTION_HANDLERS = {
       return result
   },
   [UPDATE_TUNNELINFO]: (result, { payload }) => ({payload}),
-  [BATCH_UPDATETUNNELINFO]: (result, { payload }) => ({payload})
+  [BATCH_UPDATETUNNELINFO]: (result, { payload }) => ({payload}),
+  [EXPORT_DATA]: (result, { payload }) => ({payload})
 }
 
 

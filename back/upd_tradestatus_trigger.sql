@@ -12,15 +12,15 @@ begin
 		set @nowClientCount = (SELECT count(1) FROM table_total_money where client_id = @clientId);
 		if @nowClientCount>0 THEN
 			if new.pay_interface='微信' THEN
-				update table_total_money set wx_account=(IFNULL(wx_account,0) + IFNULL(new.reality_sale_number,0)*new.trade_amount) where client_id=@clientId;
+				update table_total_money set wx_account=(IFNULL(wx_account,0) + IFNULL(new.reality_sale_number,0)*new.trade_amount) -  IFNULL(new.service_charge,0) where client_id=@clientId;
 			elseif new.pay_interface='支付宝' THEN
-				update table_total_money set ali_account=(IFNULL(ali_account,0)+IFNULL(new.reality_sale_number,0)*new.trade_amount) where client_id=@clientId;
+				update table_total_money set ali_account=(IFNULL(ali_account,0)+IFNULL(new.reality_sale_number,0)*new.trade_amount) -  IFNULL(new.service_charge,0) where client_id=@clientId;
 			end if;
 		elseif @nowClientCount=0 THEN 
 			if new.pay_interface='微信' THEN
-				INSERT INTO table_total_money(client_id,wx_account) VALUES(@clientId,IFNULL(new.reality_sale_number,0)*new.trade_amount);
+				INSERT INTO table_total_money(client_id,wx_account) VALUES(@clientId,IFNULL(new.reality_sale_number,0)*new.trade_amount -  IFNULL(new.service_charge,0));
 			elseif new.pay_interface='支付宝' THEN
-				INSERT INTO table_total_money(client_id,ali_account) VALUES(@clientId,IFNULL(new.reality_sale_number,0)*new.trade_amount);
+				INSERT INTO table_total_money(client_id,ali_account) VALUES(@clientId,IFNULL(new.reality_sale_number,0)*new.trade_amount -  IFNULL(new.service_charge,0));
 			end if;
 		 
 		end if;
