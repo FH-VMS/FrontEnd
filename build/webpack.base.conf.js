@@ -40,8 +40,7 @@ module.exports = {
       'react-router',
       'react-router-redux',
       'redux',
-      'redux-thunk',
-      'echarts'
+      'redux-thunk'
     ]
   },
   output: {

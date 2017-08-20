@@ -245,6 +245,11 @@ class SalesCashless extends Component {
                         dataIndex="TradeAmount"
                         key="TradeAmount"
                     />
+                    <Column
+                        title="手续费"
+                        dataIndex="ServiceCharge"
+                        key="ServiceCharge"
+                    />
                      <Column
                         title="客户名称"
                         dataIndex="ClientName"

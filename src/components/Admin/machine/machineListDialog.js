@@ -42,6 +42,7 @@ const MachineTypeDialog = Form.create({
 
     componentWillMount() {
       this.clientId = ''
+      
     }
 
 
@@ -78,9 +79,11 @@ const MachineTypeDialog = Form.create({
   }
 
     render() {
+    let isDisable = false
     // 此为修改
     if (this.props.MachineId) {
       this.clientSelect(this.props.ClientId)
+      isDisable = true
     }
     const { visible, onCancel, onCreate, form, title, clientDicData, machineTypeDic} = this.props
     const { getFieldDecorator } = form
@@ -109,7 +112,7 @@ const MachineTypeDialog = Form.create({
               required: true, message: '机器编号必填'
             }]
           })(
-           <Input />
+           <Input disabled={isDisable}/>
           )}
         </FormItem>
          <FormItem
@@ -122,7 +125,7 @@ const MachineTypeDialog = Form.create({
               required: true, message: '机型必选'
             }]
           })(
-            <Select>
+            <Select disabled={isDisable}>
                {this.typeDicSelect}
             </Select>
           )}
@@ -137,7 +140,7 @@ const MachineTypeDialog = Form.create({
               required: true, message: '所属客户必填'
             }]
           })(
-             <TreeSelect
+             <TreeSelect disabled={isDisable}
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={clientDicData}
               treeDefaultExpandAll

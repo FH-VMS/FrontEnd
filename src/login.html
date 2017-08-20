@@ -12,10 +12,13 @@
 <script src="./static/jquery.min.js"></script>
 
 
-{% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+{% for (var chunk in o.htmlWebpackPlugin.files.chunks) {
+    var srcName = o.htmlWebpackPlugin.files.chunks[chunk].entry
+    if (srcName.indexOf('login-')!=-1||srcName.indexOf('mainifest-')!=-1||srcName.indexOf('vendor-')!=-1||srcName.indexOf('vendor-')!=-1) {
+  %}
 
 <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-{% } %}
+{% }} %}
 
 </body>
 </html>

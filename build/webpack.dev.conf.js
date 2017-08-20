@@ -5,9 +5,9 @@ var webpack = require('webpack'),
   BrowserSyncPlugin = require('browser-sync-webpack-plugin'),
   // SOURCE_MAP = true; // 大多数情况下用不到
   SOURCE_MAP = false;
-var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
-config.output.filename = '[name].js';
-config.output.chunkFilename = '[id].js';
+// var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
+config.output.filename = '[name]-[hash:6].js';
+config.output.chunkFilename = '[id]-[chunkhash:6].js';
 
 config.devtool = SOURCE_MAP ? 'eval-source-map' : false;
 
@@ -67,7 +67,10 @@ config.plugins.push(
   }, {
     reload: false
   }),
-  CommonsChunkPlugin
+  new webpack.optimize.CommonsChunkPlugin({
+    // 公共代码分离打包
+    names: ['vendor', 'mainifest']
+  })
 );
 
 module.exports = config;

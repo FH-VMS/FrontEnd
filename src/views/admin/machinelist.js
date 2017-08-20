@@ -13,6 +13,7 @@ class MachineList extends Component {
         this.state = {
             visible: false,
             dataSource: [],
+            dialogTitle: '添加机器',
             auth: {
                 CanAdd: 'none',
                 CanDelete: 'none',
@@ -150,9 +151,9 @@ class MachineList extends Component {
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: model.Machine.MachineListModel })
+           this.setState({ visible: true, savePara: model.Machine.MachineListModel, dialogTitle: '添加机器' })
          } else {
-            this.setState({ visible: true, savePara: item })
+            this.setState({ visible: true, savePara: item, dialogTitle: '修改机器' })
          }
          
     }
@@ -381,7 +382,7 @@ class MachineList extends Component {
                         visible={this.state.visible}
                         onCancel={this.handleCancel}
                         onCreate={this.handleCreate}
-                        title="添加机器"
+                        title={this.state.dialogTitle}
                         {...fields}
                         machineTypeDic={this.state.machineTypeDic}
                         clientDicData ={this.state.clientDicData}
