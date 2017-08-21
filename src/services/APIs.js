@@ -262,6 +262,20 @@ const api = {
         GetSalesAmountByMachine: function (data) {
           return apiService('Home', 'GetSalesAmountByMachine', 'GET', data)
         }
+    },
+    PayConfig: {
+        GetData: function (data) {
+          return apiService('PayConfig', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('PayConfig', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('PayConfig', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('PayConfig', 'DeleteData', 'DELETE', data)
+        }
     }
     
 }
