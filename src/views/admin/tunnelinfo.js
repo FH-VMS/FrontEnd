@@ -15,6 +15,7 @@ class TunnelInfo extends Component {
             machineDic: [],
             searchDatasource: [],
             cabinetDataSource: [],
+            cabinetId: '',
             auth: {
                 CanAdd: 'none',
                 CanDelete: 'none',
@@ -81,7 +82,11 @@ class TunnelInfo extends Component {
           }
         })
         if (chosenItem && chosenItem.children) {
+            let chosen = ''
              let typeDicSelect = chosenItem.children.map((item, index) => {
+                 if (index == 0) {
+                     chosen = item.Id
+                 }
               return (
                 <Option value={item.Id}>{item.Name}</Option>
               )
@@ -97,7 +102,7 @@ class TunnelInfo extends Component {
                     {typeDicSelect}
                 </Select>
             })
-            this.setState({searchDatasource: this.state.searchDatasource})
+            this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
         }
     }
     
@@ -145,7 +150,6 @@ class TunnelInfo extends Component {
     }
     
     changeTunnelStatus = (typeVal, record, ev) => {
-       console.log('ddddd', this.props)
        if (typeVal == '停用') {
            record.CurrStatus = 2
        } else {
@@ -163,11 +167,11 @@ class TunnelInfo extends Component {
 
     render() {
        
-        
+        let fields = {cabinetId: this.state.cabinetId}
         return (
              <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} defaultValue={fields} onSearch={this.onSearch} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="货道编号"
