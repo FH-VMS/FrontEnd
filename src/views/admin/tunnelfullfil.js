@@ -3,6 +3,7 @@ import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Spin, Select, message, Table } from 'antd'
 import model from 'STORE/model'
+import Dialog from 'COMPONENT/admin/tunnelfullfil/fullfilDialog'
 
 const { Column } = Table
 
@@ -15,6 +16,7 @@ class TunnelFullfil extends Component {
             machineDic: [],
             searchDatasource: [],
             cabinetDataSource: [],
+            cabinetId: '',
             auth: {
                 CanAdd: 'none',
                 CanDelete: 'none',
@@ -82,7 +84,11 @@ class TunnelFullfil extends Component {
           }
         })
         if (chosenItem && chosenItem.children) {
+             let chosen = ''
              let typeDicSelect = chosenItem.children.map((item, index) => {
+                if (index == 0) {
+                 chosen = item.Id
+                }
               return (
                 <Option value={item.Id}>{item.Name}</Option>
               )
@@ -98,7 +104,7 @@ class TunnelFullfil extends Component {
                     {typeDicSelect}
                 </Select>
             })
-            this.setState({searchDatasource: this.state.searchDatasource})
+            this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
         }
     }
     
@@ -147,32 +153,39 @@ class TunnelFullfil extends Component {
 
     // 导出补货单
     onExportData = (value) => {
-       if (!value.machineId) {
-           message.warning('请选择机器')
-           return
-       }
-
-       if (!value.cabinetId) {
-           message.warning('请选择机柜')
-           return
-       }
-        console.log('ddddd', this.props)
-        this.props.exportData({machineId: value.machineId, cabinetId: value.cabinetId}).then(msg => {
-
-        })
+       this.setState({visible: true})
     }
     
   
+    handleCancel = () => {
+        this.setState({ visible: false })
+    }
+	
+	saveFormRef = (form) => {
+        this.form = form
+    }
 
+    handleCreate = () => {
+        const form = this.form
+        form.validateFields((err, values) => {
+			if (err) {
+				return
+			}
+			
+			this.props.exportData({machineIds: values.DeviceId.join('^')})
+		})
+		
+	}
 
 
     render() {
-       
+        
+        let fields = {cabinetId: this.state.cabinetId}
         
         return (
              <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} onExportData={this.onExportData} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} defaultValue={fields} onSearch={this.onSearch} onExportData={this.onExportData} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="货道编号"
@@ -195,6 +208,13 @@ class TunnelFullfil extends Component {
                     />
               </Table>
                 </Spin>
+                <Dialog ref={this.saveFormRef}
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        onCreate={this.handleCreate}
+                        title=''
+                        machineList={this.state.machineDic}
+                 />
            </div>
         )
     }

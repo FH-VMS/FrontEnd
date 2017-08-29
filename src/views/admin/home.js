@@ -278,8 +278,8 @@ class Home extends Component {
                        <h4 style={{fontWeight: 'bold'}}>余额</h4>
                       <div id="incomeSituation" className="everyChartsHeight">
                          
-                          <div><div>支付宝余额：</div><div>{this.state.aliMoney}</div></div>
-                          <div><div>微信余额：</div><div>{this.state.wxMoney}</div></div>
+                          <div><div>支付宝余额：</div><div>{this.state.aliMoney.toFixed(2)}</div></div>
+                          <div><div>微信余额：</div><div>{this.state.wxMoney.toFixed(2)}</div></div>
                       </div>
                   </div>
                </div>

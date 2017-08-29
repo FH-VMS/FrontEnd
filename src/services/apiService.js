@@ -5,7 +5,7 @@ import {hashHistory} from 'react-router'
 import Utility from 'UTIL/utility'
 
 class ApiService {
-	apiServiceMethod(apimodule, apiname, type, parameters) {
+	apiServiceMethod(apimodule, apiname, type, parameters, excel) {
         const domain = Model.BaseSetting.Root
 		const deferred = $.Deferred()
 		var method = type.toUpperCase()
@@ -33,6 +33,11 @@ class ApiService {
 				queryString.push(x + '=' + encodeURI(parameters[x]))
 			}
 			finalUrl += '?' + queryString.join('&')
+		}
+		
+		if (excel) {
+			window.open(finalUrl)
+			return
 		}
 		/*
 		if (method == 'DELETE') {

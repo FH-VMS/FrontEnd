@@ -186,7 +186,7 @@ class MachineList extends Component {
         if (err) {
             return
         }
-        console.log('dddddd', values)
+        
         // 更新
        if (this.state.savePara.MachineId) {
            values.MachineId = this.state.savePara.MachineId

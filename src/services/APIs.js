@@ -206,7 +206,7 @@ const api = {
           return apiService('TunnelInfo', 'PutStockWithMobile', 'PUT', data)
       },
       GetExportFullfilData: function (data) {
-          return apiService('TunnelInfo', 'GetExportFullfilData', 'GET', data)
+          return apiService('TunnelInfo', 'GetExportFullfilData', 'GET', data, true)
       }
 	},
     /* ***********************支付************************ */

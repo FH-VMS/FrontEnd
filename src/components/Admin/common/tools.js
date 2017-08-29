@@ -55,6 +55,10 @@ class ToolControl extends Component {
     }
 
     componentWillMount() {
+         
+    }
+    
+    componentDidMount() {
         
     }
 
@@ -88,19 +92,26 @@ class ToolControl extends Component {
        wrapperCol: { span: 19 }
      }
     
+    
     // To generate mock Form.Item
     const children = []
     for (let i = 0; i < this.props.searchDatasource.length; i++) {
+      let defValue = ''
+      if (this.props.defaultValue) {
+          defValue = this.props.defaultValue[this.props.searchDatasource[i].name]
+      }
       children.push(
         <Col span={8} key={i}>
           <FormItem {...formItemLayout} label={this.props.searchDatasource[i].label}>
-            {getFieldDecorator(this.props.searchDatasource[i].name)(
+            {getFieldDecorator(this.props.searchDatasource[i].name, {initialValue: defValue})(
               this.props.searchDatasource[i].control
             )}
           </FormItem>
         </Col>
       )
     }
+    
+    
     // <Button type="ghost" size="large" onClick={this.exportData}>导出</Button>  导出功能暂时取消
     
     return (
@@ -137,6 +148,6 @@ class ToolControl extends Component {
     }
 }
 
-const WrappedAdvancedSearchForm = Form.create()(ToolControl)
+const WrappedAdvancedSearchForm = Form.create({})(ToolControl)
 
 export default WrappedAdvancedSearchForm
