@@ -184,6 +184,9 @@ const api = {
       },
       GetRefundDetail: function (data) {
           return apiService('SaleCashless', 'GetRefundDetail', 'GET', data)
+      },
+      GetStatisticSalesMoneyByDate: function (data) {
+          return apiService('SaleCashless', 'GetStatisticSalesMoneyByDate', 'GET', data)
       }
 	}, // 货道信息
     TunnelInfo: {

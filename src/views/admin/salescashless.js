@@ -27,7 +27,8 @@ class SalesCashless extends Component {
             loading: false,
             refundDetail: {},
             outTradeNo: '',
-            payType: ''
+            payType: '',
+            description: '统计金额需选定时间范围，'
         }
 
         this.searchPara = {
@@ -66,11 +67,25 @@ class SalesCashless extends Component {
                 onChange: (current) => {
                     this.searchPara.pageIndex = current
                     this.getData(this.searchPara)
-                }
+                },
+                showTotal: (total) => `${this.state.description}共 ${total} 行`
            },
-           loading: false})
+           loading: false,
+           description: '统计金额需选定时间范围，'
+           })
          }
       })
+      
+      if (val.salesDate) {
+          this.props.fetchSalesMoney({salesDate: val.salesDate}).then(msg => {
+              if (msg) {
+                  let arrMoney = JSON.parse(msg).map((item, index) => {
+                      return item.PAY_INTERFACE + ':' + item.TOTALMONEY
+                  })
+                  this.setState({description: arrMoney.join(',') + ','})
+              }
+          })
+      }
     }
     
     // 查询

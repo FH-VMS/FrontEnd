@@ -6,6 +6,7 @@ const FETCH_CASHLESSLIST = 'FETCH_CASHLESSLIST'
 const ADD_CASHLESSLIST = 'ADD_CASHLESSLIST'
 const UPDATE_CASHLESSLIST = 'UPDATE_CASHLESSLIST'
 const DELETE_CASHLESSLIST = 'DELETE_CASHLESSLIST'
+const FETCH_SALESMONEY = 'FETCH_SALESMONEY'
 
 const FETCH_REFUNDDETAIL = 'FETCH_REFUNDDETAIL' // 退款详情
 const POST_REFUND = 'POST_REFUND' // 手动退款
@@ -83,10 +84,24 @@ const postRefund = (params) => dispatch =>
       })
       return msgs
   })
+  
+  
+  // 统计销售额根据支付方式 
+  const fetchSalesMoney = (params) => dispatch =>
+  apis
+    .SaleCashless
+    .GetStatisticSalesMoneyByDate(params)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_SALESMONEY,
+         payload: msgs
+      })
+      return msgs
+  })
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchCashlessList, addCashlessList, updateCashlessList, deleteCashlessList, fetchRefundDetail, postRefund
+  fetchCashlessList, addCashlessList, updateCashlessList, deleteCashlessList, fetchRefundDetail, postRefund, fetchSalesMoney
 }
 
 // ================================
@@ -109,7 +124,8 @@ export const ACTION_HANDLERS = {
       result.refundDetail = payload
       return result
   },
-  [POST_REFUND]: (result, { payload }) => ({payload})
+  [POST_REFUND]: (result, { payload }) => ({payload}),
+  [FETCH_SALESMONEY]: (result, { payload }) => ({payload})
 }
 
 

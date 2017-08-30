@@ -275,6 +275,7 @@ class MachineList extends Component {
             <div>
               <Spin size="large" spinning={this.state.loading}>
               <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
+              
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="设备编号"
@@ -384,6 +385,7 @@ class MachineList extends Component {
                     />
                    {this.DeleteAndModify}
               </Table>
+              
               <Dialog ref={this.saveFormRef}
                         visible={this.state.visible}
                         onCancel={this.handleCancel}
