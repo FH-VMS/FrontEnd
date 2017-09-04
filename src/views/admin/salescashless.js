@@ -53,7 +53,9 @@ class SalesCashless extends Component {
     
     // 取数据方法
     getData = (val) => {
-      this.setState({loading: true})
+        this.setState({loading: true})
+        
+      
        this.props.fetchCashlessList(val).then((msg) => {
          if (this.props.salesCashless) {
            this.setState({dataSource: this.props.salesCashless.data, pagination: {
@@ -70,32 +72,22 @@ class SalesCashless extends Component {
                 },
                 showTotal: (total) => `${this.state.description}共 ${total} 行`
            },
-           loading: false,
-           description: '统计金额需选定时间范围，'
+           loading: false
            })
          }
       })
       
-      if (val.salesDate) {
-          this.props.fetchSalesMoney({salesDate: val.salesDate}).then(msg => {
-              if (msg) {
-                  let arrMoney = JSON.parse(msg).map((item, index) => {
-                      return item.PAY_INTERFACE + ':' + item.TOTALMONEY
-                  })
-                  this.setState({description: arrMoney.join(',') + ','})
-              }
-          })
-      }
+     
     }
     
     // 查询
     onSearch = (value) => {
           this.searchPara.deviceId = value.deviceId
-        
-
           this.searchPara.payType = value.payType
          if (value.salesDate) {
             this.searchPara.salesDate = Utility.dateFormaterString(value.salesDate[0]) + '^' + Utility.dateFormaterString(value.salesDate[1])
+         } else {
+             this.searchPara.salesDate = ''
          }
           
           this.searchPara.tradeStatus = value.tradeStatus
@@ -103,6 +95,18 @@ class SalesCashless extends Component {
          this.searchPara.pageIndex = 1
          
          this.getData(this.searchPara)
+          if (this.searchPara.salesDate) {
+          this.props.fetchSalesMoney({salesDate: this.searchPara.salesDate}).then(msg => {
+              if (msg) {
+                  let arrMoney = JSON.parse(msg).map((item, index) => {
+                      return item.PAY_INTERFACE + ':' + item.TOTALMONEY + ',手续费:' + item.SERVICECHARGE
+                  })
+                  this.setState({description: arrMoney.join(';') + ';'})
+              }
+          })
+      } else {
+           this.setState({description: '统计金额需选定时间范围，'})
+      }
     }
     
 
