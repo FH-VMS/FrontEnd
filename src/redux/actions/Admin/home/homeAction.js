@@ -34,11 +34,11 @@ const fetchTotalMoney = () => dispatch =>
 
   })
 
-   const fetchAmountByMachine = () => dispatch =>
+   const fetchAmountByMachine = (body) => dispatch =>
   
   apis
     .Home
-    .GetSalesAmountByMachine()
+    .GetSalesAmountByMachine(body)
     .then(msgs => {
       dispatch({
          type: FETCH_AMOUNTBYMACHINE,

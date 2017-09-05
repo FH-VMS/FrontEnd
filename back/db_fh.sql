@@ -4103,24 +4103,7 @@ INSERT INTO `table_operation` VALUES ('867', '一键补货', '2017-08-31 14:08:3
 INSERT INTO `table_operation` VALUES ('868', '一键补货', '2017-09-04 09:24:38', '机器端', null, 'JHLA17080007');
 INSERT INTO `table_operation` VALUES ('869', '按货道补货', '2017-09-04 09:28:37', '机器端', null, 'JHLA17080007');
 
--- ----------------------------
--- Table structure for `table_pay_config`
--- ----------------------------
-DROP TABLE IF EXISTS `table_pay_config`;
-CREATE TABLE `table_pay_config` (
-  `id` varchar(50) NOT NULL,
-  `client_id` char(10) DEFAULT NULL,
-  `pay_type` varchar(20) DEFAULT NULL,
-  `pay_account` varchar(100) DEFAULT NULL,
-  `pay_merchant` varchar(100) DEFAULT NULL,
-  `pay_publickey` varchar(200) DEFAULT NULL,
-  `pay_privatekey` varchar(200) DEFAULT NULL,
-  `remark` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of table_pay_config
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `table_pic`

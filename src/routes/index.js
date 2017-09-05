@@ -52,6 +52,7 @@ export default {
      require('./admin/tunnelfullfil').default,  // 补货单生成
      require('./admin/machinecabinet').default,  // 机柜列表
      require('./admin/payconfig').default,  // 支付配置列表
+     require('./admin/machineMoney').default,  // 按机器统计销售额
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     

@@ -3,6 +3,7 @@ import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Input, Table, message, Spin, Popconfirm } from 'antd'
+import Dialog from 'COMPONENT/admin/pay/payConfigDialog'
 const { Column } = Table
 
 class PayConfig extends Component {
@@ -83,7 +84,7 @@ class PayConfig extends Component {
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: model.Machine.MachineTypeModel })
+           this.setState({ visible: true, savePara: model.Pay.ConfigModel })
          } else {
              if (item.Cabinets) {
                  item.CabinetList = []
@@ -206,7 +207,7 @@ class PayConfig extends Component {
         
 
         // 修改时直接绑定参数
-        // const fields = this.state.savePara
+        const fields = this.state.savePara
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
@@ -246,6 +247,15 @@ class PayConfig extends Component {
                    {this.DeleteAndModify}
               </Table>
                 </Spin>
+                <Dialog ref={this.saveFormRef}
+                        visible={this.state.visible}
+                        onCancel={this.handleCancel}
+                        onCreate={this.handleCreate}
+                        title="支付配置"
+                        fetchDic={this.props.fetchDic}
+                        cabinetsList={this.state.cabinetsList}
+                        {...fields}
+                 />
            </div>
         )
     }
