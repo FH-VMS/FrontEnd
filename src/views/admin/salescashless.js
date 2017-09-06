@@ -12,6 +12,7 @@ const { RangePicker } = DatePicker
 class SalesCashless extends Component {
     constructor(props) {
 		super(props)
+        let oneWeekDate = this.defaultRangeDate()
         this.state = {
             visible: false,
             dataSource: [],
@@ -28,12 +29,14 @@ class SalesCashless extends Component {
             refundDetail: {},
             outTradeNo: '',
             payType: '',
-            description: '统计金额需选定时间范围，'
+            description: '统计金额需选定时间范围，',
+            defaultRange: oneWeekDate
         }
 
         this.searchPara = {
             pageIndex: 1,
-            pageSize: model.BaseSetting.PageSize
+            pageSize: model.BaseSetting.PageSize,
+            salesDate: Utility.dateFormaterString(oneWeekDate[0]) + '^' + Utility.dateFormaterString(oneWeekDate[1])
         }
     }
 
@@ -48,6 +51,22 @@ class SalesCashless extends Component {
        // this.setState({searchDatasource: searchDatasource})
      
       
+    }
+    
+     defaultRangeDate = () => {
+        var now = new Date() 
+        var nowTime = now.getTime() 
+        var day = now.getDay()
+        var oneDayLong = 24 * 60 * 60 * 1000 
+
+
+        var MondayTime = nowTime - (day - 1) * oneDayLong 
+        var SundayTime = nowTime + (7 - day) * oneDayLong
+
+        
+        var monday = new Date(MondayTime)
+        var sunday = new Date(SundayTime)
+        return [Utility.dateFormaterObj(monday), Utility.dateFormaterObj(sunday)]
     }
 
     
@@ -87,7 +106,7 @@ class SalesCashless extends Component {
          if (value.salesDate) {
             this.searchPara.salesDate = Utility.dateFormaterString(value.salesDate[0]) + '^' + Utility.dateFormaterString(value.salesDate[1])
          } else {
-             this.searchPara.salesDate = ''
+             this.searchPara.salesDate = Utility.dateFormaterString(this.state.defaultRange[0]) + '^' + Utility.dateFormaterString(this.state.defaultRange[1])
          }
           
           this.searchPara.tradeStatus = value.tradeStatus
@@ -198,10 +217,11 @@ class SalesCashless extends Component {
             control: <RangePicker />
         }]
         
+        let fields = {salesDate: this.state.defaultRange}
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} />
+              <Tools auth={this.state.auth} searchDatasource={searchDatasource} defaultValue={fields} onSearch={this.onSearch} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="设备编号"

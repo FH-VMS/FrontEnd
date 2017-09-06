@@ -61,7 +61,7 @@ class MachineMoney extends Component {
 
 
         var MondayTime = nowTime - (day - 1) * oneDayLong 
-        var SundayTime = nowTime + (8 - day) * oneDayLong
+        var SundayTime = nowTime + (7 - day) * oneDayLong
 
         
         var monday = new Date(MondayTime)
