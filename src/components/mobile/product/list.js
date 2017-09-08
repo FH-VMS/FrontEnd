@@ -38,14 +38,13 @@ class ListControl extends Component {
       let totalMoneyIn = 0
       this.moneySum = []
       this.state.data.map((item, index) => {
-        if (item.TunnelId == data.TunnelId) {
+        if (item.WaresId == data.WaresId) {
             item.buyNum = val
         }
-        
         if (item.buyNum) {
            hasChosen = true
            totalMoneyIn = totalMoneyIn + parseInt(item.buyNum, 0) * parseFloat(item.APrice)
-           this.moneySum.push({tid: item.TunnelId, n: item.buyNum})
+           this.moneySum.push({tid: item.WaresId, n: item.buyNum})
         }
 
         
@@ -138,14 +137,14 @@ class ListControl extends Component {
 
    payPage = (idVal, siteVal, event) => {
     if (this.state.totalMoney <= 0) {
-      Toast.fail('价格必须大于0', 1)
+      Toast.fail('点+号选择一个商品', 1)
       return
     }
      if (this.moneySum.length > 0) {
        let kPara = {}
         kPara.t = this.moneySum
         kPara.m = this.props.keyVal
-        hashHistory.push('/?k=' + JSON.stringify(kPara))
+        hashHistory.push('/paybyproduct?k=' + JSON.stringify(kPara))
      } else {
        Toast.fail('请选一个商品', 1)
      }
@@ -184,8 +183,7 @@ class ListControl extends Component {
                     <div className="stepperContainer">
                       <div>
                          <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{rowData.APrice}</span>元/单价</div>
-                         <div style={{ fontSize: '0.28rem' }}>库存：{rowData.CurrStock}({this.transformTunnelId(rowData.TunnelId)})</div>
-                         
+                         <div style={{ fontSize: '0.28rem' }}>库存：{rowData.CurrStock}</div>
                       </div>
                       <div><Stepper
                             style={{ width: '100%', minWidth: '2rem' }}
