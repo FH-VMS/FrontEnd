@@ -15,6 +15,7 @@ class TunnelConfig extends Component {
             searchDatasource: [],
             cabinetDataSource: [],
             productDic: [],
+            cabinetId: '',
             auth: {
                 CanAdd: 'none',
                 CanDelete: 'none',
@@ -76,7 +77,11 @@ class TunnelConfig extends Component {
           }
         })
         if (chosenItem && chosenItem.children) {
+             let chosen = ''
              let typeDicSelect = chosenItem.children.map((item, index) => {
+              if (index == 0) {
+                 chosen = item.Id
+                }
               return (
                 <Option value={item.Id}>{item.Name}</Option>
               )
@@ -92,7 +97,7 @@ class TunnelConfig extends Component {
                     {typeDicSelect}
                 </Select>
             })
-            this.setState({searchDatasource: this.state.searchDatasource})
+            this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
         }
     }
     
@@ -200,11 +205,12 @@ class TunnelConfig extends Component {
     render() {
        
        let showSaveButton = this.state.auth.CanModify
-        
+       // 选中机器默认选中货柜
+        let fields = {cabinetId: this.state.cabinetId}
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} defaultValue={fields} onSearch={this.onSearch} />
                 <div className="tunnelConfigArea">
                    <ul className="tunnelTemplate" id="tunnelTemplate">
                      {this.state.templateHtml}
