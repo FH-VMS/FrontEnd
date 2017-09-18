@@ -14,10 +14,6 @@ const Dialog = Form.create({
         ...props.UserName,
         value: props.UserName
       },
-      UserPassword: {
-        ...props.UserPassword,
-        value: props.UserPassword
-      },
       UserAccessId: {
          ...props.UserAccessId,
         value: props.UserAccessId
@@ -80,19 +76,6 @@ const Dialog = Form.create({
             }]
           })(
             <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="用户密码："
-          hasFeedback
-        >
-          {getFieldDecorator('UserPassword', {
-            rules: [{
-              required: true, message: '密码不能为空'
-            }]
-          })(
-            <Input type='password' />
           )}
         </FormItem>
         <FormItem

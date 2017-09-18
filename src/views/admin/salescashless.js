@@ -58,7 +58,9 @@ class SalesCashless extends Component {
         var nowTime = now.getTime() 
         var day = now.getDay()
         var oneDayLong = 24 * 60 * 60 * 1000 
-
+        if (day == 0) {
+            day = 7
+        }
 
         var MondayTime = nowTime - (day - 1) * oneDayLong 
         var SundayTime = nowTime + (7 - day) * oneDayLong

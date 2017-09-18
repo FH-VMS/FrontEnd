@@ -60,6 +60,7 @@ const MachineTypeDialog = Form.create({
          return
       }
       let reg = /^[1-9]+(,[1-9]+)*$/
+
       if (reg.test(value) && value.split(',').length == parseInt(this.layer, 0)) {
           callback()
       } else {
@@ -74,12 +75,14 @@ const MachineTypeDialog = Form.create({
     render() {
     // 此为修改
     const { visible, onCancel, onCreate, form, title} = this.props
-    const { getFieldDecorator } = form
+    const { getFieldDecorator, getFieldValue } = form
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
     }
-   
+    if (getFieldValue('LayerNumber')) {
+        this.layer = getFieldValue('LayerNumber')
+    }
     return (
       
       <Modal

@@ -59,7 +59,9 @@ class MachineMoney extends Component {
         var day = now.getDay()
         var oneDayLong = 24 * 60 * 60 * 1000 
 
-
+        if (day == 0) {
+            day = 7
+        }
         var MondayTime = nowTime - (day - 1) * oneDayLong 
         var SundayTime = nowTime + (7 - day) * oneDayLong
 
@@ -74,7 +76,7 @@ class MachineMoney extends Component {
     getData = (val) => {
       this.setState({loading: true})
        this.props.fetchAmountByMachine(val).then((msg) => {
-         if (this.props.machineMoney) {
+         if (this.props.machineMoney && this.props.machineMoney.amountByMachine.pager.TotalRows > 0) {
            this.setState({dataSource: JSON.parse(this.props.machineMoney.amountByMachine.data), pagination: {
                 total: this.props.machineMoney.amountByMachine.pager.TotalRows,
                 showSizeChanger: true,
@@ -89,6 +91,8 @@ class MachineMoney extends Component {
                 }
            },
            loading: false})
+         } else {
+             this.setState({loading: false})
          }
       })
      
@@ -96,7 +100,6 @@ class MachineMoney extends Component {
     
     // 查询
     onSearch = (value) => {
-        console.log('pppppp', value)
          if (!value.salesDate) {
              message.warning('时间范围不能为空')
              return

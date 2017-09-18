@@ -53,6 +53,7 @@ export default {
      require('./admin/machinecabinet').default,  // 机柜列表
      require('./admin/payconfig').default,  // 支付配置列表
      require('./admin/machineMoney').default,  // 按机器统计销售额
+     require('./admin/machineTrans').default,  // 机器迁移
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     

@@ -86,6 +86,10 @@ class SlideNav extends Component {
           auth.CanDelete = 'none'
           auth.CanModify = 'none'
         break
+        case 'machinetrans':
+          auth.CanAdd = 'none'
+          auth.CanDelete = 'none'
+        break
      }
      // 刷新时选中菜单缓存
      sessionStorage.setItem('chosenMenuVal', JSON.stringify({PId: 'p' + pItem.MenuId, CId: 'c' + cItem.MenuId}))

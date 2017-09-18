@@ -3297,7 +3297,7 @@ INSERT INTO `table_menu` VALUES ('45', '机型配置', '39', '', null);
 INSERT INTO `table_menu` VALUES ('46', '远程更新(指定机器)', '39', null, null);
 INSERT INTO `table_menu` VALUES ('47', '远程更新(指定机型)', '39', null, null);
 INSERT INTO `table_menu` VALUES ('36', '用户设置', null, null, 'fa fa-user-circle-o');
-INSERT INTO `table_menu` VALUES ('11', '机器迁移', '1', null, null);
+INSERT INTO `table_menu` VALUES ('11', '机器迁移', '1', 'machinetrans', null);
 
 -- ----------------------------
 -- Table structure for `table_mobile_pay_config`
