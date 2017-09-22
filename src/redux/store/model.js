@@ -139,7 +139,8 @@ const Front = {
           PageSize: '',
           CreateDate: '',
           Creator: '',
-          Remark: ''
+          Remark: '',
+          MobilePayId: ''
       },
       MachineTypeModel: {
           Id: '',

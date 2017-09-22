@@ -395,6 +395,7 @@ class MachineList extends Component {
                         machineTypeDic={this.state.machineTypeDic}
                         clientDicData ={this.state.clientDicData}
                         fetchUserByClientId={this.props.fetchUserByClientId}
+                        fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
                  />
                 </Spin>
            </div>

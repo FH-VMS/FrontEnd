@@ -33,6 +33,10 @@ const MachineTypeDialog = Form.create({
        StopDate: {
         ...props.StopDate,
         value: Utility.dateFormaterObj(props.StopDate)
+      },
+       MobilePayId: {
+        ...props.MobilePayId,
+        value: props.MobilePayId
       }
     }
   }
@@ -40,12 +44,14 @@ const MachineTypeDialog = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        userSelect: []
+        userSelect: [],
+        payConfigSelect: []
       }
     }
 
     componentWillMount() {
       this.clientId = ''
+      this.payConfigClient = ''
       
     }
 
@@ -57,6 +63,11 @@ const MachineTypeDialog = Form.create({
       )
     })
     this.typeDicSelect = typeDicSelect
+ }
+ 
+ clientChanged = (value) => {
+     this.clientSelect(value)
+     this.payConfigSelect(value)
  }
 
  clientSelect = (value) => {
@@ -78,6 +89,26 @@ const MachineTypeDialog = Form.create({
       }
     })
   }
+  
+   payConfigSelect = (value) => {
+    if (this.payConfigClient == value) { 
+      return
+    }
+    this.props.fetchPayConfigByClientId({clientId: value}).then(msg => {
+      if (msg) {
+        let payConfigSelect = msg.map((item, index) => {
+          return (
+            <Option value={item.Id}>{item.Name}</Option>
+          )
+        })
+        
+            this.setState({payConfigSelect: payConfigSelect})
+            this.payConfigClient = value
+        
+       
+      }
+    })
+  }
 
   componentDidMount() {
   }
@@ -87,6 +118,7 @@ const MachineTypeDialog = Form.create({
     // 此为修改
     if (this.props.MachineId) {
       this.clientSelect(this.props.ClientId)
+      this.payConfigSelect(this.props.ClientId)
       isDisable = true
     }
     const { visible, onCancel, onCreate, form, title, clientDicData, machineTypeDic} = this.props
@@ -161,7 +193,7 @@ const MachineTypeDialog = Form.create({
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={clientDicData}
               treeDefaultExpandAll
-               onChange={this.clientSelect}
+               onChange={this.clientChanged}
             />
           )}
         </FormItem>
@@ -178,6 +210,21 @@ const MachineTypeDialog = Form.create({
               <Select>
                  {this.state.userSelect}
             </Select>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="支付配置："
+          hasFeedback
+        >
+          {getFieldDecorator('MobilePayId', {
+            rules: [{
+              required: true, message: '支付配置必选'
+            }]
+          })(
+              <Select>
+                 {this.state.payConfigSelect}
+              </Select>
           )}
         </FormItem>
         <FormItem

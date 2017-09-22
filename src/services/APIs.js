@@ -43,6 +43,9 @@ const api = {
       },
       PutPassword: function(data) {
           return apiService('Common', 'PutPassword', 'PUT', data)
+      },
+      GetPayConfigDic: function(data) {
+          return apiService('Common', 'GetPayConfigDic', 'GET', data)
       }
 	}, 
   User: {

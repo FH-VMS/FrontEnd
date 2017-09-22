@@ -99,8 +99,15 @@ class PayConfig extends Component {
 
     // 删除
     handleDelete = (record, e) => {
-        if (record.Id) {
-           
+        if (record.Id == 1) {
+           message.warning('默认配置，不可删除')
+        } else {
+            this.props.deletePayConfig({idList: record.Id}).then(msg => {
+                if (msg) {
+                    message.success('删除成功')
+                    this.getData(this.searchPara)
+                }
+            })
         }
     }
     

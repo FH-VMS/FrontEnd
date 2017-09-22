@@ -369,6 +369,7 @@ class MachineTrans extends Component {
                         {...fields}
                         clientDicData ={this.state.clientDicData}
                         fetchUserByClientId={this.props.fetchUserByClientId}
+                        fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
                  />
                 </Spin>
            </div>

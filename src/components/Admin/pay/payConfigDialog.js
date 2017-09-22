@@ -1,19 +1,46 @@
-import { Modal, Form, Input, Checkbox, Card } from 'antd'
+import { Modal, Form, Input, Card } from 'antd'
 // import model from 'STORE/model'
 import React, {Component} from 'react'
 const FormItem = Form.Item
-const CheckboxGroup = Checkbox.Group
 
 const PayConfigDialog = Form.create({
   mapPropsToFields(props) {
     return {
-       TypeName: {
+       Name: {
         ...props.Name,
         value: props.Name
       },
-      ClientList: {
-        ...props.ClientList,
-        value: props.ClientList
+      AliParter: {
+        ...props.AliParter,
+        value: props.AliParter
+      },
+      AliKey: {
+        ...props.AliKey,
+        value: props.AliKey
+      },
+      AliRefundAppId: {
+        ...props.AliRefundAppId,
+        value: props.AliRefundAppId
+      },
+      AliRefundRsaSign: {
+        ...props.AliRefundRsaSign,
+        value: props.AliRefundRsaSign
+      },
+      WxAppId: {
+        ...props.WxAppId,
+        value: props.WxAppId
+      },
+      WxMchId: {
+        ...props.WxMchId,
+        value: props.WxMchId
+      },
+      WxKey: {
+        ...props.WxKey,
+        value: props.WxKey
+      },
+      WxAppSecret: {
+        ...props.WxAppSecret,
+        value: props.WxAppSecret
       }
     }
   }
@@ -72,6 +99,45 @@ const PayConfigDialog = Form.create({
                     <Input />
                   )}
                 </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="MD5密钥(key)："
+                  hasFeedback
+                >
+                  {getFieldDecorator('AliKey', {
+                    rules: [{
+                      required: true, message: 'key不能为空'
+                    }]
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="退款应用ID："
+                  hasFeedback
+                >
+                  {getFieldDecorator('AliRefundAppId', {
+                    rules: [{
+                      required: true, message: 'refund app id不能为空'
+                    }]
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                 <FormItem
+                  {...formItemLayout}
+                  label="退款RSA签名："
+                  hasFeedback
+                >
+                  {getFieldDecorator('AliRefundRsaSign', {
+                    rules: [{
+                      required: true, message: 'refund rsa sign不能为空'
+                    }]
+                  })(
+                    <textarea style={{width: '100%'}}></textarea>
+                  )}
+                </FormItem>
           </Card>
           <Card title="微信配置" style={{marginTop: '10px'}} extra={<a href="#">More</a>}>
                 <FormItem
@@ -87,20 +153,46 @@ const PayConfigDialog = Form.create({
                     <Input />
                   )}
                 </FormItem>
-          </Card>
-          <Card title="支付授权" style={{marginTop: '10px'}} extra={<a href="#">More</a>}>
-                 <FormItem
+                <FormItem
+                  {...formItemLayout}
+                  label="商户号(mch id)："
+                  hasFeedback
                 >
-                  {getFieldDecorator('ClientList', {
+                  {getFieldDecorator('WxMchId', {
                     rules: [{
-                      required: false
+                      required: true, message: 'mch id不能为空'
                     }]
                   })(
-                     <CheckboxGroup />
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="商户支付密钥(key)："
+                  hasFeedback
+                >
+                  {getFieldDecorator('WxKey', {
+                    rules: [{
+                      required: true, message: 'key不能为空'
+                    }]
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="公众帐号(app secert)："
+                  hasFeedback
+                >
+                  {getFieldDecorator('WxAppSecret', {
+                    rules: [{
+                      required: true, message: 'app secert不能为空'
+                    }]
+                  })(
+                    <Input />
                   )}
                 </FormItem>
           </Card>
-        
         </Form>
       </Modal>
     )

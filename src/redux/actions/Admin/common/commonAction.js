@@ -7,6 +7,7 @@ const FETCH_CLIENTDIC = 'FETCH_CLIENTDIC'
 const FETCH_USERBYCLIENT = 'FETCH_USERBYCLIENT'
 const FETCH_PICTRUEDIC = 'FETCH_PICTRUEDIC'
 const FETCH_CABINETDIC = 'FETCH_CABINETDIC'
+const FETCH_PAYCONFIGDIC = 'FETCH_PAYCONFIGDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -61,6 +62,20 @@ const fetchDic = (searParam) => dispatch =>
 
       return msgs
   })
+  
+   // 根据客户取支付配置
+  const fetchPayConfigByClientId = (params) => dispatch =>
+  apis
+    .Common
+    .GetPayConfigDic(params)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PAYCONFIGDIC,
+         payload: msgs
+      })
+
+      return msgs
+  })
 
   // 取图片字典
   const fetchPictureDic = () => dispatch =>
@@ -90,7 +105,7 @@ const fetchDic = (searParam) => dispatch =>
   })
 
 export default {
-  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic
+  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId
 }
 
 export const ACTION_HANDLERS = {
@@ -115,6 +130,10 @@ export const ACTION_HANDLERS = {
       return result
   },
   [FETCH_CABINETDIC]: (result, { payload }) => {
+      result.DicData = payload
+      return result
+  },
+  [FETCH_PAYCONFIGDIC]: (result, { payload }) => {
       result.DicData = payload
       return result
   }
