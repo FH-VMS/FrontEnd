@@ -67,6 +67,7 @@ const PayConfigDialog = Form.create({
         visible={visible}
         onCancel={onCancel}
         onOk={onCreate}
+        maskClosable={false}
       >
         <Form horizontal>
          

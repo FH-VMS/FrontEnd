@@ -167,6 +167,7 @@ const MachineTransDialog = Form.create({
         title={title}
         onCancel={this.onCancel}
         onOk={this.onCreate}
+        maskClosable={false}
       >
         <Form horizontal>
          <FormItem

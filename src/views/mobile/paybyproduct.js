@@ -36,6 +36,7 @@ class PayByProduct extends Component {
                 Toast.hide()
               } else if (RequestState == '2') {
                 // 请求商品错误
+              } else {
               }
         })
       } else {
