@@ -147,7 +147,7 @@ const MachineTransDialog = Form.create({
   }
 
     render() {
-    if (this.props.MachineId) {
+    if (this.props.MachineId && !this.clientId) {
       this.clientChanged(this.props.ClientId)
     }
     const { visible, form, title, clientDicData} = this.props
