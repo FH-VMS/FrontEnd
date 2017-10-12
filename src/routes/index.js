@@ -93,7 +93,8 @@ export default {
     require('./mobile/productList').default, // 根据机器编号取商品列表
     require('./mobile/payResult').default, // 支付结果页
     require('./mobile/notService').default,
-    require('./mobile/paybyproduct').default // 手机选择商品去支付
+    require('./mobile/paybyproduct').default, // 手机选择商品去支付
+    require('./mobile/adultMachine').default // 小机器商品页
   ]
  },
  hfive: {
