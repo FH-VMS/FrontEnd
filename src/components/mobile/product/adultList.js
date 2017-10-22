@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {hashHistory} from 'react-router'
-import { ListView, Stepper, Button, Toast } from 'antd-mobile'
+import { ListView } from 'antd-mobile'
 import model from 'STORE/model'
 
 
@@ -15,7 +15,7 @@ class ListControl extends Component {
             data: [],
             totalCount: 0,
             page: {
-              PageSize: 10,
+              PageSize: model.BaseSetting.NoPage,
               PageIndex: 1,
               k: ''
             },
@@ -33,30 +33,6 @@ class ListControl extends Component {
       this.queryData()
    }
 
-   onChange = (data, val, ev) => {
-      let hasChosen = false
-      let totalMoneyIn = 0
-      this.moneySum = []
-      this.state.data.map((item, index) => {
-        if (item.WaresId == data.WaresId) {
-            item.buyNum = val
-        }
-        if (item.buyNum) {
-           hasChosen = true
-           totalMoneyIn = totalMoneyIn + parseInt(item.buyNum, 0) * parseFloat(item.APrice)
-           this.moneySum.push({tid: item.WaresId, n: item.buyNum})
-        }
-
-        
-      })
-      if (hasChosen) {
-        this.setState({dataSource: this.state.ds.cloneWithRows(this.state.data), totalMoney: totalMoneyIn, nowCanChosen: true})
-      } else {
-        this.setState({dataSource: this.state.ds.cloneWithRows(this.state.data), totalMoney: totalMoneyIn, nowCanChosen: false})
-      }
-      
-   }
-   
    queryData = () => {
      
       let {page} = this.state
@@ -133,20 +109,18 @@ class ListControl extends Component {
        
    }
 
-   payPage = (idVal, siteVal, event) => {
-    if (this.state.totalMoney <= 0) {
-      Toast.fail('点+号选择一个商品', 1)
-      return
-    }
-     if (this.moneySum.length > 0) {
+   payPage = (rowData) => {
+     this.moneySum.push({tid: rowData.WaresId, n: 1})
+     
        let kPara = {}
         kPara.t = this.moneySum
         kPara.m = this.props.keyVal
         hashHistory.push('/paybyproduct?k=' + JSON.stringify(kPara))
-     } else {
-       Toast.fail('请选一个商品', 1)
-     }
      
+   }
+
+   gotoAdmin = () => {
+     location.href = 'h5.html'
    }
 
    transformTunnelId = (idVal) => {
@@ -162,15 +136,9 @@ class ListControl extends Component {
         rowData.buyNum = 0
       }
       // 只能选一个
-      let canChosen = false
-      if (rowData.buyNum) {
-        canChosen = false
-      } else {
-         canChosen = this.state.nowCanChosen
-      }
 
       return (
-        <div className="rowStyle" >     
+        <div className="rowStyle" onClick = {this.payPage.bind(this, rowData)}>     
              <div className="row">
                 <div style={{ display: 'flex' }}>
                   <div>
@@ -183,12 +151,8 @@ class ListControl extends Component {
                          <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{rowData.APrice}</span>元/单价</div>
                          <div style={{ fontSize: '0.28rem' }}>库存：{rowData.CurrStock}</div>
                       </div>
-                      <div><Stepper
-                            style={{ width: '100%', minWidth: '2rem' }}
-                            showNumber max={rowData.CurrStock == 0 ? 0 : 1} min={0} value={rowData.buyNum} onChange={this.onChange.bind(this, rowData)}
-                            disabled={canChosen}
-                            readonly
-                          />
+                      <div>
+
                       </div>
                     </div>
                     
@@ -203,44 +167,29 @@ class ListControl extends Component {
  
 
     render() {
-      const { isLoading } = this.state
-      // list view style
-      const listViewStyle = {
-        height: document.documentElement.clientHeight * 4 / 4,
-        overflow: 'auto',
-        border: '1px solid #ddd'
-      }
-      // footer style
-      const footerStyle = {
-        padding: '0.3rem',
-        textAlign: 'center'
-      }
       return (
         <div>
             <ListView 
                 dataSource={this.state.dataSource} 
-                renderFooter={() => <div style={footerStyle}>{isLoading ? '加载中...' : '加载完毕'} </div>}
+                renderFooter={() => <div className='adultFooterStyle'>
+                     <div>
+                       <div><span className="fa fa-home" aria-hidden="true">&nbsp;上海夕半实业有限公司</span></div>
+                       <div><span className="fa fa-map-marker" aria-hidden="true">&nbsp;上海市闵行区联航路1188号</span></div>
+                       <div><span className="fa fa-phone" aria-hidden="true">&nbsp;400-855-7772</span><a onClick={this.gotoAdmin.bind(this)}>管理</a></div>
+                     </div>
+                     <div></div>
+                  </div>}
                 renderRow={this.row.bind(this)} 
-                style={listViewStyle}
                 scrollRenderAheadDistance={300}
                 scrollEventThrottle={20}
                 pageSize={10}
-                onEndReached={this.onEndReached}
-                onEndReachedThreshold={10}
                 style={{
-                  height: document.documentElement.clientHeight * 3.6 / 4,
+                  height: document.documentElement.clientHeight * 2.75 / 4,
                   width: '100%',
-                  overflowX: 'hidden'
+                  overflowX: 'hidden',
+                  border: '1px solid #ddd'
                 }}
             />
-            <div className="sumContainer">
-               <div>
-                  总额：<span className="moneyIcon">￥</span><span className="moneySum">{this.state.totalMoney.toFixed(2) || 0}</span>
-               </div>
-               <div>
-                 <Button className="btn" type="primary" onClick={this.payPage}>去结算</Button>
-               </div>
-            </div>
         </div>
       )
     }
