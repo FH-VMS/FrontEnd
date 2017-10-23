@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import AdultList from 'COMPONENT/mobile/product/adultList'
 import {Carousel} from 'antd-mobile'
+import 'ASSET/less/adult-machine.less'
 class AdultMachine extends Component {
 	constructor(props) {
 		super(props)

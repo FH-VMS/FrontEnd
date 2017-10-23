@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react'
-import { List, Stepper, Button, Toast } from 'antd-mobile'
+import { List, Stepper, Button, Toast, Picker } from 'antd-mobile'
 import model from 'STORE/model'
-
+import { district } from 'antd-mobile-demo-data'
+import 'ASSET/less/adult-machine.less'
 const Item = List.Item
 
 class StockManage extends Component {
@@ -11,7 +12,12 @@ class StockManage extends Component {
         this.state = {
             isLoading: true,
             data: [],
-            cabinets: []
+            cabinets: [],
+            cols: 1,
+            pickerValue: [],
+            asyncValue: [],
+            sValue: ['2013', '春'],
+            visible: false
         }
 
         this.saveStocks = []
@@ -32,7 +38,6 @@ class StockManage extends Component {
       fetchCabinetByMachine({machineId: params.deviceid}).then(msg => {
           if (this.props.stockManage.cabinetInfo.length > 0) {
               fetchTunnelInfo({machineId: params.deviceid, cabinetId: this.props.stockManage.cabinetInfo[0].Id, pageIndex: 1, pageSize: model.BaseSetting.NoPage}).then(msg => {
-                   console.log('ddddddd', this.props.stockManage.data)
                    this.setState({
                         isLoading: false,
                         data: this.props.stockManage.data,
@@ -96,12 +101,20 @@ class StockManage extends Component {
    }
 
 
+   chooseProduct = (item, v) => {
+       
+       console.log('oooooo', v)
+   }
+
+
     /* **************************Tab Bar*************************/
  
 
     render() {
+       console.log('kkkk', district)
       return (
           <div>
+              
             <List
             style={{
                   height: document.documentElement.clientHeight * 3.6 / 4,
@@ -111,16 +124,29 @@ class StockManage extends Component {
             >
                 {
                     this.state.data.map((item, index) => {
-                        return (<Item extra={<Stepper
+                        return (<div><Item extra={
+                            <div>
+                           <Stepper
                             style={{ width: '100%', minWidth: '2rem' }}
                             showNumber min={0} max={item.MaxPuts} defaultValue={item.CurrStock} onChange={this.stepChange.bind(this, item)}
                             readonly
-                        />}>{item.TunnelId}</Item>)
+                        /></div>}>
+                        {item.TunnelId}
+                      <Item.Brief style={{width: '80%'}}>
+                         <Picker data={district} cols={1} extra="选商品" onChange={this.chooseProduct.bind(this, item)} className="forss">
+                          <List.Item arrow="horizontal"></List.Item>
+                         </Picker>
+                        </Item.Brief>
+                        </Item>
+                        
+                        </div>)
                     })
                 }
             </List>
+            
              <div className="sumContainer">
                  <Button className="btn" type="primary" onClick={this.saveStock.bind(this)}>保存</Button>
+                 
             </div>
         </div>
       )
