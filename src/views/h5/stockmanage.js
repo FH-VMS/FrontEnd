@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react'
-import { List, Stepper, Button, Toast, Picker } from 'antd-mobile'
+import { List, Stepper, Button, Toast, Drawer } from 'antd-mobile'
 import model from 'STORE/model'
-import { district } from 'antd-mobile-demo-data'
 import 'ASSET/less/adult-machine.less'
 const Item = List.Item
 
@@ -13,21 +12,18 @@ class StockManage extends Component {
             isLoading: true,
             data: [],
             cabinets: [],
-            cols: 1,
-            pickerValue: [],
-            asyncValue: [],
-            sValue: ['2013', '春'],
-            visible: false
+            visible: false,
+            productDic: []
         }
 
         this.saveStocks = []
-
         
     }
 
    componentWillMount() {
-      
+      this.nowChooseItem = {}
       this.queryData()
+      this.queryProductData()
    }
 
    queryData = () => {
@@ -57,6 +53,14 @@ class StockManage extends Component {
      
    }
 
+   queryProductData = () => {
+       this.props.fetchProductDic().then(msg => {
+           if (this.props.stockManage && this.props.stockManage.productDic) {
+               this.setState({productDic: this.props.stockManage.productDic})
+           }
+       })
+   }
+
    stepChange = (item, val, ev) => {
       item.CurrStock = val
      if (this.saveStocks.length == 0) {
@@ -81,7 +85,7 @@ class StockManage extends Component {
    saveStock = (e) => {
     
      if (this.saveStocks.length == 0) {
-          Toast.fail('库存无修改', 1)
+          Toast.fail('无修改', 1)
           return
      }
       Toast.loading('保存中...', 0)
@@ -102,19 +106,66 @@ class StockManage extends Component {
 
 
    chooseProduct = (item, v) => {
-       
-       console.log('oooooo', v)
+       this.nowChooseItem = item
+       this.setState({visible: true})
    }
+
+   onOpenChange = (...args) => {
+    this.setState({ visible: !this.state.visible })
+  }
+
+  clickDrawerProduct = (item) => {
+     this.nowChooseItem.WaresId = item.Id
+     this.nowChooseItem.ProductName = item.Name
+     this.setState({data: this.state.data, visible: false})
+
+     if (this.saveStocks.length == 0) {
+         this.saveStocks.push({...this.nowChooseItem})
+     } else {
+          let canPush = true
+          for (var i = 0; i < this.saveStocks.length; i++) {
+            if (this.saveStocks[i].GoodsStuId == this.nowChooseItem) {
+                 this.saveStocks[i].WaresId = item.Id
+                 this.saveStocks[i].ProductName = item.Name
+                 canPush = false
+                 break
+             } 
+          }
+         
+          if (canPush) {
+               this.saveStocks.push({...this.nowChooseItem})
+          }
+     }
+  }
 
 
     /* **************************Tab Bar*************************/
  
 
     render() {
-       console.log('kkkk', district)
+        const sidebar = (<List>
+            {this.state.productDic.map((item, index) => {
+              if (index === 0) {
+                return (<List.Item key={index}
+                  multipleLine
+                 onClick={this.clickDrawerProduct.bind(this, item)}>{item.Name}</List.Item>)
+              }
+              return (<List.Item key={index} onClick={this.clickDrawerProduct.bind(this, item)}
+              >{item.Name}</List.Item>)
+            })}
+          </List>)
+
       return (
           <div>
               
+            
+            <Drawer
+                style={{ minHeight: document.documentElement.clientHeight }}
+                contentStyle={{ color: '#A6A6A6', textAlign: 'center' }}
+                sidebar={sidebar}
+                open={this.state.visible}
+                onOpenChange={this.onOpenChange}
+            >
             <List
             style={{
                   height: document.documentElement.clientHeight * 3.6 / 4,
@@ -133,9 +184,7 @@ class StockManage extends Component {
                         /></div>}>
                         {item.TunnelId}
                       <Item.Brief style={{width: '80%'}}>
-                         <Picker data={district} cols={1} extra="选商品" onChange={this.chooseProduct.bind(this, item)} className="forss">
-                          <List.Item arrow="horizontal"></List.Item>
-                         </Picker>
+                         <input type="text" readonly='readonly' value={item.ProductName} placeholder="选择商品" onClick={this.chooseProduct.bind(this, item)} />
                         </Item.Brief>
                         </Item>
                         
@@ -148,6 +197,7 @@ class StockManage extends Component {
                  <Button className="btn" type="primary" onClick={this.saveStock.bind(this)}>保存</Button>
                  
             </div>
+            </Drawer>
         </div>
       )
     }

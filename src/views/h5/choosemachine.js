@@ -36,7 +36,6 @@ class ChooseMachine extends Component {
       let {fetchMachineList} = this.props
       
       fetchMachineList(page).then(msg => {
-               console.log('999999', this.props)
               this.setState({
                   dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.chooseMachine.data]),
                   isLoading: false,
@@ -93,11 +92,6 @@ class ChooseMachine extends Component {
     render() {
       const { isLoading } = this.state
       // list view style
-      const listViewStyle = {
-        height: document.documentElement.clientHeight * 4 / 4,
-        overflow: 'auto',
-        border: '1px solid #ddd'
-      }
       // footer style
       const footerStyle = {
         padding: '0.3rem',
@@ -109,16 +103,16 @@ class ChooseMachine extends Component {
                 dataSource={this.state.dataSource} 
                 renderFooter={() => <div style={footerStyle}>{isLoading ? '加载中...' : '加载完毕'} </div>}
                 renderRow={this.row.bind(this)} 
-                style={listViewStyle}
                 scrollRenderAheadDistance={300}
                 scrollEventThrottle={20}
-                pageSize={10}
+                initialListSize={30}
                 onEndReached={this.onEndReached}
-                onEndReachedThreshold={10}
+                onEndReachedThreshold={20}
                 style={{
-                  height: document.documentElement.clientHeight * 3.6 / 4,
+                  height: document.documentElement.clientHeight * 4 / 4,
                   width: '100%',
-                  overflowX: 'hidden'
+                  overflow: 'auto',
+                  border: '1px solid #ddd'
                 }}
             />
         </div>

@@ -10,6 +10,7 @@ const UPDATE_TUNNELINFO = 'UPDATE_TUNNELINFO'
 const FETCH_CABINETBYMACHINE = 'FETCH_CABINETBYMACHINE'
 const BATCH_UPDATETUNNELINFO = 'BATCH_UPDATETUNNELINFO'
 const EXPORT_DATA = 'EXPORT_DATA'
+const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 // ================================
 // Action Creator
 // ================================
@@ -99,12 +100,24 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
          payload: msgs
       })
   })
+
+  // 取商品字典
+  const fetchProductDic = () => dispatch =>
+  apis
+    .Common
+    .GetProductDic()
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRODUCTDIC,
+         payload: msgs
+      })
+  })
   
   
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic
 }
 
 // ================================
@@ -135,7 +148,11 @@ export const ACTION_HANDLERS = {
   },
   [UPDATE_TUNNELINFO]: (result, { payload }) => ({payload}),
   [BATCH_UPDATETUNNELINFO]: (result, { payload }) => ({payload}),
-  [EXPORT_DATA]: (result, { payload }) => ({payload})
+  [EXPORT_DATA]: (result, { payload }) => ({payload}),
+  [FETCH_PRODUCTDIC]: (result, { payload }) => {
+      result.productDic = payload
+      return result
+  }
 }
 
 
