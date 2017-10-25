@@ -68,7 +68,7 @@ class StockManage extends Component {
      } else {
           let canPush = true
           for (var i = 0; i < this.saveStocks.length; i++) {
-             if (this.saveStocks[i].GoodsStuId == item.GoodsStuId) {
+             if (this.saveStocks[i].TunnelId == item.TunnelId) {
                  this.saveStocks[i].CurrStock = item.CurrStock
                  canPush = false
                  break
@@ -79,7 +79,7 @@ class StockManage extends Component {
                this.saveStocks.push(item)
           }
      }
-     
+     console.log('save stocks', item)
    }
 
    saveStock = (e) => {
@@ -124,7 +124,7 @@ class StockManage extends Component {
      } else {
           let canPush = true
           for (var i = 0; i < this.saveStocks.length; i++) {
-            if (this.saveStocks[i].GoodsStuId == this.nowChooseItem) {
+            if (this.saveStocks[i].TunnelId == this.nowChooseItem.TunnelId) {
                  this.saveStocks[i].WaresId = item.Id
                  this.saveStocks[i].ProductName = item.Name
                  canPush = false
@@ -160,7 +160,7 @@ class StockManage extends Component {
               
             
             <Drawer
-                style={{ minHeight: document.documentElement.clientHeight }}
+                style={{ minHeight: document.documentElement.clientHeight, paddingBottom: '127px' }}
                 contentStyle={{ color: '#A6A6A6', textAlign: 'center' }}
                 sidebar={sidebar}
                 open={this.state.visible}
