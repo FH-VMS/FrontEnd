@@ -184,7 +184,7 @@ class StockManage extends Component {
                         /></div>}>
                         {item.TunnelId}
                       <Item.Brief style={{width: '80%'}}>
-                         <input type="text" readonly='readonly' value={item.ProductName} placeholder="选择商品" onClick={this.chooseProduct.bind(this, item)} />
+                         <input type="text" value={item.ProductName} placeholder="选择商品" onClick={this.chooseProduct.bind(this, item)} readOnly />
                         </Item.Brief>
                         </Item>
                         
