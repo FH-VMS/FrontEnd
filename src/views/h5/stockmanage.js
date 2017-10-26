@@ -193,7 +193,7 @@ class StockManage extends Component {
                 }
             </List>
             
-             <div className="sumContainer">
+             <div className="sumContainer" style={{display: this.state.visible ? 'none' : 'flex'}}>
                  <Button className="btn" type="primary" onClick={this.saveStock.bind(this)}>保存</Button>
                  
             </div>
