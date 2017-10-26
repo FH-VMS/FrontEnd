@@ -323,7 +323,7 @@ class SalesCashless extends Component {
                         render={(text, record) => {
                             if (record.TradeStatus == 4 || record.TradeStatus == 6) {
                                 return <a onClick={this.RefundDetail.bind(this, record)}>退款详情</a>
-                            } else if (record.TradeStatus == 5) {
+                            } else if (record.TradeStatus == 5 || record.TradeStatus == 1) {
                                 return <Popconfirm title="确认手动退款?" onConfirm={this.MannualRefund.bind(this, record)} okText="确定" cancelText="取消"><a>手动退款</a></Popconfirm>
                             }
                             
