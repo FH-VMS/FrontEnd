@@ -271,6 +271,19 @@ class MachineType extends Component {
                         dataIndex="MaxGoods"
                         key="MaxGoods"
                     />
+                    <Column
+                        title="通讯方式"
+                        dataIndex="Communicate"
+                        key="Communicate"
+                        render={(text, record) => {
+                            if (text == '2') {
+                                return 'Socket'
+                            } else {
+                                return 'Http'
+                            } 
+                        }
+                      }
+                    />
                    {this.DeleteAndModify}
               </Table>
               <Dialog ref={this.saveFormRef}

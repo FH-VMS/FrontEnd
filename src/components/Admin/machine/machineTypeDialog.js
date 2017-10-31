@@ -26,6 +26,10 @@ const MachineTypeDialog = Form.create({
       CabinetList: {
         ...props.CabinetList,
         value: props.CabinetList
+      },
+      Communicate: {
+        ...props.Communicate,
+        value: props.Communicate
       }
     }
   }
@@ -33,7 +37,8 @@ const MachineTypeDialog = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        typeDicSelect: ''
+        typeDicSelect: '',
+        communicateDic: ''
       }
     }
 
@@ -49,6 +54,18 @@ const MachineTypeDialog = Form.create({
             this.setState({typeDicSelect: typeDicSelect})
           }
       })
+
+      this.props.fetchDic({id: 'communicate'}).then(msg => {
+        if (msg) {
+          let communicateDic = msg.map((item, index) => {
+            return (
+              <Option value={item.Value}>{item.BookChinese}</Option>
+            )
+          })
+
+          this.setState({communicateDic: communicateDic})
+        }
+    })
     }
 
     checkNum = (rule, value, callback) => {
@@ -132,6 +149,21 @@ const MachineTypeDialog = Form.create({
             }]
           })(
              <CheckboxGroup options={cabinetsList} />
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="通讯方式："
+          hasFeedback
+        >
+          {getFieldDecorator('Communicate', {
+            rules: [{
+              required: false
+            }]
+          })(
+             <Select>
+                {this.state.communicateDic}
+            </Select>
           )}
         </FormItem>
           <FormItem
