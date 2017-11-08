@@ -7,10 +7,16 @@ var webpack = require('webpack'),
   SOURCE_MAP = false;
 
   //var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
-
+// console.log('ddddddddddddddd', __RELEASE__)
 
 config.output.filename = '[name]-[hash:6].js';
 config.output.chunkFilename = '[id]-[chunkhash:6].js';
+//若为发布 引用的js图片换成绝对路径
+var nowEnv = process.env.NODE_ENV;
+if(nowEnv == 'release') {
+  config.output.publicPath = 'http://www.fy-cn.top/p/static/';
+}
+
 
 config.devtool = SOURCE_MAP ? 'source-map' : false;
 
