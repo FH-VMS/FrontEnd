@@ -85,11 +85,19 @@ class Frame extends Component {
       )
       * */
       return (
-           <Spin size="large" spinning={this.state.loading}>
+           <div>
             <div className='loginContainer'>
+              <Spin size="large" spinning={this.state.loading}>
             <LoginInput login={this.props.login} ref={this.saveFormRef} login={this.login}/>
+            </Spin>
+            <div className='rdCodeArea'>
+               <p><img src={require('ASSET/img/admin/rdCode.png')} /></p>
+               <p>关注我们 关注美好生活</p>
+               <p>那些路 那些人 那些正在发生的...</p>
             </div>
-           </Spin>
+            </div>
+            <div className="loginFooter"><span>© 2017 FY-CN.TOP</span><span>ALL RIGHT RESERVED | 版权所有</span></div>
+            </div>
         )
  }
   
