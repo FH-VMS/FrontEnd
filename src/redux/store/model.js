@@ -8,7 +8,7 @@
 **************** */
 const Front = { 
    BaseSetting: {
-      Root: 'http://localhost:2734/api', 
+      Root: 'http://106.14.190.9:8088/api', 
       PageSize: 10,
       NoPage: 100 // 控制那些不需要翻页的，又为了保持方法共用
    }, 
@@ -248,7 +248,9 @@ const Front = {
           WxSslcertPassword: '',
           ClientId: '',
           PageIndex: '',
-          PageSize: ''
+          PageSize: '',
+          AliPublicKey: '',
+          AliAppId: ''
       }
   }
 } 

@@ -26,6 +26,14 @@ const PayConfigDialog = Form.create({
         ...props.AliRefundRsaSign,
         value: props.AliRefundRsaSign
       },
+      AliPublicKey: {
+        ...props.AliPublicKey,
+        value: props.AliPublicKey
+      },
+      AliAppId: {
+        ...props.AliAppId,
+        value: props.AliAppId
+      },
       WxAppId: {
         ...props.WxAppId,
         value: props.WxAppId
@@ -89,12 +97,12 @@ const PayConfigDialog = Form.create({
           <Card title="支付宝配置" style={{marginTop: '10px'}} extra={<a href="#">More</a>}>
                <FormItem
                   {...formItemLayout}
-                  label="合作伙伴号(partner id)："
+                  label="合作者(parter id)："
                   hasFeedback
                 >
                   {getFieldDecorator('AliParter', {
                     rules: [{
-                      required: true, message: 'partner id不能为空'
+                      required: true, message: 'parter id不能为空'
                     }]
                   })(
                     <Input />
@@ -102,12 +110,38 @@ const PayConfigDialog = Form.create({
                 </FormItem>
                 <FormItem
                   {...formItemLayout}
-                  label="MD5密钥(key)："
+                  label="应用号(app id)："
+                  hasFeedback
+                >
+                  {getFieldDecorator('AliAppId', {
+                    rules: [{
+                      required: true, message: 'app id不能为空'
+                    }]
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="rsa私钥："
                   hasFeedback
                 >
                   {getFieldDecorator('AliKey', {
                     rules: [{
-                      required: true, message: 'key不能为空'
+                      required: true, message: 'rsa私钥不能为空'
+                    }]
+                  })(
+                    <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="rsa公钥："
+                  hasFeedback
+                >
+                  {getFieldDecorator('AliPublicKey', {
+                    rules: [{
+                      required: true, message: 'rsa公钥不能为空'
                     }]
                   })(
                     <Input />
@@ -128,7 +162,7 @@ const PayConfigDialog = Form.create({
                 </FormItem>
                  <FormItem
                   {...formItemLayout}
-                  label="退款RSA签名："
+                  label="退款RSA2签名："
                   hasFeedback
                 >
                   {getFieldDecorator('AliRefundRsaSign', {

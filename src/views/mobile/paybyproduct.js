@@ -14,6 +14,7 @@ class PayByProduct extends Component {
 	}
 
   componentWillMount() {
+    // 清除cookie
     document.title = '支付'
     Toast.loading('加载中...', 0, () => {}, true)
      
@@ -116,7 +117,11 @@ class PayByProduct extends Component {
       }
     } else {
       if (this.payParaA) {
-        location.href = this.payParaA
+        // location.href = this.payParaA
+        $('#aliForm').empty()
+        $('#aliForm').append(this.payParaA)
+        $('#aliForm').find('form').submit()
+        // document.write(this.payParaA)
       }
     }
      
@@ -146,6 +151,7 @@ class PayByProduct extends Component {
       return (
       
         <div className="payContainer">
+          <div id="aliForm" style={{display: 'none'}}></div>
          <List>
            
            {this.listHtml}
