@@ -8,7 +8,7 @@
 **************** */
 const Front = { 
    BaseSetting: {
-      Root: 'http://106.14.190.9:8088/api', 
+      Root: 'http://localhost:2734/api', 
       PageSize: 10,
       NoPage: 100 // 控制那些不需要翻页的，又为了保持方法共用
    }, 

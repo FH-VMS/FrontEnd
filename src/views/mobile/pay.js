@@ -43,8 +43,6 @@ class Frame extends Component {
         this.props.fetchPayInfoA({k: searchPara.k}).then((msg) => {
               let {RequestState, RequestData, ProductJson} = this.props.mobile.data
               if (RequestState == '1') {
-                 console.log('kkkkk', RequestData)
-                  console.log('kkkkk', ProductJson)
                   this.payParaA = RequestData
                   this.handleProductJson(ProductJson, 'a')
                   Toast.hide()
@@ -117,7 +115,10 @@ class Frame extends Component {
       }
     } else {
       if (this.payParaA) {
-        location.href = this.payParaA
+        // location.href = this.payParaA
+         $('#aliForm').empty()
+        $('#aliForm').append(this.payParaA)
+        $('#aliForm').find('form').submit()
       }
     }
      
@@ -147,6 +148,7 @@ class Frame extends Component {
       return (
       
         <div className="payContainer">
+           <div id="aliForm" style={{display: 'none'}}></div>
          <List>
            
            {this.listHtml}
