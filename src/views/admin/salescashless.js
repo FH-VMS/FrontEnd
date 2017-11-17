@@ -112,7 +112,7 @@ class SalesCashless extends Component {
          }
           
           this.searchPara.tradeStatus = value.tradeStatus
-         
+          this.searchPara.tradeNo = value.tradeNo
          this.searchPara.pageIndex = 1
          
          this.getData(this.searchPara)
@@ -217,6 +217,11 @@ class SalesCashless extends Component {
             label: '销售日期',
             name: 'salesDate',
             control: <RangePicker />
+        },
+        {
+            label: '单号',
+            name: 'tradeNo',
+            control: <Input placeholder="交易单号" />
         }]
         
         let fields = {salesDate: this.state.defaultRange}
