@@ -110,7 +110,26 @@ class ToolControl extends Component {
         </Col>
       )
     }
+    // 计算搜索button应放的位置
+    let remainder = this.props.searchDatasource.length % 3
+    let searchButtonSpan = 8
+    if (remainder == 0) {
+        searchButtonSpan = 24
+    } else if (remainder == 1) {
+        searchButtonSpan = 16
+    }
     
+    children.push(<Col span={searchButtonSpan} style={{ textAlign: 'right', paddingTop: '5px' }}> 
+    <Button.Group>
+    <Button type="primary" size="large" htmlType="submit" style={{ display: this.props.auth.CanSearch }}>查询</Button>
+    <Button type="ghost" size="large" style={{marginRight: '8px', display: this.props.auth.CanSearch }} onClick={this.handleReset}>
+        清除
+    </Button>
+    </Button.Group>
+    <Button type="ghost" size="large" style={{display: this.props.auth.CanAdd }} onClick={this.create}>创建</Button>
+    <Button type="ghost" size="large" style={{display: this.props.auth.CanExport }} onClick={this.exportData}>导出</Button>
+    
+ </Col>)
     
     // <Button type="ghost" size="large" onClick={this.exportData}>导出</Button>  导出功能暂时取消
     
@@ -129,15 +148,7 @@ class ToolControl extends Component {
                             <Col span={24}>{children}</Col>
                         </Row>
                         <Row>
-                             <Col span={24} style={{ textAlign: 'right' }}> 
-                                <Button type="primary" size="large" htmlType="submit" style={{ marginRight: 8, display: this.props.auth.CanSearch }}>查询</Button>
-                                <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanSearch }} onClick={this.handleReset}>
-                                    清除条件
-                                </Button>
-                                 
-                                <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanAdd }} onClick={this.create}>创建</Button>
-                                <Button type="ghost" size="large" style={{ marginRight: 8, display: this.props.auth.CanExport }} onClick={this.exportData}>导出</Button>
-                             </Col>
+                            
                         </Row>
                         </Form>
                     </div>

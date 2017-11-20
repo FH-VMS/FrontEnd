@@ -68,6 +68,23 @@ export default {
             },
             dataType: 'json'
         }
+    },
+    getCurrentWeekDate: function() {
+        var now = new Date() 
+        var nowTime = now.getTime() 
+        var day = now.getDay()
+        var oneDayLong = 24 * 60 * 60 * 1000 
+
+        if (day == 0) {
+            day = 7
+        }
+        var MondayTime = nowTime - (day - 1) * oneDayLong 
+        var SundayTime = nowTime + (7 - day) * oneDayLong
+
+        
+        var monday = new Date(MondayTime)
+        var sunday = new Date(SundayTime)
+        return [this.dateFormaterObj(monday), this.dateFormaterObj(sunday)]
     }
 }
 

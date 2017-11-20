@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Utility from 'UTIL/utility'
 
 var echarts = require('echarts')
 
@@ -49,6 +50,7 @@ class Home extends Component {
     generateMachineSituation = () => {
        // 基于准备好的dom，初始化echarts实例
         let myChart = echarts.init(document.getElementById('machineSituation'))
+       
         this.props.fetchTotalMachineCount().then(msg => {
             if (this.props.totalMoney.totalMachine) {
                 let countData = JSON.parse(this.props.totalMoney.totalMachine)
@@ -114,7 +116,8 @@ class Home extends Component {
     generateIncome = () => {
         // 基于准备好的dom，初始化echarts实例
         let myChart = echarts.init(document.getElementById('dynamicData'))
-         this.props.fetchAmountByMachine().then(msg => {
+        let nowWeek = Utility.getCurrentWeekDate()
+         this.props.fetchAmountByMachine({salesDateStart: Utility.dateFormaterString(nowWeek[0]), salesDateEnd: Utility.dateFormaterString(nowWeek[1])}).then(msg => {
                 if (this.props.totalMoney && this.props.totalMoney.amountByMachine) {
                     let finalData = JSON.parse(this.props.totalMoney.amountByMachine)
                     let xData = []
@@ -126,7 +129,7 @@ class Home extends Component {
                     // 绘制图表
                     myChart.setOption({
                         title: {
-                            text: '收入情况',
+                            text: '当前周销售额',
                             x: 'center',
                             subtext: ''
                         },

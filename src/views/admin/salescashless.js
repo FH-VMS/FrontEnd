@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker
 class SalesCashless extends Component {
     constructor(props) {
 		super(props)
-        let oneWeekDate = this.defaultRangeDate()
+        let oneWeekDate = Utility.getCurrentWeekDate()
         this.state = {
             visible: false,
             dataSource: [],
@@ -52,26 +52,6 @@ class SalesCashless extends Component {
      
       
     }
-    
-     defaultRangeDate = () => {
-        var now = new Date() 
-        var nowTime = now.getTime() 
-        var day = now.getDay()
-        var oneDayLong = 24 * 60 * 60 * 1000 
-        if (day == 0) {
-            day = 7
-        }
-
-        var MondayTime = nowTime - (day - 1) * oneDayLong 
-        var SundayTime = nowTime + (7 - day) * oneDayLong
-
-        
-        var monday = new Date(MondayTime)
-        var sunday = new Date(SundayTime)
-        return [Utility.dateFormaterObj(monday), Utility.dateFormaterObj(sunday)]
-    }
-
-    
     // 取数据方法
     getData = (val) => {
         this.setState({loading: true})

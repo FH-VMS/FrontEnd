@@ -10,7 +10,7 @@ const { RangePicker } = DatePicker
 class MachineMoney extends Component {
     constructor(props) {
 		super(props)
-         let oneWeekDate = this.defaultRangeDate()
+         let oneWeekDate = Utility.getCurrentWeekDate()
         this.state = {
             visible: false,
             dataSource: [],
@@ -42,7 +42,7 @@ class MachineMoney extends Component {
     componentWillMount() {
      // 页面级权限
      this.setState({auth: Utility.Cookie.getAuth()})
-      let oneWeekDate = this.defaultRangeDate()
+      let oneWeekDate = Utility.getCurrentWeekDate()
     
      this.searchPara.salesDateStart = Utility.dateFormaterString(oneWeekDate[0])
      this.searchPara.salesDateEnd = Utility.dateFormaterString(oneWeekDate[1])
@@ -52,7 +52,7 @@ class MachineMoney extends Component {
     
     componentDidMount() {
     }
-
+/* 
     defaultRangeDate = () => {
         var now = new Date() 
         var nowTime = now.getTime() 
@@ -71,7 +71,7 @@ class MachineMoney extends Component {
         return [Utility.dateFormaterObj(monday), Utility.dateFormaterObj(sunday)]
     }
      
-    
+    */
     // 取数据方法
     getData = (val) => {
       this.setState({loading: true})
