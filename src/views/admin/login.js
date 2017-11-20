@@ -96,7 +96,7 @@ class Frame extends Component {
                <p>那些路 那些人 那些正在发生的...</p>
             </div>
             </div>
-            <div className="loginFooter"><span>© 2017 FY-CN.TOP</span><span>ALL RIGHT RESERVED | 版权所有</span></div>
+            <div className="loginFooter"><span>© 2017 FY-CN.TOP</span><span>ALL RIGHT RESERVED | 版权所有</span><span>沪ICP备17017062号-1</span></div>
             </div>
         )
  }
