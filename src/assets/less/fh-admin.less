@@ -11,7 +11,7 @@ body{
 
 
 /*******************公共变量与方法***********************/
-@mainColor:#f8b62a;
+@mainColor:#ff5722;
 @headerHeight:50px;
 @leftMenuWidth:200px;
 .transform(@angle: 90deg) {
@@ -71,7 +71,9 @@ body{
    padding-top: @headerHeight;
    position: fixed;
    left: 0;
+   border-right: 2px solid #3c8dbc;
 }
+
 
 .rightArea{
   width: 100%;
@@ -80,6 +82,7 @@ body{
   overflow: auto;
   padding-top: @headerHeight+5;
   height: 100%;
+  overflow-x:hidden;
 }
 
 .rightArea:after{
@@ -93,7 +96,7 @@ body{
 .headerArea{
   height:@headerHeight;
   width: 100%;
-  background-color:#007cb8;
+  background-color:#3c8dbc;
   position: fixed;
   top:0;
   z-index: 5;
@@ -120,7 +123,7 @@ body{
 }
 
 .logo{
-  text-align: center;
+  text-align: left;
   width: @menuWidth;
   height: @headerHeight;
   text-align: center;

@@ -69,7 +69,8 @@ class Frame extends Component {
       * */
       return (
         <div className="globalStyle">
-           <div className="headerArea"><div className="logo">控制中心</div>
+           <div className="headerArea">
+             <div className="logo">控制中心</div>
            <div className="userArea">
            
            <span><i className="fa fa-user-circle"></i>{this.userInfo.UserAccount}</span>
