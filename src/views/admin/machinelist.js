@@ -365,24 +365,6 @@ class MachineList extends Component {
                         }
                       }
                     />
-                    <Column
-                        title="更新者"
-                        dataIndex="Updater"
-                        key="Updater"
-                    />
-                     <Column
-                        title="更新日期"
-                        dataIndex="UpdateDate"
-                        key="UpdateDate"
-                        render={(text, record) => {
-                            if (text == '0001-01-01T00:00:00') {
-                                return ''
-                            } else {
-                                return text.replace('T', ' ')
-                            }
-                        }
-                      }
-                    />
                    {this.DeleteAndModify}
               </Table>
               
