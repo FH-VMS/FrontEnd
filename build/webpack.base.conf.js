@@ -145,13 +145,13 @@ module.exports = {
       __WHY_DID_YOU_UPDATE__: false // 是否检测不必要的组件重渲染
     })
   ],
-  postcss: [ /*手机高清方案*/
+  postcss: [ /* 手机高清方案 */
               autoprefixer({
                   browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4'],
             }),
             pxtorem({
               rootValue: 100,
-              propWhiteList: [],
+              propWhiteList: []
             })
         ]
     

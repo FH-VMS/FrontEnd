@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "cross-env NODE_ENV=development node build/dev.js",
+    "pro": "cross-env NODE_ENV=production node build/dev.js",
     "build": "cross-env NODE_ENV=production node build/prod.js",
     "release": "cross-env NODE_ENV=release node build/prod.js"
   },
@@ -83,5 +84,8 @@
     "webpack-hot-middleware": "^2.6.0",
     "why-did-you-update": "0.0.8"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "webconfig": {
+    "publicpath": "http://www.fy-cn.top/p/static/"
+  }
 }

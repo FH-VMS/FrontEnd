@@ -6,9 +6,16 @@
 *	2017/1/7
 * 
 **************** */
+let rootApi = 'http://localhost:2734/api'
+if (__RELEASE__) {
+    rootApi = 'http://106.14.190.9:8088/api'
+}
+if (__PROD__) {
+    rootApi = 'http://106.14.190.9:8088/api'
+}
 const Front = { 
    BaseSetting: {
-      Root: 'http://106.14.190.9:8088/api', 
+      Root: rootApi, 
       PageSize: 10,
       NoPage: 100 // 控制那些不需要翻页的，又为了保持方法共用
    }, 

@@ -5,6 +5,7 @@ var webpack = require('webpack'),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   SOURCE_MAP = false;
+var webConfig = require('../package.json').webconfig;
 
   //var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
 // console.log('ddddddddddddddd', __RELEASE__)
@@ -14,7 +15,7 @@ config.output.chunkFilename = '[id]-[chunkhash:6].js';
 //若为发布 引用的js图片换成绝对路径
 var nowEnv = process.env.NODE_ENV;
 if(nowEnv == 'release') {
-  config.output.publicPath = 'http://www.fy-cn.top/p/static/';
+  config.output.publicPath = webConfig.publicpath;
 }
 
 
