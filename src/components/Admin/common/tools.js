@@ -119,7 +119,7 @@ class ToolControl extends Component {
         searchButtonSpan = 16
     }
     
-    children.push(<Col span={searchButtonSpan} style={{ textAlign: 'right', paddingTop: '5px' }}> 
+    children.push(<Col span={searchButtonSpan} style={{ textAlign: 'right'}}> 
     <Button.Group>
     <Button type="primary" size="large" htmlType="submit" style={{ display: this.props.auth.CanSearch }}>查询</Button>
     <Button type="ghost" size="large" style={{marginRight: '8px', display: this.props.auth.CanSearch }} onClick={this.handleReset}>
@@ -135,12 +135,11 @@ class ToolControl extends Component {
     
     return (
             <div className="tool-container">
-                <Row>
+                <Row type="flex" justify="space-around" align="middle">
                    <Col span={24}> 
-                       <div className="ant-search-input-wrapper" style={{ width: '100%' }}>
+                       <div style={{ width: '100%' }}>
                         <Form
                         horizontal
-                        className="ant-advanced-search-form"
                         onSubmit={this.handleSearch}
                         >
                         <Row gutter={40} style={{ display: this.props.auth.CanSearch }}>

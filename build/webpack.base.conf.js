@@ -21,6 +21,9 @@ const svgDirs = [
   // path.resolve(__dirname, 'src/my-project-svg-foler'),  // 2. 自己私人的 svg 存放目录
 ];
 
+/* 网站配置 */
+var webConfig = require('../package.json').webconfig;
+
 module.exports = {
   commonPath: commonPath,
   entry: {
@@ -142,7 +145,8 @@ module.exports = {
       __PROD__: env === 'production',
       __RELEASE__: env === 'release',
       __COMPONENT_DEVTOOLS__: false, // 是否使用组件形式的 Redux DevTools
-      __WHY_DID_YOU_UPDATE__: false // 是否检测不必要的组件重渲染
+      __WHY_DID_YOU_UPDATE__: false, // 是否检测不必要的组件重渲染
+      __WEBCONFIG__: webConfig
     })
   ],
   postcss: [ /* 手机高清方案 */

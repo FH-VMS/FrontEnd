@@ -16,8 +16,8 @@ if (__PROD__) {
 const Front = { 
    BaseSetting: {
       Root: rootApi, 
-      PageSize: 10,
-      NoPage: 100 // 控制那些不需要翻页的，又为了保持方法共用
+      PageSize: __WEBCONFIG__.defaultpagesize,
+      NoPage: __WEBCONFIG__.nopage // 控制那些不需要翻页的，又为了保持方法共用
    }, 
  
   Model: {

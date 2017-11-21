@@ -13,7 +13,8 @@
     "__PROD__": true,
     "__RELEASE__": true,
     "__COMPONENT_DEVTOOLS__": false,
-    "__WHY_DID_YOU_UPDATE__": false
+    "__WHY_DID_YOU_UPDATE__": false,
+    "__WEBCONFIG__": {}
   },
   "ecmaFeatures": {
     "jsx": true,

@@ -143,7 +143,7 @@ class SlideNav extends Component {
         }
         return (
             <Menu 
-            theme='light'
+            theme='dark'
             mode="inline"
             defaultSelectedKeys={[defaultSelectedKey]}
             defaultOpenKeys={[defaultOpenKey]}
