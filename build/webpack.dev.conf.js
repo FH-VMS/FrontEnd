@@ -5,6 +5,8 @@ var webpack = require('webpack'),
   BrowserSyncPlugin = require('browser-sync-webpack-plugin'),
   // SOURCE_MAP = true; // 大多数情况下用不到
   SOURCE_MAP = false;
+  // antd定制主题
+  var theme = require('../package.json').theme;
 // var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
 config.output.filename = '[name]-.js';
 config.output.chunkFilename = '[id]-.js';
@@ -27,7 +29,7 @@ config.module.loaders.push({
   loader: 'style!css'
 }, {
   test: /\.less$/,
-  loader: 'style!css!less'
+  loader: `style!css!less?{"sourceMap":true,"modifyVars":${JSON.stringify(theme)}}`
 }, {
   test: /\.scss$/,
   loader: 'style!css!sass'

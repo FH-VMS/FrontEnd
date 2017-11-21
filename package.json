@@ -87,5 +87,9 @@
   "license": "MIT",
   "webconfig": {
     "publicpath": "http://www.fy-cn.top/p/static/"
+  },
+  "theme": {
+     "@primary-color": "#f8b62a",
+     "@form-item-margin-bottom": "5px"
   }
 }

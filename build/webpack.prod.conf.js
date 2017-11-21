@@ -6,7 +6,7 @@ var webpack = require('webpack'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   SOURCE_MAP = false;
 var webConfig = require('../package.json').webconfig;
-
+var theme = require('../package.json').theme;
   //var CommonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({	filename: "commons.js",name: "commons"});
 // console.log('ddddddddddddddd', __RELEASE__)
 
@@ -27,7 +27,7 @@ config.module.loaders.push({
   loader: ExtractTextPlugin.extract('style', 'css')
 }, {
   test: /\.less$/,
-  loader: ExtractTextPlugin.extract('style', 'css!less')
+  loader: ExtractTextPlugin.extract('style', `css!less?{"sourceMap":true,"modifyVars":${JSON.stringify(theme)}}`)
 }, {
   test: /\.scss$/,
   loader: ExtractTextPlugin.extract('style', 'css!sass')
