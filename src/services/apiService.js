@@ -77,7 +77,7 @@ class ApiService {
 			opt.data = postdata
 		}
 		
-		
+		jQuery.support.cors = true
 
 		$.ajax(opt)
 		// .done(defer.resolve)

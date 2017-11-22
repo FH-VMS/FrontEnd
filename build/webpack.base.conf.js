@@ -80,11 +80,6 @@ module.exports = {
       loaders: (function() {
         var _loaders = ['babel?' + JSON.stringify({
           cacheDirectory: true,
-          plugins: [
-            'transform-runtime',
-            'transform-decorators-legacy'
-          ],
-          presets: ['es2015', 'react', 'stage-0'],
           env: {
             production: {
               // presets: ['react-optimize']
