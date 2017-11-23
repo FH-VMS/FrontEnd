@@ -1,0 +1,23 @@
+{
+  "apps" : [{
+    "name"        : "webCashier",
+    "script"      : "app.js",
+    "watch"       : true,
+    "max_memory_restart": "1024M",
+    "exec_mode": "cluster_mode",
+    "instances": 2,
+    "log_file"   : "/dev/null",
+    "error_file" : "/opt/logs/node/webCashier/err.log",
+    "out_file"   : "/opt/logs/node/webCashier/out.log",
+    "pid_file"   : "/opt/logs/node/webCashier/pm2.pid",
+    "merge_logs"      : false,
+    "log_date_format" : "YYYY-MM-DD HH:mm:ss Z",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "env_production" : {
+       "NODE_ENV": "production"
+    },
+    "port": 3002
+  }]
+}
