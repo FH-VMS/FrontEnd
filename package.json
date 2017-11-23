@@ -94,7 +94,7 @@
      "@primary-color": "#ff5722",
      "@form-item-margin-bottom": "5px",
      "@table-header-bg": "#ff5722",
-     "@table-padding-vertical":"10px",
+     "@table-padding-vertical":"8px",
      "@table-padding-horizontal":"5px",
      "@menu-dark-bg": "#383735",
      "@menu-dark-submenu-bg": "#403f3d",
