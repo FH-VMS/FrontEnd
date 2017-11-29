@@ -9,10 +9,10 @@ class ApiService {
         const domain = Model.BaseSetting.Root
 		const deferred = $.Deferred()
 		var method = type.toUpperCase()
-		if (['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'].indexOf(type) === -1) {
+		if (['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'].indexOf(method) === -1) {
 			return
 		}
-
+        
 		var finalUrl = domain + '/' + apimodule + '/' + (apiname == '' ? '' : (apiname))
 		
         var queryString = []
@@ -56,17 +56,20 @@ class ApiService {
 			}
 		}
  */
+
 		var opt = {
 			type: method,
 			dataType: 'json',
 			url: finalUrl,
 			headers: {
 				'FH-COOKIES': JSON.stringify(Utility.Cookie.getValue('UserInfo'))
-			}
-			/*
-			,xhrFields: { // 跨域允许带上 cookie
-				withCredentials: []
 			},
+			xhrFields: { // 跨域允许带上 cookie
+				withCredentials: true
+			}
+			
+			/*
+			,
 			crossDomain: true
 		   * */
 		}

@@ -1,23 +1,21 @@
 
-var express = require('express');
-var app = express();
-var path = require('path');
-
-var log = require('./log4js/logger');
-
-var cors = require('./middleware/cors');
-var bodyParser = require('body-parser');
-
-var autoRoutes = require('express-auto-routes'); // 路由插件
-
-app.use(express.static('./')); // 将本文件夹转化为静态资源路由
-app.use(cors); // 跨域设置，如果用的上
-app.use(log); // 加入log4js功能
-app.use(bodyParser.json()); //参数解析
+var express = require('express')
+var app = express()
+// var path = require('path')
 
 
-var routes = autoRoutes(app);
-routes(path.join(__dirname, './controller'));
+// var cors = require('./middleware/cors');
+// var bodyParser = require('body-parser');
+
+// var autoRoutes = require('express-auto-routes'); // 路由插件
+
+app.use(express.static('./')) // 将本文件夹转化为静态资源路由
+// app.use(cors); // 跨域设置，如果用的上
+// app.use(bodyParser.json()); //参数解析
+
+
+// var routes = autoRoutes(app);
+// routes(path.join(__dirname, './controller'));
 
 /*
 var log4js = require('log4js');
@@ -61,14 +59,14 @@ app.post('/log', function (req, res) {
     res.json({logType: 'iii'});
 });
 */
-
+/*
 app.get('*', (req, res) => { 
     res.sendFile(path.join(__dirname, 'index.html'))
-});
-
-var port = process.env.port || 9091;
-app.listen(port, '127.0.0.1', function(err){
+})
+*/
+var port = process.env.port || 9091
+app.listen(port, '0.0.0.0', function(err) {
     // console.log(err);
-});
+})
 
-console.log('Good Job, node 已启动, 当前端口：', port);
+console.log('已启动，端口：' + port)

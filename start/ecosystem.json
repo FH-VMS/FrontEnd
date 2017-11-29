@@ -1,15 +1,15 @@
 {
   "apps" : [{
-    "name"        : "webCashier",
+    "name"        : "fycnWeb",
     "script"      : "app.js",
     "watch"       : true,
-    "max_memory_restart": "1024M",
+    "max_memory_restart": "800M",
     "exec_mode": "cluster_mode",
     "instances": 2,
     "log_file"   : "/dev/null",
-    "error_file" : "/opt/logs/node/webCashier/err.log",
-    "out_file"   : "/opt/logs/node/webCashier/out.log",
-    "pid_file"   : "/opt/logs/node/webCashier/pm2.pid",
+    "error_file" : "/log/err.log",
+    "out_file"   : "/log/out.log",
+    "pid_file"   : "/log/pm2.pid",
     "merge_logs"      : false,
     "log_date_format" : "YYYY-MM-DD HH:mm:ss Z",
     "env": {
@@ -18,6 +18,6 @@
     "env_production" : {
        "NODE_ENV": "production"
     },
-    "port": 3002
+    "port": 80
   }]
 }

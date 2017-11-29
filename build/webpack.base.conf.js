@@ -11,7 +11,8 @@ var commonPath = {
   rootPath: rootPath,
   dist: path.join(rootPath, 'dist'), // build 后输出目录
   indexHTML: path.join(src, 'index.html'), // 入口基页
-  staticDir: path.join(rootPath, 'static') // 无需处理的静态资源目录
+  staticDir: path.join(rootPath, 'static'), // 无需处理的静态资源目录
+  start: path.join(rootPath, 'start') // 启动文件
 };
 
 const pxtorem = require('postcss-pxtorem'); //手机高清方案
@@ -47,7 +48,7 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join(commonPath.dist, 'static'),
+    path: path.join(commonPath.dist, 'p/static'),
     publicPath: './static/'
   },
   resolve: {

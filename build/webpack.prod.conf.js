@@ -99,6 +99,12 @@ config.plugins.push(
       ignore: ['*.md']
     }
   ]),
+  new CopyWebpackPlugin([ // 复制高度静态资源
+    {
+      from: config.commonPath.start,
+      to: config.commonPath.dist
+    }
+  ]),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false

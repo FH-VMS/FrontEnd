@@ -10,16 +10,8 @@
   "author": "landry",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.16.2",
-    "body-parser": "^1.18.2",
-    "log4js": "^1.x.x"
+    "express": "^4.16.2"
   },
   "dependencies": {
-    "express-auto-routes": "^2.2.0",
-    "jquery": "^1.12.4",
-    "node-fetch": "^1.7.3"
-  },
-  "nodeconfig": {
-    "apiurl": "http://www.sojson.com/open/api"
   }
 }
