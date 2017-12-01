@@ -60,7 +60,7 @@ class Home extends Component {
                     title: {
                         text: '机器情况',
                         x: 'center',
-                        subtext: parseInt(countData[0].VALS, 0) + parseInt(countData[1].VALS, 0) + parseInt(countData[2].VALS, 0)
+                        subtext: parseInt(countData[0].vals, 0) + parseInt(countData[1].vals, 0) + parseInt(countData[2].vals, 0)
                     },
                     tooltip: {
                         trigger: 'item',
@@ -123,8 +123,8 @@ class Home extends Component {
                     let xData = []
                     let yData = []
                     $.each(finalData, (index, item) => {
-                        xData.push(item.MACHINE_ID)
-                        yData.push(item.TOTAL)
+                        xData.push(item.machine_id)
+                        yData.push(item.total)
                     })
                     // 绘制图表
                     myChart.setOption({
