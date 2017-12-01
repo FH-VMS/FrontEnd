@@ -64,7 +64,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'))
 })
 */
-var port = process.env.port || 9091
+var port = process.env.port || 80
 app.listen(port, '0.0.0.0', function(err) {
     // console.log(err);
 })
