@@ -100,7 +100,7 @@ class SalesCashless extends Component {
           this.props.fetchSalesMoney({salesDate: this.searchPara.salesDate}).then(msg => {
               if (msg) {
                   let arrMoney = JSON.parse(msg).map((item, index) => {
-                      return item.pay_interface + ':' + item.totalmoney + ',手续费:' + item.servicecharge
+                      return item.PAY_INTERFACE + ':' + item.TOTALMONEY + ',手续费:' + item.SERVICECHARGE
                   })
                   this.setState({description: arrMoney.join(';') + ';'})
               }
