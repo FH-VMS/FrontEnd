@@ -11,6 +11,7 @@ const FETCH_CABINETBYMACHINE = 'FETCH_CABINETBYMACHINE'
 const BATCH_UPDATETUNNELINFO = 'BATCH_UPDATETUNNELINFO'
 const EXPORT_DATA = 'EXPORT_DATA'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
+const FULLFIL_ONEKEY = 'FULLFIL_ONEKEY'
 // ================================
 // Action Creator
 // ================================
@@ -112,12 +113,25 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
          payload: msgs
       })
   })
+
+  // 一键补货
+  const fullfilOneyKey = (updBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .PostFullFilByOneKey(updBody)
+    .then(msgs => {
+      dispatch({
+         type: FULLFIL_ONEKEY,
+         payload: msgs
+      })
+      return msgs
+  })
   
   
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic, fullfilOneyKey
 }
 
 // ================================
@@ -152,7 +166,8 @@ export const ACTION_HANDLERS = {
   [FETCH_PRODUCTDIC]: (result, { payload }) => {
       result.productDic = payload
       return result
-  }
+  },
+  [FULLFIL_ONEKEY]: (result, { payload }) => ({payload})
 }
 
 

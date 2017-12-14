@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Grid} from 'antd-mobile'
+import {Icon, Grid, Modal, Toast} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 
 
@@ -14,16 +14,49 @@ class Main extends Component {
         icon: require('ASSET/img/h5/stock.png'),
         text: '库存管理',
         url: 'stockmanageh5'
-     }]
+     },
+     {
+      icon: require('ASSET/img/h5/key.png'),
+      text: '一键补货',
+      url: ''
+   }]
     
   }
 
   chosenModule = (_el, index) => {
      if (localStorage.getItem('ChooseMachineDeviceId')) {
-         hashHistory.push(`${this.data[index].url}/${localStorage.getItem('ChooseMachineDeviceId')}`)
+         switch (this.data[index].text) {
+           case '一键补货':
+           this.fullfilByOnekey(localStorage.getItem('ChooseMachineDeviceId'))
+           break
+           default:
+           hashHistory.push(`${this.data[index].url}/${localStorage.getItem('ChooseMachineDeviceId')}`)
+           break
+         }
+         
      } else {
        
      }
+  }
+  
+  // 一键补货
+  fullfilByOnekey = (machineIdVal) => {
+    Modal.alert('一键补货', '确定吗???', [
+      { text: '取消', onPress: () => {
+        
+      } 
+    },
+      { text: '确认', onPress: () => {
+        this.props.fullfilOneyKey({machineId: machineIdVal}).then(msg => {
+          if (msg == 1) {
+            Toast.success('补货成功', 1)
+          } else {
+            Toast.fail('补货失败', 1)
+          }
+        })
+      } 
+    }
+    ])
   }
 
   render() {

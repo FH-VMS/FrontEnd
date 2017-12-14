@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { ListView, List } from 'antd-mobile'
 import {hashHistory} from 'react-router'
 
@@ -14,7 +15,7 @@ class ChooseMachine extends Component {
             data: [],
             totalCount: 0,
             page: {
-              PageSize: 10,
+              PageSize: 15,
               PageIndex: 1
             },
             ds: ds,
@@ -25,28 +26,37 @@ class ChooseMachine extends Component {
         
     }
 
-   componentWillMount() {
+    componentWillMount() {
       
       this.queryData()
    }
 
+   componentDidMount() {
+    
+    
+   }
+
    queryData = () => {
-     
       let {page} = this.state
       let {fetchMachineList} = this.props
       
       fetchMachineList(page).then(msg => {
+       
               this.setState({
                   dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.chooseMachine.data]),
                   isLoading: false,
                   data: [...this.state.data, ...this.props.chooseMachine.data],
-                  totalCount: parseInt(this.props.chooseMachine.count, 0),
+                  totalCount: parseInt(this.props.chooseMachine.pager.TotalRows, 0),
                   page: {
                     ...page,
                     PageIndex: (page.PageIndex + 1)
                   }
               })
-
+              const heiGap = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).getElementsByClassName('am-list-body')[0].offsetHeight
+              if (heiGap > 30 && this.state.data.length < this.state.totalCount) {
+                  
+                  this.queryData()
+              }
 
       })
      
@@ -55,6 +65,7 @@ class ChooseMachine extends Component {
    
 
    onEndReached = (event) => {
+   
       const { isLoading } = this.state
        if (!event) {return null}
 
@@ -100,14 +111,15 @@ class ChooseMachine extends Component {
       return (
         <div>
             <ListView 
+                ref={el => this.lv = el}
                 dataSource={this.state.dataSource} 
                 renderFooter={() => <div style={footerStyle}>{isLoading ? '加载中...' : '加载完毕'} </div>}
                 renderRow={this.row.bind(this)} 
                 scrollRenderAheadDistance={300}
-                scrollEventThrottle={20}
-                initialListSize={30}
+                scrollEventThrottle={1}
+                initialListSize={100}
                 onEndReached={this.onEndReached}
-                onEndReachedThreshold={20}
+                onEndReachedThreshold={30}
                 style={{
                   height: document.documentElement.clientHeight * 4 / 4,
                   width: '100%',

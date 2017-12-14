@@ -79,7 +79,6 @@ class StockManage extends Component {
                this.saveStocks.push(item)
           }
      }
-     console.log('save stocks', item)
    }
 
    saveStock = (e) => {
@@ -194,7 +193,7 @@ class StockManage extends Component {
             </List>
             
              <div className="sumContainer" style={{display: this.state.visible ? 'none' : 'flex'}}>
-                 <Button className="btn" type="primary" onClick={this.saveStock.bind(this)}>保存</Button>
+                 <Button className="btn" type="primary" style={{width: '100%'}} inline onClick={this.saveStock.bind(this)}>保存</Button>
                  
             </div>
             </Drawer>

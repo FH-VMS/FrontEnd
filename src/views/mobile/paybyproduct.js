@@ -159,7 +159,7 @@ class PayByProduct extends Component {
               总额：<span className="productPrice">￥{this.state.totalFee.toFixed(2)}</span>
             </List.Item>
           </List>
-          <Button className="btn" type="primary" onClick={this.callPay} style={{marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
+          <Button className="btn" type="primary" onClick={this.callPay} style={{marginTop: '0.3rem', width: '95%', marginLeft: '2.5%'}}>立即支付</Button>
         </div>
         )
  }

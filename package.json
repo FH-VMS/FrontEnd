@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "antd": "^2.5.2",
-    "antd-mobile": "^0.9.17",
+    "antd-mobile": "^2.1.1",
     "echarts": "^3.5.4",
     "history": "^2.0.0",
     "lodash": "^4.17.2",
@@ -86,19 +86,21 @@
   },
   "license": "MIT",
   "webconfig": {
-    "publicpath": "http://www.fy-cn.top/p/static/",
+    "publicpath": "http://120.27.217.224/p/static/",
     "defaultpagesize": "15",
     "nopage": "100"
   },
   "theme": {
-     "@primary-color": "#ff5722",
-     "@form-item-margin-bottom": "5px",
-     "@table-header-bg": "#ff5722",
-     "@table-padding-vertical":"8px",
-     "@table-padding-horizontal":"5px",
-     "@menu-dark-bg": "#383735",
-     "@menu-dark-submenu-bg": "#403f3d",
-     "@link-color": "#1e9fff",
-     "@link-hover-color":"#2ea5fe"
+    "@primary-color": "#ff5722",
+    "@form-item-margin-bottom": "5px",
+    "@table-header-bg": "#ff5722",
+    "@table-padding-vertical": "8px",
+    "@table-padding-horizontal": "5px",
+    "@menu-dark-bg": "#383735",
+    "@menu-dark-submenu-bg": "#403f3d",
+    "@link-color": "#1e9fff",
+    "@link-hover-color": "#2ea5fe",
+
+    "@hd": "2px"
   }
 }

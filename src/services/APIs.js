@@ -213,6 +213,9 @@ const api = {
       },
       GetExportFullfilData: function (data) {
           return apiService('TunnelInfo', 'GetExportFullfilData', 'GET', data, true)
+      },
+      PostFullFilByOneKey: function (data) {
+        return apiService('TunnelInfo', 'PostFullFilByOneKey', 'POST', data)
       }
 	},
     /* ***********************支付************************ */

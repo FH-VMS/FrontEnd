@@ -2,8 +2,8 @@ import { injectReducer } from 'REDUCER'
 import createContainer from 'UTIL/createContainer'
 
 const connectComponent = createContainer(
-  ({ machineList }) => ({ machineList }), // mapStateToProps
-  require('ACTION/Admin/machine/machineListAction').default               // mapActionCreators
+  ({ stockManage }) => ({ stockManage }), // mapStateToProps
+  require('ACTION/Admin/machine/tunnelInfoAction').default               // mapActionCreators
 )
 
 export default {
@@ -13,10 +13,10 @@ export default {
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       // 立即注入 Reducer
-     injectReducer('machineList', require('REDUCER/Admin/machine/machineListReducer').default)
+      injectReducer('stockManage', require('REDUCER/Admin/machine/tunnelInfoReducer').default)
      
       cb(null, connectComponent(require('VIEW/h5/main').default))
-    }, 'machineListView')
+    }, 'stockManageView')
   },
 
   indexRoute: { // 对应 /msg

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon} from 'antd-mobile'
+import {Icon, Result} from 'antd-mobile'
 
 class PayResult extends Component {
 	constructor(props) {
@@ -14,8 +14,10 @@ class PayResult extends Component {
   render() {
       return (
           <div className="payResultContainer">
-            <div> <Icon type="check-circle" className="icon" /></div>
-            <div>支付成功</div>
+             <Result
+                img={<Icon type="check-circle" className="payResultSvg" style={{ fill: '#1F90E6' }} />}
+                title="支付成功"
+            />
           </div>
         )
  }
