@@ -282,6 +282,11 @@ const api = {
         DeleteData: function (data) {
           return apiService('PayConfig', 'DeleteData', 'DELETE', data)
         }
+    },
+    MachineOperation: {
+        GetMachines: function (data) {
+          return apiService('MachineOperation', 'GetMachines', 'GET', data)
+        }
     }
     
 }

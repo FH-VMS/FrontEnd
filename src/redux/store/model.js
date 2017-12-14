@@ -6,11 +6,11 @@
 *	2017/1/7
 * 
 **************** */
-let rootApi = 'http://localhost:2734/api'
-if (__RELEASE__) {
-    rootApi = 'http://106.14.190.9:8088/api'
+let rootApi = 'http://localhost:8088/api'
+if (__RELEASE__) { 
+    rootApi = 'http://120.27.217.224:8088/api'
 }
-if (__PROD__) {
+if (__PROD__) { // 为了方便  跑起来使用云上的接口
     rootApi = 'http://106.14.190.9:8088/api'
 }
 const Front = { 
