@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon} from 'antd-mobile'
+import {Icon, Result} from 'antd-mobile'
 
 class NotService extends Component {
 	constructor(props) {
@@ -14,8 +14,10 @@ class NotService extends Component {
   render() {
       return (
           <div className="payResultContainer">
-            <div> <Icon type="cross-circle" style={{color: 'red'}} className="icon" /></div>
-            <div>机器不在线</div>
+            <Result
+            img={<Icon type="cross-circle" className="payResultSvg" style={{ fill: 'red' }} />}
+            title="机器不在线"
+        />
           </div>
         )
  }
