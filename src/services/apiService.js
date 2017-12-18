@@ -3,6 +3,7 @@ import Model from 'STORE/model'
 // import rootRouter from 'ROUTE/index'
 import {hashHistory} from 'react-router'
 import Utility from 'UTIL/utility'
+import $ from 'jquery'
 
 class ApiService {
 	apiServiceMethod(apimodule, apiname, type, parameters, excel) {
@@ -80,7 +81,7 @@ class ApiService {
 			opt.data = postdata
 		}
 		
-		jQuery.support.cors = true
+		$.support.cors = true
 
 		$.ajax(opt)
 		// .done(defer.resolve)

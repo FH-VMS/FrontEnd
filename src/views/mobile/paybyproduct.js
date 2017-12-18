@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Button, List, Toast} from 'antd-mobile'
 import {handleUrlParams} from 'UTIL/mobileUtility'
+import $ from 'jquery'
 
 class PayByProduct extends Component {
 	constructor(props) {

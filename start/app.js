@@ -1,9 +1,11 @@
 
+var compression = require('compression')
 var express = require('express')
 var app = express()
 // var path = require('path')
 
-
+// 启用压缩
+app.use(compression());
 // var cors = require('./middleware/cors');
 // var bodyParser = require('body-parser');
 
