@@ -64,7 +64,7 @@ class EveryTunnel extends Component {
                         style={{ width: '100%' }}
                         placeholder="选择商品"
                         optionFilterProp="children"
-                        filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >{this.productDicSelect}</Select></div>
                <div>
                   <Tooltip title="支付宝" trigger="focus">

@@ -1,7 +1,6 @@
 import { Modal, Form, Input, DatePicker, InputNumber, Select, Upload, Icon, Button, message } from 'antd'
 import Utility from 'UTIL/utility'
 import React, {Component} from 'react'
-import Model from 'STORE/model'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -69,7 +68,9 @@ const MachineTypeDialog = Form.create({
    getPicSelect = (data) => {
      if (data) {
        let letPicSelect = data.map((item, index) => {
-         return <Option value={item.Id}><img style={{width: '30px', height: '20px', marginRight: '3px'}} src={Model.BaseSetting.Root.replace('api', '') + '/Attachment/' + item.Name}/>{item.Name}</Option>
+         let name = ''
+         name = item.Name.split('/')[item.Name.split('/').length - 1]
+         return <Option value={item.Id}><img style={{width: '30px', height: '20px', marginRight: '3px'}} src = {item.Name}/>{name}</Option>
        })
 
        this.setState({picSelect: letPicSelect})

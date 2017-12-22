@@ -47,7 +47,7 @@ class TunnelConfig extends Component {
             searchDatasource.push({
                 label: '选择机器',
                 name: 'machineId',
-                control: <Select onChange={this.machineChange}>
+                control: <Select showSearch optionFilterProp="children" filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} onChange={this.machineChange}> 
                     {typeDicSelect}
                 </Select>
             })

@@ -142,7 +142,7 @@ class ListControl extends Component {
              <div className="row">
                 <div style={{ display: 'flex' }}>
                   <div>
-                     <img src={model.BaseSetting.Root.replace('api', '') + rowData.PicUrl} />
+                     <img src={rowData.PicUrl} />
                   </div>
                   <div className="row-text">
                     <div style={{ fontWeight: 'bold' }}>{rowData.WaresName}</div>

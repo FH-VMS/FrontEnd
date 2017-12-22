@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {hashHistory} from 'react-router'
 import { ListView, Stepper, Button, Toast } from 'antd-mobile'
-import model from 'STORE/model'
 
 
 class ListControl extends Component {
@@ -176,7 +175,7 @@ class ListControl extends Component {
              <div className="row">
                 <div style={{ display: 'flex' }}>
                   <div>
-                     <img src={model.BaseSetting.Root.replace('api', '') + rowData.PicUrl} />
+                     <img src={rowData.PicUrl} />
                   </div>
                   <div className="row-text">
                     <div style={{ fontWeight: 'bold' }}>{rowData.WaresName}</div>
