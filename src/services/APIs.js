@@ -221,15 +221,15 @@ const api = {
     /* ***********************支付************************ */
     Pay: {
         GetDataW: function (data) {
-            return apiService('Payment', 'GetDataW', 'GET', data)
+            return apiService('Payment', 'GetDataW', 'POST', data)
         },
         GetDataA: function (data) {
-            return apiService('Payment', 'GetDataA', 'GET', data)
+            return apiService('Payment', 'GetDataA', 'POST', data)
         }
     },
     Machine: {
         GetProductByMachine: function (data) {
-            return apiService('Machine', 'GetProductByMachine', 'GET', data)
+            return apiService('Machine', 'GetProductByMachine', 'POST', data)
         },
         PostPayResult: function (data) {
             return apiService('Machine', 'PostPayResultA', 'POST', data)

@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import ListConrol from 'COMPONENT/mobile/product/list'
 
-class Frame extends Component {
+class Product extends Component {
 	constructor(props) {
 		super(props)
-
 	}
 
   componentWillMount() {
@@ -14,11 +13,11 @@ class Frame extends Component {
   render() {
       return (
           <div>
-            <ListConrol keyVal={this.props.params.id} fetchProductByMachine={this.props.fetchProductByMachine}/>
+            <ListConrol {...this.props} keyVal={this.props.params.id} fetchProductByMachine={this.props.fetchProductByMachine}/>
           </div>
         )
  }
   
 }
 
-export default Frame
+export default Product

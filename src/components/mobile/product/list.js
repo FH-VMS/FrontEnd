@@ -64,16 +64,15 @@ class ListControl extends Component {
       fetchProductByMachine(page).then(msg => {
               // this.generateProductList(msg.data)
               this.setState({
-                  dataSource: this.state.ds.cloneWithRows([...this.state.data, ...msg.data]),
+                  dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.product.data]),
                   isLoading: false,
-                  data: [...this.state.data, ...msg.data],
-                  totalCount: parseInt(msg.count, 0),
+                  data: [...this.state.data, ...this.props.product.data],
+                  totalCount: parseInt(this.props.product.pager.TotalRows, 0),
                   page: {
                     ...page,
                     PageIndex: (page.PageIndex + 1)
                   }
               })
-
 
       })
      
