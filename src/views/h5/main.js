@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Grid, Modal, Toast} from 'antd-mobile'
+import {Icon, Grid, Modal, Toast, NavBar} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 
 
@@ -7,7 +7,8 @@ class Main extends Component {
 	constructor(props) {
 		super(props)
     
-	}
+  }
+  
 
   componentWillMount() {
      this.data = [{
@@ -66,6 +67,13 @@ class Main extends Component {
       }
       return (
         <div>
+          <NavBar
+          mode="dark"
+          leftContent="返回"
+          rightContent={[
+            <span onClick={() => hashHistory.push('')}>退出</span>
+          ]}
+          >主页</NavBar>
           <div className="chosenMachine"><span onClick={() => {hashHistory.push('choosemachine')}}>{nowMachine} <Icon type='down' /></span></div>
           <Grid data={this.data} columnNum={3} hasLine={false} onClick={this.chosenModule}/>
         </div>

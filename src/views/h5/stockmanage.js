@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react'
-import { List, Stepper, Button, Toast, Drawer } from 'antd-mobile'
+import { List, Stepper, Button, Toast, Drawer, NavBar } from 'antd-mobile'
+import {hashHistory} from 'react-router'
 import model from 'STORE/model'
 import 'ASSET/less/adult-machine.less'
 const Item = List.Item
@@ -20,7 +21,9 @@ class StockManage extends Component {
         
     }
 
+
    componentWillMount() {
+      this.stepperRepeat = 0
       this.nowChooseItem = {}
       this.queryData()
       this.queryProductData()
@@ -62,6 +65,7 @@ class StockManage extends Component {
    }
 
    stepChange = (item, val, ev) => {
+       
       item.CurrStock = val
      if (this.saveStocks.length == 0) {
          this.saveStocks.push(item)
@@ -82,7 +86,7 @@ class StockManage extends Component {
    }
 
    saveStock = (e) => {
-    
+     
      if (this.saveStocks.length == 0) {
           Toast.fail('无修改', 1)
           return
@@ -112,7 +116,7 @@ class StockManage extends Component {
    onOpenChange = (...args) => {
     this.setState({ visible: !this.state.visible })
   }
-
+  
   clickDrawerProduct = (item) => {
      this.nowChooseItem.WaresId = item.Id
      this.nowChooseItem.ProductName = item.Name
@@ -159,15 +163,23 @@ class StockManage extends Component {
               
             
             <Drawer
-                style={{ minHeight: document.documentElement.clientHeight, paddingBottom: '127px' }}
+                style={{ minHeight: document.documentElement.clientHeight * 4 / 4, paddingBottom: '127px' }}
                 contentStyle={{ color: '#A6A6A6', textAlign: 'center' }}
                 sidebar={sidebar}
                 open={this.state.visible}
                 onOpenChange={this.onOpenChange}
             >
+            <NavBar
+          mode="dark"
+          onLeftClick={() => hashHistory.push('h5main')}
+          leftContent="返回"
+          rightContent={[
+            <span onClick={() => hashHistory.push('')}>退出</span>
+          ]}
+          >库存管理</NavBar>
             <List
             style={{
-                  height: document.documentElement.clientHeight * 3.6 / 4,
+                  height: document.documentElement.clientHeight * 3.3 / 4,
                   width: '100%',
                   overflow: 'auto'
                 }}
@@ -178,8 +190,8 @@ class StockManage extends Component {
                             <div>
                            <Stepper
                             style={{ width: '100%', minWidth: '2rem' }}
-                            showNumber min={0} max={item.MaxPuts} defaultValue={item.CurrStock} onChange={this.stepChange.bind(this, item)}
-                            readonly
+                            showNumber min={0} max={item.MaxPuts} defaultValue={item.CurrStock} step={1} onChange={this.stepChange.bind(this, item)}
+                            readOnly={false}
                         /></div>}>
                         {item.TunnelId}
                       <Item.Brief style={{width: '80%'}}>

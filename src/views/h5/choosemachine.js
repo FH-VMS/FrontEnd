@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { ListView, List } from 'antd-mobile'
+import { ListView, List, NavBar } from 'antd-mobile'
 import {hashHistory} from 'react-router'
 
 const { Item } = List
@@ -26,8 +26,8 @@ class ChooseMachine extends Component {
         
     }
 
+
     componentWillMount() {
-      
       this.queryData()
    }
 
@@ -110,6 +110,14 @@ class ChooseMachine extends Component {
       }
       return (
         <div>
+            <NavBar
+          mode="dark"
+          onLeftClick={() => hashHistory.push('h5main')}
+          leftContent="返回"
+          rightContent={[
+            <span onClick={() => hashHistory.push('')}>退出</span>
+          ]}
+          >选择机器</NavBar>
             <ListView 
                 ref={el => this.lv = el}
                 dataSource={this.state.dataSource} 
@@ -121,7 +129,7 @@ class ChooseMachine extends Component {
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={30}
                 style={{
-                  height: document.documentElement.clientHeight * 4 / 4,
+                  height: document.documentElement.clientHeight * 3.8 / 4,
                   width: '100%',
                   overflow: 'auto',
                   border: '1px solid #ddd'

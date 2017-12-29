@@ -117,6 +117,7 @@ class MachineConfig extends Component {
                     item.MachineFucLists.push(eItem.value)
                 }
             })
+            console.log('eeeee', item)
             this.setState({ visible: true, savePara: item })
          }
          
