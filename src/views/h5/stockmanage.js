@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-import { List, Stepper, Button, Toast, Drawer, NavBar } from 'antd-mobile'
+import { List, Stepper, Button, Toast, Drawer, NavBar, Popover, Modal } from 'antd-mobile'
 import {hashHistory} from 'react-router'
 import model from 'STORE/model'
 import 'ASSET/less/adult-machine.less'
@@ -13,8 +13,10 @@ class StockManage extends Component {
             isLoading: true,
             data: [],
             cabinets: [],
+            nowCabinet: {},
             visible: false,
-            productDic: []
+            productDic: [],
+            popVisible: false
         }
 
         this.saveStocks = []
@@ -31,29 +33,25 @@ class StockManage extends Component {
 
    queryData = () => {
      
-      let {fetchCabinetByMachine, params, fetchTunnelInfo} = this.props
+      let {fetchCabinetByMachine, params} = this.props
      
       
       fetchCabinetByMachine({machineId: params.deviceid}).then(msg => {
           if (this.props.stockManage.cabinetInfo.length > 0) {
-              fetchTunnelInfo({machineId: params.deviceid, cabinetId: this.props.stockManage.cabinetInfo[0].Id, pageIndex: 1, pageSize: model.BaseSetting.NoPage}).then(msg => {
-                   this.setState({
-                        isLoading: false,
-                        data: this.props.stockManage.data,
-                        cabinets: this.props.stockManage.cabinetInfo
-                    })
-              })
+              this.setState({cabinets: this.props.stockManage.cabinetInfo, nowCabinet: this.props.stockManage.cabinetInfo[0]})
+              this.getTunnelInfo()
           }
               
       })
-      /* 
-      this.setState({
-            dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.stockManage.cabinetInfo]),
-            isLoading: false,
-            data: [...this.state.data, ...this.props.stockManage.cabinetInfo]
-        })
-        */
-     
+   }
+
+   getTunnelInfo = () => {
+        this.props.fetchTunnelInfo({machineId: this.props.params.deviceid, cabinetId: this.state.nowCabinet.Id, pageIndex: 1, pageSize: model.BaseSetting.NoPage}).then(msg => {
+            this.setState({
+                isLoading: false,
+                data: this.props.stockManage.data
+            })
+    })
    }
 
    queryProductData = () => {
@@ -141,6 +139,35 @@ class StockManage extends Component {
      }
   }
 
+  // 货道选择
+  tunnelChoose = (item) => {
+     
+   if (item.id == this.state.nowCabinet.id) {
+    this.setState({
+        visible: false
+      })
+       return
+   }
+   if (this.saveStocks.length > 0) {
+    Modal.alert('确认', '确定放弃保存吗？', [
+        { text: '取消', onPress: () => {} },
+        {
+          text: '确定',
+          onPress: () => {
+               this.saveStocks = []
+                this.setState({
+                    visible: false,
+                    nowCabinet: item
+                })
+        
+              this.getTunnelInfo()
+          }
+        }
+      ])
+   }
+    
+  }
+
 
     /* **************************Tab Bar*************************/
  
@@ -173,9 +200,31 @@ class StockManage extends Component {
           mode="dark"
           onLeftClick={() => hashHistory.push('h5main')}
           leftContent="返回"
-          rightContent={[
-            <span onClick={() => hashHistory.push('')}>退出</span>
-          ]}
+          rightContent={ <Popover mask
+            overlayClassName="fortest"
+            overlayStyle={{ color: 'currentColor' }}
+            visible={this.state.popVisible}
+            overlay={
+                this.state.cabinets.map((item, index) => {
+                    return <Item key={item.Id} value="scan" data-seed="logId" onClick={this.tunnelChoose.bind(this, item)}>{item.Name}</Item>
+                })
+                }
+            align={{
+              overflow: { adjustY: 0, adjustX: 0 },
+              offset: [-10, 0]
+            }}
+          >
+            <div style={{
+              height: '100%',
+              padding: '0 15px',
+              marginRight: '-15px',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            >
+              <span>{this.state.nowCabinet.Name}</span>
+            </div>
+          </Popover>}
           >库存管理</NavBar>
             <List
             style={{
