@@ -149,7 +149,7 @@ class StockManage extends Component {
        return
    }
    if (this.saveStocks.length > 0) {
-    Modal.alert('确认', '确定放弃保存吗？', [
+    Modal.alert('放弃保存', '确定放弃吗？', [
         { text: '取消', onPress: () => {} },
         {
           text: '确定',
