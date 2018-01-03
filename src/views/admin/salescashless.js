@@ -59,8 +59,12 @@ class SalesCashless extends Component {
       
        this.props.fetchCashlessList(val).then((msg) => {
          if (this.props.salesCashless) {
+             let totalCount = this.state.total
+             if (this.props.salesCashless.pager) {
+                totalCount = this.props.salesCashless.pager.TotalRows
+             }
            this.setState({dataSource: this.props.salesCashless.data, pagination: {
-                total: this.props.salesCashless.pager.TotalRows,
+                total: totalCount,
                 showSizeChanger: true,
                 onShowSizeChange: (current, pageSize) => {
                     this.searchPara.pageIndex = current

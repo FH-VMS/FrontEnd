@@ -7,7 +7,7 @@ class RefundDialog extends Component {
     }
 
     componentWillMount() {
-        console.log('iiii', this.props)
+        // console.log('iiii', this.props)
     }
 
 
