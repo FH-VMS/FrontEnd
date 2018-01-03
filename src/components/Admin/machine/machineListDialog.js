@@ -110,6 +110,15 @@ const MachineTypeDialog = Form.create({
     })
   }
 
+  checkMachineId = (rule, value, callback) => {
+    if (value.match(/^[\w]{12}$/)) {
+      callback()
+    } else {
+      callback('12位机器编号')
+    }
+    
+  }
+
   componentDidMount() {
   }
 
@@ -146,7 +155,9 @@ const MachineTypeDialog = Form.create({
         >
           {getFieldDecorator('DeviceId', {
             rules: [{
-              required: true, message: '机器编号必填'
+              required: true, message: '12位机器编号'
+            }, {
+              validator: this.checkMachineId
             }]
           })(
            <Input disabled={isDisable}/>
