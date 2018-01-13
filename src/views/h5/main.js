@@ -20,16 +20,12 @@ class Main extends Component {
       icon: require('ASSET/img/h5/key.png'),
       text: '一键补货',
       url: ''
-   }]
-
-   /*
-   ,
+   },
    {
     icon: require('ASSET/img/h5/max.png'),
     text: '最大库存',
-    url: ''
- }
-   */
+    url: 'maxstock'
+ }]
     
   }
 

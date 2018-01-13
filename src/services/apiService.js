@@ -18,13 +18,13 @@ class ApiService {
 		
         var queryString = []
 		var postdata 
-		var i = 0
-		var len = parameters ? Object.keys(parameters).length : 0
+		// var i = 0
+		// var len = parameters ? Object.keys(parameters).length : 0
 
 		if (parameters) {
 			for (let x in parameters) {
-				i++
-				if (i == len && typeof parameters[x] == 'object') { 
+				// i++
+				if (typeof parameters[x] == 'object') { 
 					postdata = JSON.stringify(parameters[x])
 					continue
 				}

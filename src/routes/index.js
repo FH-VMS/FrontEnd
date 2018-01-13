@@ -117,7 +117,8 @@ export default {
   childRoutes: [
       require('./h5/main').default, // 主页九宫格
       require('./h5/choosemachine').default, // 选择机器
-       require('./h5/stockmanageh5').default // 库存管理
+      require('./h5/stockmanageh5').default, // 库存管理
+      require('./h5/maxstock').default // 最大库存
   ]
  }
 }

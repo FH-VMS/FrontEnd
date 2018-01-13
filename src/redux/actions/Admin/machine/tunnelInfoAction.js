@@ -12,6 +12,7 @@ const BATCH_UPDATETUNNELINFO = 'BATCH_UPDATETUNNELINFO'
 const EXPORT_DATA = 'EXPORT_DATA'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FULLFIL_ONEKEY = 'FULLFIL_ONEKEY'
+const MAX_STOCK = 'MAX_STOCK'
 // ================================
 // Action Creator
 // ================================
@@ -126,12 +127,24 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
       })
       return msgs
   })
-  
+
+  // 设置最大库存
+  const setMaxStock = (updBody) => dispatch =>
+  apis
+    .TunnelInfo
+    .PostMaxStock(updBody)
+    .then(msgs => {
+      dispatch({
+         type: MAX_STOCK,
+         payload: msgs
+      })
+     return msgs
+  })
   
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic, fullfilOneyKey
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic, fullfilOneyKey, setMaxStock
 }
 
 // ================================
@@ -167,7 +180,8 @@ export const ACTION_HANDLERS = {
       result.productDic = payload
       return result
   },
-  [FULLFIL_ONEKEY]: (result, { payload }) => ({payload})
+  [FULLFIL_ONEKEY]: (result, { payload }) => ({payload}),
+  [MAX_STOCK]: (result, { payload }) => ({payload})
 }
 
 

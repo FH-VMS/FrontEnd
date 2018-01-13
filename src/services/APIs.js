@@ -216,6 +216,9 @@ const api = {
       },
       PostFullFilByOneKey: function (data) {
         return apiService('TunnelInfo', 'PostFullFilByOneKey', 'POST', data)
+      },
+      PostMaxStock: function (data) {
+        return apiService('TunnelInfo', 'PostMaxStock', 'POST', data)
       }
 	},
     /* ***********************支付************************ */

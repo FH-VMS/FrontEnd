@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, Stepper, Button, Toast, Drawer, NavBar, Popover, Modal } from 'antd-mobile'
+import { List, Stepper, Button, Toast, NavBar, Popover, Modal } from 'antd-mobile'
 import {hashHistory} from 'react-router'
 import model from 'STORE/model'
 import 'ASSET/less/adult-machine.less'
@@ -54,21 +54,26 @@ class MaxStock extends Component {
    
    stepChange = (item, val, ev) => {
        
-      item.CurrStock = val
      if (this.saveStocks.length == 0) {
-         this.saveStocks.push(item)
+         let saveItem = {}
+         saveItem.tid = item.TunnelId
+         saveItem.ms = val
+         this.saveStocks.push(saveItem)
      } else {
           let canPush = true
           for (var i = 0; i < this.saveStocks.length; i++) {
-             if (this.saveStocks[i].TunnelId == item.TunnelId) {
-                 this.saveStocks[i].CurrStock = item.CurrStock
+             if (this.saveStocks[i].tid == item.TunnelId) {
+                 this.saveStocks[i].ms = val
                  canPush = false
                  break
              } 
           }
          
           if (canPush) {
-               this.saveStocks.push(item)
+              let saveItem = {}
+              saveItem.tid = item.TunnelId
+              saveItem.ms = val
+              this.saveStocks.push(saveItem)
           }
      }
    }
@@ -81,7 +86,7 @@ class MaxStock extends Component {
      }
       Toast.loading('保存中...', 0)
       try {
-        this.props.batchUpdateTunnelInfo({lstTunnelInfo: this.saveStocks}).then(msg => {
+        this.props.setMaxStock({lstPriceAndStock: this.saveStocks, machineId: this.props.params.deviceid}).then(msg => {
             Toast.hide()
          if (msg) {
               Toast.success('保存成功', 1)
@@ -170,7 +175,7 @@ class MaxStock extends Component {
               <span>{this.state.nowCabinet.Name}</span>
             </div>
           </Popover>}
-          >库存管理</NavBar>
+          >最大库存</NavBar>
             <List
             style={{
                   height: document.documentElement.clientHeight * 3.3 / 4,
@@ -184,7 +189,7 @@ class MaxStock extends Component {
                             <div>
                            <Stepper
                             style={{ width: '100%', minWidth: '2rem' }}
-                            showNumber min={0} max={item.MaxPuts} defaultValue={item.CurrStock} step={1} onChange={this.stepChange.bind(this, item)}
+                            showNumber min={0} max={10000} defaultValue={item.MaxPuts} step={1} onChange={this.stepChange.bind(this, item)}
                             readOnly={false}
                         /></div>}>
                         {item.TunnelId}
