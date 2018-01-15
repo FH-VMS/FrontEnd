@@ -171,6 +171,7 @@ class ListControl extends Component {
         <div>
             <ListView 
                 dataSource={this.state.dataSource} 
+                /*
                 renderFooter={() => <div className='adultFooterStyle'>
                      <div>
                        <div><span className="fa fa-home" aria-hidden="true">&nbsp;上海夕半实业有限公司</span></div>
@@ -179,6 +180,7 @@ class ListControl extends Component {
                      </div>
                      <div></div>
                   </div>}
+                  */
                 renderRow={this.row.bind(this)} 
                 scrollRenderAheadDistance={300}
                 scrollEventThrottle={20}
