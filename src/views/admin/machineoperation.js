@@ -103,6 +103,10 @@ class MachineOperation extends Component {
                             </Popconfirm>
                             <span className="ant-divider" />
                             <a>详细补货</a>
+                            <span className="ant-divider" />
+                            <a>最大库存</a>
+                            <span className="ant-divider" />
+                            <a>现金价格</a>
                         </span>
                         )}
                     />
