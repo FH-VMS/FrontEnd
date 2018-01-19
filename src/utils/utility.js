@@ -85,6 +85,33 @@ export default {
         var monday = new Date(MondayTime)
         var sunday = new Date(SundayTime)
         return [this.dateFormaterObj(monday), this.dateFormaterObj(sunday)]
+    },
+    hasAuth: function(pathName) {
+        if (pathName == '') {
+          return
+        }
+        let sessionMenus = JSON.parse(sessionStorage.getItem('Menus'))
+        let hasAuth = false
+        if (sessionMenus) {
+          for (let j = 0; j < sessionMenus.length; j++) {
+            for (let i = 0; i < sessionMenus[j].Menus.length; i++) {
+              if (sessionMenus[j].Menus[i].Url == pathName) {
+                hasAuth = true
+                break
+              }
+            }
+    
+            if (hasAuth) {
+              break
+            }
+          }
+        }
+    
+        if (hasAuth) {
+    
+        } else {
+          location.href = 'login.html'
+        }
     }
 }
 

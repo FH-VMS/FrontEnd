@@ -22,7 +22,7 @@ class Home extends Component {
         this.generateMachineSituation()
         this.generateIncome()
         // this.generateDynamicData()
-        this.generateTotalMoney()
+        // this.generateTotalMoney()
     }
 
     generateTotalMoney = () => {
@@ -278,11 +278,10 @@ class Home extends Component {
                      <div id="machineSituation" className="everyChartsHeight"></div>
                   </div>
                   <div style={{borderLeft: '5px solid #eee' }}>
-                       <h4 style={{fontWeight: 'bold'}}>余额</h4>
+                       <h4 style={{fontWeight: 'bold'}}></h4>
                       <div id="incomeSituation" className="everyChartsHeight">
                          
-                          <div><div>支付宝余额：</div><div>{this.state.aliMoney.toFixed(2)}</div></div>
-                          <div><div>微信余额：</div><div>{this.state.wxMoney.toFixed(2)}</div></div>
+                         
                       </div>
                   </div>
                </div>

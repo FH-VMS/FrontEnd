@@ -1,5 +1,6 @@
 import { injectReducer } from 'REDUCER'
 import createContainer from 'UTIL/createContainer'
+import Utility from 'UTIL/utility'
 
 const connectComponent = createContainer(
   ({ auth, commonInfo }) => ({ auth, commonInfo }), // mapStateToProps
@@ -58,5 +59,8 @@ export default {
     onEnter: userAuth
   }
   * */
-  ]
+  ],
+  onEnter: () => {
+    Utility.hasAuth('auth')
+  }
 }

@@ -29,14 +29,22 @@ class Frame extends Component {
 	}
 
   componentWillMount() {
-    
+   
     let userInfo = Utility.Cookie.getValue('UserInfo')
    
     this.userInfo = userInfo
     if (userInfo && userInfo.UserAccount) {
+      let sessionMenus = sessionStorage.getItem('Menus')
+      if (sessionMenus) {
+        this.setState({menus: JSON.parse(sessionMenus)})
+      } else {
         this.props.common.fetchMenu().then(() => {
-          this.setState({menus: this.props.commonInfo.menus})
-       })
+            this.setState({menus: this.props.commonInfo.menus})
+            sessionStorage.setItem('Menus', JSON.stringify(this.props.commonInfo.menus))
+        })
+      }
+
+        
     } else {
       // hashHistory.push({ pathname: rootRouter.login.path})
       location.href = 'login.html'
@@ -47,9 +55,11 @@ class Frame extends Component {
   logout = () =>{
      Utility.Cookie.clear('MenuAuth')
     Utility.Cookie.clear('UserInfo')
+    sessionStorage.removeItem('Menus')
     // hashHistory.push({ pathname: rootRouter.login.path})
      location.href = 'login.html'
   }
+
 
 
   render() {

@@ -1,4 +1,5 @@
 
+import Utility from 'UTIL/utility'
 export default {
   path: 'machinemap',
 
@@ -16,5 +17,8 @@ export default {
   },
 
   childRoutes: [
-  ]
+  ],
+  onEnter: () => {
+    Utility.hasAuth('machinemap')
+  }
 }
