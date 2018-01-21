@@ -59,7 +59,7 @@ const MachineTypeDialog = Form.create({
          
          return
       }
-      let reg = /^[1-9]+(,[1-9]+)*$/
+      let reg = /^[0-9]+(,[0-9]+)*$/
 
       if (reg.test(value) && value.split(',').length == parseInt(this.layer, 0)) {
           callback()
