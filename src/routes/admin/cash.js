@@ -8,7 +8,7 @@ const connectComponent = createContainer(
 )
 
 export default {
-  path: 'machineoperation',
+  path: 'cash/:machineId',
 
   /* 布局基页 */
   getComponent (nextState, cb) {
@@ -16,7 +16,7 @@ export default {
       // 立即注入 Reducer
       injectReducer('machineOperation', require('REDUCER/Admin/machineoperation/fullfilReducer').default)
    
-      cb(null, connectComponent(require('VIEW/admin/machineoperation').default))
+      cb(null, connectComponent(require('COMPONENT/Admin/machineoperation/cash').default))
     }, 'machineOperationView')
   },
 

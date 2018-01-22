@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
+import {hashHistory} from 'react-router'
 import { Table, Spin, Popconfirm, Input } from 'antd'
 
 const { Column } = Table
@@ -71,6 +72,11 @@ class MachineOperation extends Component {
     handleFullfilByOneKey = (record, e) => {
 
     }
+
+    // 现金价格下推
+    cashPush = (item, ev) => {
+        hashHistory.push(`cash/${item.Id}`)
+    }
   
 
 
@@ -106,12 +112,11 @@ class MachineOperation extends Component {
                             <span className="ant-divider" />
                             <a>最大库存</a>
                             <span className="ant-divider" />
-                            <a>现金价格</a>
+                            <a onClick = {this.cashPush.bind(this, record)}>现金价格</a>
                         </span>
                         )}
                     />
               </Table>
-              
                 </Spin>
            </div>
         )

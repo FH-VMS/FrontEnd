@@ -55,6 +55,7 @@ export default {
      require('./admin/machineMoney').default,  // 按机器统计销售额
      require('./admin/machineTrans').default,  // 机器迁移
      require('./admin/machineoperation').default,  // 补货修改
+     require('./admin/cash').default,  // 现金下推
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     

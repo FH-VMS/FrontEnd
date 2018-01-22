@@ -442,3 +442,23 @@ body{
     }
   }
 }
+
+
+// 现金下推
+.cashTable{
+  width: 100%;
+  border-collapse:collapse;
+  border-right:1px solid #ccc;
+  border-bottom:1px solid #ccc;
+  margin-top: 10px;
+
+  & td {
+    border-left:1px solid #ccc;
+    border-top:1px solid #ccc;
+    padding: 5px;
+
+    &:nth-child(2n+1){
+      background-color: #ccc;
+    }
+  }
+}
