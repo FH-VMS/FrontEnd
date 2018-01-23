@@ -24,7 +24,15 @@ class EveryTunnel extends Component {
 
     productSelect = (value) => {
         this.props.datasource.WaresId = value
-        this.setState({WaresId: value})
+        this.props.fetchPriceByWaresId({waresId: value}).then(msg => {
+            this.props.datasource.AlipayPrices = msg
+            this.props.datasource.WpayPrices = msg
+            this.props.datasource.CashPrices = msg
+            this.props.datasource.IcPrices = msg
+            this.setState({WaresId: value, CashPrices: msg, IcPrices: msg, AlipayPrices: msg, WpayPrices: msg})
+            
+        })
+        
     }
 
     xPayChange = (value) => {

@@ -152,7 +152,7 @@ class TunnelConfig extends Component {
               {
                   pItem.map((cItem, cIndex) => {
                       return (
-                          <EveryTunnel datasource = {cItem} productDic={this.state.productDic} />
+                          <EveryTunnel fetchPriceByWaresId = {this.props.fetchPriceByWaresId} datasource = {cItem} productDic={this.state.productDic} />
                       )
                   })
               }

@@ -7,6 +7,7 @@ const FETCH_TUNNELCONFIG = 'FETCH_TUNNELCONFIG'
 const ADD_TUNNELCONFIG = 'ADD_MACHINECONFIG'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
+const FETCH_PRICEBYWARESID = 'FETCH_PRICEBYWARESID'
 
 // ================================
 // Action Creator
@@ -59,10 +60,23 @@ const addTunnelConfig = (queryBody) => dispatch =>
       })
   })
 
+  // 根据商品编号取价格
+  const fetchPriceByWaresId = (waresId) => dispatch =>
+  apis
+    .TunnelConfig
+    .GetPriceByWaresId(waresId)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRICEBYWARESID,
+         payload: msgs
+      })
+      return msgs
+  })
+
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelConfig, addTunnelConfig, fetchMachineDic, fetchProductDic
+  fetchTunnelConfig, addTunnelConfig, fetchMachineDic, fetchProductDic, fetchPriceByWaresId
 }
 
 // ================================
@@ -85,7 +99,8 @@ export const ACTION_HANDLERS = {
   [FETCH_PRODUCTDIC]: (result, { payload }) => {
       result.productDic = payload
       return result
-  }
+  },
+  [FETCH_PRICEBYWARESID]: (result, { payload }) => ({payload})
 }
 
 

@@ -156,6 +156,9 @@ const api = {
       },
       DeleteData: function (data) {
           return apiService('TunnelConfig', 'DeleteData', 'DELETE', data)
+      },
+      GetPriceByWaresId: function (data) {
+          return apiService('TunnelConfig', 'GetPriceByWaresId', 'GET', data)
       }
 	}, 
   ProductList: {
