@@ -44,27 +44,35 @@ class CashComponent extends Component {
                     </Breadcrumb.Item>
                 </Breadcrumb>
                 <Spin size="large" spinning={this.state.loading}>
-                  <table className="cashTable">
-                      <tbody>
-                          <tr>
-                              <td>
-                                  <div>货道号</div>
-                                  <div>商品名称</div>
-                              </td>
-                              <td><InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} /></td>
-                              <td>
-                              <div>货道号</div>
-                              <div>商品名称</div>
-                            </td>
-                            <td><InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} /></td>
-                            <td>
-                              <div>货道号</div>
-                              <div>商品名称</div>
-                            </td>
-                            <td><InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} /></td>
-                          </tr>
-                      </tbody>
-                  </table>
+                  <div className="cashContainer">
+                      <div>
+                          <div>
+                             <div>货道号</div>
+                             <div>商品名称</div>
+                          </div>
+                          <div>
+                             <InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} />
+                          </div>
+                      </div>
+                      <div>
+                          <div>
+                             <div>货道号</div>
+                             <div>商品名称</div>
+                          </div>
+                          <div>
+                             <InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} />
+                          </div>
+                      </div>
+                      <div>
+                          <div>
+                             <div>货道号</div>
+                             <div>商品名称</div>
+                          </div>
+                          <div>
+                             <InputNumber min={0} max={100} step={0.1} onChange={this.priceChange} />
+                          </div>
+                      </div>
+                  </div>
                 </Spin>
             </div>
         )

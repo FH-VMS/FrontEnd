@@ -445,20 +445,37 @@ body{
 
 
 // 现金下推
-.cashTable{
+.cashContainer{
   width: 100%;
-  border-collapse:collapse;
-  border-right:1px solid #ccc;
-  border-bottom:1px solid #ccc;
   margin-top: 10px;
+  @everyCashWith:300px;
+  & > div {
+    margin-bottom: 5px;
+    display: table;
+    float: left;
+    width: @everyCashWith;
+    height: 80px;
+    border: 1px solid #fee1d8;
+    &>div{
+      padding: 5px;
+      vertical-align: middle;
+      display: table-cell;
+      width: @everyCashWith/2;
+      &:first-child{
+        background-color: #fff8f6;
+      }
 
-  & td {
-    border-left:1px solid #ccc;
-    border-top:1px solid #ccc;
-    padding: 5px;
-
-    &:nth-child(2n+1){
-      background-color: #ccc;
+      &:last-child{
+        text-align: center;
+      }
     }
+  }
+
+  &:after{
+    content: '.';
+    height: 0;
+    visibility: hidden;
+    clear: both;
+    display: block;
   }
 }
