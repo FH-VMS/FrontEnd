@@ -190,6 +190,8 @@ class MachineList extends Component {
         // 更新
        if (this.state.savePara.MachineId) {
            values.MachineId = this.state.savePara.MachineId
+           values.StartDate = Utility.dateFormaterString(values.StartDate)
+           values.StopDate = Utility.dateFormaterString(values.StopDate)
            this.props.updateMachineList({machineListInfo: values}).then((msg) => {
                if (msg) {
                   message.success('更新成功')
