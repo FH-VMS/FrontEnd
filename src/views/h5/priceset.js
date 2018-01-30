@@ -247,7 +247,7 @@ class PriceSet extends Component {
                             <div>
                            <Stepper
                             style={{ width: '100%', minWidth: '2rem' }}
-                            showNumber min={0.01} max={99.99} value={item.Price} step={0.01} onChange={this.stepChange.bind(this, item)}
+                            showNumber min={0.01} max={999.99} value={item.Price} step={0.01} onChange={this.stepChange.bind(this, item)}
                             readOnly={false}
                         /></div>}>
                         {item.TunnelId}
