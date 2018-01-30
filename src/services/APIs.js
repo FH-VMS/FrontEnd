@@ -222,6 +222,9 @@ const api = {
       },
       PostMaxStock: function (data) {
         return apiService('TunnelInfo', 'PostMaxStock', 'POST', data)
+      },
+      PutPriceWithMobile: function (data) {
+          return apiService('TunnelInfo', 'PutPriceWithMobile', 'PUT', data)
       }
 	},
     /* ***********************支付************************ */

@@ -25,7 +25,12 @@ class Main extends Component {
     icon: require('ASSET/img/h5/max.png'),
     text: '最大库存',
     url: 'maxstock'
- }]
+ },
+ {
+  icon: require('ASSET/img/h5/price.png'),
+  text: '价格设置',
+  url: 'priceset'
+}]
     
   }
 
@@ -80,7 +85,7 @@ class Main extends Component {
           ]}
           >主页</NavBar>
           <div className="chosenMachine"><span onClick={() => {hashHistory.push('choosemachine')}}>{nowMachine} <Icon type='down' /></span></div>
-          <Grid data={this.data} columnNum={3} hasLine={false} onClick={this.chosenModule}/>
+          <Grid data={this.data} columnNum={3} onClick={this.chosenModule}/>
         </div>
         )
  }

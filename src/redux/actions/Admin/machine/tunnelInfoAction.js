@@ -13,6 +13,8 @@ const EXPORT_DATA = 'EXPORT_DATA'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FULLFIL_ONEKEY = 'FULLFIL_ONEKEY'
 const MAX_STOCK = 'MAX_STOCK'
+const PRICE_SET = 'PRICE_SET'
+const FETCH_PRICEBYWARESID = 'FETCH_PRICEBYWARESID'
 // ================================
 // Action Creator
 // ================================
@@ -141,10 +143,34 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
      return msgs
   })
   
+ // 设置价格
+ const setPrice = (updBody) => dispatch =>
+ apis
+   .TunnelInfo
+   .PutPriceWithMobile(updBody)
+   .then(msgs => {
+     dispatch({
+        type: PRICE_SET,
+        payload: msgs
+     })
+    return msgs
+ })
 
+   // 根据商品编号取价格
+   const fetchPriceByWaresId = (waresId) => dispatch =>
+   apis
+     .TunnelConfig
+     .GetPriceByWaresId(waresId)
+     .then(msgs => {
+       dispatch({
+          type: FETCH_PRICEBYWARESID,
+          payload: msgs
+       })
+       return msgs
+   })
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic, fullfilOneyKey, setMaxStock
+  fetchTunnelInfo, fetchMachineDic, fetchFullfilTunnel, updateTunnelInfo, fetchCabinetByMachine, batchUpdateTunnelInfo, exportData, fetchProductDic, fullfilOneyKey, setMaxStock, setPrice, fetchPriceByWaresId
 }
 
 // ================================
@@ -181,7 +207,9 @@ export const ACTION_HANDLERS = {
       return result
   },
   [FULLFIL_ONEKEY]: (result, { payload }) => ({payload}),
-  [MAX_STOCK]: (result, { payload }) => ({payload})
+  [MAX_STOCK]: (result, { payload }) => ({payload}),
+  [PRICE_SET]: (result, { payload }) => ({payload}),
+  [FETCH_PRICEBYWARESID]: (result, { payload }) => ({payload})
 }
 
 

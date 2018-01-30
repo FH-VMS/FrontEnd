@@ -1,4 +1,4 @@
-import { Modal, Form, Input, InputNumber, message } from 'antd'
+import { Modal, Form, Input, InputNumber, message, Select } from 'antd'
 import React, {Component} from 'react'
 const FormItem = Form.Item
 
@@ -150,7 +150,14 @@ const MachineTypeDialog = Form.create({
               required: true, message: '柜号'
             }]
           })(
-           <Input />
+             <Select>
+               <Option value='A'>A</Option>
+               <Option value='B'>B</Option>
+               <Option value='C'>C</Option>
+               <Option value='D'>D</Option>
+               <Option value='E'>E</Option>
+               <Option value='F'>F</Option>
+             </Select>
           )}
         </FormItem>
          <FormItem
