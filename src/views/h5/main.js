@@ -52,7 +52,7 @@ class Main extends Component {
   
   // 一键补货
   fullfilByOnekey = (machineIdVal) => {
-    Modal.alert('一键补货', '确定吗???', [
+    Modal.alert('一键补货', '确定吗?', [
       { text: '取消', onPress: () => {
         
       } 
@@ -62,7 +62,7 @@ class Main extends Component {
           if (msg == 1) {
             Toast.success('补货成功', 1)
           } else {
-            Toast.fail('补货失败', 1)
+            Toast.fail('机器不在线', 1)
           }
         })
       } 

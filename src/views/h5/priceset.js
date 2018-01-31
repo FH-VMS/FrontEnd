@@ -89,19 +89,32 @@ class PriceSet extends Component {
           Toast.fail('无修改', 1)
           return
      }
-      Toast.loading('保存中...', 0)
-      try {
-        this.props.setPrice({lstTunnelInfo: this.saveStocks}).then(msg => {
-            Toast.hide()
-         if (msg) {
-              Toast.success('保存成功', 1)
-              this.saveStocks = []
-         }
-         
-        })
-      } catch (e) {
-           Toast.hide()
+
+     Modal.alert('价格修改', '确定吗?', [
+        { text: '取消', onPress: () => {
+          
+        } 
+      },
+        { text: '确认', onPress: () => {
+            Toast.loading('保存中...', 0)
+            try {
+              this.props.setPrice({lstTunnelInfo: this.saveStocks}).then(msg => {
+                  Toast.hide()
+               if (msg) {
+                    Toast.success('保存成功', 1)
+                    this.saveStocks = []
+               } else {
+                 Toast.fail('机器不在线', 1)
+               }
+               
+              })
+            } catch (e) {
+                 Toast.hide()
+            }
+        } 
       }
+      ])
+      
      
    }
 

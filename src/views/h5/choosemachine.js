@@ -41,7 +41,7 @@ class ChooseMachine extends Component {
       let {fetchMachineList} = this.props
       
       fetchMachineList(page).then(msg => {
-       
+              console.log('ddddd', this.props)
               this.setState({
                   dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.chooseMachine.data]),
                   isLoading: false,
@@ -90,10 +90,17 @@ class ChooseMachine extends Component {
    }
 
    row = (rowData) => {
-     
-
+      let machineStatus = '未启用'
+      if (rowData.LatestOnline) {
+          if (parseInt(rowData.LatestOnline, 0) > 900) {
+            machineStatus = <span style={{color: 'red'}}>离线</span>
+          } else {
+            machineStatus = <span style={{color: 'green'}}>在线</span>
+          }
+          
+      }
       return (
-         <Item arrow="horizontal" onClick={this.chooseMachine.bind(this, rowData)} extra={rowData.ClientText}>{rowData.DeviceId}</Item>
+         <Item arrow="horizontal" onClick={this.chooseMachine.bind(this, rowData)} extra={rowData.ClientText}>{rowData.DeviceId} <Item.Brief>{rowData.Remark}({machineStatus})</Item.Brief></Item>
       )
     }
 

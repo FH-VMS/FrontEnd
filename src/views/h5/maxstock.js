@@ -79,24 +79,36 @@ class MaxStock extends Component {
    }
 
    saveStock = (e) => {
-     
-     if (this.saveStocks.length == 0) {
-          Toast.fail('无修改', 1)
-          return
-     }
-      Toast.loading('保存中...', 0)
-      try {
-        this.props.setMaxStock({lstPriceAndStock: this.saveStocks, machineId: this.props.params.deviceid}).then(msg => {
-            Toast.hide()
-         if (msg) {
-              Toast.success('保存成功', 1)
-              this.saveStocks = []
-         }
-         
-        })
-      } catch (e) {
-           Toast.hide()
+    if (this.saveStocks.length == 0) {
+        Toast.fail('无修改', 1)
+        return
+   }
+    Modal.alert('最大库存', '确定吗?', [
+        { text: '取消', onPress: () => {
+          
+        } 
+      },
+        { text: '确认', onPress: () => {
+            
+            Toast.loading('保存中...', 0)
+            try {
+              this.props.setMaxStock({lstPriceAndStock: this.saveStocks, machineId: this.props.params.deviceid}).then(msg => {
+                  Toast.hide()
+               if (msg) {
+                    Toast.success('保存成功', 1)
+                    this.saveStocks = []
+               } else {
+                Toast.fail('机器不在线', 1)
+               }
+               
+              })
+            } catch (e) {
+                 Toast.hide()
+            }
+        } 
       }
+      ])
+    
      
    }
 
