@@ -41,7 +41,6 @@ class ChooseMachine extends Component {
       let {fetchMachineList} = this.props
       
       fetchMachineList(page).then(msg => {
-              console.log('ddddd', this.props)
               this.setState({
                   dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.chooseMachine.data]),
                   isLoading: false,
