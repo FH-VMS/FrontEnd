@@ -52,7 +52,7 @@ class TunnelInfo extends Component {
             searchDatasource.push({
                 label: '选择机器',
                 name: 'machineId',
-                control: <Select onChange={this.machineChange}>
+                control: <Select showSearch optionFilterProp="children" filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} onChange={this.machineChange}>
                     {typeDicSelect}
                 </Select>
             })
@@ -81,28 +81,35 @@ class TunnelInfo extends Component {
               return false
           }
         })
-        if (chosenItem && chosenItem.children) {
-            let chosen = ''
-             let typeDicSelect = chosenItem.children.map((item, index) => {
-                 if (index == 0) {
-                     chosen = item.Id
-                 }
-              return (
-                <Option value={item.Id}>{item.Name}</Option>
-              )
+        if (chosenItem) {
+            this.props.fetchCabinetByMachine({machineId: chosenItem.Id}).then(msg => {
+                if (this.props.tunnelInfo.cabinetInfo.length > 0) {
+                    this.setState({cabinets: this.props.tunnelInfo.cabinetInfo})
+                    let chosen = ''
+                    let typeDicSelect = this.props.tunnelInfo.cabinetInfo.map((item, index) => {
+                        if (index == 0) {
+                            chosen = item.Id
+                        }
+                     return (
+                       <Option value={item.Id}>{item.Name}</Option>
+                     )
+                   })
+       
+                   if (this.state.searchDatasource.length == 2) {
+                       this.state.searchDatasource.splice(1, 1)
+                   }
+                    this.state.searchDatasource.push({
+                       label: '机柜',
+                       name: 'cabinetId',
+                       control: <Select>
+                           {typeDicSelect}
+                       </Select>
+                   })
+                   this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
+                }
+                    
             })
-
-            if (this.state.searchDatasource.length == 2) {
-                this.state.searchDatasource.splice(1, 1)
-            }
-             this.state.searchDatasource.push({
-                label: '机柜',
-                name: 'cabinetId',
-                control: <Select>
-                    {typeDicSelect}
-                </Select>
-            })
-            this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
+            
         }
     }
     

@@ -8,6 +8,7 @@ const ADD_TUNNELCONFIG = 'ADD_MACHINECONFIG'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FETCH_PRICEBYWARESID = 'FETCH_PRICEBYWARESID'
+const FETCH_CABINETBYMACHINE = 'FETCH_CABINETBYMACHINE'
 
 // ================================
 // Action Creator
@@ -73,10 +74,22 @@ const addTunnelConfig = (queryBody) => dispatch =>
       return msgs
   })
 
+     // 根据机器ID取对应货柜
+     const fetchCabinetByMachine = (qrys) => dispatch =>
+     apis
+       .CabinetConfig
+       .GetCabinetByMachineId(qrys)
+       .then(msgs => {
+         dispatch({
+            type: FETCH_CABINETBYMACHINE,
+            payload: msgs
+         })
+     })
+
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTunnelConfig, addTunnelConfig, fetchMachineDic, fetchProductDic, fetchPriceByWaresId
+  fetchTunnelConfig, addTunnelConfig, fetchMachineDic, fetchProductDic, fetchPriceByWaresId, fetchCabinetByMachine
 }
 
 // ================================
@@ -100,7 +113,11 @@ export const ACTION_HANDLERS = {
       result.productDic = payload
       return result
   },
-  [FETCH_PRICEBYWARESID]: (result, { payload }) => ({payload})
+  [FETCH_PRICEBYWARESID]: (result, { payload }) => ({payload}),
+  [FETCH_CABINETBYMACHINE]: (result, { payload }) => {
+      result.cabinetInfo = payload
+      return result
+  }
 }
 
 

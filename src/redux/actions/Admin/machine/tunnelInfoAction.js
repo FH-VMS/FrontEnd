@@ -41,6 +41,7 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
          type: FETCH_MACHINEDIC,
          payload: msgs
       })
+      return msgs
   })
 
     // 根据机器ID取对应货柜
@@ -115,6 +116,7 @@ const fetchTunnelInfo = (queryBody) => dispatch =>
          type: FETCH_PRODUCTDIC,
          payload: msgs
       })
+      return msgs
   })
 
   // 一键补货

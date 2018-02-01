@@ -69,6 +69,7 @@ class TunnelConfig extends Component {
     }
 
     machineChange = (value) => {
+        
         let chosenItem = ''
         $.each(this.state.machineDic, (index, item) => {
           if (item.Id == value) {
@@ -76,28 +77,33 @@ class TunnelConfig extends Component {
               return false
           }
         })
-        if (chosenItem && chosenItem.children) {
-             let chosen = ''
-             let typeDicSelect = chosenItem.children.map((item, index) => {
-              if (index == 0) {
-                 chosen = item.Id
+        if (chosenItem) {
+            this.props.fetchCabinetByMachine({machineId: chosenItem.Id}).then(msg => {
+                if (this.props.tunnelConfig.cabinetInfo.length > 0) {
+                    let chosen = ''
+                    let typeDicSelect = this.props.tunnelConfig.cabinetInfo.map((item, index) => {
+                        if (index == 0) {
+                            chosen = item.Id
+                        }
+                        return (
+                        <Option value={item.Id}>{item.Name}</Option>
+                        )
+                    })
+        
+                    if (this.state.searchDatasource.length == 2) {
+                        this.state.searchDatasource.splice(1, 1)
+                    }
+                        this.state.searchDatasource.push({
+                        label: '机柜',
+                        name: 'cabinetId',
+                        control: <Select>
+                            {typeDicSelect}
+                        </Select>
+                    })
+                    this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
                 }
-              return (
-                <Option value={item.Id}>{item.Name}</Option>
-              )
             })
-
-            if (this.state.searchDatasource.length == 2) {
-                this.state.searchDatasource.splice(1, 1)
-            }
-             this.state.searchDatasource.push({
-                label: '机柜',
-                name: 'cabinetId',
-                control: <Select>
-                    {typeDicSelect}
-                </Select>
-            })
-            this.setState({searchDatasource: this.state.searchDatasource, cabinetId: chosen})
+             
         }
     }
     
