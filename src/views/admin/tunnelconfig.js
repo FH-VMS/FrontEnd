@@ -127,9 +127,7 @@ class TunnelConfig extends Component {
            this.setState({loading: false})
        })
        
-       this.props.fetchProductDic().then(msg => {
-            this.setState({productDic: this.props.tunnelConfig.productDic})
-       })
+       
        
     }
     
@@ -149,24 +147,27 @@ class TunnelConfig extends Component {
               this.constructData[item.TunnelPosition.split('-')[0]].push(item)
           }
       })
+      this.props.fetchProductDic().then(msg => {
+                // this.setState({productDic: this.props.tunnelConfig.productDic})
+                let templateHtmlLet = this.constructData.map((pItem, pIndex) => {
+                    return (
+                        <li>
+                          <div><div className="rowNumber">{pIndex}</div></div>
+                          <div>
+                         {
+                             pItem.map((cItem, cIndex) => {
+                                 return (
+                                     <EveryTunnel fetchPriceByWaresId = {this.props.fetchPriceByWaresId} datasource = {cItem} productDic={this.props.tunnelConfig.productDic} />
+                                 )
+                             })
+                         }
+                         </div>
+                        </li>
+                    )
+                })
+                this.setState({templateHtml: templateHtmlLet})
+      })
      
-     let templateHtmlLet = this.constructData.map((pItem, pIndex) => {
-         return (
-             <li>
-               <div><div className="rowNumber">{pIndex}</div></div>
-               <div>
-              {
-                  pItem.map((cItem, cIndex) => {
-                      return (
-                          <EveryTunnel fetchPriceByWaresId = {this.props.fetchPriceByWaresId} datasource = {cItem} productDic={this.state.productDic} />
-                      )
-                  })
-              }
-              </div>
-             </li>
-         )
-     })
-     this.setState({templateHtml: templateHtmlLet})
    }
 
    saveTunnels = () => {
