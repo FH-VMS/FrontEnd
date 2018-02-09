@@ -299,9 +299,23 @@ const api = {
         GetMachines: function (data) {
           return apiService('MachineOperation', 'GetMachines', 'GET', data)
         }
+    },
+    Resource: {
+        GetData: function (data) {
+          return apiService('Resource', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('Resource', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('Resource', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('Resource', 'DeleteData', 'DELETE', data)
+        }
     }
     
 }
  
 export default api
-	
+
