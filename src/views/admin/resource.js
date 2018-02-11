@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Input, Table, message, Spin, Popconfirm } from 'antd'
+import { Select, Table, message, Spin, Popconfirm } from 'antd'
 
 const { Column } = Table
 
@@ -43,10 +43,10 @@ class Resource extends Component {
     // 取数据方法
     getData = (val) => {
       this.setState({loading: true})
-       this.props.fetchUser(val).then((msg) => {
-         if (this.props.userData) {
-           this.setState({dataSource: this.props.userData.data, pagination: {
-                total: this.props.userData.pager.TotalRows,
+       this.props.fetchResource(val).then((msg) => {
+         if (this.props.resource) {
+           this.setState({dataSource: this.props.resource.data, pagination: {
+                total: this.props.resource.pager.TotalRows,
                 showSizeChanger: true,
                 onShowSizeChange: (current, pageSize) => {
                     this.searchPara.pageIndex = current
@@ -67,10 +67,9 @@ class Resource extends Component {
     
     // 查询
     onSearch = (value) => {
-            this.searchPara.userName = value.userName
+            this.searchPara.fileType = value.fileType
         
 
-          this.searchPara.userAccount = value.userAccount
         
          
          
@@ -81,7 +80,7 @@ class Resource extends Component {
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: model.User.UserModel })
+           this.setState({ visible: true, savePara: {} })
          } else {
             item.UserPassword = ''
             this.setState({ visible: true, savePara: item })
@@ -205,14 +204,12 @@ class Resource extends Component {
         
         // 查询条件
         let searchDatasource = [{
-            label: '用户名',
+            label: '类型',
             name: 'userAccount',
-            control: <Input placeholder="用户名" />
-        },
-        {
-            label: '姓名',
-            name: 'userName',
-            control: <Input placeholder="姓名" />
+            control: <Select>
+            <Option value='1'>图片</Option>
+            <Option value='2'>视频</Option>
+        </Select>
         }]
 
         return (

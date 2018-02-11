@@ -4,6 +4,9 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_RESOURCE = 'FETCH_RESOURCE'
+const ADD_RESOURCE = 'ADD_RESOURCE'
+const UPDATE_RESOURCE = 'UPDATE_RESOURCE'
+const DELETE_RESOURCE = 'DELETE_RESOURCE'
 
 // ================================
 // Action Creator
@@ -19,9 +22,45 @@ const fetchResource = (queryBody) => dispatch =>
       })
   })
 
+  const addResource = (addBody) => dispatch =>
+  apis
+    .Resource
+    .PostData(addBody)
+    .then(msgs => {
+      dispatch({
+         type: ADD_RESOURCE,
+         payload: msgs
+      })
+      return msgs
+  })
+
+const updateResource = (updBody) => dispatch =>
+  apis
+    .Resource
+    .PutData(updBody)
+    .then(msgs => {
+      dispatch({
+         type: UPDATE_RESOURCE,
+         payload: msgs
+      })
+     return msgs
+  })
+
+  const deleteResource = (deleteBody) => dispatch =>
+  apis
+    .Resource
+    .DeleteData(deleteBody)
+    .then(msgs => {
+      dispatch({
+         type: DELETE_RESOURCE,
+         payload: msgs
+      })
+     return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-    fetchResource
+    fetchResource, addResource, updateResource, deleteResource
 }
 
 // ================================
@@ -36,7 +75,10 @@ export const ACTION_HANDLERS = {
     resource.data = payload.data
     resource.pager = payload.pager
       return resource
-  }
+  },
+  [ADD_RESOURCE]: (result, { payload }) => ({payload}),
+  [UPDATE_RESOURCE]: (result, { payload }) => ({payload}),
+  [DELETE_RESOURCE]: (result, { payload }) => ({payload})
 }
 
 
