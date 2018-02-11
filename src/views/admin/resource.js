@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Select, Table, message, Spin, Popconfirm } from 'antd'
+import EveryResource from 'COMPONENT/admin/resource/everyResource'
+import { Select, Table, message, Spin, Popconfirm, Pagination } from 'antd'
 
 const { Column } = Table
 
@@ -12,7 +13,6 @@ class Resource extends Component {
         this.state = {
             visible: false,
             authData: [], // 权限数据
-            clientDicData: [], // 客户字典
             dataSource: [],
             auth: {
                 CanAdd: 'none',
@@ -24,7 +24,7 @@ class Resource extends Component {
                 defaultPageSize: model.BaseSetting.PageSize
             },
             loading: false,
-            savePara: model.User.UserModel
+            savePara: {}
         }
 
         this.searchPara = {
@@ -216,7 +216,17 @@ class Resource extends Component {
             <div>
               <Spin size="large" spinning={this.state.loading}>
               <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
-             
+              <div className="resourceContainer">
+              {
+                             this.state.dataSource.map((cItem, cIndex) => {
+                                 return (
+                                    <EveryResource data={cItem} />
+                                 )
+                             })
+                         }
+                 
+              </div>
+              <Pagination showSizeChanger defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
                </Spin>
            </div>
         )

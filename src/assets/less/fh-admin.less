@@ -479,3 +479,24 @@ body{
     display: block;
   }
 }
+
+
+// 资源库
+.resourceContainer{
+  width: 100%;
+  &:after{
+    content: '.';
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+  }
+
+  .everyResource{
+    float: left;
+    margin: 10px;
+    width: 190px;
+    height: 200px;
+    border: 1px solid @mainColor;
+  }
+}
