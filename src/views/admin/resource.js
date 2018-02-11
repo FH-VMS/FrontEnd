@@ -153,7 +153,16 @@ class Resource extends Component {
         })
     }
 
+
      /* ****************************对弹出框form的操作方法********************************** */
+
+     handleDelete = (item) => {
+
+     }
+
+     updateDialog = (typ, item) => {
+        
+    }
      
      // 修改和删除的权限控制
     getAuth = () =>{
@@ -220,13 +229,13 @@ class Resource extends Component {
               {
                              this.state.dataSource.map((cItem, cIndex) => {
                                  return (
-                                    <EveryResource data={cItem} />
+                                    <EveryResource handleDelete={this.handleDelete} updateDialog={this.updateDialog} auth={this.state.auth} data={cItem} />
                                  )
                              })
                          }
                  
               </div>
-              <Pagination showSizeChanger defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
+              <Pagination showSizeChanger onChange={this.state.pagination.onChange} onShowSizeChange={this.state.pagination.onShowSizeChange} defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
                </Spin>
            </div>
         )

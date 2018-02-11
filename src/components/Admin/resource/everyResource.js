@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Popconfirm} from 'antd'
 
 class EveryResource extends Component {
     constructor(props) {
@@ -9,7 +10,6 @@ class EveryResource extends Component {
     }
 
     render() {
-        console.log('000000', this.props)
         let rHmtl = ''
         if (this.props.data && this.props.data.FileType == '1') {
             rHmtl = <img src={this.props.data.PicUrl} />
@@ -19,7 +19,13 @@ class EveryResource extends Component {
         return (
             <div className="everyResource">
                <div>{rHmtl}</div>
-               <div></div>
+               <div>
+               <Popconfirm title="确认删除吗?" onConfirm={this.props.handleDelete.bind(this, this.props.data)} okText="确定" cancelText="取消">
+                                <a style={{display: this.props.auth.CanDelete}}>删除</a>
+                            </Popconfirm>
+                            <span className="ant-divider" />
+                            <a style={{display: this.props.auth.CanUpdate}} onClick={this.props.updateDialog.bind(this, '修改', this.props.data)}>编辑</a>
+               </div>
            </div>
         )
     }

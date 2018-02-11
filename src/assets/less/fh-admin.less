@@ -482,6 +482,7 @@ body{
 
 
 // 资源库
+@resourceImg: 180px;
 .resourceContainer{
   width: 100%;
   &:after{
@@ -495,8 +496,21 @@ body{
   .everyResource{
     float: left;
     margin: 10px;
-    width: 190px;
-    height: 200px;
+    width: @resourceImg;
+    height: 210px;
     border: 1px solid @mainColor;
+
+    &>div:first-child {
+      width: 100%;
+      height: @resourceImg;
+      &>img{
+        width: @resourceImg;
+        height: @resourceImg;
+      }
+    }
+
+    &>div:last-child {
+      text-align: center;
+    }
   }
 }
