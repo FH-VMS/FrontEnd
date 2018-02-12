@@ -3,7 +3,7 @@ import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import EveryResource from 'COMPONENT/admin/resource/everyResource'
-import { Select, Table, message, Spin, Popconfirm, Pagination } from 'antd'
+import { Select, Table, message, Spin, Popconfirm, Pagination, Upload, Icon } from 'antd'
 
 const { Column } = Table
 
@@ -24,7 +24,8 @@ class Resource extends Component {
                 defaultPageSize: model.BaseSetting.PageSize
             },
             loading: false,
-            savePara: {}
+            savePara: {},
+            imageUrl: ''
         }
 
         this.searchPara = {
@@ -157,7 +158,12 @@ class Resource extends Component {
      /* ****************************对弹出框form的操作方法********************************** */
 
      handleDelete = (item) => {
-
+        console.log('pppppp', this.props)
+        this.props.deleteResource({idList: item.PicId}).then(msg => {
+            if (msg) {
+                message.success('删除成功')
+            }
+        })
      }
 
      updateDialog = (typ, item) => {
@@ -206,9 +212,28 @@ class Resource extends Component {
                     />
         }
     }
+
+    
     
 
     render() {
+        // 上传方法
+        const uploadObj = Utility.getUploadObj()
+        uploadObj.onChange = (info) => {
+            if (info.file.status !== 'uploading') {
+                
+            }
+            if (info.file.status === 'done') {
+                message.success(`上传成功`)
+                this.getData(this.searchPara)
+                if (info.file.response) {
+                // let id = info.file.response.RetObj[0].Id
+                // let name = info.file.response.RetObj[0].Name
+                }
+            } else if (info.file.status === 'error') {
+                message.error(`上传失败`)
+            }
+        }
         this.getAuth()
         
         // 查询条件
@@ -226,6 +251,22 @@ class Resource extends Component {
               <Spin size="large" spinning={this.state.loading}>
               <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
               <div className="resourceContainer">
+                  <div className="everyResource newUpload">
+                  <Upload
+                    className="avatar-uploader"
+                    name="avatar"
+                    showUploadList={false}
+                    {...uploadObj} 
+                >
+                    {
+                        /*
+                    imageUrl ?
+                        <img src={imageUrl} alt="" className="avatar" /> :
+                        */
+                        <Icon type="plus" className="avatar-uploader-trigger" />
+                    }
+                </Upload>
+                  </div>
               {
                              this.state.dataSource.map((cItem, cIndex) => {
                                  return (

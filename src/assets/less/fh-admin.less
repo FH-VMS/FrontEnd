@@ -504,7 +504,7 @@ body{
       width: 100%;
       height: @resourceImg;
       &>img{
-        width: @resourceImg;
+        width: @resourceImg+-2;
         height: @resourceImg;
       }
     }
@@ -513,4 +513,24 @@ body{
       text-align: center;
     }
   }
+}
+
+.newUpload{
+  border: 1px solid #999 !important;
+}
+
+.avatar-uploader{
+  display: block;
+  cursor: pointer;
+  width: @resourceImg;
+  height: 210px;
+}
+
+.avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #999;
+  width: @resourceImg;
+  height: 210px;
 }
