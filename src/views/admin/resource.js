@@ -161,6 +161,7 @@ class Resource extends Component {
         console.log('pppppp', this.props)
         this.props.deleteResource({idList: item.PicId}).then(msg => {
             if (msg) {
+                this.getData(this.searchPara)
                 message.success('删除成功')
             }
         })
@@ -221,7 +222,7 @@ class Resource extends Component {
         const uploadObj = Utility.getUploadObj()
         uploadObj.onChange = (info) => {
             if (info.file.status !== 'uploading') {
-                
+               console.log('aaaaa', info)
             }
             if (info.file.status === 'done') {
                 message.success(`上传成功`)
