@@ -313,6 +313,20 @@ const api = {
         DeleteData: function (data) {
           return apiService('Resource', 'DeleteData', 'DELETE', data)
         }
+    },
+    Ad: {
+        GetData: function (data) {
+          return apiService('Ad', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('Ad', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('Ad', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('Ad', 'DeleteData', 'DELETE', data)
+        }
     }
     
 }

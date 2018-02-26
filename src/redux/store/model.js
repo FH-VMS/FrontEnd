@@ -14,253 +14,447 @@ if (__PROD__) { // 为了方便  跑起来使用云上的接口
     rootApi = 'http://120.27.217.224:8088/api'
 }
 const Front = { 
-   BaseSetting: {
-      Root: rootApi, 
-      PageSize: __WEBCONFIG__.defaultpagesize,
-      NoPage: __WEBCONFIG__.nopage // 控制那些不需要翻页的，又为了保持方法共用
-   }, 
- 
-  Model: {
-      BaseModel: {
-          PageIndex: '',
-          PageSize: '',
-          CreateDate: '',
-          Creator: '',
-          Remark: ''
-      }
-  },
-  Common: {
-      CommonDic: {
-          Id: '',
-          Name: '',
-          children: ''
-      },
-      DicModel: {
-          Id: '',
-          Value: '',
-          BookChinese: ''
-      },
-      MenuModel: {
-          MenuId: '',
-          MenuName: '',
-          MenuFather: '',
-          Url: '',
-          Remark: '',
-          Add: '',
-          Del: '',
-          Mod: '',
-          Sear: '',
-          Checked: ''
-      }
-
-  },
-  Customer: {
-      CustomerModel: {
-          Id: '',
-          ClientName: '',
-          ClientStatus: '',
-          ClientFatherId: '',
-          ClientType: '',
-          ClientContect: '',
-          ClientTel: '',
-          ClientEmail: '',
-          ClientCountry: '',
-          ClientCurrency: '',
-          ClientAddress: '',
-          UpdateDate: '',
-          Updater: '',
-          children: '',
-          key: '',
-          PageIndex: '',
-          PageSize: '',
-          CreateDate: '',
-          Creator: '',
-          Remark: ''
-      }
-
-  },
-  Machine: {
-      CabinetConfigModel: {
-          CabinetId: '',
-          CabinetName: '',
-          CabinetType: '',
-          LayerNumber: '',
-          LayerGoodsNumber: '',
-          Remark: ''
-      },
-      MachineCabinetModel: {
-          CabinetId: '',
-          CabinetName: '',
-          CabinetType: '',
-          LayerNumber: '',
-          LayerGoodsNumber: '',
-          Remark: '',
-          CabinetDisplay: '',
-          PageIndex: '',
-          PageSize: ''
-      },
-      MachineConfigModel: {
-          MachineId: '',
-          MachineIdB: '',
-          McStatus: '',
-          McActivity: '',
-          McAlipayEnable: '',
-          McWpayEnable: '',
-          McBillpayEnable: '',
-          McBillchangeEnable: '',
-          McCoinpayEnable: '',
-          McCoinchangeEnable: '',
-          McUpayEnable: '',
-          McIcpayEnable: '',
-          McLiftEnable: '',
-          McInfraredEnable: '',
-          McArea1Temp: '',
-          McArea2Temp: '',
-          McArea3Temp: '',
-          McArea4Temp: '',
-          McGoodsUsed: '',
-          McLongitude: '',
-          McDimension: '',
-          Updater: '',
-          UpdateDate: '',
-          Remark: '',
-          PageIndex: '',
-          PageSize: '',
-          DeviceId: ''
-      },
-      MachineListModel: {
-          MachineId: '',
-          DeviceId: '',
-          TypeId: '',
-          TypeText: '',
-          ClientId: '',
-          ClientText: '',
-          UserAccount: '',
-          UserAccountName: '',
-          StartDate: '',
-          StopDate: '',
-          StopReason: '',
-          Updater: '',
-          UpdateDate: '',
-          PageIndex: '',
-          PageSize: '',
-          CreateDate: '',
-          Creator: '',
-          Remark: '',
-          MobilePayId: ''
-      },
-      MachineTypeModel: {
-          Id: '',
-          TypeName: '',
-          TypeType: '',
-          TypeTypeText: '',
-          MaxGoods: '',
-          TypeRemark: '',
-          PageIndex: '',
-          PageSize: ''
-      },
-      TunnelConfigModel: {
-          MachineId: '',
-          CabinetId: '',
-          TunnelId: '',
-          MaxPuts: '',
-          CashPrices: '',
-          WpayPrices: '',
-          AlipayPrices: '',
-          IcPrices: '',
-          WaresId: '',
-          IsUsed: '',
-          TunnelPosition: ''
-      }
-
-  },
-  Product: {
-      ProductListModel: {
-          WaresId: '',
-          WaresName: '',
-          WaresUnitPrice: '',
-          WaresWeight: '',
-          WaresSpecifications: '',
-          WaresManufactureDate: '',
-          WaresQualityPeriod: '',
-          ClientId: '',
-          ClientName: '',
-          PicId: '',
-          PicUrl: '',
-          WaresTypeId: '',
-          WaresTypeText: '',
-          SupplierId: '',
-          Supplier: '',
-          WaresDescription: '',
-          Creator: '',
-          UpdateDate: '',
-          PageIndex: '',
-          PageSize: ''
-      }
-
-  },
-  User: {
-      AuthModel: {
-          Id: '',
-          DmsName: '',
-          Rank: '',
-          RankName: '',
-          Remark: '',
-          PageIndex: '',
-          PageSize: '',
-          lstAuthRelate: ''
-      },
-      AuthRelateModel: {
-          Id: '',
-          CorrDmsId: '',
-          CorrMenuId: '',
-          CorrAdd: '',
-          CorrDel: '',
-          CorrModify: '',
-          CorrSearch: '',
-          Remark: ''
-      },
-      UserModel: {
-          Id: '',
-          UserAccount: '',
-          UserAccessId: '',
-          UserName: '',
-          UserPassword: '',
-          UserClientId: '',
-          UserClientName: '',
-          EndDate: '',
-          Sts: '',
-          children: '',
-          PageIndex: '',
-          PageSize: '',
-          CreateDate: '',
-          Creator: '',
-          Remark: ''
-      }
-
-  },
-  Pay: {
-      ConfigModel: {
-          Id: '',
-          Name: '',
-          AliParter: '',
-          AliKey: '',
-          AliRefundAppId: '',
-          AliRefundRsaSign: '',
-          WxAppId: '',
-          WxMchId: '',
-          WxKey: '',
-          WxAppSecret: '',
-          WxSslcertPath: '',
-          WxSslcertPassword: '',
-          ClientId: '',
-          PageIndex: '',
-          PageSize: '',
-          AliPublicKey: '',
-          AliPrivateKey: '',
-          AliAppId: ''
-      }
-  }
-} 
-export default Front
+    BaseSetting: {
+       Root: rootApi,
+       PageSize: __WEBCONFIG__.defaultpagesize,
+       NoPage: __WEBCONFIG__.nopage
+    }, 
+  
+   Ad: {
+       AdModel: {
+           Id: '',
+           Name: '',
+           ClientId: '',
+           Reources: ''
+       },
+       AdRelationModel: {
+           AdId: '',
+           SourceId: '',
+           Sequence: '',
+           AdType: ''
+       }
+   },
+   Model: {
+       BaseModel: {
+           PageIndex: '',
+           PageSize: '',
+           CreateDate: '',
+           Creator: '',
+           Remark: ''
+       },
+       Class1: {
+       }
+   },
+   Common: {
+       CommonDic: {
+           Id: '',
+           Name: '',
+           children: ''
+       },
+       DicModel: {
+           Id: '',
+           Value: '',
+           BookChinese: ''
+       },
+       MenuModel: {
+           MenuId: '',
+           MenuName: '',
+           MenuFather: '',
+           Url: '',
+           Remark: '',
+           Add: '',
+           Del: '',
+           Mod: '',
+           Sear: '',
+           Checked: ''
+       }
+   },
+   Customer: {
+       CustomerModel: {
+           Id: '',
+           ClientName: '',
+           ClientStatus: '',
+           ClientFatherId: '',
+           ClientType: '',
+           ClientContect: '',
+           ClientTel: '',
+           ClientEmail: '',
+           ClientCountry: '',
+           ClientCurrency: '',
+           ClientAddress: '',
+           UpdateDate: '',
+           Updater: '',
+           MobileArr: '',
+           children: '',
+           key: '',
+           PageIndex: '',
+           PageSize: '',
+           CreateDate: '',
+           Creator: '',
+           Remark: ''
+       }
+   },
+   Machine: {
+       CabinetConfigModel: {
+           CabinetId: '',
+           CabinetName: '',
+           CabinetType: '',
+           LayerNumber: '',
+           LayerGoodsNumber: '',
+           Remark: '',
+           CabinetDisplay: ''
+       },
+       MachineCabinetModel: {
+           CabinetId: '',
+           CabinetName: '',
+           CabinetType: '',
+           LayerNumber: '',
+           LayerGoodsNumber: '',
+           Remark: '',
+           CabinetDisplay: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       MachineConfigModel: {
+           MachineId: '',
+           MachineIdB: '',
+           McStatus: '',
+           McActivity: '',
+           McAlipayEnable: '',
+           McWpayEnable: '',
+           McBillpayEnable: '',
+           McBillchangeEnable: '',
+           McCoinpayEnable: '',
+           McCoinchangeEnable: '',
+           McUpayEnable: '',
+           McIcpayEnable: '',
+           McLiftEnable: '',
+           McInfraredEnable: '',
+           McArea1Temp: '',
+           McArea2Temp: '',
+           McArea3Temp: '',
+           McArea4Temp: '',
+           McGoodsUsed: '',
+           McLongitude: '',
+           McDimension: '',
+           Updater: '',
+           UpdateDate: '',
+           Remark: '',
+           PageIndex: '',
+           PageSize: '',
+           DeviceId: ''
+       },
+       MachineListModel: {
+           MachineId: '',
+           DeviceId: '',
+           TypeId: '',
+           TypeText: '',
+           ClientId: '',
+           ClientText: '',
+           UserAccount: '',
+           UserAccountName: '',
+           StartDate: '',
+           StopDate: '',
+           StopReason: '',
+           Updater: '',
+           UpdateDate: '',
+           LatestDate: '',
+           MobilePayId: '',
+           IpV4: '',
+           LatestOnline: '',
+           PageIndex: '',
+           PageSize: '',
+           CreateDate: '',
+           Creator: '',
+           Remark: ''
+       },
+       MachineTypeAndCabinetModel: {
+           MachineTypeId: '',
+           CabinetTypeId: ''
+       },
+       MachineTypeModel: {
+           Id: '',
+           TypeName: '',
+           TypeType: '',
+           TypeTypeText: '',
+           MaxGoods: '',
+           TypeRemark: '',
+           Communicate: '',
+           Cabinets: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       OperationLogModel: {
+           MachineId: '',
+           OptContent: '',
+           OptDate: '',
+           Operator: '',
+           Remark: ''
+       },
+       PriceAndMaxStock: {
+           m: '',
+           t: ''
+       },
+       PriceAndMaxStockModel: {
+           tid: '',
+           p1: '',
+           p2: '',
+           p3: '',
+           p4: '',
+           ms: ''
+       },
+       ProductForMachineModel: {
+           MachineId: '',
+           WaresId: '',
+           TunnelId: '',
+           WaresName: '',
+           PicUrl: '',
+           CurrStock: '',
+           APrice: '',
+           WPrice: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       ToMachineModel: {
+           MachineId: '',
+           MachineStatus: '',
+           m: '',
+           s: ''
+       },
+       TunnelConfigModel: {
+           MachineId: '',
+           CabinetId: '',
+           TunnelId: '',
+           MaxPuts: '',
+           CashPrices: '',
+           WpayPrices: '',
+           AlipayPrices: '',
+           IcPrices: '',
+           WaresId: '',
+           IsUsed: '',
+           TunnelPosition: ''
+       },
+       TunnelInfoModel: {
+           GoodsStuId: '',
+           MachineId: '',
+           TunnelId: '',
+           CurrStock: '',
+           CurrMissing: '',
+           FaultCode: '',
+           FaultDescribe: '',
+           CurrStatus: '',
+           UpdateDate: '',
+           CabinetId: '',
+           WaresId: '',
+           ProductName: '',
+           MaxPuts: '',
+           Price: '',
+           PageIndex: '',
+           PageSize: ''
+       }
+   },
+   Pay: {
+       ConfigModel: {
+           Id: '',
+           Name: '',
+           AliParter: '',
+           AliKey: '',
+           AliRefundAppId: '',
+           AliRefundRsaSign: '',
+           AliPublicKey: '',
+           AliPrivateKey: '',
+           AliAppId: '',
+           WxAppId: '',
+           WxMchId: '',
+           WxKey: '',
+           WxAppSecret: '',
+           WxSslcertPath: '',
+           WxSslcertPassword: '',
+           ClientId: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       KeyJsonModel: {
+           m: '',
+           t: ''
+       },
+       KeyTunnelModel: {
+           tid: '',
+           wid: '',
+           n: '',
+           s: '',
+           p: '',
+           tn: ''
+       },
+       PayStateModel: {
+           ProductJson: '',
+           RequestState: '',
+           RequestData: ''
+       },
+       ProductModel: {
+           MachineId: '',
+           TunnelId: '',
+           WaresId: '',
+           WaresName: '',
+           UnitW: '',
+           UnitA: '',
+           TradeNo: '',
+           Num: ''
+       }
+   },
+   Product: {
+       ProductConfigModel: {
+           WaresConfigId: '',
+           WaresId: '',
+           WaresConfigName: '',
+           WaresName: '',
+           LowMissing: '',
+           LowMissingAlarm: '',
+           PurchasePrice: '',
+           PriceUnit: '',
+           WaresStatus: '',
+           UpdateDate: '',
+           WaresConfigRemark: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       ProductListModel: {
+           WaresId: '',
+           WaresName: '',
+           WaresUnitPrice: '',
+           WaresWeight: '',
+           WaresSpecifications: '',
+           WaresManufactureDate: '',
+           WaresQualityPeriod: '',
+           ClientId: '',
+           ClientName: '',
+           PicId: '',
+           PicUrl: '',
+           WaresTypeId: '',
+           WaresTypeText: '',
+           SupplierId: '',
+           Supplier: '',
+           WaresDescription: '',
+           Creator: '',
+           UpdateDate: '',
+           PageIndex: '',
+           PageSize: ''
+       }
+   },
+   Refund: {
+       RefundModel: {
+           OutTradeNo: '',
+           TradeNo: '',
+           RefundNo: '',
+           RefundDetail: ''
+       }
+   },
+   Resource: {
+       PictureModel: {
+           PicId: '',
+           PicName: '',
+           PicPath: '',
+           ClientId: '',
+           FileType: '',
+           UploadTime: '',
+           PicUrl: '',
+           PageIndex: '',
+           PageSize: ''
+       }
+   },
+   Sale: {
+       SaleModel: {
+           SalesIcId: '',
+           MachineId: '',
+           SalesDate: '',
+           SalesNumber: '',
+           PayDate: '',
+           PayType: '',
+           PayInterface: '',
+           AcquiringMerchant: '',
+           TradeNo: '',
+           Payer: '',
+           GoodsId: '',
+           ComId: '',
+           TradeAmount: '',
+           ServiceCharge: '',
+           TradeStatus: '',
+           RandomId: '',
+           RealitySaleNumber: '',
+           WaresId: '',
+           SaleDateStart: '',
+           SaleDateEnd: '',
+           ClientName: '',
+           DeviceId: '',
+           PageIndex: '',
+           PageSize: ''
+       }
+   },
+   Socket: {
+       CommandModel: {
+           Content: '',
+           Size: ''
+       }
+   },
+   User: {
+       AuthModel: {
+           Id: '',
+           DmsName: '',
+           Rank: '',
+           RankName: '',
+           Remark: '',
+           PageIndex: '',
+           PageSize: '',
+           lstAuthRelate: ''
+       },
+       AuthRelateModel: {
+           Id: '',
+           CorrDmsId: '',
+           CorrMenuId: '',
+           CorrAdd: '',
+           CorrDel: '',
+           CorrModify: '',
+           CorrSearch: '',
+           Remark: ''
+       },
+       UserModel: {
+           Id: '',
+           UserAccount: '',
+           UserAccessId: '',
+           UserName: '',
+           UserPassword: '',
+           UserClientId: '',
+           UserClientName: '',
+           EndDate: '',
+           Sts: '',
+           children: '',
+           PageIndex: '',
+           PageSize: '',
+           CreateDate: '',
+           Creator: '',
+           Remark: ''
+       }
+   },
+   Withdraw: {
+       MachineMoneyModel: {
+           MachineId: '',
+           AliMoney: '',
+           WxMoney: ''
+       },
+       TotalMoneyModel: {
+           ClientId: '',
+           AliAccount: '',
+           WxAccount: ''
+       },
+       WithdrawModel: {
+           Id: '',
+           ClientId: '',
+           Money: '',
+           OptType: '',
+           OptStatus: '',
+           OptDatetime: ''
+       }
+   } 
+ } 
+ export default Front
  
