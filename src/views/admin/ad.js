@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Spin} from 'antd'
 
 class Ad extends Component {
     constructor(props) {
@@ -20,7 +21,9 @@ class Ad extends Component {
 
         return (
             <div>
-              <Spin size="large" spinning={this.state.loading}> </Spin>
+              <Spin size="large" spinning={this.state.loading}>
+                广告设置
+               </Spin>
            </div>
         )
     }
