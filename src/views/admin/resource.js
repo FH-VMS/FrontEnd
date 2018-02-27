@@ -158,7 +158,6 @@ class Resource extends Component {
      /* ****************************对弹出框form的操作方法********************************** */
 
      handleDelete = (item) => {
-        console.log('pppppp', this.props)
         this.props.deleteResource({idList: item.PicId}).then(msg => {
             if (msg) {
                 this.getData(this.searchPara)
