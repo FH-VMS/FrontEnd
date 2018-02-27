@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {Spin, Modal} from 'antd'
+import {Spin} from 'antd'
 import ThreeScreen from 'COMPONENT/admin/ad/threeScreen'
+import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 
 class Ad extends Component {
     constructor(props) {
@@ -37,17 +38,12 @@ class Ad extends Component {
                <Spin size="large" spinning={this.state.loading}>
                 <ThreeScreen chooseResource={this.showResource.bind(this)}/>
                </Spin>
-               <Modal
-                maskClosable={false}
-                closable = {false}
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-                >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                </Modal>
+              <ResourceDialog 
+              visible={this.state.visible} 
+              handleOk={this.handleOk} 
+              handleCancel={this.handleCancel}
+              {...this.props}
+              />
            </div>
         )
     }
