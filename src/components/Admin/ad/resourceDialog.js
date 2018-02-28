@@ -105,7 +105,6 @@ class ResourceDialog extends Component {
                
             </div>
             <Pagination showSizeChanger onChange={this.state.pagination.onChange} onShowSizeChange={this.state.pagination.onShowSizeChange} defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
-           
          </div>
             </Modal>
             
