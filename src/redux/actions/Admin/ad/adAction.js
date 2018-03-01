@@ -9,6 +9,7 @@ const ADD_AD = 'ADD_AD'
 const UPDATE_AD = 'UPDATE_AD'
 const DELETE_AD = 'DELETE_AD'
 const FETCH_RESOURCE = 'FETCH_RESOURCE'
+const FETCH_ADBYID = 'FETCH_ADBYID'
 
 
 // ================================
@@ -75,10 +76,22 @@ const updateAd = (updBody) => dispatch =>
       })
   })
 
+  const fetchAdById = (queryBody) => dispatch =>
+  apis
+    .Ad
+    .GetRelationByIdAndType(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_ADBYID,
+         payload: msgs
+      })
+      return msgs
+  })
+
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchAd, addAd, updateAd, deleteAd, ...common, fetchResource
+    fetchAd, addAd, updateAd, deleteAd, ...common, fetchResource, fetchAdById
 }
 
 // ================================
@@ -96,6 +109,7 @@ export const ACTION_HANDLERS = {
   [ADD_AD]: (result, { payload }) => ({payload}),
   [UPDATE_AD]: (result, { payload }) => ({payload}),
   [DELETE_AD]: (result, { payload }) => ({payload}),
+  [FETCH_ADBYID]: (result, { payload }) => ({payload}),
   [FETCH_RESOURCE]: (resource, { payload }) => {
     resource.resourceData = payload.data
     resource.resourcePager = payload.pager
