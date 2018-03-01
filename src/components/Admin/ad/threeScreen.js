@@ -4,6 +4,9 @@ import {Button, Icon} from 'antd'
 class ThreeScreen extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            settingPanel: ''
+        }
     }
 
     componentWillMount() {
@@ -12,6 +15,18 @@ class ThreeScreen extends Component {
 
     chooseModule = (txt, ev) => {
        // txt: 1(上)，2(中)，3(下)
+       $(ev.target).siblings().css('background-color', '#fff')
+       $(ev.target).css('background-color', '#ccc')
+       if (this.props.data && this.props.data.Id) {
+
+       } else {
+           // let panel = []
+            this.setState({settingPanel: <Button type="dashed" onClick={this.props.chooseResource} style={{ width: '60%' }}>
+                            <Icon type="plus" /> 选择资源
+                        </Button>})
+           
+           
+       }
     }
 
     render() {
@@ -20,14 +35,11 @@ class ThreeScreen extends Component {
                 <div className="threeScreenContainer">
                     <div><h4>三分屏</h4></div>
                     <div onClick={this.chooseModule.bind(this, '1')}>
-                            <Button type="dashed" onClick={this.props.chooseResource} style={{ width: '60%' }}>
-                                <Icon type="plus" /> 选择资源
-                            </Button>
                     </div>
                     <div></div>
                     <div onClick={this.chooseModule.bind(this, '3')}></div>
                 </div>
-                <div className="settingPanel"></div>
+                <div className="settingPanel">{this.state.settingPanel}</div>
            </div>
        )
     }

@@ -24,7 +24,7 @@ class ResourceDialog extends Component {
 
     componentWillMount() {
      
-     this.getData(this.searchPara)
+       this.getData(this.searchPara)
     
     }
     
@@ -98,7 +98,7 @@ class ResourceDialog extends Component {
             {
                            this.state.dataSource.map((cItem, cIndex) => {
                                return (
-                                  <img src={cItem.PicUrl} />
+                                  <img src={cItem.PicUrl} onClick={this.props.resourceClick.bind(this, cItem)}/>
                                )
                            })
                        }
