@@ -57,11 +57,37 @@ class Ad extends Component {
         }
     }
 
+    /* *****************数组上下移动及删除操作**************** */
+    arrDelete = (index) => {
+        let tmpArr = this.state.everyModuleData
+        tmpArr.splice(index, 1)
+        this.setState({everyModuleData: tmpArr})
+    }
+
+    arrUp = (index) => {
+       if (index == 0) {
+           return
+       }
+      
+       let tmpArr = this.state.everyModuleData
+       tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
+       this.setState({everyModuleData: tmpArr})
+    }
+
+    arrDown = (index) => {
+       if (index == this.state.everyModuleData.length - 1) {
+           return
+       }
+       let tmpArr = this.state.everyModuleData
+       tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
+       this.setState({everyModuleData: tmpArr})
+    }
+
     render() {
         return (
             <div>
                <Spin size="large" spinning={this.state.loading}>
-                <ThreeScreen everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
+                <ThreeScreen arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
                </Spin>
               <ResourceDialog 
               visible={this.state.visible} 
