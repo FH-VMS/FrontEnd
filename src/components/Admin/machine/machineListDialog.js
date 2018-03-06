@@ -26,6 +26,10 @@ const MachineTypeDialog = Form.create({
         ...props.UserAccount,
         value: props.UserAccount
       },
+      CreateDate: {
+       ...props.CreateDate,
+       value: Utility.dateFormaterObj(props.CreateDate)
+     },
        StartDate: {
         ...props.StartDate,
         value: Utility.dateFormaterObj(props.StartDate)
@@ -237,6 +241,19 @@ const MachineTypeDialog = Form.create({
               <Select>
                  {this.state.payConfigSelect}
               </Select>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="创建日期："
+          hasFeedback
+        >
+          {getFieldDecorator('CreateDate', {
+            rules: [{
+              required: false
+            }]
+          })(
+            <DatePicker disabled={true}/>
           )}
         </FormItem>
         <FormItem
