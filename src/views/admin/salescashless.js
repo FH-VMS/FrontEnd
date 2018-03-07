@@ -219,23 +219,20 @@ class SalesCashless extends Component {
                         dataIndex="DeviceId"
                         key="DeviceId"
                     />
+                    <Column
+                        title="设备名称"
+                        dataIndex="MachineName"
+                        key="MachineName"
+                    />
                      <Column
                         title="货道编号"
                         dataIndex="GoodsId"
                         key="GoodsId"
                     />
                     <Column
-                        title="销售日期"
-                        dataIndex="SalesDate"
-                        key="SalesDate"
-                        render={(text, record) => {
-                            if (text == '0001-01-01T00:00:00') {
-                                return ''
-                            } else {
-                                return text.replace('T', ' ')
-                            }
-                        }
-                      }
+                        title="商品名"
+                        dataIndex="WaresName"
+                        key="WaresName"
                     />
                     <Column
                         title="数量"
@@ -243,19 +240,14 @@ class SalesCashless extends Component {
                         key="SalesNumber"
                     />
                     <Column
-                        title="支付者"
-                        dataIndex="Payer"
-                        key="Payer"
-                    />
-                    <Column
                         title="支付方式"
                         dataIndex="PayType"
                         key="PayType"
                     />
                     <Column
-                        title="支付时间"
-                        dataIndex="PayDate"
-                        key="PayDate"
+                        title="销售日期"
+                        dataIndex="SalesDate"
+                        key="SalesDate"
                         render={(text, record) => {
                             if (text == '0001-01-01T00:00:00') {
                                 return ''
@@ -281,10 +273,11 @@ class SalesCashless extends Component {
                         key="ServiceCharge"
                     />
                      <Column
-                        title="客户名称"
+                        title="所属客户"
                         dataIndex="ClientName"
                         key="ClientName"
                     />
+                    
                     <Column
                         title="交易状态"
                         dataIndex="TradeStatus"
