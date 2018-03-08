@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 // import Utility from 'UTIL/utility'
 import { Chart, Geom, Tooltip, Coord, Label, Axis } from 'bizcharts'
+import {Icon} from 'antd'
 import DataSet from '@antv/data-set'
+import SalesMoney from 'COMPONENT/Admin/home/salesMoney'
 
 const { DataView } = DataSet
 
@@ -15,9 +17,6 @@ const cols = {
     }
   }
 
-  const colPayNum = {
-    'sales': {tickInterval: 20}
-  }
 
 
 // var echarts = require('echarts')
@@ -30,14 +29,15 @@ class Home extends Component {
             totalMachine: 0,
             payTotalNumbers: 0,
             successReate: '100%',
-            payEveryData: [{ year: '1951 年', sales: 38 },
-            { year: '1952 年', sales: 52 },
-            { year: '1956 年', sales: 61 },
-            { year: '1957 年', sales: 145 },
-            { year: '1958 年', sales: 48 },
-            { year: '1959 年', sales: 38 },
-            { year: '1960 年', sales: 38 },
-            { year: '1962 年', sales: 38 }]
+            payEveryData: [{ year: '2018/02/28', sales: 38 },
+            { year: '2018/03/01', sales: 52 },
+            { year: '2018/03/02', sales: 61 },
+            { year: '2018/03/03', sales: 145 },
+            { year: '2018/03/04', sales: 48 },
+            { year: '2018/03/05', sales: 38 },
+            { year: '2018/03/06', sales: 38 },
+            { year: '2018/03/07', sales: 38 }],
+            threeMonthMoney: [{Data: 1}, {Data: 1}, {Data: 1}]
         }
 	}
     
@@ -92,9 +92,24 @@ class Home extends Component {
     }
 
     generateGroupMoney = () => {
-        console.log('ddddd', new Date().format('yyyy-MM-dd hh:mm:ss'))
-        this.props.fetchGroupMoney({salesDateStart: '2017/12/01', salesDateEnd: '2018/03/08', type: 'month'}).then(msg => {
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        let second = date.getSeconds()
 
+        let endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
+        let endMonth = month - 2
+        let endYear = year
+        if (endMonth < 1) {
+            endMonth = 12 + endMonth
+            endYear = endYear - 1
+        }
+        let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
+        this.props.fetchGroupMoney({salesDateStart: startDate, salesDateEnd: endDate, type: 'month'}).then(msg => {
+            this.setState({threeMonthMoney: this.props.totalMoney.groupMoney})
         })
     }
 
@@ -193,8 +208,11 @@ class Home extends Component {
     render() {
 
         this.showMachineSituation(this.state.machineSituationData)
+
+        let monthCompare = ((this.state.threeMonthMoney[1].Data / this.state.threeMonthMoney[0].Data) - 1) * 100
       
         return (
+            <div>
             <div className="homeContainer">
                <div>
                 <div className="homeTitle">机器情况</div>
@@ -233,7 +251,7 @@ class Home extends Component {
                        总支付笔数
                    </div>
                    <div className="totalNumberSize">{this.state.payTotalNumbers}</div>
-                   <Chart padding={[ 0, 0, 0, 0]} height={178} data={this.state.payEveryData} scale={colPayNum} forceFit>
+                   <Chart padding={[ 0, 0, 0, 0]} height={178} data={this.state.payEveryData} forceFit>
                         <Tooltip crosshairs={{type: 'y'}}/>
                         <Geom type="interval" position="year*sales" />
                     </Chart>
@@ -241,8 +259,23 @@ class Home extends Component {
                         <span>成功转化率</span><span>{this.state.successReate}</span>
                     </div>
                </div>
+               <div>
+                    <div className="homeTitle">
+                       近三月销售额
+                   </div>
+                   {
+                       this.state.threeMonthMoney.map((item, index) => {
+                           return (<div className="totalNumberSize" style={{fontSize: '18px', marginBottom: '5px'}}>{item.Name + '年' + item.Name1 + '月 : '}¥{item.Data}</div>)
+                       })
+                   }
+                  
+                    <div className="homeFooter" style = {{marginTop: '120px'}}>
+                        <span>月环比</span><span>{monthCompare.toFixed(2) + '%'} <Icon type={monthCompare < 0 ? 'caret-down' : 'caret-up'} style={{color: monthCompare < 0 ? '#ea0e3c' : '#54bd14'}} /></span>
+                    </div>
+               </div>
                <div></div>
-               <div></div>
+           </div>
+           <SalesMoney />
            </div>
         )
     }

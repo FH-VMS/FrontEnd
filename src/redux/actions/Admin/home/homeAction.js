@@ -102,7 +102,7 @@ export const ACTION_HANDLERS = {
       totalMoney.payNumbers = payload
       return totalMoney
   },
-  [FETCH_PAYNUMBERS]: (totalMoney, { payload }) => {
+  [FETCH_GROUPMONEY]: (totalMoney, { payload }) => {
       totalMoney.groupMoney = payload
       return totalMoney
   }
