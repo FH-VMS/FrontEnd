@@ -1,119 +1,105 @@
 import React, {Component} from 'react'
-import Utility from 'UTIL/utility'
+// import Utility from 'UTIL/utility'
+import { Chart, Geom, Tooltip, Coord, Label, Axis } from 'bizcharts'
+import DataSet from '@antv/data-set'
 
-var echarts = require('echarts')
+const { DataView } = DataSet
+
+const dv = new DataView()
+const cols = {
+    percent: {
+      formatter: val => {
+        val = (val * 100) + '%'
+        return val
+      }
+    }
+  }
+
+  const colPayNum = {
+    'sales': {tickInterval: 20}
+  }
+
+
+// var echarts = require('echarts')
 
 class Home extends Component {
     constructor(props) {
 		super(props)
         this.state = {
-            aliMoney: 0,
-            wxMoney: 0
+            machineSituationData: [],
+            totalMachine: 0,
+            payTotalNumbers: 0,
+            successReate: '100%',
+            payEveryData: [{ year: '1951 年', sales: 38 },
+            { year: '1952 年', sales: 52 },
+            { year: '1956 年', sales: 61 },
+            { year: '1957 年', sales: 145 },
+            { year: '1958 年', sales: 48 },
+            { year: '1959 年', sales: 38 },
+            { year: '1960 年', sales: 38 },
+            { year: '1962 年', sales: 38 }]
         }
 	}
     
 
     componentWillMount() {
-     
+       
 
     }
 
     componentDidMount() {
+        $('.childrenContainer').css('background-color', '#dcdedd')
         this.generateMachineSituation()
-        this.generateIncome()
+        this. generateTotalPayNumbers()
+        this.generateGroupMoney()
+        // this.generateIncome()
         // this.generateDynamicData()
         // this.generateTotalMoney()
     }
 
-    generateTotalMoney = () => {
-         this.props.fetchTotalMoney().then(msg => {
-            if (this.props.totalMoney && this.props.totalMoney.data && this.props.totalMoney.data instanceof Array) {
-                let aliM = 0
-                let wxM = 0
-                
-                this.props.totalMoney.data.map((item, index) => {
-                    
-                    if (item.AliAccount) {
-                        aliM = aliM + parseFloat(item.AliAccount)
-                    }
-                    if (item.WxAccount) {
-                        wxM = wxM + item.WxAccount
-                    }
-                    
-                })
-
-                this.setState({aliMoney: aliM, wxMoney: wxM})
-            }
-        })
-    }
-
     generateMachineSituation = () => {
-       // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('machineSituation'))
        
         this.props.fetchTotalMachineCount().then(msg => {
             if (this.props.totalMoney.totalMachine) {
                 let countData = JSON.parse(this.props.totalMoney.totalMachine)
-                
-                 // 绘制图表
-                myChart.setOption({
-                    title: {
-                        text: '机器情况',
-                        x: 'center',
-                        subtext: parseInt(countData[0].VALS, 0) + parseInt(countData[1].VALS, 0) + parseInt(countData[2].VALS, 0)
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['未启用', '离线', '在线']
-                    },
-                    series: [
-                        {
-                            name: '机器情况',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {
-                                    value: parseInt(countData[0].VALS, 0), 
-                                    name: '未启用',
-                                    itemStyle: {
-                                        normal: {
-                                            // 设置扇形的颜色
-                                            color: '#E6E6E2',
-                                            shadowBlur: 10,
-                                            shadowColor: 'rgba(0, 0, 0, 0.1)'
-                                        }
-                                    }
-                                },
-                                {value: parseInt(countData[1].VALS, 0), name: '离线'},
-                                {
-                                    value: parseInt(countData[2].VALS, 0), 
-                                    name: '在线',
-                                    itemStyle: {
-                                        normal: {
-                                            // 设置扇形的颜色
-                                            color: '#54bd14',
-                                            shadowBlur: 10,
-                                            shadowColor: 'rgba(0, 0, 0, 0.1)'
-                                        }
-                                    }
-                                }
-                                 
-                            ]
-                        }
-                    ]
-                })
+                this.setState({machineSituationData: [
+                    { item: '在线', count: parseInt(countData[2].VALS, 0) },
+                    { item: '离线', count: parseInt(countData[1].VALS, 0) },
+                    { item: '未启用', count: parseInt(countData[0].VALS, 0) }
+                  ], totalMachine: parseInt(countData[2].VALS, 0) + parseInt(countData[1].VALS, 0) + parseInt(countData[0].VALS, 0)})
             }
         })
        
     }
 
+    generateTotalPayNumbers = () => {
+        this.props.fetchPayNumbers().then(msg => {
+            let numbers = this.props.totalMoney.payNumbers
+           if (numbers) {
+              let successNum = 0
+              let totalNum = 0
+              for (var i = 0; i < numbers.length; i++) {
+                 if (numbers[i].Name == 2) {
+                    successNum = numbers[i].Data
+                 }
+                 totalNum = totalNum + parseInt(numbers[i].Data, 0)
+
+              }
+
+              this.setState({payTotalNumbers: totalNum, successReate: ((successNum / totalNum) * 100).toFixed(2) + '%'})
+           }
+        })
+    }
+
+    generateGroupMoney = () => {
+        console.log('ddddd', new Date().format('yyyy-MM-dd hh:mm:ss'))
+        this.props.fetchGroupMoney({salesDateStart: '2017/12/01', salesDateEnd: '2018/03/08', type: 'month'}).then(msg => {
+
+        })
+    }
+
     generateIncome = () => {
+        /*
         // 基于准备好的dom，初始化echarts实例
         let myChart = echarts.init(document.getElementById('dynamicData'))
         let nowWeek = Utility.getCurrentWeekDate()
@@ -171,86 +157,11 @@ class Home extends Component {
                     })
                 }
          })
+         */
         
     }
 
 
-    generateDynamicData = () => {
-         let myChart = echarts.init(document.getElementById('dynamicData'))
-        function randomData() {
-            now = new Date(+now + oneDay)
-            value = value + Math.random() * 21 - 10
-            return {
-                name: now.toString(),
-                value: [
-                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-                    Math.round(value)
-                ]
-            }
-        }
-
-        var data = []
-        var now = +new Date(1997, 9, 3)
-        var oneDay = 24 * 3600 * 1000
-        var value = Math.random() * 1000
-        for (var i = 0; i < 1000; i++) {
-            data.push(randomData())
-        }
-
-        let option = {
-            title: {
-                text: '动态数据',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: function (params) {
-                    params = params[0]
-                    var date = new Date(params.name)
-                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1]
-                },
-                axisPointer: {
-                    animation: false
-                }
-            },
-            xAxis: {
-                type: 'time',
-                splitLine: {
-                    show: false
-                }
-            },
-            yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%'],
-                splitLine: {
-                    show: false
-                }
-            },
-            series: [{
-                name: '模拟数据',
-                type: 'line',
-                showSymbol: false,
-                hoverAnimation: false,
-                data: data
-            }]
-        }
-
-        myChart.setOption(option)
-
-        setInterval(function () {
-
-            for (var i = 0; i < 5; i++) {
-                data.shift()
-                data.push(randomData())
-            }
-
-            myChart.setOption({
-                series: [{
-                    data: data
-                }]
-            })
-        }, 1000)
-    }
 
     componentWillUpdate(nextProps, nextState) {
 
@@ -270,26 +181,68 @@ class Home extends Component {
         return true
     }
 
+    showMachineSituation = (arr) => {
+        dv.source(arr).transform({
+            type: 'percent',
+            field: 'count',
+            dimension: 'item',
+            as: 'percent'
+        })
+    }
+
     render() {
+
+        this.showMachineSituation(this.state.machineSituationData)
+      
         return (
             <div className="homeContainer">
                <div>
-                  <div style={{borderRight: '5px solid #eee' }}>
-                     <div id="machineSituation" className="everyChartsHeight"></div>
-                  </div>
-                  <div style={{borderLeft: '5px solid #eee' }}>
-                       <h4 style={{fontWeight: 'bold'}}></h4>
-                      <div id="incomeSituation" className="everyChartsHeight">
-                         
-                         
-                      </div>
-                  </div>
+                <div className="homeTitle">机器情况</div>
+               <Chart height={200} data={dv} scale={cols} padding={[ 8 ]} forceFit>
+               <Coord type='theta' radius={0.75} />
+               <Axis name="percent" />
+               <Tooltip 
+                 showTitle={false} 
+                 itemTpl='<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+                 />
+               <Geom
+                 type="intervalStack"
+                 position="percent"
+                 color={['item', [ '#54bd14', '#ea0e3c', '#71E3E3']]}
+                 tooltip={['item*percent', (item, percent) => {
+                   percent = (percent * 100).toFixed(2) + '%'
+                   return {
+                     name: item,
+                     value: percent
+                   }
+                 }]}
+                 style={{lineWidth: 1, stroke: '#fff'}}
+                 >
+                 <Label content={['item*count', (item, count) => {
+                   // percent = percent * 100 + '%'
+                   return item + ':' + count
+                 }]} />
+               </Geom>
+             </Chart>
+             <div className="homeFooter">
+                 <span>总机器数量</span><span>{this.state.totalMachine}</span>
+             </div>
                </div>
                <div>
-                  <div className="everyChartsHeight" id = "dynamicData" style={{marginTop: '10px', borderTop: '10px solid #eee'}}>
-                      
-                  </div>
+                   <div className="homeSecondTitle">
+                       总支付笔数
+                   </div>
+                   <div className="totalNumberSize">{this.state.payTotalNumbers}</div>
+                   <Chart padding={[ 0, 0, 0, 0]} height={178} data={this.state.payEveryData} scale={colPayNum} forceFit>
+                        <Tooltip crosshairs={{type: 'y'}}/>
+                        <Geom type="interval" position="year*sales" />
+                    </Chart>
+                    <div className="homeFooter">
+                        <span>成功转化率</span><span>{this.state.successReate}</span>
+                    </div>
                </div>
+               <div></div>
+               <div></div>
            </div>
         )
     }

@@ -279,6 +279,12 @@ const api = {
         },
         GetSalesAmountByMachine: function (data) {
           return apiService('Home', 'GetSalesAmountByMachine', 'GET', data)
+        },
+        GetPayNumbers: function (data) {
+          return apiService('Home', 'GetPayNumbers', 'GET', data)
+        },
+        GetGroupSalesMoney: function (data) {
+          return apiService('Home', 'GetGroupSalesMoney', 'GET', data)
         }
     },
     PayConfig: {

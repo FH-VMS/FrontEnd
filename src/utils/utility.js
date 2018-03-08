@@ -88,7 +88,10 @@ export default {
     },
     hasAuth: function(pathName) {
         if (pathName == '') {
+            $('.childrenContainer').css('background-color', '#dcdedd')
           return
+        } else {
+            $('.childrenContainer').css('background-color', '#fff')
         }
         let sessionMenus = JSON.parse(sessionStorage.getItem('Menus'))
         let hasAuth = false

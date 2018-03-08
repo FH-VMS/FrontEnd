@@ -364,53 +364,68 @@ body{
 
 /*********************主页******************/
 .homeContainer{
-  text-align: center;
-  &>div{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    &>div{
-      flex: 1;
+   width: 100%;
+   &:after{
+     display: block;
+     content:'.';
+     height: 0;
+     visibility: hidden;
+     clear: both;
+   }
 
-    }
+   &>div{
+     float: left;
+     margin: 0.5%;
+     background-color: #fff;
+     height: 300px;
+     padding: 8px 24px 8px 24px;
+   }
+
+   & .homeTitle {
+      color: rgba(0, 0, 0, 0.45);
+      margin-bottom: 15px;      
+   }
+
+   & .homeFooter{
+     border-top: 1px solid #e9e8e8;
+     margin-top: 6px;
+     margin-bottom: 6px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     &>span{
+       margin-right: 6px;
+      
+     }
+   }
+
+   & .homeSecondTitle {
+      color: rgba(0, 0, 0, 0.45);    
   }
 
+  & .totalNumberSize{
+    font-size: 25px;
+  }
 
 }
-
-  .everyChartsHeight {
-     height: 435px;
+@media only screen and (max-width: 600px) {  
+  .homeContainer>div{
+    width: 100%;
   }
-  //余额模块 
-  #incomeSituation{
-    width:100%;
-    padding-top: 50px;
-    font-size: 1.8rem;
-    &>div{
-      margin-top: 20px;
-      width: 100%;
-      display: block;
-      &:after{
-        clear: both;
-        content: '.';
-        height: 0;
-        display: block;
-        visibility: hidden;
-      }
-      &>div{
-        float: left;
-        &:nth-child(2n){
-          width: 60%;
-          text-align: left;
-        }
+}  
 
-        &:nth-child(2n+1){
-          width: 40%;
-          text-align: right;
-        }
-      }
-    }
+@media only screen and (min-width: 600px) and (max-width: 1400px) {  
+  .homeContainer>div{
+    width: 49%;
   }
+}  
+
+@media only screen and (min-width: 1400px) {  
+  .homeContainer>div{
+    width: 24%;
+  }
+}  
+
+
 
 
 //退款详情
