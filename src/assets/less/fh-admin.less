@@ -438,6 +438,56 @@ body{
 }
 
 
+/**************IE9下主页****************/
+.homeIeContainer{
+  text-align: center;
+  &>div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    &>div{
+      flex: 1;
+
+    }
+  }
+
+
+}
+
+  .everyChartsHeight {
+     height: 435px;
+  }
+  //余额模块 
+  #incomeSituation{
+    width:100%;
+    padding-top: 50px;
+    font-size: 1.8rem;
+    &>div{
+      margin-top: 20px;
+      width: 100%;
+      display: block;
+      &:after{
+        clear: both;
+        content: '.';
+        height: 0;
+        display: block;
+        visibility: hidden;
+      }
+      &>div{
+        float: left;
+        &:nth-child(2n){
+          width: 60%;
+          text-align: left;
+        }
+
+        &:nth-child(2n+1){
+          width: 40%;
+          text-align: right;
+        }
+      }
+    }
+  }
+
 
 
 //退款详情
