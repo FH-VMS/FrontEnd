@@ -285,6 +285,9 @@ const api = {
         },
         GetGroupSalesMoney: function (data) {
           return apiService('Home', 'GetGroupSalesMoney', 'GET', data)
+        },
+        GetGroupProduct: function (data) {
+          return apiService('Home', 'GetGroupProduct', 'GET', data)
         }
     },
     PayConfig: {

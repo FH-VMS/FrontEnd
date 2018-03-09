@@ -5,8 +5,9 @@ import apis from 'SERVICE/apis'
 const FETCH_TOTALMONEY = 'FETCH_TOTALMONEY' // 总额
 const FETCH_TOTALMACHINECOUNT = 'FETCH_TOTALMACHINECOUNT' // 机器在线情况
 const FETCH_AMOUNTBYMACHINE = 'FETCH_AMOUNTBYMACHINE' // 每台机器销售额
-const FETCH_PAYNUMBERS = 'FETCH_PAYNUMBERS'
-const FETCH_GROUPMONEY = 'FETCH_GROUPMONEY'
+const FETCH_PAYNUMBERS = 'FETCH_PAYNUMBERS' // 支付笔数
+const FETCH_GROUPMONEY = 'FETCH_GROUPMONEY' // 根据时间分类销售额
+const FETCH_GROUPPRODUCT = 'FETCH_GROUPPRODUCT' // 根据时间统计商品
 
 // ================================
 // Action Creator
@@ -73,9 +74,21 @@ apis
 
 })
 
+const fetchGroupProduct = (body) => dispatch =>
+apis
+.Home
+.GetGroupProduct(body)
+.then(msgs => {
+  dispatch({
+     type: FETCH_GROUPPRODUCT,
+     payload: msgs
+  })
+
+})
+
 /* default 导出所有 Action Creators */
 export default {
-  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney
+  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney, fetchGroupProduct
 }
 
 // ================================
@@ -104,6 +117,10 @@ export const ACTION_HANDLERS = {
   },
   [FETCH_GROUPMONEY]: (totalMoney, { payload }) => {
       totalMoney.groupMoney = payload
+      return totalMoney
+  },
+  [FETCH_GROUPPRODUCT]: (totalMoney, { payload }) => {
+      totalMoney.groupProduct = payload
       return totalMoney
   }
 }

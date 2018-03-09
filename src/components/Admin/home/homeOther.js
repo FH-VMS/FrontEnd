@@ -4,6 +4,7 @@ import { Chart, Geom, Tooltip, Coord, Label, Axis } from 'bizcharts'
 import {Icon} from 'antd'
 import DataSet from '@antv/data-set'
 import SalesMoney from 'COMPONENT/Admin/home/salesMoney'
+import ProductCloud from 'COMPONENT/Admin/home/productCloud'
 
 const { DataView } = DataSet
 
@@ -37,7 +38,8 @@ class HomeOther extends Component {
             { year: '2018/03/05', sales: 38 },
             { year: '2018/03/06', sales: 38 },
             { year: '2018/03/07', sales: 38 }],
-            threeMonthMoney: [{Data: 1}, {Data: 1}, {Data: 1}]
+            threeMonthMoney: [{Data: 1}, {Data: 1}, {Data: 1}],
+            groupProductData: [{Data: 1}, {Data: 1}]
         }
 	}
     
@@ -52,6 +54,7 @@ class HomeOther extends Component {
         this.generateMachineSituation()
         this. generateTotalPayNumbers()
         this.generateGroupMoney()
+        this.generateGroupProduct()
         // this.generateIncome()
         // this.generateDynamicData()
         // this.generateTotalMoney()
@@ -110,6 +113,35 @@ class HomeOther extends Component {
         let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
         this.props.fetchGroupMoney({salesDateStart: startDate, salesDateEnd: endDate, type: 'month'}).then(msg => {
             this.setState({threeMonthMoney: this.props.totalMoney.groupMoney})
+        })
+    }
+
+    generateGroupProduct = () => {
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        let second = date.getSeconds()
+
+        let endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
+        let endMonth = month - 2
+        let endYear = year
+        if (endMonth < 1) {
+            endMonth = 12 + endMonth
+            endYear = endYear - 1
+        }
+        let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
+        this.props.fetchGroupProduct({salesDateStart: startDate, salesDateEnd: endDate}).then(msg => {
+            let tmpData = []
+            this.props.totalMoney.groupProduct.map((item, index) => {
+                if (item.Name) {
+                    // item.Data = parseInt(item.Data, 0)
+                    tmpData.push(item)
+                }
+            })
+            this.setState({groupProductData: tmpData})
         })
     }
 
@@ -273,7 +305,10 @@ class HomeOther extends Component {
                         <span>月环比</span><span>{monthCompare.toFixed(2) + '%'} <Icon type={monthCompare < 0 ? 'caret-down' : 'caret-up'} style={{color: monthCompare < 0 ? '#ea0e3c' : '#54bd14'}} /></span>
                     </div>
                </div>
-               <div></div>
+               <div>
+
+                 <ProductCloud data={this.state.groupProductData} />
+               </div>
            </div>
            <SalesMoney />
            </div>
