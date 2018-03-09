@@ -50,7 +50,7 @@ class HomeOther extends Component {
     }
 
     componentDidMount() {
-        $('.childrenContainer').css('background-color', '#dcdedd')
+        $('#childrenContainer').removeClass('childrenContainer')
         this.generateMachineSituation()
         this. generateTotalPayNumbers()
         this.generateGroupMoney()

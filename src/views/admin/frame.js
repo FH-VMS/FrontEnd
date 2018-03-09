@@ -92,7 +92,7 @@ class Frame extends Component {
            </div>
            <div className="rightArea">
              
-             <div className="childrenContainer">
+             <div id="childrenContainer" className="childrenContainer">
                 { this.props.children }
              </div>
              
