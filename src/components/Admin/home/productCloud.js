@@ -60,7 +60,6 @@ class ProductCloud extends Component {
          
          let min = range[0]
          let max = range[1]
-         console.log('mmmmmmmmm', range)
          dv.transform({
              type: 'tag-cloud',
              fields: ['Name', 'Data'],
@@ -75,9 +74,8 @@ class ProductCloud extends Component {
                  return random * 90 // 0, 90, 270
              },
              fontSize(d) {
-                console.log('dddd', d)
                  if (d.value) {
-                     return ((d.value - min) / (max - min)) * (80 - 15) + 15
+                     return ((d.value - min) / (max - min)) * (80 - 70) + 5
                  }
                  return 0
              }
@@ -85,17 +83,19 @@ class ProductCloud extends Component {
         
       
         return (
+
             <div>
                 <div className="homeSecondTitle">
                     近三月商品销量热度
                 </div>
-                <Chart height={215} data={dv} scale={scale} padding={[ 2 ]} forceFit>
+                <Chart height={215} data={dv} scale={scale} padding={[ 0 ]} forceFit>
                 <Tooltip showTitle={false}/>
                 <Coord reflect="y" />
                 <Geom type='point' position="x*y" color="Name" shape='cloud' tooltip='Data*Name'/>
               </Chart>
                 <div className="homeFooter">
-                    <span>成功转化率</span><span></span>
+                    <span>Top 1</span>
+                    <span>{this.props.data[0] ? this.props.data[0].Name : ''}</span><span>{this.props.data[0] ? this.props.data[0].Data : ''}</span>
                 </div>
            </div>
         )
