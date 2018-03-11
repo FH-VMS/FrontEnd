@@ -75,7 +75,7 @@ class ProductCloud extends Component {
              },
              fontSize(d) {
                  if (d.value) {
-                     return ((d.value - min) / (max - min)) * (80 - 70) + 5
+                     return ((d.value - min) / (max - min)) * (80 - 79) + 8
                  }
                  return 0
              }
