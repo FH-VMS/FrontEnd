@@ -9,6 +9,7 @@ const FETCH_PAYNUMBERS = 'FETCH_PAYNUMBERS' // 支付笔数
 const FETCH_PAYNUMBERSBYDATE = 'FETCH_PAYNUMBERSBYDATE' // 根据时间取支付笔数
 const FETCH_GROUPMONEY = 'FETCH_GROUPMONEY' // 根据时间分类销售额
 const FETCH_GROUPPRODUCT = 'FETCH_GROUPPRODUCT' // 根据时间统计商品
+const FETCH_GROUPMONEYBYMACHINE = 'FETCH_GROUPMONEYBYMACHINE' // 根据机器统计销售额
 
 // ================================
 // Action Creator
@@ -99,9 +100,21 @@ apis
 
 })
 
+const fetchGroupMoneyByMachine = (body) => dispatch =>
+apis
+.Home
+.GetGroupMoneyByMachine(body)
+.then(msgs => {
+  dispatch({
+     type: FETCH_GROUPMONEYBYMACHINE,
+     payload: msgs
+  })
+
+})
+
 /* default 导出所有 Action Creators */
 export default {
-  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney, fetchGroupProduct, fetchPayNumbersByDate
+  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney, fetchGroupProduct, fetchPayNumbersByDate, fetchGroupMoneyByMachine
 }
 
 // ================================
@@ -138,6 +151,10 @@ export const ACTION_HANDLERS = {
   },
   [FETCH_GROUPPRODUCT]: (totalMoney, { payload }) => {
       totalMoney.groupProduct = payload
+      return totalMoney
+  },
+  [FETCH_GROUPMONEYBYMACHINE]: (totalMoney, { payload }) => {
+      totalMoney.groupMoneyByMachine = payload
       return totalMoney
   }
 }

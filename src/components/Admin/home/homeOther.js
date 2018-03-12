@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-// import Utility from 'UTIL/utility'
+
 import {Icon} from 'antd'
 import SalesMoney from 'COMPONENT/Admin/home/salesMoney'
 import ProductCloud from 'COMPONENT/Admin/home/productCloud'
@@ -145,7 +145,7 @@ class HomeOther extends Component {
                  <ProductCloud data={this.state.groupProductData} />
                </div>
            </div>
-           <SalesMoney />
+           <SalesMoney fetchGroupMoneyByMachine={this.props.fetchGroupMoneyByMachine} data={this.props.totalMoney} fetchGroupMoney={this.props.fetchGroupMoney} />
            </div>
         )
     }

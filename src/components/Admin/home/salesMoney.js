@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {Tabs, DatePicker} from 'antd'
+import {Tabs, DatePicker, Table, Avatar} from 'antd'
 import { Chart, Geom, Tooltip, Axis } from 'bizcharts'
-
+import Utility from 'UTIL/utility'
+const { Column } = Table
 
 
 const TabPane = Tabs.TabPane
@@ -12,14 +13,10 @@ class SalesMoney extends Component {
     constructor(props) {
 		super(props)
         this.state = {
-            payEveryData: [{ month: '1 月', sales: 5000 },
-            { month: '2 月', sales: 10000 },
-            { month: '3 月', sales: 11000 },
-            { month: '4 月', sales: 14000 },
-            { month: '5 月', sales: 14000 },
-            { month: '6 月', sales: 40000 },
-            { month: '7 月', sales: 70000 },
-            { month: '8 月', sales: 55000 }]
+            payEveryData: [],
+            showMethod: 'Name2*Data', 
+            rangeDate: [],
+            machineData: []
         }
 	}
     
@@ -30,6 +27,11 @@ class SalesMoney extends Component {
     }
 
     componentDidMount() {
+        this.periodChosen('近七日')
+    }
+
+    setValueForPiacker = (startDate, endDate) => {
+        this.setState({rangeDate: [Utility.dateFormaterObj(new Date(startDate)), Utility.dateFormaterObj(new Date(endDate))]})
     }
 
     onChange = (date, dateString) => {
@@ -37,22 +39,106 @@ class SalesMoney extends Component {
     }
 
     periodChosen = (txt, ev) => {
+        if (ev) {
+            $('.tabExtra').removeClass('aChosen')
+            $(ev.target).addClass('aChosen')
+        }
+       
+       let startDate = ''
+       let endDate = ''
+       let date = new Date()
+       let year = date.getFullYear()
+       let month = date.getMonth() + 1
+       let day = date.getDate()
+       let typ = 'day'
+       switch (txt) {
+         case '近七日':
+         let hour = date.getHours()
+         let minute = date.getMinutes()
+         let second = date.getSeconds()
+ 
+        endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
+         let date2 = new Date(date)
+         date2.setDate(date2.getDate() - 7)
+          startDate = date2.getFullYear() + '/' + (date2.getMonth() + 1) + '/' + date2.getDate() + ' 00:00:00'
+         
+         break
+         case '本月':
+         startDate = year + '/' + month + '/01'
+         endDate = year + '/' + month + '/' + new Date(year, month - 1 + 1, 0).getDate() + ' 23:59:59'
+         break
+         case '全年':
+         typ = 'month'
+         startDate = year + '/01/01'
+         endDate = year + '/12/31' + ' 23:59:59'
+         break
+       }
+      
+       this.generateGroupMoney(startDate, endDate, typ)
+       this.generateGroupMoneyByMachine(startDate, endDate)
+       this.setValueForPiacker(startDate, endDate)
+    }
 
+    generateGroupMoney = (startDate, endDate, typ) => {
+        this.props.fetchGroupMoney({salesDateStart: startDate, salesDateEnd: endDate, type: typ}).then(msg => {
+            if (typ == 'month') {
+                this.setState({payEveryData: this.props.data.groupMoney, showMethod: 'Name1*Data'})
+            } else {
+                this.setState({payEveryData: this.props.data.groupMoney, showMethod: 'Name2*Data'})
+            }
+            
+        })
+    }
+
+    generateGroupMoneyByMachine = (startDate, endDate) => {
+        this.props.fetchGroupMoneyByMachine({salesDateStart: startDate, salesDateEnd: endDate}).then(msg => {
+            this.setState({machineData: this.props.data.groupMoneyByMachine})
+            console.log('pppppp', this.props.data.groupMoneyByMachine)
+        })
     }
 
     render() {
-        let operations = [<a className='tabExtra' onClick={this.periodChosen.bind(this, '本周')}>本周</a>, <a onClick={this.periodChosen.bind(this, '本月')} className='tabExtra'>本月</a>, <a onClick={this.periodChosen.bind(this, '全年')} className='tabExtra'>全年</a>, <RangePicker onChange={this.onChange} />]
+        let operations = [<a className='tabExtra aChosen' onClick={this.periodChosen.bind(this, '近七日')}>近七日</a>, <a onClick={this.periodChosen.bind(this, '本月')} className='tabExtra'>本月</a>, <a onClick={this.periodChosen.bind(this, '全年')} className='tabExtra'>全年</a>, <RangePicker value={this.state.rangeDate} onChange={this.onChange} />]
         return (
             <div className="salesMoneyContainer">
                 <Tabs tabBarExtraContent={operations}>
-    <TabPane tab="销售额" key="1">
-        <Chart height={400} data={this.state.payEveryData} forceFit>
-                       <Axis name="month" />
-                         <Axis name="sales" />
-                        <Tooltip crosshairs={{type: 'y'}}/>
-                        <Geom type="interval" position="month*sales" />
-                    </Chart></TabPane>
-  </Tabs>
+                <TabPane tab="销售额" key="1">
+                <div className="chartAndMachineSales">
+                    <div> 
+                            <Chart height={400} data={this.state.payEveryData} forceFit>
+                                <Axis name="month" />
+                                <Axis name="sales" />
+                                <Tooltip crosshairs={{type: 'y'}}/>
+                                <Geom type="interval" position={this.state.showMethod} />
+                            </Chart>
+                            
+                        </div>
+                        <div> 
+                        <Table dataSource={this.state.machineData} pagination={false} showHeader={false}>
+                            <Column
+                                    title="序号"
+                                    key="index"
+                                    render={(text, record, index) => (
+                                    <span>
+                                        <Avatar size="small" style={{ backgroundColor: '#ff5722' }}>{index + 1}</Avatar>
+                                    </span>
+                                    )}
+                                />
+                                <Column
+                                    title="名称"
+                                    key="Name"
+                                    dataIndex="Name"
+                                />
+                                <Column
+                                    title="金额"
+                                    dataIndex="Data"
+                                    key="Data"
+                                />
+                                </Table>
+                        </div>
+                    </div>
+                    </TabPane>
+                </Tabs>
            </div>
         )
     }

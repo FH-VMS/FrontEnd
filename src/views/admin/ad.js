@@ -38,7 +38,6 @@ class Ad extends Component {
     }
     
     resourceClick = (resourceItem, ev) => {
-        console.log('aaaaa', resourceItem)
         if (this.state.everyModuleData.length == 5) {
             message.warning('资源不能大于五个！')
             return
