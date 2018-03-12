@@ -85,7 +85,7 @@ apis
      type: FETCH_GROUPMONEY,
      payload: msgs
   })
-
+  return msgs
 })
 
 const fetchGroupProduct = (body) => dispatch =>

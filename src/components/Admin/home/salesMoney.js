@@ -8,13 +8,12 @@ const { Column } = Table
 const TabPane = Tabs.TabPane
 const { RangePicker } = DatePicker
 
-
 class SalesMoney extends Component {
     constructor(props) {
 		super(props)
         this.state = {
             payEveryData: [],
-            showMethod: 'Name2*Data', 
+            name: 'Name2',
             rangeDate: [],
             machineData: []
         }
@@ -81,19 +80,28 @@ class SalesMoney extends Component {
 
     generateGroupMoney = (startDate, endDate, typ) => {
         this.props.fetchGroupMoney({salesDateStart: startDate, salesDateEnd: endDate, type: typ}).then(msg => {
-            if (typ == 'month') {
-                this.setState({payEveryData: this.props.data.groupMoney, showMethod: 'Name1*Data'})
-            } else {
-                this.setState({payEveryData: this.props.data.groupMoney, showMethod: 'Name2*Data'})
-            }
+            let tData = this.props.data.groupMoney
+            let fData = []
             
+            
+            if (typ == 'month') {
+                for (let i = 0;i < tData.length;i++) {
+                   fData.push({Name: tData[i].Name1, Data: parseFloat(tData[i].Data)})
+               }
+            } else {
+                 for (let i = 0;i < tData.length;i++) {
+                   fData.push({Name: tData[i].Name2, Data: parseFloat(tData[i].Data)})
+               }
+                
+            }
+            console.log('pppppp', fData)
+            this.setState({payEveryData: fData})
         })
     }
 
     generateGroupMoneyByMachine = (startDate, endDate) => {
         this.props.fetchGroupMoneyByMachine({salesDateStart: startDate, salesDateEnd: endDate}).then(msg => {
             this.setState({machineData: this.props.data.groupMoneyByMachine})
-            console.log('pppppp', this.props.data.groupMoneyByMachine)
         })
     }
 
@@ -105,22 +113,28 @@ class SalesMoney extends Component {
                 <TabPane tab="销售额" key="1">
                 <div className="chartAndMachineSales">
                     <div> 
-                            <Chart height={400} data={this.state.payEveryData} forceFit>
-                                <Axis name="month" />
-                                <Axis name="sales" />
+                           <div className="homeTitle" style={{paddingLeft: '30px'}}>
+                                销售额走势
+                            </div>
+                            <Chart padding={[50]} height={400} data={this.state.payEveryData} forceFit>
+                                <Axis name='Name' />
+                                <Axis name="Data" />
                                 <Tooltip crosshairs={{type: 'y'}}/>
-                                <Geom type="interval" position={this.state.showMethod} />
+                                <Geom type="interval" position="Name*Data" />
                             </Chart>
                             
                         </div>
                         <div> 
+                            <div className="homeTitle" style={{marginBottom: '20px', paddingLeft: '5px'}}>
+                                机器销售额排行榜
+                            </div>
                         <Table dataSource={this.state.machineData} pagination={false} showHeader={false}>
                             <Column
                                     title="序号"
                                     key="index"
                                     render={(text, record, index) => (
                                     <span>
-                                        <Avatar size="small" style={{ backgroundColor: '#ff5722' }}>{index + 1}</Avatar>
+                                        <Avatar size="small" style={{ backgroundColor: '#303030' }}>{index + 1}</Avatar>
                                     </span>
                                     )}
                                 />

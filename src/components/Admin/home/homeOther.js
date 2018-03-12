@@ -53,9 +53,10 @@ class HomeOther extends Component {
             endMonth = 12 + endMonth
             endYear = endYear - 1
         }
-        let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
+        let startDate = endYear + '/' + endMonth + '/01' + ' 00:00:00'
         this.props.fetchGroupMoney({salesDateStart: startDate, salesDateEnd: endDate, type: 'month'}).then(msg => {
-            this.setState({threeMonthMoney: this.props.totalMoney.groupMoney})
+     
+            this.setState({threeMonthMoney: msg})
         })
     }
 

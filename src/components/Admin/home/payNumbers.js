@@ -60,7 +60,11 @@ class PayNumbers extends Component {
         let startDate = date2.getFullYear() + '/' + (date2.getMonth() + 1) + '/' + date2.getDate() + ' 00:00:00'
         this.props.fetchPayNumbersByDate({salesDateStart: startDate, salesDateEnd: endDate, type: 'day'}).then(msg => {
             if (this.props.data.payNumbersByDate) {
-               this.setState({payEveryData: this.props.data.payNumbersByDate})
+                let data = this.props.data.payNumbersByDate
+                data.map((item, index) => {
+                    item.Data = parseInt(item.Data, 0)
+                })
+               this.setState({payEveryData: data})
             }
         })
     }
