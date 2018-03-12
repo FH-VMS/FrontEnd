@@ -283,6 +283,9 @@ const api = {
         GetPayNumbers: function (data) {
           return apiService('Home', 'GetPayNumbers', 'GET', data)
         },
+        GetPayNumbersByDate: function (data) {
+          return apiService('Home', 'GetPayNumbersByDate', 'GET', data)
+        },
         GetGroupSalesMoney: function (data) {
           return apiService('Home', 'GetGroupSalesMoney', 'GET', data)
         },

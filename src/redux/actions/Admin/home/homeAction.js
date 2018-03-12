@@ -6,6 +6,7 @@ const FETCH_TOTALMONEY = 'FETCH_TOTALMONEY' // 总额
 const FETCH_TOTALMACHINECOUNT = 'FETCH_TOTALMACHINECOUNT' // 机器在线情况
 const FETCH_AMOUNTBYMACHINE = 'FETCH_AMOUNTBYMACHINE' // 每台机器销售额
 const FETCH_PAYNUMBERS = 'FETCH_PAYNUMBERS' // 支付笔数
+const FETCH_PAYNUMBERSBYDATE = 'FETCH_PAYNUMBERSBYDATE' // 根据时间取支付笔数
 const FETCH_GROUPMONEY = 'FETCH_GROUPMONEY' // 根据时间分类销售额
 const FETCH_GROUPPRODUCT = 'FETCH_GROUPPRODUCT' // 根据时间统计商品
 
@@ -50,7 +51,7 @@ const fetchTotalMoney = () => dispatch =>
 
   })
 
-  const fetchPayNumbers = (body) => dispatch =>
+const fetchPayNumbers = (body) => dispatch =>
   apis
   .Home
   .GetPayNumbers()
@@ -59,6 +60,18 @@ const fetchTotalMoney = () => dispatch =>
        type: FETCH_PAYNUMBERS,
        payload: msgs
     })
+
+})
+
+const fetchPayNumbersByDate = (body) => dispatch =>
+apis
+.Home
+.GetPayNumbersByDate(body)
+.then(msgs => {
+  dispatch({
+     type: FETCH_PAYNUMBERSBYDATE,
+     payload: msgs
+  })
 
 })
 
@@ -88,7 +101,7 @@ apis
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney, fetchGroupProduct
+  fetchTotalMoney, fetchTotalMachineCount, fetchAmountByMachine, fetchPayNumbers, fetchGroupMoney, fetchGroupProduct, fetchPayNumbersByDate
 }
 
 // ================================
@@ -113,6 +126,10 @@ export const ACTION_HANDLERS = {
   },
   [FETCH_PAYNUMBERS]: (totalMoney, { payload }) => {
       totalMoney.payNumbers = payload
+      return totalMoney
+  },
+  [FETCH_PAYNUMBERSBYDATE]: (totalMoney, { payload }) => {
+      totalMoney.payNumbersByDate = payload
       return totalMoney
   },
   [FETCH_GROUPMONEY]: (totalMoney, { payload }) => {
