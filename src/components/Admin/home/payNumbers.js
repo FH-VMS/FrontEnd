@@ -10,14 +10,7 @@ class PayNumbers extends Component {
         this.state = {
             payTotalNumbers: 0,
             successReate: '100%',
-            payEveryData: [{ year: '2018/02/28', sales: 38 },
-            { year: '2018/03/01', sales: 52 },
-            { year: '2018/03/02', sales: 61 },
-            { year: '2018/03/03', sales: 145 },
-            { year: '2018/03/04', sales: 48 },
-            { year: '2018/03/05', sales: 38 },
-            { year: '2018/03/06', sales: 38 },
-            { year: '2018/03/07', sales: 38 }]
+            payEveryData: []
         }
 	}
     
@@ -29,6 +22,7 @@ class PayNumbers extends Component {
 
     componentDidMount() {
         this.generateTotalPayNumbers()
+        this.generatePayNumberByDate()
     }
 
     generateTotalPayNumbers = () => {
@@ -50,6 +44,27 @@ class PayNumbers extends Component {
         })
     }
 
+
+    generatePayNumberByDate = () => {
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        let second = date.getSeconds()
+
+        let endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
+        let date2 = new Date(date)
+        date2.setDate(date2.getDate() - 7)
+        let startDate = date2.getFullYear() + '/' + (date2.getMonth() + 1) + '/' + date2.getDate() + ' 00:00:00'
+        this.props.fetchPayNumbersByDate({salesDateStart: startDate, salesDateEnd: endDate, type: 'day'}).then(msg => {
+            if (this.props.data.payNumbersByDate) {
+               this.setState({payEveryData: this.props.data.payNumbersByDate})
+            }
+        })
+    }
+
     render() {
        return (
             <div>
@@ -57,9 +72,9 @@ class PayNumbers extends Component {
                     总支付笔数
                 </div>
                 <div className="totalNumberSize">{this.state.payTotalNumbers}</div>
-                <Chart padding={[ 0, 0, 0, 0]} height={178} data={this.state.payEveryData} forceFit>
+                <Chart padding={[ 0, 10, 0, 0]} height={178} data={this.state.payEveryData} forceFit>
                     <Tooltip crosshairs={{type: 'y'}}/>
-                    <Geom type="interval" position="year*sales" />
+                    <Geom type="interval" position="Name1*Data" />
                 </Chart>
                 <div className="homeFooter">
                     <span>成功转化率</span><span>{this.state.successReate}</span>
