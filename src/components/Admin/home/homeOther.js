@@ -133,7 +133,7 @@ class HomeOther extends Component {
                    </div>
                    {
                        this.state.threeMonthMoney.map((item, index) => {
-                           return (<div className="totalNumberSize" style={{fontSize: '18px', marginBottom: '5px'}}>{item.Name + '年' + item.Name1 + '月 : '}¥{item.Data}</div>)
+                           return (<div className="totalNumberSize" style={{fontSize: '18px', marginBottom: '5px'}}>{item.Name1 + ': '}¥{item.Data}</div>)
                        })
                    }
                   
