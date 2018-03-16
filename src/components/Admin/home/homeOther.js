@@ -15,8 +15,7 @@ class HomeOther extends Component {
     constructor(props) {
 		super(props)
         this.state = {
-            threeMonthMoney: [{Data: 1}, {Data: 1}, {Data: 1}],
-            groupProductData: [{Data: 1}, {Data: 1}]
+            threeMonthMoney: [{Data: 1}, {Data: 1}, {Data: 1}]
         }
 	}
     
@@ -32,11 +31,11 @@ class HomeOther extends Component {
         setTimeout(() => {
             this.generateGroupMoney()
         }, 500)
-
+        /*
         setTimeout(() => {
             this.generateGroupProduct()
         }, 1000)
-        
+        */
         // Utility.timeOut(this.generateGroupProduct(), 1000)
     
         
@@ -67,37 +66,6 @@ class HomeOther extends Component {
             this.setState({threeMonthMoney: msg})
         })
     }
-
-    generateGroupProduct = () => {
-        let date = new Date()
-        let year = date.getFullYear()
-        let month = date.getMonth() + 1
-        let day = date.getDate()
-        let hour = date.getHours()
-        let minute = date.getMinutes()
-        let second = date.getSeconds()
-
-        let endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
-        let endMonth = month - 2
-        let endYear = year
-        if (endMonth < 1) {
-            endMonth = 12 + endMonth
-            endYear = endYear - 1
-        }
-        let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
-        this.props.fetchGroupProduct({salesDateStart: startDate, salesDateEnd: endDate}).then(msg => {
-            let tmpData = []
-            this.props.totalMoney.groupProduct.map((item, index) => {
-                if (item.Name) {
-                    // item.Data = parseInt(item.Data, 0)
-                    tmpData.push(item)
-                }
-            })
-            this.setState({groupProductData: tmpData})
-        })
-    }
-
-
 
 
     componentWillUpdate(nextProps, nextState) {
@@ -151,7 +119,7 @@ class HomeOther extends Component {
                </div>
                <div>
 
-                 <ProductCloud data={this.state.groupProductData} />
+                 <ProductCloud fetchGroupProduct={this.props.fetchGroupProduct} data={this.props.totalMoney} />
                </div>
            </div>
            <SalesMoney fetchGroupMoneyByMachine={this.props.fetchGroupMoneyByMachine} data={this.props.totalMoney} fetchGroupMoney={this.props.fetchGroupMoney} />

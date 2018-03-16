@@ -35,7 +35,10 @@ const scale = {
   }
 class ProductCloud extends Component {
     constructor(props) {
-		super(props)
+        super(props)
+        this.state = {
+            groupProductData: [{Data: 1, Name: ''}, {Data: 1}]
+        }
 	}
     
 
@@ -45,7 +48,7 @@ class ProductCloud extends Component {
     }
 
     componentDidMount() {
-
+     this.generateGroupProduct()
     }
     
     showGroupProduct = (arr) => {
@@ -53,8 +56,39 @@ class ProductCloud extends Component {
        
     }
 
+    
+    generateGroupProduct = () => {
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        let second = date.getSeconds()
+
+        let endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
+        let endMonth = month - 2
+        let endYear = year
+        if (endMonth < 1) {
+            endMonth = 12 + endMonth
+            endYear = endYear - 1
+        }
+        let startDate = endYear + '/' + endMonth + '/' + day + ' 00:00:00'
+        this.props.fetchGroupProduct({salesDateStart: startDate, salesDateEnd: endDate}).then(msg => {
+            let tmpData = []
+            this.props.data.groupProduct.map((item, index) => {
+                if (item.Name) {
+                    item.Data = parseInt(item.Data, 0)
+                    tmpData.push(item)
+                }
+            })
+            
+            this.setState({groupProductData: tmpData})
+        })
+    }
+
     render() {
-        let dv = new View().source(this.props.data)
+        let dv = new View().source(this.state.groupProductData)
        
          let range = dv.range('Data')
          
@@ -75,7 +109,7 @@ class ProductCloud extends Component {
              },
              fontSize(d) {
                  if (d.value) {
-                     return ((d.value - min) / (max - min)) * (80 - 78) + 8
+                     return ((d.value - min) / (max - min)) * (80 - 71) + 12
                  }
                  return 0
              }
@@ -95,7 +129,7 @@ class ProductCloud extends Component {
               </Chart>
                 <div className="homeFooter">
                     <span>Top 1</span>
-                    <span>{this.props.data[0] ? this.props.data[0].Name : ''}</span><span>{this.props.data[0] ? this.props.data[0].Data : ''}</span>
+                    <span>{this.state.groupProductData[0] ? this.state.groupProductData[0].Name : ''}</span><span>{this.state.groupProductData[0] ? this.state.groupProductData[0].Data : ''}</span>
                 </div>
            </div>
         )
