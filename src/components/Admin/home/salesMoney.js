@@ -26,7 +26,9 @@ class SalesMoney extends Component {
     }
 
     componentDidMount() {
+        setTimeout(() => {
         this.periodChosen('近七日')
+        }, 1500)
     }
 
     setValueForPiacker = (startDate, endDate) => {

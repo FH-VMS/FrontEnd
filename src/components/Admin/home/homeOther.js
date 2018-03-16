@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-
 import {Icon} from 'antd'
 import SalesMoney from 'COMPONENT/Admin/home/salesMoney'
 import ProductCloud from 'COMPONENT/Admin/home/productCloud'
@@ -30,8 +29,17 @@ class HomeOther extends Component {
     componentDidMount() {
         $('#childrenContainer').removeClass('childrenContainer')
         // this.generateMachineSituation()
-        this.generateGroupMoney()
-        this.generateGroupProduct()
+        setTimeout(() => {
+            this.generateGroupMoney()
+        }, 500)
+
+        setTimeout(() => {
+            this.generateGroupProduct()
+        }, 1000)
+        
+        // Utility.timeOut(this.generateGroupProduct(), 1000)
+    
+        
         // this.generateIncome()
         // this.generateDynamicData()
         // this.generateTotalMoney()
