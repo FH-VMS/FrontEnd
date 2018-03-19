@@ -7,7 +7,12 @@ const { Column } = Table
 
 const TabPane = Tabs.TabPane
 const { RangePicker } = DatePicker
-
+const cols = {
+    Name: {
+        type: 'cat',
+        range: [ 0.05, 0.95 ] // 横轴左右留白
+      }
+  }
 class SalesMoney extends Component {
     constructor(props) {
 		super(props)
@@ -96,7 +101,6 @@ class SalesMoney extends Component {
                }
                 
             }
-            console.log('pppppp', fData)
             this.setState({payEveryData: fData})
         })
     }
@@ -118,7 +122,7 @@ class SalesMoney extends Component {
                            <div className="homeTitle" style={{paddingLeft: '30px'}}>
                                 销售额走势
                             </div>
-                            <Chart padding={[50]} height={400} data={this.state.payEveryData} forceFit>
+                            <Chart padding={[50]} height={430} data={this.state.payEveryData} scale={cols} forceFit>
                                 <Axis name='Name' />
                                 <Axis name="Data" />
                                 <Tooltip crosshairs={{type: 'y'}}/>

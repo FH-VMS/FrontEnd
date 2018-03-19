@@ -76,7 +76,7 @@ class PayNumbers extends Component {
                     总支付笔数
                 </div>
                 <div className="totalNumberSize">{this.state.payTotalNumbers}</div>
-                <Chart padding={[ 0, 10, 0, 0]} height={178} data={this.state.payEveryData} forceFit>
+                <Chart padding={[ 0, 10, 0, 10]} height={178} data={this.state.payEveryData} forceFit>
                     <Tooltip crosshairs={{type: 'y'}}/>
                     <Geom type="interval" position="Name1*Data" />
                 </Chart>
