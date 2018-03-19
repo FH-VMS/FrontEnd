@@ -194,6 +194,11 @@ const api = {
       GetStatisticSalesMoneyByDate: function (data) {
           return apiService('SaleCashless', 'GetStatisticSalesMoneyByDate', 'GET', data)
       }
+	}, 
+    SaleCash: {
+      GetData: function (data) {
+          return apiService('SaleCash', 'GetData', 'GET', data)
+      }
 	}, // 货道信息
     TunnelInfo: {
       GetData: function (data) {

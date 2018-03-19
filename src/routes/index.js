@@ -58,6 +58,7 @@ export default {
      require('./admin/cash').default,  // 现金下推
      require('./admin/resource').default,  // 资源库
      require('./admin/ad').default,  // 广告设置
+     require('./admin/salecash').default,  // 现金销售记录
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     
