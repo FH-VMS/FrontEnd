@@ -122,7 +122,7 @@ class SalesMoney extends Component {
                            <div className="homeTitle" style={{paddingLeft: '30px'}}>
                                 销售额走势
                             </div>
-                            <Chart padding={[50]} height={430} data={this.state.payEveryData} scale={cols} forceFit>
+                            <Chart padding={[50]} height={450} data={this.state.payEveryData} scale={cols} forceFit>
                                 <Axis name='Name' />
                                 <Axis name="Data" />
                                 <Tooltip crosshairs={{type: 'y'}}/>
@@ -132,7 +132,7 @@ class SalesMoney extends Component {
                         </div>
                         <div> 
                             <div className="homeTitle" style={{marginBottom: '20px', paddingLeft: '5px'}}>
-                                机器销售额排行榜
+                                机器销售额排行榜 Top 10
                             </div>
                         <Table dataSource={this.state.machineData} pagination={false} showHeader={false}>
                             <Column
