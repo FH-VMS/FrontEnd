@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {Button, Icon, Table, Avatar, Input, Row, Col, Popconfirm, message} from 'antd'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
-import model from 'STORE/model'
 
 const { Column } = Table
 
@@ -10,107 +9,56 @@ class ThreeScreen extends Component {
         super(props)
         this.state = {
             settingPanel: [],
-            everyModuleData: [],
-            loading: false,
+            data: this.props.data,
             visible: false
         }
-
-        this.adTemplateData = model.Ad.AdModel
-        this.adTemplateData.Relations = {}
-        this.adTemplateData.Resources = {}
-        this.nowPosition = 1
     }
 
     componentWillMount() {
-        
+        this.nowPosition = 1
     }
 
-    showResource = () => {
-        this.setState({visible: true})
+    componentDidMount() {
+
+    }
+
+    chooseModule = (txt, item, ev) => {
+        console.log('aaaa', item)
+        this.nowPosition = txt
+        if (item.Id) {
+
+        } else {
+            
+        }
+        // txt: 1(上)，2(中)，3(下)
+        if (ev) {
+            $(ev.currentTarget).siblings().css('background-color', '#fff')
+            $(ev.currentTarget).css('background-color', '#ccc')
+        }
+        
+        if (item.Resources[this.nowPosition]) {
+            this.setState({data: item})
+        } else if (item.Id) {
+            this.props.fetchAdById({adId: item.Id, adType: 0}).then(msg => {
+                let resources = item.Resources
+                if (!resources) {
+                    resources = {}
+                }
+                resources[1] = []
+                resources[2] = []
+                resources[3] = []
+                msg.map((item, index) => {
+                    resources[item.AdType].push(item)
+                })
+                this.setState({data: item})
+            })
+        } else {
+            item.Resources[this.nowPosition] = []
+            this.setState({data: item})
+        }
      }
 
-    resourceClick = (resourceItem, ev) => {
-        if (this.state.everyModuleData.length == 5) {
-            message.warning('资源不能大于五个！')
-            return
-        }
-        let canPush = true
-        for (var i = 0; i < this.state.everyModuleData.length; i++) {
-            if (this.state.everyModuleData[i].PicId == resourceItem.PicId) {
-                canPush = false
-               
-            }
-        }
-
-        if (canPush) {
-            this.state.everyModuleData.push(resourceItem)
-            this.setState({everyModuleData: this.state.everyModuleData})
-            this.generateAdData(this.state.everyModuleData)
-        }
-    }
-
-    generateAdData = (data) => {
-        /*
-        let tmp = []
-        data.each((item, index) => {
-            let tmpItem = {}
-            tmpItem.AdId = this.adTemplateData.Id
-            tmpItem.SourceId = item.PicId
-            tmpItem.Sequence = index + 1
-            tmpItem.AdType = this.nowPosition
-            tmp.push(tmpItem)
-        })
-        */
-        this.adTemplateData.Resources[this.nowPosition] = data
-    }
-    // 保存模板
-    saveAdTemplate = (data) => {
-        // let storage = localStorage.getItem('adTemplateData')
-        if (data) {
-            this.adTemplateData.Id = data.Id
-        }
-        if (!this.adTemplateData.Name) {
-            message.warning('模板名称不能为空')
-            return
-        }
-        this.setState({loading: true})
-        let tmp = []
-        for (let key in this.adTemplateData.Resources) {
-            this.adTemplateData.Resources[key].map((item, index) => {
-                let tmpItem = {}
-                tmpItem.AdId = this.adTemplateData.Id
-                tmpItem.SourceId = item.PicId
-                tmpItem.Sequence = index + 1
-                tmpItem.AdType = key
-                tmp.push(tmpItem)
-            })
-        }
-        this.adTemplateData.Relations = tmp
-        this.adTemplateData.Resources = ''
-        this.props.addAd({adInfo: this.adTemplateData}).then(msg => {
-            if (msg) {
-                this.adTemplateData = model.Ad.AdModel
-                this.adTemplateData.Resources = {}
-                this.adTemplateData.Relations = {}
-                message.success('保存成功')
-            }
-            this.setState({loading: false})
-        })
-    }
-
-    // 删除模板
-    deleteTemplate = (item) => {
-        this.props.deleteAd({idList: item.Id}).then(msg => {
-            this.setState({loading: false})
-            if (msg) {
-                message.success('删除成功')
-                this.props.getData()
-            }
-            
-        })
-    }
-
-    templateNameChange = (item, ev) =>{
+     templateNameChange = (item, ev) =>{
         this.adTemplateData.Name = ev.target.value
         this.setState({loading: true})
         if (!this.adTemplateData.Resources[1] && item.Id) {
@@ -127,72 +75,62 @@ class ThreeScreen extends Component {
         }
     }
 
-    
-    chooseModule = (txt, item, ev) => {
-        
-        // txt: 1(上)，2(中)，3(下)
-        this.nowPosition = txt
-        if (ev) {
-            $(ev.currentTarget).siblings().css('background-color', '#fff')
-            $(ev.currentTarget).css('background-color', '#ccc')
+    resourceClick = (resourceItem, ev) => {
+        if (this.state.data.Resources[this.nowPosition].length >= 5) {
+            message.warning('资源不能大于五个！')
+            return
         }
-        
-        if (this.adTemplateData.Resources[this.nowPosition]) {
-            this.setState({everyModuleData: this.adTemplateData.Resources[this.nowPosition]})
-        } else if (item.Id) {
-            this.adTemplateData.Id = item.Id
-            this.adTemplateData.Name = item.Name
-            this.props.fetchAdById({adId: item.Id, adType: 0}).then(msg => {
-                let resources = this.adTemplateData.Resources
-                resources[1] = []
-                resources[2] = []
-                resources[3] = []
-                msg.map((item, index) => {
-                    resources[item.AdType].push(item)
-                })
-                this.setState({everyModuleData: this.adTemplateData.Resources[this.nowPosition]})
-            })
-        } else {
-            this.setState({everyModuleData: []})
+        let canPush = true
+        for (var i = 0; i < this.state.data.Resources[this.nowPosition].length; i++) {
+            if (this.state.data.Resources[this.nowPosition][i].PicId == resourceItem.PicId) {
+                canPush = false
+            }
         }
-     }
+
+        if (canPush) {
+            this.state.data.Resources[this.nowPosition].push(resourceItem)
+            this.setState({data: this.state.data})
+        }
+    }
+
+    chooseResource = () => {
+        this.setState({visible: true})
+    }
 
     /* *****************数组上下移动及删除操作**************** */
     arrDelete = (index) => {
-        let tmpArr = this.state.everyModuleData
+        let tmpArr = this.state.data.Resources[this.nowPosition]
         tmpArr.splice(index, 1)
-        this.setState({everyModuleData: tmpArr})
-        this.generateAdData(tmpArr)
+        this.setState({data: this.state.data})
+        // this.generateAdData(tmpArr)
     }
 
-    arrUp = (index) => {
-       if (index == 0) {
-           return
-       }
-      
-       let tmpArr = this.state.everyModuleData
-       tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
-       this.setState({everyModuleData: tmpArr})
-       this.generateAdData(tmpArr)
-    }
-
-    arrDown = (index) => {
-       if (index == this.state.everyModuleData.length - 1) {
-           return
-       }
-       let tmpArr = this.state.everyModuleData
-       tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
-       this.setState({everyModuleData: tmpArr})
-       this.generateAdData(tmpArr)
-    }
-
-    
     handleOk = () => {
         
     }
     
     handleCancel = () => {
         this.setState({visible: false})
+    }
+            
+
+    arrUp = (index) => {
+       if (index == 0) {
+           return
+       }
+      
+       let tmpArr = this.state.data.Resources[this.nowPosition]
+       tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
+       this.setState({data: this.state.data})
+    }
+
+    arrDown = (index) => {
+       if (index == this.state.data.Resources[this.nowPosition].length - 1) {
+           return
+       }
+       let tmpArr = this.state.data.Resources[this.nowPosition]
+       tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
+       this.setState({data: this.state.data})
     }
 
 
@@ -201,19 +139,19 @@ class ThreeScreen extends Component {
            <div className="threeContainer">
                 <div className="threeScreenContainer">
        <div><Row type="flex" justify="space-around" align="middle">
-                   <Col span={16}> <Input onChange={this.templateNameChange.bind(this, this.props.data)} addonBefore="模板名称" defaultValue={this.props.data.Name}/></Col>
-                   <Col span={8}><Button.Group> <Button type='primary' onClick={this.saveAdTemplate.bind(this, this.props.data)}>保存</Button><Popconfirm title="确认删除吗?" onConfirm={this.deleteTemplate.bind(this, this.props.data)} okText="确定" cancelText="取消"><Button type='ghost'>删除</Button></Popconfirm></Button.Group></Col>
+                   <Col span={16}> <Input onChange={this.templateNameChange.bind(this, this.state.data)} addonBefore="模板名称" defaultValue={this.state.data.Name}/></Col>
+                   <Col span={8}><Button.Group> <Button type='primary' onClick={this.props.saveAdTemplate.bind(this, this.state.data)}>保存</Button><Popconfirm title="确认删除吗?" onConfirm={this.props.deleteTemplate.bind(this, this.state.data)} okText="确定" cancelText="取消"><Button type='ghost'>删除</Button></Popconfirm></Button.Group></Col>
                    </Row>
                    </div>
-                    <div onClick={this.chooseModule.bind(this, '1', this.props.data)}>
+                    <div onClick={this.chooseModule.bind(this, '1', this.state.data)}>
                        <span>上部广告区</span>
                     </div>
-                    <div onClick={this.chooseModule.bind(this, '2', this.props.data)}><span>出货中广告</span></div>
-                    <div onClick={this.chooseModule.bind(this, '3', this.props.data)}><span>下部广告区</span></div>
+                    <div onClick={this.chooseModule.bind(this, '2', this.state.data)}><span>出货中广告</span></div>
+                    <div onClick={this.chooseModule.bind(this, '3', this.state.data)}><span>下部广告区</span></div>
                 </div>
                 <div className="settingPanel">
                     
-                <Table dataSource={this.state.everyModuleData} pagination={false} showHeader={false}>
+                <Table dataSource={this.state.data.Resources[this.nowPosition]} pagination={false} showHeader={false}>
                    <Column
                         title="序号"
                         key="index"
@@ -249,7 +187,7 @@ class ThreeScreen extends Component {
                         )}
                     />
                     </Table>
-                <Button type="dashed" onClick={this.showResource} style={{ width: '60%' }}>
+                <Button type="dashed" onClick={this.chooseResource} style={{ width: '60%' }}>
                             <Icon type="plus" /> 选择资源
                         </Button>
                 </div>
