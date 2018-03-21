@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Icon, Table, Avatar, Input} from 'antd'
+import {Button, Icon, Table, Avatar, Input, Row, Col} from 'antd'
 
 const { Column } = Table
 
@@ -15,33 +15,24 @@ class ThreeScreen extends Component {
         
     }
 
-    chooseModule = (txt, ev) => {
-       // txt: 1(上)，2(中)，3(下)
-       $(ev.currentTarget).siblings().css('background-color', '#fff')
-       $(ev.currentTarget).css('background-color', '#ccc')
-       if (this.props.data && this.props.data.Id) {
-
-       } else {
-           // let panel = []
-            // this.setState({settingPanel: })
-           
-           
-       }
-    }
 
     render() {
        return (
            <div className="threeContainer">
                 <div className="threeScreenContainer">
-                    <div> <Input addonBefore="模板名称" /></div>
-                    <div onClick={this.chooseModule.bind(this, '1')}>
+       <div><Row type="flex" justify="space-around" align="middle">
+                   <Col span={19}> <Input onChange={this.props.templateNameChange} addonBefore="模板名称"/></Col>
+                   <Col span={5}> <Button type='primary' onClick={this.props.saveAdTemplate}>保存</Button></Col>
+                   </Row>
+                   </div>
+                    <div onClick={this.props.chooseModule.bind(this, '1')}>
                        <span>上部广告区</span>
                     </div>
-                    <div onClick={this.chooseModule.bind(this, '2')}><span>出货中广告</span></div>
-                    <div onClick={this.chooseModule.bind(this, '3')}><span>下部广告区</span></div>
+                    <div onClick={this.props.chooseModule.bind(this, '2')}><span>出货中广告</span></div>
+                    <div onClick={this.props.chooseModule.bind(this, '3')}><span>下部广告区</span></div>
                 </div>
                 <div className="settingPanel">
-                    <div></div>
+                    
                 <Table dataSource={this.props.everyModuleData} pagination={false} showHeader={false}>
                    <Column
                         title="序号"

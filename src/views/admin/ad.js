@@ -4,6 +4,7 @@ import ThreeScreen from 'COMPONENT/admin/ad/threeScreen'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 import Tools from 'COMPONENT/admin/common/tools'
 import Utility from 'UTIL/utility'
+import model from 'STORE/model'
 
 class Ad extends Component {
     constructor(props) {
@@ -21,6 +22,10 @@ class Ad extends Component {
             }
         }
 
+        this.adTemplateData = model.Ad.AdModel
+        this.adTemplateData.Relations = {}
+        this.adTemplateData.Resources = {}
+        this.nowPosition = 1
     }
 
     componentWillMount() {
@@ -62,18 +67,82 @@ class Ad extends Component {
         if (canPush) {
             this.state.everyModuleData.push(resourceItem)
             this.setState({everyModuleData: this.state.everyModuleData})
+            this.generateAdData(this.state.everyModuleData)
         }
+    }
+
+    generateAdData = (data) => {
+        /*
+        let tmp = []
+        data.each((item, index) => {
+            let tmpItem = {}
+            tmpItem.AdId = this.adTemplateData.Id
+            tmpItem.SourceId = item.PicId
+            tmpItem.Sequence = index + 1
+            tmpItem.AdType = this.nowPosition
+            tmp.push(tmpItem)
+        })
+        */
+        this.adTemplateData.Resources[this.nowPosition] = data
     }
 
     showCreatDialog = () => {
 
     }
 
+    saveAdTemplate = () => {
+        // let storage = localStorage.getItem('adTemplateData')
+        if (!this.adTemplateData.Name) {
+            message.warning('模板名称不能为空')
+            return
+        }
+        this.setState({loading: true})
+        let tmp = []
+        for (let key in this.adTemplateData.Resources) {
+            this.adTemplateData.Resources[key].map((item, index) => {
+                let tmpItem = {}
+                tmpItem.AdId = this.adTemplateData.Id
+                tmpItem.SourceId = item.PicId
+                tmpItem.Sequence = index + 1
+                tmpItem.AdType = this.nowPosition
+                tmp.push(tmpItem)
+            })
+        }
+        this.adTemplateData.Relations = tmp
+        this.adTemplateData.Resources = ''
+        this.props.addAd({adInfo: this.adTemplateData}).then(msg => {
+            if (msg) {
+                this.adTemplateData = model.Ad.AdModel
+                this.adTemplateData.Resources = {}
+            }
+            this.setState({loading: false})
+        })
+    }
+
+    templateNameChange = (val) =>{
+        this.adTemplateData.Name = val.target.value
+    }
+
+    
+    chooseModule = (txt, ev) => {
+        // txt: 1(上)，2(中)，3(下)
+        this.nowPosition = txt
+        $(ev.currentTarget).siblings().css('background-color', '#fff')
+        $(ev.currentTarget).css('background-color', '#ccc')
+      
+        if (this.adTemplateData.Resources[this.nowPosition]) {
+            this.setState({everyModuleData: this.adTemplateData.Resources[this.nowPosition]})
+        } else {
+            this.setState({everyModuleData: []})
+        }
+     }
+
     /* *****************数组上下移动及删除操作**************** */
     arrDelete = (index) => {
         let tmpArr = this.state.everyModuleData
         tmpArr.splice(index, 1)
         this.setState({everyModuleData: tmpArr})
+        this.generateAdData(tmpArr)
     }
 
     arrUp = (index) => {
@@ -84,6 +153,7 @@ class Ad extends Component {
        let tmpArr = this.state.everyModuleData
        tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
        this.setState({everyModuleData: tmpArr})
+       this.generateAdData(tmpArr)
     }
 
     arrDown = (index) => {
@@ -93,6 +163,7 @@ class Ad extends Component {
        let tmpArr = this.state.everyModuleData
        tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
        this.setState({everyModuleData: tmpArr})
+       this.generateAdData(tmpArr)
     }
 
     render() {
@@ -100,7 +171,7 @@ class Ad extends Component {
             <div>
                <Tools searchDatasource={[]} auth={this.state.auth} onCreate={this.showCreatDialog} />
                <Spin size="large" spinning={this.state.loading}>
-                <ThreeScreen arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
+                <ThreeScreen templateNameChange={this.templateNameChange} chooseModule={this.chooseModule} saveAdTemplate={this.saveAdTemplate} arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
                </Spin>
               <ResourceDialog 
               visible={this.state.visible} 

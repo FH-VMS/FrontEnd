@@ -25,13 +25,16 @@ const Front = {
            Id: '',
            Name: '',
            ClientId: '',
-           Reources: ''
+           Reources: '',
+           Relations: ''
        },
        AdRelationModel: {
            AdId: '',
            SourceId: '',
            Sequence: '',
-           AdType: ''
+           AdType: '',
+           ResourcePath: '',
+           ResourceName: ''
        }
    },
    Model: {
@@ -103,6 +106,22 @@ const Front = {
            LayerGoodsNumber: '',
            Remark: '',
            CabinetDisplay: ''
+       },
+       CashEquipmentModel: {
+           Id: '',
+           MachineId: '',
+           CashStatus: '',
+           CashStock: '',
+           CoinStatus: '',
+           CoinStock: '',
+           UpdateType: '',
+           MachineName: '',
+           PageIndex: '',
+           PageSize: ''
+       },
+       CoinStockModel: {
+           Money: '',
+           Number: ''
        },
        MachineCabinetModel: {
            CabinetId: '',
@@ -357,12 +376,31 @@ const Front = {
            ClientId: '',
            FileType: '',
            UploadTime: '',
+           Size: '',
            PicUrl: '',
            PageIndex: '',
            PageSize: ''
        }
    },
    Sale: {
+       CashSaleModel: {
+           SalesNo: '',
+           MachineId: '',
+           SalesDate: '',
+           SalesType: '',
+           GoodsId: '',
+           WaresId: '',
+           WaresName: '',
+           SalesNumber: '',
+           SalesPrices: '',
+           PayWay: '',
+           TradeNo: '',
+           SaleDateStart: '',
+           SaleDateEnd: '',
+           MachineName: '',
+           PageIndex: '',
+           PageSize: ''
+       },
        SaleModel: {
            SalesIcId: '',
            MachineId: '',
@@ -382,10 +420,12 @@ const Front = {
            RandomId: '',
            RealitySaleNumber: '',
            WaresId: '',
+           WaresName: '',
            SaleDateStart: '',
            SaleDateEnd: '',
            ClientName: '',
            DeviceId: '',
+           MachineName: '',
            PageIndex: '',
            PageSize: ''
        }
@@ -394,6 +434,16 @@ const Front = {
        CommandModel: {
            Content: '',
            Size: ''
+       }
+   },
+   Statistic: {
+       ClassModel: {
+           Name: '',
+           Name1: '',
+           Name2: '',
+           Name3: '',
+           Name4: '',
+           Data: ''
        }
    },
    User: {
