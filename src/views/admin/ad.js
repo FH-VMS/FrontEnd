@@ -12,7 +12,7 @@ class Ad extends Component {
         this.state = {
             loading: false,
             visible: false,
-            threeScreenData: {},
+            screenData: [],
             everyModuleData: [],
             auth: {
                 CanAdd: 'none',
@@ -34,8 +34,13 @@ class Ad extends Component {
     }
 
     componentDidMount() {
+        this.setState({loading: true})
         this.props.fetchAd().then(msg => {
-            // console.log('aaaaaa', this.props.ad)
+            if (this.props.ad.data && this.props.ad.data.length > 0) {
+                this.setState({screenData: this.props.ad.data, loading: false})
+            } else {
+                this.setState({screenData: [this.adTemplateData], loading: false})
+            }
         })
     }
 
@@ -90,8 +95,12 @@ class Ad extends Component {
 
     }
 
-    saveAdTemplate = () => {
+    saveAdTemplate = (data) => {
         // let storage = localStorage.getItem('adTemplateData')
+        if (data) {
+            this.adTemplateData.Id = data.Id
+            this.adTemplateData.Name = data.Name
+        }
         if (!this.adTemplateData.Name) {
             message.warning('模板名称不能为空')
             return
@@ -104,7 +113,7 @@ class Ad extends Component {
                 tmpItem.AdId = this.adTemplateData.Id
                 tmpItem.SourceId = item.PicId
                 tmpItem.Sequence = index + 1
-                tmpItem.AdType = this.nowPosition
+                tmpItem.AdType = key
                 tmp.push(tmpItem)
             })
         }
@@ -124,14 +133,22 @@ class Ad extends Component {
     }
 
     
-    chooseModule = (txt, ev) => {
+    chooseModule = (txt, item, ev) => {
+        
         // txt: 1(上)，2(中)，3(下)
         this.nowPosition = txt
-        $(ev.currentTarget).siblings().css('background-color', '#fff')
-        $(ev.currentTarget).css('background-color', '#ccc')
-      
+        if (ev) {
+            $(ev.currentTarget).siblings().css('background-color', '#fff')
+            $(ev.currentTarget).css('background-color', '#ccc')
+        }
+        
         if (this.adTemplateData.Resources[this.nowPosition]) {
             this.setState({everyModuleData: this.adTemplateData.Resources[this.nowPosition]})
+        } else if (item.Id) {
+            this.props.fetchAdById({adId: item.Id, adType: txt}).then(msg => {
+                this.adTemplateData.Resources[this.nowPosition] = msg
+                this.setState({everyModuleData: this.adTemplateData.Resources[this.nowPosition]})
+            })
         } else {
             this.setState({everyModuleData: []})
         }
@@ -171,7 +188,12 @@ class Ad extends Component {
             <div>
                <Tools searchDatasource={[]} auth={this.state.auth} onCreate={this.showCreatDialog} />
                <Spin size="large" spinning={this.state.loading}>
-                <ThreeScreen templateNameChange={this.templateNameChange} chooseModule={this.chooseModule} saveAdTemplate={this.saveAdTemplate} arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
+                 {
+                     this.state.screenData.map((item, index) => {
+                           return (<ThreeScreen templateNameChange={this.templateNameChange} chooseModule={this.chooseModule} saveAdTemplate={this.saveAdTemplate} arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={item} chooseResource={this.showResource.bind(this)}/>)
+                      })
+                 }
+                
                </Spin>
               <ResourceDialog 
               visible={this.state.visible} 

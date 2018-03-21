@@ -103,7 +103,7 @@ export default {
 // ================================
 export const ACTION_HANDLERS = {
   [FETCH_AD]: (result, { payload }) => {
-      result.data = payload.data
+      result.data = payload
       return result
   },
   [ADD_AD]: (result, { payload }) => ({payload}),

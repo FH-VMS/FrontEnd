@@ -21,15 +21,15 @@ class ThreeScreen extends Component {
            <div className="threeContainer">
                 <div className="threeScreenContainer">
        <div><Row type="flex" justify="space-around" align="middle">
-                   <Col span={19}> <Input onChange={this.props.templateNameChange} addonBefore="模板名称"/></Col>
-                   <Col span={5}> <Button type='primary' onClick={this.props.saveAdTemplate}>保存</Button></Col>
+                   <Col span={19}> <Input onChange={this.props.templateNameChange} addonBefore="模板名称" defaultValue={this.props.data.Name}/></Col>
+                   <Col span={5}> <Button type='primary' onClick={this.props.saveAdTemplate.bind(this, this.props.data)}>保存</Button></Col>
                    </Row>
                    </div>
-                    <div onClick={this.props.chooseModule.bind(this, '1')}>
+                    <div onClick={this.props.chooseModule.bind(this, '1', this.props.data)}>
                        <span>上部广告区</span>
                     </div>
-                    <div onClick={this.props.chooseModule.bind(this, '2')}><span>出货中广告</span></div>
-                    <div onClick={this.props.chooseModule.bind(this, '3')}><span>下部广告区</span></div>
+                    <div onClick={this.props.chooseModule.bind(this, '2', this.props.data)}><span>出货中广告</span></div>
+                    <div onClick={this.props.chooseModule.bind(this, '3', this.props.data)}><span>下部广告区</span></div>
                 </div>
                 <div className="settingPanel">
                     

@@ -346,6 +346,9 @@ const api = {
         },
         DeleteData: function (data) {
           return apiService('Ad', 'DeleteData', 'DELETE', data)
+        },
+        GetRelationByIdAndType: function (data) {
+          return apiService('Ad', 'GetRelationByIdAndType', 'GET', data)
         }
     }
     
