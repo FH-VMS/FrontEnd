@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Spin, message} from 'antd'
 import ThreeScreen from 'COMPONENT/admin/ad/threeScreen'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
+import Tools from 'COMPONENT/admin/common/tools'
+import Utility from 'UTIL/utility'
 
 class Ad extends Component {
     constructor(props) {
@@ -10,13 +12,20 @@ class Ad extends Component {
             loading: false,
             visible: false,
             threeScreenData: {},
-            everyModuleData: []
+            everyModuleData: [],
+            auth: {
+                CanAdd: 'none',
+                CanDelete: 'none',
+                CanModify: 'none',
+                CanSearch: 'none'
+            }
         }
 
     }
 
     componentWillMount() {
-     
+     // 页面级权限
+     this.setState({auth: Utility.Cookie.getAuth()})
     }
 
     componentDidMount() {
@@ -56,6 +65,10 @@ class Ad extends Component {
         }
     }
 
+    showCreatDialog = () => {
+
+    }
+
     /* *****************数组上下移动及删除操作**************** */
     arrDelete = (index) => {
         let tmpArr = this.state.everyModuleData
@@ -85,6 +98,7 @@ class Ad extends Component {
     render() {
         return (
             <div>
+               <Tools searchDatasource={[]} auth={this.state.auth} onCreate={this.showCreatDialog} />
                <Spin size="large" spinning={this.state.loading}>
                 <ThreeScreen arrDown={this.arrDown} arrUp={this.arrUp} arrDelete={this.arrDelete} everyModuleData={this.state.everyModuleData} data={this.state.threeScreenData} chooseResource={this.showResource.bind(this)}/>
                </Spin>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Icon, Table, Avatar} from 'antd'
+import {Button, Icon, Table, Avatar, Input} from 'antd'
 
 const { Column } = Table
 
@@ -17,8 +17,8 @@ class ThreeScreen extends Component {
 
     chooseModule = (txt, ev) => {
        // txt: 1(上)，2(中)，3(下)
-       $(ev.target).siblings().css('background-color', '#fff')
-       $(ev.target).css('background-color', '#ccc')
+       $(ev.currentTarget).siblings().css('background-color', '#fff')
+       $(ev.currentTarget).css('background-color', '#ccc')
        if (this.props.data && this.props.data.Id) {
 
        } else {
@@ -33,13 +33,15 @@ class ThreeScreen extends Component {
        return (
            <div className="threeContainer">
                 <div className="threeScreenContainer">
-                    <div><h4>三分屏</h4></div>
+                    <div> <Input addonBefore="模板名称" /></div>
                     <div onClick={this.chooseModule.bind(this, '1')}>
+                       <span>上部广告区</span>
                     </div>
-                    <div></div>
-                    <div onClick={this.chooseModule.bind(this, '3')}></div>
+                    <div onClick={this.chooseModule.bind(this, '2')}><span>出货中广告</span></div>
+                    <div onClick={this.chooseModule.bind(this, '3')}><span>下部广告区</span></div>
                 </div>
                 <div className="settingPanel">
+                    <div></div>
                 <Table dataSource={this.props.everyModuleData} pagination={false} showHeader={false}>
                    <Column
                         title="序号"

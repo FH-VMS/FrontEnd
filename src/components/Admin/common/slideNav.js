@@ -38,7 +38,7 @@ class SlideNav extends Component {
       auth.CanAdd = (cItem.Add == 1 ? 'inline' : 'none')
       auth.CanDelete = (cItem.Del == 1 ? 'inline' : 'none')
       auth.CanModify = (cItem.Mod == 1 ? 'inline' : 'none')
-      auth.CanSerach = (cItem.Sear == 1 ? 'inline' : 'none')
+      auth.CanSearch = (cItem.Sear == 1 ? 'inline' : 'none')
      
      switch (cItem.Url.toLowerCase()) {
         case 'customerinfo':
@@ -93,7 +93,6 @@ class SlideNav extends Component {
         case 'machineoperation':
           auth.CanAdd = 'none'
           auth.CanDelete = 'none'
-          auth.CanSerach = 'inline'
         break
      }
      // 刷新时选中菜单缓存

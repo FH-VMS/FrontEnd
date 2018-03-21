@@ -120,9 +120,9 @@ class ToolControl extends Component {
     }
     
     children.push(<Col span={searchButtonSpan} style={{ textAlign: 'right'}}> 
-    <Button.Group>
-    <Button type="primary" size="large" htmlType="submit" style={{ display: this.props.auth.CanSearch }}>查询</Button>
-    <Button type="ghost" size="large" style={{marginRight: '8px', display: this.props.auth.CanSearch }} onClick={this.handleReset}>
+    <Button.Group style={{ display: this.props.auth.CanSearch }}>
+    <Button type="primary" size="large" htmlType="submit">查询</Button>
+    <Button type="ghost" size="large" style={{marginRight: '8px'}} onClick={this.handleReset}>
         清除
     </Button>
     </Button.Group>
@@ -142,7 +142,7 @@ class ToolControl extends Component {
                         horizontal
                         onSubmit={this.handleSearch}
                         >
-                        <Row gutter={40} style={{ display: this.props.auth.CanSearch }}>
+                        <Row gutter={40}>
                             
                             <Col span={24}>{children}</Col>
                         </Row>
