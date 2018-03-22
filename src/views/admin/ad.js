@@ -19,14 +19,10 @@ class Ad extends Component {
                 CanDelete: 'none',
                 CanModify: 'none',
                 CanSearch: 'none'
-            }
+            },
+            templateHtml: ''
         }
 
-        this.adTemplateData = model.Ad.AdModel
-        this.adTemplateData.Relations = {}
-        this.adTemplateData.Resources = {}
-        this.nowPosition = 1
-        this.nowItem = {}
     }
 
     componentWillMount() {
@@ -40,71 +36,67 @@ class Ad extends Component {
 
     // 取数据
     getData = () => {
-        this.adTemplateData = model.Ad.AdModel
-        this.adTemplateData.Relations = {}
-        this.adTemplateData.Resources = {}
         this.setState({loading: true})
         this.props.fetchAd().then(msg => {
             if (this.props.ad.data && this.props.ad.data.length > 0) {
-                this.setState({screenData: this.props.ad.data, loading: false})
+                this.state.screenData = this.props.ad.data
             } else {
-                this.setState({screenData: [this.adTemplateData], loading: false})
+                this.state.screenData = []
+                let emptyModel = {...model.Ad.AdModel}
+                emptyModel.Relations = {}
+                emptyModel.Resources = {}
+                this.state.screenData.push(emptyModel)
             }
+           
+            this.generateTemplate(this.state.screenData)
         })
     }
 
+
+    generateTemplate = (gData) => {
+        let templateHtmlLet = gData.map((pItem, pIndex) => {
+            return (
+                    <ThreeScreen {...this.props} deleteTemplate={this.deleteTemplate} saveAdTemplate={this.saveAdTemplate} data={pItem} />
+                  )
+        })
+
+        this.setState({templateHtml: templateHtmlLet, loading: false})
+    }
    
    
  
 
-    generateAdData = (data) => {
-        /*
-        let tmp = []
-        data.each((item, index) => {
-            let tmpItem = {}
-            tmpItem.AdId = this.adTemplateData.Id
-            tmpItem.SourceId = item.PicId
-            tmpItem.Sequence = index + 1
-            tmpItem.AdType = this.nowPosition
-            tmp.push(tmpItem)
-        })
-        */
-        this.adTemplateData.Resources[this.nowPosition] = data
-    }
-
     showCreatDialog = () => {
-
+        let emptyModel = {...model.Ad.AdModel}
+        emptyModel.Relations = {}
+        emptyModel.Resources = {}
+        this.state.screenData.push(emptyModel)
+        this.generateTemplate(this.state.screenData)
+        // this.setState({screenData: this.state.screenData})
     }
     
     // 保存模板
     saveAdTemplate = (data) => {
-        // let storage = localStorage.getItem('adTemplateData')
-        if (data) {
-            this.adTemplateData.Id = data.Id
-        }
-        if (!this.adTemplateData.Name) {
+        if (!data.Name) {
             message.warning('模板名称不能为空')
             return
         }
         this.setState({loading: true})
         let tmp = []
-        for (let key in this.adTemplateData.Resources) {
-            this.adTemplateData.Resources[key].map((item, index) => {
+        for (let key in data.Resources) {
+            data.Resources[key].map((item, index) => {
                 let tmpItem = {}
-                tmpItem.AdId = this.adTemplateData.Id
+                tmpItem.AdId = data.Id
                 tmpItem.SourceId = item.PicId
                 tmpItem.Sequence = index + 1
                 tmpItem.AdType = key
                 tmp.push(tmpItem)
             })
         }
-        this.adTemplateData.Relations = tmp
-        this.adTemplateData.Resources = ''
-        this.props.addAd({adInfo: this.adTemplateData}).then(msg => {
+        data.Relations = tmp
+        data.Resources = ''
+        this.props.addAd({adInfo: data}).then(msg => {
             if (msg) {
-                this.adTemplateData = model.Ad.AdModel
-                this.adTemplateData.Resources = {}
-                this.adTemplateData.Relations = {}
                 message.success('保存成功')
             }
             this.setState({loading: false})
@@ -123,7 +115,9 @@ class Ad extends Component {
         })
     }
 
-    
+    judgeNotSaved = () => {
+        this.setState({screenData: this.state.screenData})
+    }
 
     
 
@@ -133,9 +127,7 @@ class Ad extends Component {
                <Tools searchDatasource={[]} auth={this.state.auth} onCreate={this.showCreatDialog} />
                <Spin size="large" spinning={this.state.loading}>
                  {
-                     this.state.screenData.map((item, index) => {
-                           return (<ThreeScreen {...this.props} deleteTemplate={this.deleteTemplate} saveAdTemplate={this.saveAdTemplate} data={item} />)
-                      })
+                     this.state.templateHtml
                  }
                 
                </Spin>

@@ -9,7 +9,7 @@ class ThreeScreen extends Component {
         super(props)
         this.state = {
             settingPanel: [],
-            data: this.props.data,
+            data: {},
             visible: false
         }
     }
@@ -19,11 +19,9 @@ class ThreeScreen extends Component {
     }
 
     componentDidMount() {
-
     }
 
     chooseModule = (txt, item, ev) => {
-        console.log('aaaa', item)
         this.nowPosition = txt
         if (item.Id) {
 
@@ -36,20 +34,18 @@ class ThreeScreen extends Component {
             $(ev.currentTarget).css('background-color', '#ccc')
         }
         
-        if (item.Resources[this.nowPosition]) {
+        if (item.Resources && item.Resources[this.nowPosition]) {
             this.setState({data: item})
         } else if (item.Id) {
             this.props.fetchAdById({adId: item.Id, adType: 0}).then(msg => {
-                let resources = item.Resources
-                if (!resources) {
-                    resources = {}
-                }
+                let resources = {}
                 resources[1] = []
                 resources[2] = []
                 resources[3] = []
                 msg.map((item, index) => {
                     resources[item.AdType].push(item)
                 })
+                item.Resources = resources
                 this.setState({data: item})
             })
         } else {
@@ -59,11 +55,11 @@ class ThreeScreen extends Component {
      }
 
      templateNameChange = (item, ev) =>{
-        this.adTemplateData.Name = ev.target.value
+        item.Name = ev.target.value
         this.setState({loading: true})
-        if (!this.adTemplateData.Resources[1] && item.Id) {
+        if (item.Resources && !item.Resources[1] && item.Id) {
             this.props.fetchAdById({adId: item.Id, adType: 0}).then(msg => {
-                let resources = this.adTemplateData.Resources
+                let resources = item.Resources
                 resources[1] = []
                 resources[2] = []
                 resources[3] = []
@@ -135,11 +131,17 @@ class ThreeScreen extends Component {
 
 
     render() {
+        let {data} = this.props
+        this.state.data = data
+        let tableResource = []
+        if (this.state.data.Resources) {
+            tableResource = this.state.data.Resources[this.nowPosition]
+        }
        return (
            <div className="threeContainer">
                 <div className="threeScreenContainer">
        <div><Row type="flex" justify="space-around" align="middle">
-                   <Col span={16}> <Input onChange={this.templateNameChange.bind(this, this.state.data)} addonBefore="模板名称" defaultValue={this.state.data.Name}/></Col>
+                   <Col span={16}> <Input onChange={this.templateNameChange.bind(this, this.state.data)} addonBefore="模板名称" value={this.state.data.Name}/></Col>
                    <Col span={8}><Button.Group> <Button type='primary' onClick={this.props.saveAdTemplate.bind(this, this.state.data)}>保存</Button><Popconfirm title="确认删除吗?" onConfirm={this.props.deleteTemplate.bind(this, this.state.data)} okText="确定" cancelText="取消"><Button type='ghost'>删除</Button></Popconfirm></Button.Group></Col>
                    </Row>
                    </div>
@@ -151,7 +153,7 @@ class ThreeScreen extends Component {
                 </div>
                 <div className="settingPanel">
                     
-                <Table dataSource={this.state.data.Resources[this.nowPosition]} pagination={false} showHeader={false}>
+                <Table dataSource={tableResource} pagination={false} showHeader={false}>
                    <Column
                         title="序号"
                         key="index"
