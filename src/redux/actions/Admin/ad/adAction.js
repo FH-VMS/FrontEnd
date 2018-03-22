@@ -74,6 +74,7 @@ const updateAd = (updBody) => dispatch =>
          type: FETCH_RESOURCE,
          payload: msgs
       })
+      return msgs
   })
 
   const fetchAdById = (queryBody) => dispatch =>
@@ -110,10 +111,10 @@ export const ACTION_HANDLERS = {
   [UPDATE_AD]: (result, { payload }) => ({payload}),
   [DELETE_AD]: (result, { payload }) => ({payload}),
   [FETCH_ADBYID]: (result, { payload }) => ({payload}),
-  [FETCH_RESOURCE]: (resource, { payload }) => {
-    resource.resourceData = payload.data
-    resource.resourcePager = payload.pager
-      return resource
+  [FETCH_RESOURCE]: (result, { payload }) => {
+    result.resourceData = payload.data
+    result.resourcePager = payload.pager
+      return {...result, ...payload}
   }
 }
 

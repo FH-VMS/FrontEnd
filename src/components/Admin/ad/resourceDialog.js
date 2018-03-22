@@ -24,17 +24,21 @@ class ResourceDialog extends Component {
 
     componentWillMount() {
      
-       this.getData(this.searchPara)
+      
     
+    }
+
+    componentDidMount() {
+        this.getDataReource(this.searchPara)
     }
     
     // 取数据方法
-    getData = (val) => {
+    getDataReource = (val) => {
       this.setState({loading: true})
        this.props.fetchResource(val).then((msg) => {
-         if (this.props.ad) {
-           this.setState({dataSource: this.props.ad.resourceData, pagination: {
-                total: this.props.ad.resourcePager.TotalRows,
+         if (msg) {
+           this.setState({dataSource: msg.data, pagination: {
+                total: msg.pager.TotalRows,
                 showSizeChanger: true,
                 onShowSizeChange: (current, pageSize) => {
                     this.searchPara.pageIndex = current
@@ -69,7 +73,7 @@ class ResourceDialog extends Component {
           })
 
           this.searchPara.fileType = e.target.value
-          this.getData(this.searchPara)
+          this.getDataReource(this.searchPara)
     }
      
 
@@ -78,7 +82,7 @@ class ResourceDialog extends Component {
 
     render() {
       
-
+       console.log('aaaa', this.state.dataSource)
         return (
             <Modal
             maskClosable={false}
