@@ -621,6 +621,12 @@ body{
         height: @resourceImg;
         overflow: hidden;
       }
+
+      &>video{
+        width: @resourceImg+-2;
+        height: @resourceImg;
+        overflow: hidden;
+      }
     }
 
     &>div:last-child {
@@ -646,7 +652,7 @@ body{
   font-size: 28px;
   color: #999;
   width: @resourceImg;
-  height: 210px;
+  height: 160px;
 }
 
 
@@ -708,11 +714,20 @@ body{
 
 .imgContainer{
   display: block;
+  
   &>img{
     width: @resourceImg/2;
     height: @resourceImg/2;
     margin: 3px;
     cursor: pointer;
+  }
+
+  &>video{
+    width: @resourceImg/2;
+    height: @resourceImg/2;
+    margin: 3px;
+    cursor: pointer;
+    border:1px solid @mainColor;
   }
 }
 

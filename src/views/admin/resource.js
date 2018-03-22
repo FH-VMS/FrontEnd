@@ -25,7 +25,8 @@ class Resource extends Component {
             },
             loading: false,
             savePara: {},
-            imageUrl: ''
+            imageUrl: '',
+            fileList: []
         }
 
         this.searchPara = {
@@ -220,8 +221,9 @@ class Resource extends Component {
         // 上传方法
         const uploadObj = Utility.getUploadObj()
         uploadObj.onChange = (info) => {
+            this.setState({loading: true, fileList: info.fileList})
             if (info.file.status !== 'uploading') {
-               console.log('aaaaa', info)
+
             }
             if (info.file.status === 'done') {
                 message.success(`上传成功`)
@@ -230,8 +232,10 @@ class Resource extends Component {
                 // let id = info.file.response.RetObj[0].Id
                 // let name = info.file.response.RetObj[0].Name
                 }
+                this.setState({loading: false, fileList: []})
             } else if (info.file.status === 'error') {
                 message.error(`上传失败`)
+                this.setState({loading: false, fileList: []})
             }
         }
         this.getAuth()
@@ -255,8 +259,9 @@ class Resource extends Component {
                   <Upload
                     className="avatar-uploader"
                     name="avatar"
-                    showUploadList={false}
+                    showUploadList={this.state.loading}
                     {...uploadObj} 
+                    fileList={this.state.fileList}
                 >
                     {
                         /*

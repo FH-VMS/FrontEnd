@@ -12,13 +12,14 @@ class EveryResource extends Component {
     render() {
         let rHmtl = ''
         if (this.props.data && this.props.data.FileType == '1') {
-            rHmtl = <img src={this.props.data.PicUrl} />
+            rHmtl = <img src={this.props.data.PicUrl} title={this.props.data.PicName} />
         } else if (this.props.data && this.props.data.FileType == '2') {
-
+            rHmtl = <video src={this.props.data.PicUrl} title={this.props.data.PicName}></video>
         }
         return (
             <div className="everyResource">
                <div>{rHmtl}</div>
+               
                <div>
                <Popconfirm title="确认删除吗?" onConfirm={this.props.handleDelete.bind(this, this.props.data)} okText="确定" cancelText="取消">
                                 <a style={{display: this.props.auth.CanDelete}}>删除</a>

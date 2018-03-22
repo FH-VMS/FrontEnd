@@ -166,11 +166,11 @@ class ThreeScreen extends Component {
                     <Column
                         title="图片"
                         key="picture"
-                        render={(text, record, index) => (
-                        
-                            <img className="chooseResource" src={record.PicUrl} />
-                        
-                        )}
+                        render={(text, record, index) => {
+                                 return <img className="chooseResource" src={record.PicUrl} />
+                        }
+                            
+                        }
                     />
                     <Column
                         title="名称"

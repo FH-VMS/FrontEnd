@@ -101,9 +101,16 @@ class ResourceDialog extends Component {
             <div className="imgContainer">
             {
                            this.state.dataSource.map((cItem, cIndex) => {
-                               return (
-                                  <img src={cItem.PicUrl} onClick={this.props.resourceClick.bind(this, cItem)}/>
-                               )
+                               if (cItem.FileType == '1') {
+                                    return (
+                                        <img src={cItem.PicUrl} title={cItem.PicName} onClick={this.props.resourceClick.bind(this, cItem)}/>
+                                    )
+                               } else {
+                                    return (
+                                        <video src={cItem.PicUrl} title={cItem.PicName} onClick={this.props.resourceClick.bind(this, cItem)}/>
+                                    )
+                               }
+                               
                            })
                        }
                
