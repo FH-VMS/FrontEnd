@@ -4,6 +4,7 @@ import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Table, message, Spin, Popconfirm, Input, Select } from 'antd'
 import Dialog from 'COMPONENT/admin/machine/machineListDialog'
+import CopyDialog from 'COMPONENT/admin/machine/copyDialog'
 
 const { Column } = Table
 
@@ -27,7 +28,9 @@ class MachineList extends Component {
             savePara: model.Machine.MachindListModel,
             searchDatasource: [],
             machineTypeDic: [],
-            clientDicData: []
+            clientDicData: [],
+            copyMachineId: '',
+            copyVisible: false
         }
 
         this.searchPara = {
@@ -157,6 +160,10 @@ class MachineList extends Component {
          }
          
     }
+    // 拷贝机器
+    copyMachine = (txt, item, e) => {
+       this.setState({copyMachineId: item.DeviceId, copyVisible: true})
+    }
 
     // 删除
     handleDelete = (record, e) => {
@@ -225,41 +232,89 @@ class MachineList extends Component {
     getAuth = () =>{
         if (this.state.auth.CanDelete == 'none' && this.state.auth.CanModify == 'none') {
             this.DeleteAndModify = ''
+            if (this.state.auth.CanAdd == 'inline') {
+                this.DeleteAndModify = <Column
+                title="操作"
+                key="action"
+                render={(text, record) => (
+                <span>
+                    <a onClick={this.copyMachine.bind(this, '复制', record)}>复制机器</a>
+                </span>
+                )}
+            />
+            }
         } else if (this.state.auth.CanDelete == 'none') {
+           
             this.DeleteAndModify = <Column
                         title="操作"
                         key="action"
-                        render={(text, record) => (
-                        <span>
-                            <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
-                        </span>
-                        )}
+                        render={(text, record) => {
+                            if (this.state.auth.CanAdd == 'none') {
+                            return <span>
+                                    <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
+                                </span>
+                            } else {
+                                return <div><span>
+                                <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
+                            </span>
+                            <span className="ant-divider" />
+                            <a onClick={this.copyMachine.bind(this, '复制', record)}>复制</a>
+                            </div>
+                            }
+                        
+                        }
+                        }
                     />
         } else if (this.state.auth.CanModify == 'none') {
             this.DeleteAndModify = <Column
                         title="操作"
                         key="action"
-                        render={(text, record) => (
-                        <span>
-                             <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
-                                <a style={{display: this.state.auth.CanDelete}}>删除</a>
-                            </Popconfirm>
-                        </span>
-                        )}
+                        render={(text, record) => {
+                            if (this.state.auth.CanAdd == 'none') {
+                                return <span>
+                                    <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
+                                        <a style={{display: this.state.auth.CanDelete}}>删除</a>
+                                    </Popconfirm>
+                                </span>
+                            } else {
+                                return <div><span>
+                                <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
+                                    <a style={{display: this.state.auth.CanDelete}}>删除</a>
+                                </Popconfirm>
+                               
+                            </span>
+                            <span className="ant-divider" />
+                            <a onClick={this.copyMachine.bind(this, '复制', record)}>复制</a>
+                            </div>
+                            }
+                        }}
                     />
         } else {
             this.DeleteAndModify = <Column
                         title="操作"
                         key="action"
-                        render={(text, record) => (
-                        <span>
-                             <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
-                                <a style={{display: this.state.auth.CanDelete}}>删除</a>
-                            </Popconfirm>
-                            <span className="ant-divider" />
-                            <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
-                        </span>
-                        )}
+                        render={(text, record) => {
+                            if (this.state.auth.CanAdd == 'none') {
+                                return <span>
+                                            <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
+                                            <a style={{display: this.state.auth.CanDelete}}>删除</a>
+                                        </Popconfirm>
+                                        <span className="ant-divider" />
+                                        <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
+                                    </span>
+                            } else {
+                                return <span>
+                                        <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
+                                        <a style={{display: this.state.auth.CanDelete}}>删除</a>
+                                    </Popconfirm>
+                                    <span className="ant-divider" />
+                                    <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
+                                    <span className="ant-divider" />
+                                     <a onClick={this.copyMachine.bind(this, '复制', record)}>复制</a>
+                                </span>
+                            }
+                        
+                        }}
                     />
         }
     }
@@ -323,7 +378,9 @@ class MachineList extends Component {
                         dataIndex="UserAccountName"
                         key="UserAccountName"
                     />
-                    <Column
+                    {
+                        /*
+                      <Column
                         title="启用日期"
                         dataIndex="StartDate"
                         key="StartDate"
@@ -334,8 +391,11 @@ class MachineList extends Component {
                                 return text.replace('T', ' ')
                             }
                         }
-                      }
+                        }
                     />
+                    */
+                    }
+                    
                     <Column
                         title="停用日期"
                         dataIndex="StopDate"
@@ -380,6 +440,10 @@ class MachineList extends Component {
                         clientDicData ={this.state.clientDicData}
                         fetchUserByClientId={this.props.fetchUserByClientId}
                         fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
+                 />
+                 <CopyDialog 
+                   visible={this.state.copyVisible}
+                   copyMachineId = {this.state.copyMachineId}
                  />
                 </Spin>
            </div>
