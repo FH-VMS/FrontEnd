@@ -318,7 +318,10 @@ const api = {
     MachineOperation: {
         GetMachines: function (data) {
           return apiService('MachineOperation', 'GetMachines', 'GET', data)
-        }
+        },
+        CopyOneMachine: function (data) {
+            return apiService('MachineOperation', 'CopyOneMachine', 'POST', data)
+          }
     },
     Resource: {
         GetData: function (data) {

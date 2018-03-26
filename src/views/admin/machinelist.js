@@ -39,6 +39,36 @@ class MachineList extends Component {
         }
     }
 
+    /* *********************拷贝机器操作方法******************************* */
+    saveCopyFormRef = (form) => {
+        this.copyForm = form
+    }
+    copyMachine = (txt, item, e) => {
+       this.setState({copyMachineId: item.DeviceId, copyVisible: true})
+    }
+
+    copyCreate = () => {
+        const form = this.copyForm
+        form.validateFields((err, values) => {
+        if (err) {
+            return
+        }
+        
+        this.props.copyOneMachine({oldMachineId: this.state.copyMachineId, newMachineId: values.DeviceId, copyItem: values.CopyItems}).then(msg => {
+          if (msg) {
+              message.success('复制成功')
+              this.getData(this.searchPara)
+          }
+        })
+        form.resetFields()
+        this.setState({ copyVisible: false })
+        })
+    }
+
+    copyCancel = () => {
+        this.setState({copyVisible: false})
+    }
+
     componentWillMount() {
      
      this.getData(this.searchPara)
@@ -160,10 +190,8 @@ class MachineList extends Component {
          }
          
     }
-    // 拷贝机器
-    copyMachine = (txt, item, e) => {
-       this.setState({copyMachineId: item.DeviceId, copyVisible: true})
-    }
+    
+    
 
     // 删除
     handleDelete = (record, e) => {
@@ -177,6 +205,7 @@ class MachineList extends Component {
             })
         }
     }
+    
     
     /* ****************************对弹出框form的操作方法********************************** */
     saveFormRef = (form) => {
@@ -442,8 +471,11 @@ class MachineList extends Component {
                         fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
                  />
                  <CopyDialog 
+                   ref={this.saveCopyFormRef}
                    visible={this.state.copyVisible}
                    copyMachineId = {this.state.copyMachineId}
+                   onCreate = {this.copyCreate}
+                   onCancel = {this.copyCancel}
                  />
                 </Spin>
            </div>

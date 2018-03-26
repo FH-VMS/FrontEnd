@@ -9,6 +9,7 @@ const ADD_MACHINELIST = 'ADD_MACHINELIST'
 const UPDATE_MACHINELIST = 'UPDATE_MACHINELIST'
 const DELETE_MACHINELIST = 'DELETE_MACHINELIST'
 const FETCH_MACHINETYPEDIC = 'FETCH_MACHINETYPEDIC'
+const COPY_MACHINE = 'COPY_MACHINE'
 
 // ================================
 // Action Creator
@@ -73,11 +74,23 @@ const updateMachineList = (updBody) => dispatch =>
      return msgs
   })
 
+  const copyOneMachine = (copyParam) => dispatch =>
+  apis
+    .MachineOperation
+    .CopyOneMachine(copyParam)
+    .then(msgs => {
+      dispatch({
+         type: COPY_MACHINE,
+         payload: msgs
+      })
+      return msgs
+  })
+
 
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchMachineList, addMachineList, updateMachineList, deleteMachineList, fetchMachineTypeDic, ...common
+  fetchMachineList, addMachineList, updateMachineList, deleteMachineList, fetchMachineTypeDic, ...common, copyOneMachine
 }
 
 // ================================
@@ -99,7 +112,8 @@ export const ACTION_HANDLERS = {
   [FETCH_MACHINETYPEDIC]: (result, { payload }) => {
       result.machineTypeDic = payload
       return result
-  }
+  },
+  [COPY_MACHINE]: (result, { payload }) => ({payload})
 }
 
 

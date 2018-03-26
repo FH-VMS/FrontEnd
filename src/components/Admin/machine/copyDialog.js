@@ -1,13 +1,15 @@
-import { Modal, Form, Input } from 'antd'
+import { Modal, Form, Input, Checkbox } from 'antd'
 import React, {Component} from 'react'
 const FormItem = Form.Item
+const CheckboxGroup = Checkbox.Group
 
 const CopyDialog = Form.create()(class Copy extends Component {
     constructor(props) {
       super(props)
       this.state = {
         userSelect: [],
-        payConfigSelect: []
+        payConfigSelect: [],
+        checkList: [{label: '机器配置', value: '机器配置'}, {label: '货道配置', value: '货道配置'}]
       }
     }
 
@@ -29,15 +31,10 @@ const CopyDialog = Form.create()(class Copy extends Component {
   }
 
   componentDidMount() {
+    this.props.form.setFieldsValue({'CopyItems': ['机器配置', '货道配置'], 'DeviceId': ''})
   }
 
-  onCreate = () => {
-    
-        }
 
-        onCancel = () => {
-
-        }
 
     render() {
    
@@ -55,8 +52,8 @@ const CopyDialog = Form.create()(class Copy extends Component {
       <Modal
         visible={visible}
         title='复制当前机器'
-        onCancel={this.onCancel}
-        onOk={this.onCreate}
+        onCancel={this.props.onCancel}
+        onOk={this.props.onCreate}
         maskClosable={false}
       >
         <Form horizontal>
@@ -66,13 +63,23 @@ const CopyDialog = Form.create()(class Copy extends Component {
           hasFeedback
         >
           {getFieldDecorator('DeviceId', {
-            rules: [{
-              required: true, message: '12位机器编号'
-            }, {
+            rules: [ {
               validator: this.checkMachineId
             }]
           })(
            <Input />
+          )}
+        </FormItem>
+        <FormItem
+        {...formItemLayout}
+          label='复制项目：'
+        >
+         {getFieldDecorator('CopyItems', {
+            rules: [{
+              required: false
+            }]
+          })(
+             <CheckboxGroup options={this.state.checkList} />
           )}
         </FormItem>
         </Form>

@@ -19,6 +19,9 @@ const fetchMachines = (queryBody) => dispatch =>
       })
   })
 
+
+ 
+
  
 
 
