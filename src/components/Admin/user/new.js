@@ -34,15 +34,18 @@ const Dialog = Form.create({
     }
 
     componentWillMount() {
-     
+      this.authTemplage = []
     }
     
     getAuthTemplate(data) {
-       this.authTemplage = data.map((item, index) => {
-         return (
-           <Option value={item.Id}>{item.Name}</Option>
-         )
-       })
+      if (data) {
+        this.authTemplage = data.map((item, index) => {
+          return (
+            <Option value={item.Id}>{item.Name}</Option>
+          )
+        })
+      }
+       
     }
 
     render() {
@@ -98,7 +101,7 @@ const Dialog = Form.create({
         >
           {getFieldDecorator('UserAccessId', {
             rules: [{
-              required: true
+              required: true, message: '权限必选'
             }]
           })(
              <Select placeholder="选择对应权限模板">
@@ -113,7 +116,7 @@ const Dialog = Form.create({
         >
           {getFieldDecorator('UserClientId', {
             rules: [{
-              required: true
+              required: true, message: '所属客户必选'
             }]
           })(
              <TreeSelect

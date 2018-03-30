@@ -8,6 +8,7 @@ const FETCH_USERBYCLIENT = 'FETCH_USERBYCLIENT'
 const FETCH_PICTRUEDIC = 'FETCH_PICTRUEDIC'
 const FETCH_CABINETDIC = 'FETCH_CABINETDIC'
 const FETCH_PAYCONFIGDIC = 'FETCH_PAYCONFIGDIC'
+const FETCH_ADDIC = 'FETCH_ADDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -104,8 +105,21 @@ const fetchDic = (searParam) => dispatch =>
        return msgs
   })
 
+    // 取广告模板
+    const fetchAdDic = (body) => dispatch =>
+    apis
+      .Common
+      .GetAdDic(body)
+      .then(msgs => {
+        dispatch({
+           type: FETCH_ADDIC,
+           payload: msgs
+        })
+         return msgs
+    })
+
 export default {
-  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId
+  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic
 }
 
 export const ACTION_HANDLERS = {
@@ -136,5 +150,6 @@ export const ACTION_HANDLERS = {
   [FETCH_PAYCONFIGDIC]: (result, { payload }) => {
       result.DicData = payload
       return result
-  }
+  },
+  [FETCH_ADDIC]: (result, { payload }) => ({payload})
 }

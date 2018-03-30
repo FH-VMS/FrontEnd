@@ -185,7 +185,8 @@ const Front = {
            PageSize: '',
            CreateDate: '',
            Creator: '',
-           Remark: ''
+           Remark: '',
+           AdId: ''
        },
        MachineTypeAndCabinetModel: {
            MachineTypeId: '',

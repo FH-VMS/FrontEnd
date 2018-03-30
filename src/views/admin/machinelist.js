@@ -469,6 +469,7 @@ class MachineList extends Component {
                         clientDicData ={this.state.clientDicData}
                         fetchUserByClientId={this.props.fetchUserByClientId}
                         fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
+                        fetchAdDic = {this.props.fetchAdDic}
                  />
                  <CopyDialog 
                    ref={this.saveCopyFormRef}

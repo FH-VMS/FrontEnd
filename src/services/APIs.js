@@ -46,6 +46,9 @@ const api = {
       },
       GetPayConfigDic: function(data) {
           return apiService('Common', 'GetPayConfigDic', 'GET', data)
+      },
+      GetAdDic: function(data) {
+          return apiService('Common', 'GetAdDic', 'GET', data)
       }
 	}, 
   User: {

@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Select, TreeSelect, DatePicker } from 'antd'
 import Utility from 'UTIL/utility'
 import React, {Component} from 'react'
+// import _ from 'lodash'
 const FormItem = Form.Item
 
 const MachineTypeDialog = Form.create({
@@ -41,7 +42,11 @@ const MachineTypeDialog = Form.create({
        MobilePayId: {
         ...props.MobilePayId,
         value: props.MobilePayId
-      }
+      },
+      AdId: {
+       ...props.AdId,
+       value: props.AdId
+     }
     }
   }
 })(class ClassDialog extends Component {
@@ -49,14 +54,15 @@ const MachineTypeDialog = Form.create({
       super(props)
       this.state = {
         userSelect: [],
-        payConfigSelect: []
+        payConfigSelect: [],
+        adDicSelect: []
       }
     }
 
     componentWillMount() {
       this.clientId = ''
-      this.payConfigClient = ''
-      
+      this.payConfigClientId = ''
+      this.adDicClientId = ''
     }
 
 
@@ -72,6 +78,8 @@ const MachineTypeDialog = Form.create({
  clientChanged = (value) => {
      this.clientSelect(value)
      this.payConfigSelect(value)
+     this.adDicSelect(value)
+     this.props.form.setFieldsValue({UserAccount: '', MobilePayId: '', AdId: ''})
  }
 
  clientSelect = (value) => {
@@ -85,17 +93,14 @@ const MachineTypeDialog = Form.create({
             <Option value={item.Id}>{item.Name}</Option>
           )
         })
-        
-            this.setState({userSelect: userSelect})
-            this.clientId = value
-        
-       
+        this.setState({userSelect: userSelect})
+        this.clientId = value
       }
     })
   }
   
    payConfigSelect = (value) => {
-    if (this.payConfigClient == value) { 
+    if (this.payConfigClientId == value) { 
       return
     }
     this.props.fetchPayConfigByClientId({clientId: value}).then(msg => {
@@ -107,9 +112,24 @@ const MachineTypeDialog = Form.create({
         })
         
             this.setState({payConfigSelect: payConfigSelect})
-            this.payConfigClient = value
-        
-       
+            this.payConfigClientId = value
+      }
+    })
+  }
+
+  adDicSelect = (value) => {
+    if (this.adDicClientId == value) { 
+      return
+    }
+    this.props.fetchAdDic({clientId: value}).then(msg => {
+      if (msg) {
+        let adDicSelect = msg.map((item, index) => {
+          return (
+            <Option value={item.Id}>{item.Name}</Option>
+          )
+        })
+        this.setState({adDicSelect: adDicSelect})
+        this.adDicClientId = value
       }
     })
   }
@@ -123,18 +143,39 @@ const MachineTypeDialog = Form.create({
     
   }
 
+  closeDialog = () => {
+    this.setState({userSelect: [], payConfigSelect: [], adDicSelect: []})
+    this.clientId = ''
+    this.payConfigClientId = ''
+    this.adDicClientId = ''
+    this.props.onCancel()
+  }
+
+  saveDialog = () => {
+    this.setState({userSelect: [], payConfigSelect: [], adDicSelect: []})
+    this.clientId = ''
+    this.payConfigClientId = ''
+    this.adDicClientId = ''
+    this.props.onCreate()
+  }
+
   componentDidMount() {
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+}
 
     render() {
     let isDisable = false
     // 此为修改
-    if (this.props.MachineId) {
+    if (this.props.MachineId && this.props.visible) {
       this.clientSelect(this.props.ClientId)
       this.payConfigSelect(this.props.ClientId)
+      this.adDicSelect(this.props.ClientId)
       isDisable = true
     }
-    const { visible, onCancel, onCreate, form, title, clientDicData, machineTypeDic} = this.props
+    const { visible, form, title, clientDicData, machineTypeDic} = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: { span: 6 },
@@ -147,8 +188,8 @@ const MachineTypeDialog = Form.create({
       <Modal
         visible={visible}
         title={title}
-        onCancel={onCancel}
-        onOk={onCreate}
+        onCancel={this.closeDialog}
+        onOk={this.saveDialog}
         maskClosable={false}
       >
         <Form horizontal>
@@ -209,7 +250,7 @@ const MachineTypeDialog = Form.create({
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={clientDicData}
               treeDefaultExpandAll
-               onChange={this.clientChanged}
+              onSelect={this.clientChanged}
             />
           )}
         </FormItem>
@@ -240,6 +281,21 @@ const MachineTypeDialog = Form.create({
           })(
               <Select>
                  {this.state.payConfigSelect}
+              </Select>
+          )}
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          label="广告模板："
+          hasFeedback
+        >
+          {getFieldDecorator('AdId', {
+            rules: [{
+              required: false
+            }]
+          })(
+              <Select>
+                 {this.state.adDicSelect}
               </Select>
           )}
         </FormItem>
