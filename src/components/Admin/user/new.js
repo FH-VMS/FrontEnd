@@ -48,6 +48,10 @@ const Dialog = Form.create({
        
     }
 
+    filterClient = (inputValue, treeNode) => {
+      return treeNode.props.title.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+  }
+
     render() {
 
     
@@ -123,6 +127,8 @@ const Dialog = Form.create({
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={clientDicData}
               treeDefaultExpandAll
+              showSearch
+              filterTreeNode={this.filterClient}
             />
           )}
         </FormItem>

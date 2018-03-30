@@ -162,6 +162,10 @@ const MachineTypeDialog = Form.create({
   componentDidMount() {
   }
 
+  filterClient = (inputValue, treeNode) => {
+      return treeNode.props.title.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return true
 }
@@ -250,6 +254,8 @@ const MachineTypeDialog = Form.create({
               dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
               treeData={clientDicData}
               treeDefaultExpandAll
+              showSearch
+              filterTreeNode={this.filterClient}
               onSelect={this.clientChanged}
             />
           )}
@@ -294,7 +300,7 @@ const MachineTypeDialog = Form.create({
               required: false
             }]
           })(
-              <Select>
+              <Select allowClear>
                  {this.state.adDicSelect}
               </Select>
           )}
