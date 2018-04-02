@@ -276,6 +276,14 @@ class SalesCashless extends Component {
                         title="付款时间"
                         dataIndex="PayDate"
                         key="PayDate"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
                     />
                      <Column
                         title="所属客户"
