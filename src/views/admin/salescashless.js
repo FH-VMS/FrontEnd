@@ -272,6 +272,11 @@ class SalesCashless extends Component {
                         dataIndex="ServiceCharge"
                         key="ServiceCharge"
                     />
+                    <Column
+                        title="付款时间"
+                        dataIndex="PayDate"
+                        key="PayDate"
+                    />
                      <Column
                         title="所属客户"
                         dataIndex="ClientName"
