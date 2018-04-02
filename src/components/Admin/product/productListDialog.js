@@ -247,7 +247,7 @@ const MachineTypeDialog = Form.create({
               required: true, message: '图片必填'
             }]
           })(
-            <Select>
+            <Select showSearch optionFilterProp="children" filterOption={(input, option) => option.props.children[1].toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                  {this.state.picSelect}
              </Select>
           )}
