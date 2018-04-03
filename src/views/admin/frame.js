@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SlideNav from 'COMPONENT/admin/common/slideNav'
+// import {Icon, Layout} from 'antd'
 // import rootRouter from 'ROUTE/index'
  // import {hashHistory} from 'react-router'
  import Utility from 'UTIL/utility'
@@ -9,6 +10,8 @@ import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
 
 import 'ASSET/less/fh-admin.less'
+
+// const { Header, Sider, Content } = Layout
 
 const mapDispatchToProps = (dispatch) => ({
   common: bindActionCreators(common, dispatch)
@@ -23,7 +26,8 @@ class Frame extends Component {
 	constructor(props) {
 		super(props)
     this.state = {
-      menus: []
+      menus: [],
+      collapsed: false
     }
 
 	}
@@ -60,6 +64,12 @@ class Frame extends Component {
      location.href = 'login.html'
   }
 
+  toggleMenu = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    })
+  }
+
 
 
   render() {
@@ -77,16 +87,16 @@ class Frame extends Component {
         </div>
       )
       * */
+     
       return (
         <div className="globalStyle">
            <div className="headerArea">
              <div className="logo">控制中心</div>
-           <div className="userArea">
-           
-           <span><i className="fa fa-user-circle"></i>{this.userInfo.UserAccount}</span>
-           <span onClick={this.logout}><i className="fa fa-arrow-circle-o-right"></i>退出</span>
-           
-           </div></div>
+            <div className="userArea">
+              <span><i className="fa fa-user-circle"></i>{this.userInfo.UserAccount}</span>
+              <span onClick={this.logout}><i className="fa fa-arrow-circle-o-right"></i>退出</span>
+            </div>
+           </div>
            <div className="leftMenu">
               <div><SlideNav datasource={this.state.menus} /></div>
            </div>
@@ -99,6 +109,27 @@ class Frame extends Component {
            </div> 
         </div>
         )
+       /*
+        return (
+   
+    <Layout>
+      <Sider collapsed={this.state.collapsed} width={200} style={{ overflowY: !this.state.collapsed ? 'auto' : 'inherit', height: '100vh', left: 0 }}>
+      <div>控制中心</div>
+      <SlideNav collapsed={this.state.collapsed} datasource={this.state.menus} />
+      </Sider>
+      <Layout>
+      <Header style={{height: '50px'}}>
+      <Icon onClick={this.toggleMenu} type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
+    </Header>
+        <Content style={{overflowY: 'auto', height: '94vh', overflowX: 'hidden', backgroundColor: '#dcdedd'}}>
+        <div id="childrenContainer" className="childrenContainer">
+        { this.props.children }
+        </div>
+        </Content>
+      </Layout>
+    </Layout>
+        )
+        */
  }
   
 }

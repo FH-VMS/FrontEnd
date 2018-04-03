@@ -65,7 +65,7 @@ class SalesMoney extends Component {
  
         endDate = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
          let date2 = new Date(date)
-         date2.setDate(date2.getDate() - 7)
+         date2.setDate(date2.getDate() - 6)
           startDate = date2.getFullYear() + '/' + (date2.getMonth() + 1) + '/' + date2.getDate() + ' 00:00:00'
          
          break
