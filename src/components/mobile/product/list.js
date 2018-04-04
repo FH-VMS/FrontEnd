@@ -157,6 +157,18 @@ class ListControl extends Component {
      return parseInt(layer, 0) + '' + (parseInt(num, 0))
    }
 
+    // 判断是否为微信
+  isWeiXin =() =>{
+    
+      var ua = window.navigator.userAgent.toLowerCase()
+      
+      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true
+      } else {
+          return false
+      }
+  }
+
    row = (rowData) => {
       if (!rowData.buyNum) {
         rowData.buyNum = 0
@@ -167,6 +179,10 @@ class ListControl extends Component {
         canChosen = false
       } else {
          canChosen = this.state.nowCanChosen
+      }
+      let price = rowData.APrice
+      if (this.isWeiXin()) {
+        price = rowData.WPrice
       }
 
       return (
@@ -180,7 +196,7 @@ class ListControl extends Component {
                     <div style={{ fontWeight: 'bold' }}>{rowData.WaresName}</div>
                     <div className="stepperContainer">
                       <div>
-                         <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{rowData.APrice}</span>元/单价</div>
+                         <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{price}</span>元/单价</div>
                          <div style={{ fontSize: '0.28rem' }}>库存：{rowData.CurrStock}</div>
                       </div>
                       <div><Stepper
