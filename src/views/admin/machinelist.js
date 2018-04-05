@@ -432,6 +432,36 @@ class MachineList extends Component {
                         }
                       }
                     />
+                     <Column
+                        title="温度"
+                        dataIndex="MachineTemp"
+                        key="MachineTemp"
+                        render={(text, record) => {
+                            if (text == -100) {
+                                return <span style={{color: 'red'}}>故障</span>
+                                
+                            } else {
+                                return text
+                            }
+                        }
+                      }
+                    />
+                    <Column
+                        title="门"
+                        dataIndex="Door"
+                        key="Door"
+                        render={(text, record) => {
+                            if (text == 1) {
+                                return '关'
+                                
+                            } else if (text == 2) {
+                                return '开'
+                            } else {
+                                return '无'
+                            }
+                        }
+                      }
+                    />
                     <Column
                         title="登录账号"
                         dataIndex="UserAccountName"
@@ -455,19 +485,6 @@ class MachineList extends Component {
                     */
                     }
                     
-                    <Column
-                        title="停用日期"
-                        dataIndex="StopDate"
-                        key="StopDate"
-                        render={(text, record) => {
-                            if (text == '0001-01-01T00:00:00') {
-                                return ''
-                            } else {
-                                return text.replace('T', ' ')
-                            }
-                        }
-                      }
-                    />
                      <Column
                         title="创建人"
                         dataIndex="Creator"
