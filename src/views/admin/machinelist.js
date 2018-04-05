@@ -205,6 +205,18 @@ class MachineList extends Component {
             })
         }
     }
+
+    getSignal = (intSignal) => {
+        if (intSignal >= 28) {
+            return <span style={{color: 'green'}}>强</span>
+        } else if (intSignal >= 22 && intSignal <= 27) {
+            return <span style={{color: 'orange'}}>中</span>
+        } else if (intSignal >= 16 && intSignal <= 21) {
+            return <span style={{color: 'yellow'}}>一般</span>
+        } else {
+            return <span style={{color: 'red'}}>弱</span>
+        }
+    }
     
     
     /* ****************************对弹出框form的操作方法********************************** */
@@ -398,6 +410,24 @@ class MachineList extends Component {
                                 
                             } else {
                                 return '未启用'
+                            }
+                        }
+                      }
+                    />
+                    <Column
+                        title="信号"
+                        dataIndex="Signal"
+                        key="Signal"
+                        render={(text, record) => {
+                            if (record.LatestOnline) {
+                                if (parseInt(record.LatestOnline, 0) > 900) {
+                                  return '无'
+                                } else {
+                                  return this.getSignal(text)
+                                }
+                                
+                            } else {
+                                return '无'
                             }
                         }
                       }
