@@ -27,8 +27,12 @@ class RefundDialog extends Component {
     let refundMoney = ''
     if (payType == 'a') {
         refundSource = '支付宝'
-        refundNo = this.props.refundDetail.batch_no
-        refundMoney = this.props.refundDetail.result_details.split('^')[1]
+        let obj = this.props.refundDetail
+        if (obj.alipay_trade_refund_response.msg == 'Success') {
+          refundNo = obj.alipay_trade_refund_response.trade_no
+          refundMoney = obj.alipay_trade_refund_response.refund_fee
+        }
+        
     } else if (payType == 'w') {
       refundSource = '微信'
       refundNo = this.props.refundDetail.out_refund_no

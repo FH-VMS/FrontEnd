@@ -118,11 +118,10 @@ class SalesCashless extends Component {
     RefundDetail = (record, ev) => {
       let orderNoVal = ''
       let typeVal = ''
+       orderNoVal = record.TradeNo
       if (record.PayType == '微信') {
-        orderNoVal = record.TradeNo
         typeVal = 'w'
       } else if (record.PayType == '支付宝') {
-         orderNoVal = record.ComId
          typeVal = 'a'
       } else {
           return
