@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Form, Icon, Input, Button } from 'antd'
+import { Form, Icon, Input, Button, Spin } from 'antd'
 const FormItem = Form.Item
 
 const NormalLoginForm = Form.create()(class NormalLoginInput extends Component {
@@ -14,9 +14,8 @@ const NormalLoginForm = Form.create()(class NormalLoginInput extends Component {
         const { getFieldDecorator } = form
         
         return (
-          <div className="loginInputContainer">
-            <img src={require('ASSET/img/admin/slogan.png')} />
           <Form onSubmit={login} className="login-form">
+            <Spin size="large" spinning={this.props.loading}>
             <FormItem style={{ paddingBottom: 10 }}>
               {getFieldDecorator('UserAccount', {
                 rules: [{ required: true, message: '用户名不能为空!' }]
@@ -36,8 +35,8 @@ const NormalLoginForm = Form.create()(class NormalLoginInput extends Component {
                 登录
               </Button>
             </FormItem>
+              </Spin>
           </Form>
-          </div>
         )
      }
    

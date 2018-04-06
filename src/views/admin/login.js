@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import LoginInput from 'COMPONENT/admin/common/loginInput'
-import { Spin } from 'antd'
 import Utility from 'UTIL/utility'
 
 // import rootRouter from 'ROUTE/index'
@@ -85,11 +84,13 @@ class Frame extends Component {
       )
       * */
       return (
+        
            <div>
             <div className='loginContainer'>
-              <Spin size="large" spinning={this.state.loading}>
-            <LoginInput login={this.props.login} ref={this.saveFormRef} login={this.login}/>
-            </Spin>
+               <img src={require('ASSET/img/admin/slogan.png')} />
+              
+            <LoginInput loading={this.state.loading} login={this.props.login} ref={this.saveFormRef} login={this.login}/>
+          
             <div className='rdCodeArea'>
                <p><img src={require('ASSET/img/admin/rdCode.png')} /></p>
                <p>关注我们 关注美好生活</p>
@@ -98,6 +99,7 @@ class Frame extends Component {
             </div>
             <div className="loginFooter"><span>© 2017 FY-CN.TOP</span><span>ALL RIGHT RESERVED | 版权所有</span><span>沪ICP备17017062号-1</span></div>
             </div>
+            
         )
  }
   
