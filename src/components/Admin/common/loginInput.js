@@ -14,6 +14,8 @@ const NormalLoginForm = Form.create()(class NormalLoginInput extends Component {
         const { getFieldDecorator } = form
         
         return (
+          <div className="loginInputContainer">
+            <img src={require('ASSET/img/admin/slogan.png')} />
           <Form onSubmit={login} className="login-form">
             <FormItem style={{ paddingBottom: 10 }}>
               {getFieldDecorator('UserAccount', {
@@ -35,6 +37,7 @@ const NormalLoginForm = Form.create()(class NormalLoginInput extends Component {
               </Button>
             </FormItem>
           </Form>
+          </div>
         )
      }
    
