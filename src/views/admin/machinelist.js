@@ -210,9 +210,9 @@ class MachineList extends Component {
         if (intSignal >= 28) {
             return <span style={{color: 'green'}}>强</span>
         } else if (intSignal >= 22 && intSignal <= 27) {
-            return <span style={{color: 'orange'}}>中</span>
+            return <span style={{color: 'blue'}}>中</span>
         } else if (intSignal >= 16 && intSignal <= 21) {
-            return <span style={{color: 'yellow'}}>一般</span>
+            return <span style={{color: 'orange'}}>低</span>
         } else {
             return <span style={{color: 'red'}}>弱</span>
         }
