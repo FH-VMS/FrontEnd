@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, message, Spin, DatePicker } from 'antd'
+import { Table, message, Spin, DatePicker, Input } from 'antd'
 
 const { Column } = Table
 const { RangePicker } = DatePicker
@@ -28,6 +28,11 @@ class MachineMoney extends Component {
                 label: '统计日期',
                 name: 'salesDate',
                 control: <RangePicker defaultValue={oneWeekDate}/>
+            },
+            {
+                label: '机器编号',
+                name: 'machineId',
+                control: <Input />
             }],
             defaultRange: oneWeekDate
         }
@@ -92,7 +97,7 @@ class MachineMoney extends Component {
            },
            loading: false})
          } else {
-             this.setState({loading: false})
+             this.setState({loading: false, dataSource: [], pagination: {total: 0}})
          }
       })
      
@@ -107,6 +112,7 @@ class MachineMoney extends Component {
          this.searchPara.salesDateStart = Utility.dateFormaterString(value.salesDate[0]) 
          this.searchPara.salesDateEnd = Utility.dateFormaterString(value.salesDate[1])
          this.searchPara.pageIndex = 1
+         this.searchPara.machineId = value.machineId
          this.getData(this.searchPara)
     }
     
