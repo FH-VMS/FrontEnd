@@ -23,7 +23,8 @@ class PayConfig extends Component {
             },
             loading: false,
             savePara: model.Pay.ConfigModel,
-            searchDatasource: []
+            searchDatasource: [],
+            clientDicData: []
         }
 
         this.searchPara = {
@@ -162,6 +163,37 @@ class PayConfig extends Component {
         })
     }
 
+    getTreeClient = (data) => {
+            $.each(data, (index, item) => {
+                item.label = item.Name
+            
+                item.value = item.Id
+                item.key = item.Id
+                delete item.Name
+                delete item.Id
+                if (item.children && item.children.length > 0) {
+                this.getTreeClient(item.children)
+                } else {
+                    delete item.children
+                }
+            })
+            return data
+    }
+
+    componentDidMount() {
+         // 客户字典
+       this.props.fetchClientDic().then(msg => {
+        
+        if (msg) {
+            this.setState({clientDicData: this.getTreeClient(msg), loading: false})
+        }
+
+        
+        })
+    }
+
+
+
      /* ****************************对弹出框form的操作方法********************************** */
      
      // 修改和删除的权限控制
@@ -262,6 +294,7 @@ class PayConfig extends Component {
                         fetchDic={this.props.fetchDic}
                         cabinetsList={this.state.cabinetsList}
                         {...fields}
+                        clientDicData = {this.state.clientDicData}
                  />
            </div>
         )

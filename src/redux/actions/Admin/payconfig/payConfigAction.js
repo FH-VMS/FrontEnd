@@ -1,4 +1,5 @@
 import apis from 'SERVICE/apis'
+import common from 'ACTION/Admin/common/commonAction'
 
 // ================================
 // Action Type
@@ -63,7 +64,7 @@ const updatePayConfig = (updBody) => dispatch =>
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchPayConfigList, addPayConfig, updatePayConfig, deletePayConfig
+  fetchPayConfigList, addPayConfig, updatePayConfig, deletePayConfig, ...common
 }
 
 // ================================

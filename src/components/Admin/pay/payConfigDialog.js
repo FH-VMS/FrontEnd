@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Card } from 'antd'
+import { Modal, Form, Input, Card, TreeSelect } from 'antd'
 // import model from 'STORE/model'
 import React, {Component} from 'react'
 const FormItem = Form.Item
@@ -53,6 +53,10 @@ const PayConfigDialog = Form.create({
       WxAppSecret: {
         ...props.WxAppSecret,
         value: props.WxAppSecret
+      },
+      ClientId: {
+        ...props.ClientId,
+        value: props.ClientId == 'self' ? '' : props.ClientId
       }
     }
   }
@@ -65,12 +69,28 @@ const PayConfigDialog = Form.create({
         
     }
 
+    componentDidMount() {
+      
+    }
+
+
     render() {
     const { visible, onCancel, onCreate, form} = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 }
+    }
+
+    if (this.props.clientDicData instanceof Array) {
+         if (this.props.clientDicData[0] && this.props.clientDicData[0].key == 'aaaa') {
+           return
+         }
+        this.props.clientDicData.unshift({
+          key: 'aaa',
+          label: '自己',
+          value: ''
+        })
     }
 
     // let userModel = model.User.UserModel
@@ -95,6 +115,26 @@ const PayConfigDialog = Form.create({
                     }]
                   })(
                     <Input />
+                  )}
+                </FormItem>
+                <FormItem
+                  {...formItemLayout}
+                  label="所属客户："
+                  hasFeedback
+                >
+                  {getFieldDecorator('ClientId', {
+                    rules: [{
+                      required: false
+                    }]
+                  })(
+                    <TreeSelect
+                        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                        treeData={this.props.clientDicData}
+                        treeDefaultExpandAll
+                        showSearch
+                        filterTreeNode={this.filterClient}
+                        onSelect={this.clientChanged}
+                      />
                   )}
                 </FormItem>
           </Card>
