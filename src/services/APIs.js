@@ -252,6 +252,11 @@ const api = {
             return apiService('Machine', 'PostPayResultA', 'POST', data)
         }
     },
+    Wechat: {
+        GetUrl: function (data) {
+            return apiService('Wechat', 'GetUrl', 'POST', data)
+        }
+    },
     MachineCabinet: {
         GetData: function (data) {
           return apiService('MachineCabinet', 'GetData', 'GET', data)

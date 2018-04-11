@@ -3,6 +3,7 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_PRODUCTBYMACHINE = 'FETCH_PRODUCTBYMACHINE'
+const FETCH_WECHATAUTH = 'FETCH_WECHATAUTH'
 
 // ================================
 // Action Creator
@@ -21,10 +22,23 @@ const fetchProductByMachine = (queryBody) => dispatch =>
   })
 
 
+  const fetchWechatAuth = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetUrl(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_WECHATAUTH,
+         payload: msgs
+      })
+
+      return msgs
+  })
+
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchProductByMachine
+  fetchProductByMachine, fetchWechatAuth
 }
 
 // ================================
@@ -39,7 +53,8 @@ export const ACTION_HANDLERS = {
        result.data = payload.data
       result.pager = payload.pager
       return result
-  }
+  },
+  [FETCH_WECHATAUTH]: (result, { payload }) => ({payload})
 }
 
 

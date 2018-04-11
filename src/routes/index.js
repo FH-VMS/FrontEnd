@@ -99,7 +99,8 @@ export default {
     require('./mobile/payResult').default, // 支付结果页
     require('./mobile/notService').default,
     require('./mobile/paybyproduct').default, // 手机选择商品去支付
-    require('./mobile/adultMachine').default // 小机器商品页
+    require('./mobile/adultMachine').default, // 小机器商品页
+    require('./mobile/wechatproduct').default // 公众号内的商城
   ]
  },
  hfive: {
