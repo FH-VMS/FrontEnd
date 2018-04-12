@@ -213,6 +213,14 @@ const api = {
           return apiService('SaleCashless', 'GetStatisticSalesMoneyByDate', 'GET', data)
       }
 	}, 
+    Statistic: {
+        GetMobilePayStatistic: function (data) {
+          return apiService('Statistic', 'GetMobilePayStatistic', 'GET', data)
+      },
+      GetProductStatistic: function (data) {
+          return apiService('Statistic', 'GetProductStatistic', 'GET', data)
+      }
+	}, 
     SaleCash: {
       GetData: function (data) {
           return apiService('SaleCash', 'GetData', 'GET', data)
