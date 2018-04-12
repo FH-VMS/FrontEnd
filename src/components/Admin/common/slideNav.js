@@ -86,6 +86,16 @@ class SlideNav extends Component {
           auth.CanDelete = 'none'
           auth.CanModify = 'none'
         break
+         case 'productstatistic':
+          auth.CanAdd = 'none'
+          auth.CanDelete = 'none'
+          auth.CanModify = 'none'
+        break
+         case 'moneystatistic':
+          auth.CanAdd = 'none'
+          auth.CanDelete = 'none'
+          auth.CanModify = 'none'
+        break
         case 'machinetrans':
           auth.CanAdd = 'none'
           auth.CanDelete = 'none'

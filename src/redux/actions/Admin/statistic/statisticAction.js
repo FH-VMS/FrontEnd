@@ -46,8 +46,12 @@ export default {
 // 故在此直接给出处理逻辑
 // ================================
 export const ACTION_HANDLERS = {
-  [FETCH_PAYMOBILESTATISTIC]: (result, { payload }) => ({payload}),
-  [FETCH_PRODUCTSTATISTIC]: (result, { payload }) => ({payload})
+  [FETCH_PRODUCTSTATISTIC]: (result, { payload }) => {
+    result.data = payload.data
+    result.pager = payload.pager
+      return result
+  },
+  [FETCH_PAYMOBILESTATISTIC]: (result, { payload }) => ({payload})
 }
 
 
