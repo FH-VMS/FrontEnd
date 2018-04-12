@@ -33,8 +33,15 @@ const Front = {
            SourceId: '',
            Sequence: '',
            AdType: '',
-           ResourcePath: '',
-           ResourceName: ''
+           PicId: '',
+           PicUrl: '',
+           PicName: ''
+       },
+       SourceToMachineModel: {
+           SourceId: '',
+           SourceUrl: '',
+           Sequence: '',
+           AdType: ''
        }
    },
    Model: {
@@ -180,13 +187,17 @@ const Front = {
            LatestDate: '',
            MobilePayId: '',
            IpV4: '',
+           Signal: '',
+           MachineTemp: '',
+           Door: '',
+           AdId: '',
+           AdPushDate: '',
            LatestOnline: '',
            PageIndex: '',
            PageSize: '',
            CreateDate: '',
            Creator: '',
-           Remark: '',
-           AdId: ''
+           Remark: ''
        },
        MachineTypeAndCabinetModel: {
            MachineTypeId: '',
@@ -291,6 +302,7 @@ const Front = {
            WxSslcertPath: '',
            WxSslcertPassword: '',
            ClientId: '',
+           ConfigType: '',
            PageIndex: '',
            PageSize: ''
        },
@@ -359,6 +371,16 @@ const Front = {
            UpdateDate: '',
            PageIndex: '',
            PageSize: ''
+       },
+       ProductTypeModel: {
+           WaresTypeId: '',
+           WaresTypeName: '',
+           WaresTypeRemark: '',
+           ClientId: '',
+           ClientName: '',
+           Sequence: '',
+           PageIndex: '',
+           PageSize: ''
        }
    },
    Refund: {
@@ -422,6 +444,9 @@ const Front = {
            RealitySaleNumber: '',
            WaresId: '',
            WaresName: '',
+           MerchantId: '',
+           BuyerId: '',
+           IsWeixinConcern: '',
            SaleDateStart: '',
            SaleDateEnd: '',
            ClientName: '',

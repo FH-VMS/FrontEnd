@@ -177,7 +177,22 @@ const api = {
       DeleteData: function (data) {
           return apiService('ProductList', 'DeleteData', 'DELETE', data)
       }
-	}, 
+    }, 
+    /* ***********************商品类型************************ */
+    ProductType: {
+        GetData: function (data) {
+            return apiService('ProductType', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+            return apiService('ProductType', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+            return apiService('ProductType', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+            return apiService('ProductType', 'DeleteData', 'DELETE', data)
+        }
+    }, 
     SaleCashless: {
       GetData: function (data) {
           return apiService('SaleCashless', 'GetData', 'GET', data)
