@@ -49,6 +49,9 @@ const api = {
       },
       GetAdDic: function(data) {
           return apiService('Common', 'GetAdDic', 'GET', data)
+      },
+      GetProductTypeDic: function(data) {
+          return apiService('Common', 'GetProductTypeDic', 'GET', data)
       }
 	}, 
   User: {

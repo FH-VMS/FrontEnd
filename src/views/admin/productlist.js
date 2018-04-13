@@ -314,6 +314,7 @@ class ProductList extends Component {
                         title="添加商品"
                         {...fields}
                         fetchPictureDic={this.props.fetchPictureDic}
+                        fetchProductTypeDic={this.props.fetchProductTypeDic}
                  />
                 </Spin>
            </div>

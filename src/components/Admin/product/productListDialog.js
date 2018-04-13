@@ -53,7 +53,8 @@ const MachineTypeDialog = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        picSelect: []
+        picSelect: [],
+        productTypeSelect: []
       }
     }
 
@@ -62,6 +63,10 @@ const MachineTypeDialog = Form.create({
       this.props.fetchPictureDic().then(msg => {
         this.PicData = msg
          this.getPicSelect(msg)
+      })
+
+      this.props.fetchProductTypeDic().then(msg => {
+         this.getProductTypeSelect(msg)
       })
     }
 
@@ -76,6 +81,16 @@ const MachineTypeDialog = Form.create({
        this.setState({picSelect: letPicSelect})
      }
    }
+
+   getProductTypeSelect = (data) => {
+    if (data) {
+      let letProductTypeSelect = data.map((item, index) => {
+        return <Option value={item.Id}>{item.Name}</Option>
+      })
+
+      this.setState({productTypeSelect: letProductTypeSelect})
+    }
+  }
 
   componentDidMount() {
   }
@@ -220,7 +235,9 @@ const MachineTypeDialog = Form.create({
               required: false, message: '所属类型必填'
             }]
           })(
-             <Select></Select>
+             <Select>
+             {this.state.productTypeSelect}
+             </Select>
           )}
         </FormItem>
           <FormItem
