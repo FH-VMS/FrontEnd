@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Button, Icon, Table, Avatar, Input, Row, Col, Popconfirm, message} from 'antd'
+import {Button, Icon, Table, Avatar, Input, Row, Col, Popconfirm, message, Checkbox, InputNumber, Tooltip} from 'antd'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 
 const { Column } = Table
@@ -16,9 +16,33 @@ class ThreeScreen extends Component {
 
     componentWillMount() {
         this.nowPosition = 1
+        
     }
 
     componentDidMount() {
+
+    }
+
+    componentDidMount() {
+        this.chooseModule('1', this.props.data)
+    }
+
+    chkHttpAuto = (item, ev) => {
+        if (ev.target.checked) {
+            item.IsPush = 1
+        } else {
+            item.IsPush = 0
+        }
+        this.nameOrChkChange(item)
+    }
+
+    payTimeChange = (record, val, ev) => {
+        // record.PlayTime = val
+        // let tmpArr = this.state.data.Resources[this.nowPosition]
+       
+        record.PlayTime = val
+        console.log('tttt', record)
+        this.setState({data: this.state.data})
     }
 
     chooseModule = (txt, item, ev) => {
@@ -56,6 +80,11 @@ class ThreeScreen extends Component {
 
      templateNameChange = (item, ev) =>{
         item.Name = ev.target.value
+        this.nameOrChkChange(item)
+    }
+
+    nameOrChkChange = (item) => {
+       
         this.setState({loading: true})
         if (item.Resources && !item.Resources[1] && item.Id) {
             this.props.fetchAdById({adId: item.Id, adType: 0}).then(msg => {
@@ -137,15 +166,22 @@ class ThreeScreen extends Component {
         if (this.state.data.Resources) {
             tableResource = this.state.data.Resources[this.nowPosition]
         }
+        console.log('rrrrrrrrrr', tableResource)
        return (
+        <div>
+           <div className="addEditArea">
+            <Row type="flex" justify="space-around" align="middle">
+                <Col span={12}> <Input onChange={this.templateNameChange.bind(this, this.state.data)} addonBefore="模板名称" value={this.state.data.Name}/></Col>
+                <Col span={7} style={{paddingLeft: '1rem'}}><Checkbox value="1" checked={this.state.data.IsPush} onChange={this.chkHttpAuto.bind(this, this.state.data)}>资源是否自动获取</Checkbox></Col>
+                <Col span={5}><Button.Group> <Button type='primary' onClick={this.props.saveAdTemplate.bind(this, this.state.data)}>保存</Button><Popconfirm title="确认删除吗?" onConfirm={this.props.deleteTemplate.bind(this, this.state.data)} okText="确定" cancelText="取消"><Button type='ghost'>删除</Button></Popconfirm></Button.Group></Col>
+            </Row>
+            </div>
            <div className="threeContainer">
+              
+               
+               
                 <div className="threeScreenContainer">
-       <div><Row type="flex" justify="space-around" align="middle">
-                   <Col span={16}> <Input onChange={this.templateNameChange.bind(this, this.state.data)} addonBefore="模板名称" value={this.state.data.Name}/></Col>
-                   <Col span={8}><Button.Group> <Button type='primary' onClick={this.props.saveAdTemplate.bind(this, this.state.data)}>保存</Button><Popconfirm title="确认删除吗?" onConfirm={this.props.deleteTemplate.bind(this, this.state.data)} okText="确定" cancelText="取消"><Button type='ghost'>删除</Button></Popconfirm></Button.Group></Col>
-                   </Row>
-                   </div>
-                    <div onClick={this.chooseModule.bind(this, '1', this.state.data)}>
+                    <div onClick={this.chooseModule.bind(this, '1', this.state.data)} style={{backgroundColor: '#ccc'}}>
                        <span>上部广告区</span>
                     </div>
                     <div onClick={this.chooseModule.bind(this, '2', this.state.data)}><span>出货中广告</span></div>
@@ -178,6 +214,16 @@ class ThreeScreen extends Component {
                         key="PicName"
                     />
                     <Column
+                        title="时长(秒)"
+                        dataIndex="PlayTime"
+                        key="PlayTime"
+                        render={(text, record, index) => (
+                            <Tooltip title="播放时长" trigger="focus">
+                              <InputNumber value={record.PlayTime} onChange={this.payTimeChange.bind(this, record)} min={0} max={999} defaultValue={0} precision={0} />
+                              </Tooltip>
+                            )}
+                    />
+                    <Column
                         title="移动"
                         key="move"
                         render={(text, record, index) => (
@@ -200,6 +246,7 @@ class ThreeScreen extends Component {
               resourceClick={this.resourceClick}
               {...this.props}
               />
+           </div>
            </div>
        )
     }

@@ -658,7 +658,7 @@ body{
 
 /*********************广告设置********************/
 @threeScreenHeight: 400px;
-@titleHeight:40px;
+@titleHeight:0px;
 .threeContainer{
   width: 100%;
   margin-bottom: 10px;
@@ -701,11 +701,7 @@ body{
       vertical-align: middle;
     }
   }
-  &>div:nth-child(1){
-    width: 100%;
-    height: @titleHeight;
-    padding: 5px;
-  }
+
   &>div:nth-child(4){
     border-bottom: none;
     height: (@threeScreenHeight+(-@titleHeight))/3+-2;
@@ -747,4 +743,9 @@ body{
 .chooseResource{
   width: 25px;
   height: 25px;
+}
+
+.addEditArea{
+  border: 1px solid @mainColor;
+  padding: 5px;
 }

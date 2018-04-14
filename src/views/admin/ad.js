@@ -81,6 +81,10 @@ class Ad extends Component {
             message.warning('模板名称不能为空')
             return
         }
+        if (!data.Resources) {
+            message.warning('模板无改变')
+            return
+        }
         this.setState({loading: true})
         let tmp = []
         for (let key in data.Resources) {
@@ -90,11 +94,16 @@ class Ad extends Component {
                 tmpItem.SourceId = item.PicId
                 tmpItem.Sequence = index + 1
                 tmpItem.AdType = key
+                tmpItem.PlayTime = item.PlayTime
                 tmp.push(tmpItem)
             })
         }
         data.Relations = tmp
         data.Resources = ''
+        if (!data.IsPush) {
+            data.IsPush = 0
+        }
+        console.log('aaaaa', data)
         this.props.addAd({adInfo: data}).then(msg => {
             if (msg) {
                 message.success('保存成功')
