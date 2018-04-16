@@ -69,6 +69,16 @@ export default {
             dataType: 'json'
         }
     },
+    getUploadWxCertObj: function(mchId, id) {
+        return {
+            name: 'file',
+            action: Model.BaseSetting.Root + '/PayConfig/UpdateWxCert?mchId=' + mchId + '&id=' + id,
+            headers: {
+                'FH-COOKIES': JSON.stringify(this.Cookie.getValue('UserInfo'))
+            },
+            dataType: 'json'
+        }
+    },
     getCurrentWeekDate: function() {
         var now = new Date() 
         var nowTime = now.getTime() 

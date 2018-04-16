@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Input, Table, message, Spin, Popconfirm } from 'antd'
+import { Input, Table, message, Spin, Popconfirm, Icon, Upload, Button } from 'antd'
 import Dialog from 'COMPONENT/admin/pay/payConfigDialog'
 const { Column } = Table
 
@@ -24,7 +24,8 @@ class PayConfig extends Component {
             loading: false,
             savePara: model.Pay.ConfigModel,
             searchDatasource: [],
-            clientDicData: []
+            clientDicData: [],
+            fileList: []
         }
 
         this.searchPara = {
@@ -239,11 +240,37 @@ class PayConfig extends Component {
         }
     }
     
+    getUploadObj = (mchId, id) => {
+        let uploadObj = {...Utility.getUploadWxCertObj(mchId, id)}
+        uploadObj.onChange = (info) => {
+            this.setState({loading: true, fileList: info.fileList})
+            if (info.file.status !== 'uploading') {
+
+            }
+            if (info.file.status === 'done') {
+                message.success(`上传成功`)
+                this.getData(this.searchPara)
+                if (info.file.response) {
+                // let id = info.file.response.RetObj[0].Id
+                // let name = info.file.response.RetObj[0].Name
+                }
+                this.setState({loading: false, fileList: []})
+            } else if (info.file.status === 'error') {
+                message.error(`上传失败`)
+                this.setState({loading: false, fileList: []})
+            }
+        }
+
+        return uploadObj
+    }
+
 
     render() {
         this.getAuth()
         
-        
+         // 上传方法
+         
+         
 
         // 修改时直接绑定参数
         const fields = this.state.savePara
@@ -283,6 +310,39 @@ class PayConfig extends Component {
                         }
                       }
                     />
+                    <Column
+                        title="微信证书"
+                        dataIndex="WxSslcertPath"
+                        key="WxSslcertPath"
+                        render={(text, record) => {
+                            if (text) {
+                                return <div><span style={{marginRight: '5px'}}><i className="fa fa-check" style={{color: '#25d508'}} /></span> 
+                                <Upload 
+                                showUploadList={false}
+                                {...this.getUploadObj(record.WxMchId, record.Id)} 
+                                fileList={this.state.fileList}
+                                >
+                                <Button>
+                                  <Icon type="upload" /> 上传证书
+                                </Button>
+                              </Upload>
+                              </div>
+                            } else {
+                                return <div><span style={{marginRight: '5px'}}><i className="fa fa-close" style={{color: '#f61132'}} /></span> 
+                                <Upload 
+                                showUploadList={this.state.loading}
+                                {...this.getUploadObj(record.WxMchId)} 
+                                fileList={this.state.fileList}
+                                >
+                                <Button>
+                                  <Icon type="upload" /> 上传证书
+                                </Button>
+                              </Upload>
+                              </div>
+                            }
+                        }
+                    }
+                />
                    {this.DeleteAndModify}
               </Table>
                 </Spin>

@@ -54,6 +54,10 @@ const PayConfigDialog = Form.create({
         ...props.WxAppSecret,
         value: props.WxAppSecret
       },
+      WxTxtKey: {
+        ...props.WxTxtKey,
+        value: props.WxTxtKey
+      },
       ClientId: {
         ...props.ClientId,
         value: props.ClientId == 'self' ? '' : props.ClientId
@@ -271,6 +275,19 @@ const PayConfigDialog = Form.create({
                     <Input />
                   )}
                 </FormItem>
+                <FormItem
+                {...formItemLayout}
+                label="文本内容(txt key)："
+                hasFeedback
+              >
+                {getFieldDecorator('WxTxtKey', {
+                  rules: [{
+                    required: false
+                  }]
+                })(
+                  <Input />
+                )}
+              </FormItem>
           </Card>
         </Form>
       </Modal>
