@@ -243,11 +243,12 @@ class PayConfig extends Component {
     getUploadObj = (mchId, id) => {
         let uploadObj = {...Utility.getUploadWxCertObj(mchId, id)}
         uploadObj.onChange = (info) => {
+            console.log('aaaa', info)
             this.setState({loading: true, fileList: info.fileList})
             if (info.file.status !== 'uploading') {
 
             }
-            if (info.file.status === 'done') {
+            if (info.file.response && info.file.response.RetCode == 1) {
                 message.success(`上传成功`)
                 this.getData(this.searchPara)
                 if (info.file.response) {
@@ -255,8 +256,8 @@ class PayConfig extends Component {
                 // let name = info.file.response.RetObj[0].Name
                 }
                 this.setState({loading: false, fileList: []})
-            } else if (info.file.status === 'error') {
-                message.error(`上传失败`)
+            } else if (info.file.response) {
+                message.error(info.file.response.RetMsg)
                 this.setState({loading: false, fileList: []})
             }
         }
@@ -331,7 +332,7 @@ class PayConfig extends Component {
                                 return <div><span style={{marginRight: '5px'}}><i className="fa fa-close" style={{color: '#f61132'}} /></span> 
                                 <Upload 
                                 showUploadList={this.state.loading}
-                                {...this.getUploadObj(record.WxMchId)} 
+                                {...this.getUploadObj(record.WxMchId, record.Id)} 
                                 fileList={this.state.fileList}
                                 >
                                 <Button>
