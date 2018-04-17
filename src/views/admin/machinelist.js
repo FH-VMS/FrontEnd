@@ -234,7 +234,11 @@ class MachineList extends Component {
         if (err) {
             return
         }
-        
+        if (values.StartDate.valueOf() > values.StopDate.valueOf())
+        {
+            message.warning('停用日期必须大于启用日期')
+            return
+        }
         // 更新
        if (this.state.savePara.MachineId) {
            values.MachineId = this.state.savePara.MachineId
