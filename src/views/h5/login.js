@@ -33,6 +33,13 @@ class H5Login extends Component {
   }
 
   login = (e) => {
+    if (!this.state.account) {
+      Toast.fail('用户名不能为空', 1)
+      return
+    } else if (!this.state.password) {
+      Toast.fail('密码不能为空', 1)
+      return
+    }
     // console.log('ooooooooooooo', arguments)
     Toast.loading('登录...', 10)
     e.preventDefault()
