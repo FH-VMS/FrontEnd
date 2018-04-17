@@ -243,7 +243,6 @@ class PayConfig extends Component {
     getUploadObj = (mchId, id) => {
         let uploadObj = {...Utility.getUploadWxCertObj(mchId, id)}
         uploadObj.onChange = (info) => {
-            console.log('aaaa', info)
             this.setState({loading: true, fileList: info.fileList})
             if (info.file.status !== 'uploading') {
 
