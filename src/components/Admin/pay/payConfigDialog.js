@@ -77,13 +77,17 @@ const PayConfigDialog = Form.create({
       
     }
 
+    filterClient = (inputValue, treeNode) => {
+      return treeNode.props.title.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
+   }
+
 
     render() {
     const { visible, onCancel, onCreate, form} = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: { span: 8 },
-      wrapperCol: { span: 12 }
+      wrapperCol: { span: 13 }
     }
 
     if (this.props.clientDicData instanceof Array) {
