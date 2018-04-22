@@ -60,6 +60,11 @@ config.plugins.push(
     template:  'src/h5.html',
     chunksSortMode: 'none'
   }),
+  new HtmlWebpackPlugin({
+    filename: 'wechat.html',
+    template:  'src/wechat.html',
+    chunksSortMode: 'none'
+  }),
   new BrowserSyncPlugin({
     host: '127.0.0.1',
     port: 9090,

@@ -32,6 +32,7 @@ module.exports = {
     mobile: path.join(src, 'mobile.js'),
     login: path.join(src, 'login.js'),
     h5: path.join(src, 'h5.js'),
+    wechat: path.join(src, 'wechat.js'),
     // ================================
     // 框架 / 类库 分离打包
     // ================================

@@ -93,6 +93,11 @@ config.plugins.push(
     template:  'src/h5.html',
     chunksSortMode: 'none'
   }),
+  new HtmlWebpackPlugin({
+    filename: 'wechat.html',
+    template:  'src/wechat.html',
+    chunksSortMode: 'none'
+  }),
   new CopyWebpackPlugin([ // 复制高度静态资源
     {
       from: config.commonPath.staticDir,

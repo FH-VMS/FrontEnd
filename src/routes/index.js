@@ -129,6 +129,28 @@ export default {
       require('./h5/maxstock').default, // 最大库存
       require('./h5/priceset').default // 价格设置
   ]
+ },
+ wechat: {
+  path: '/',
+  component: require('VIEW/wechat/frame').default,
+  indexRoute: {
+    getComponent (nextState, cb) {
+     
+      require.ensure([], (require) => {
+        // 立即注入 Reducer
+        // injectReducer('mobile', require('REDUCER/mobile/pay/payReducer').default)
+      
+        cb(null, connectComponent(require('VIEW/wechat/mall').default))
+      }, 'wechatView')
+      
+      
+  }
+  },
+  childRoutes: [
+    require('./wechat/my').default,
+    require('./wechat/cart').default,
+    require('./wechat/activity').default
+  ]
  }
 }
 

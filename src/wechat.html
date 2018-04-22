@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>微信公众号商城</title>
+	<script src="./static/fastclick.js"></script>
+  <script>
+		 if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body);
+        }, false);
+      }
+    !function(e){function t(a){if(i[a])return i[a].exports;var n=i[a]={exports:{},id:a,loaded:!1};return e[a].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var i={};return t.m=e,t.c=i,t.p="",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=window;t["default"]=i.flex=function(e,t){var a=e||100,n=t||1,r=i.document,o=navigator.userAgent,d=o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),l=o.match(/U3\/((\d+|\.){5,})/i),c=l&&parseInt(l[1].split(".").join(""),10)>=80,p=navigator.appVersion.match(/(iphone|ipad|ipod)/gi),s=i.devicePixelRatio||1;p||d&&d[1]>534||c||(s=1);var u=1/s,m=r.querySelector('meta[name="viewport"]');m||(m=r.createElement("meta"),m.setAttribute("name","viewport"),r.head.appendChild(m)),m.setAttribute("content","width=device-width,user-scalable=no,initial-scale="+u+",maximum-scale="+u+",minimum-scale="+u),r.documentElement.style.fontSize=a/2*s*n+"px"},e.exports=t["default"]}]);
+flex(100, 1);
+  </script>
+	<link href="./static/vendor.css" rel="stylesheet">
+</head>
+<body>
+    
+  <div id="wechat"></div>
+<script src="./static/jquery.min.js"></script>
+
+{% for (var chunk in o.htmlWebpackPlugin.files.chunks) {
+    var srcName = o.htmlWebpackPlugin.files.chunks[chunk].entry
+    if (srcName.indexOf('wechat-')!=-1||srcName.indexOf('mainifest-')!=-1||srcName.indexOf('vendor-')!=-1) {
+  %}
+
+<script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+{% }} %}
+<!--
+<script type="text/javascript">
+	/**
+	 * 设置HTML字体
+	 * 
+	 */
+   $(function(){
+      	// html的样式对象 
+		let htmlStyle = document.getElementById('html').style
+		
+		// 可见区域宽度
+		let visibleWidth =  document.body.offsetWidth
+		// alert(visibleWidth)
+		if (visibleWidth >= 740) {  // ipad 768
+			htmlStyle.fontSize = '100px'
+		} else if (visibleWidth >= 390) { // 6 plus
+			htmlStyle.fontSize = '55px'
+		} else if (visibleWidth >= 350) { // 6
+			htmlStyle.fontSize = '50px'
+		} else if (visibleWidth >= 300) {// 5
+			htmlStyle.fontSize = '45px'
+		}
+   })
+</script>
+-->
+</body>
+</html>
