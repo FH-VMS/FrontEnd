@@ -1,7 +1,25 @@
 import React, {Component} from 'react'
 import {TabBar} from 'antd-mobile'
 import {hashHistory} from 'react-router'
+import {handleUrlParams} from 'UTIL/mobileUtility'
 import 'ASSET/less/wechat.less'
+
+
+import wechat from 'ACTION/wechat/common/wechatAction'
+import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
+
+
+// const { Header, Sider, Content } = Layout
+
+const mapDispatchToProps = (dispatch) => ({
+  wechat: bindActionCreators(wechat, dispatch)
+})
+
+@connect(
+	({ wechat }) => ({ wechat }),
+	mapDispatchToProps
+)
 
 class WechatFrame extends Component {
 	constructor(props) {
@@ -12,6 +30,44 @@ class WechatFrame extends Component {
 	}
 
   componentWillMount() {
+    
+    if (!this.props.location.query.clientId) {
+        hashHistory.push('notservice')
+        return
+    }
+      if (this.isWeiXin()) {
+        
+        let searchPara = handleUrlParams(window.location.href.split('?')[1])
+        if (!searchPara.code) {
+            searchPara.code = '-1'
+            
+        }
+        this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code}).then(msg => {
+          let {RequestState, RequestData, ProductJson} = msg
+          if (RequestState == '0') {
+            location.href = RequestData
+          } else if (RequestState == '1') {
+            this.payPara = JSON.parse(RequestData)
+            this.handleProductJson(ProductJson, 'w')
+          } else if (RequestState == '2') {
+            // 请求商品错误
+          } else {
+          }
+        })
+    }
+  }
+
+     // 判断是否为微信
+
+  isWeiXin =() =>{
+      
+      var ua = window.navigator.userAgent.toLowerCase()
+      
+      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true
+      } else {
+          return false
+      }
   }
 
   tabBarClick = (txt) => {

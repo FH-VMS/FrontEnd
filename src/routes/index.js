@@ -149,7 +149,8 @@ export default {
   childRoutes: [
     require('./wechat/my').default,
     require('./wechat/cart').default,
-    require('./wechat/activity').default
+    require('./wechat/activity').default,
+    require('./wechat/notservice').default
   ]
  }
 }
