@@ -17,7 +17,7 @@ class EveryProduct extends Component {
 
       return (
         <div className="everyProduct">
-            购物车
+            商品
         </div>
         )
   }
