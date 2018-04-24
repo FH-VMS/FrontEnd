@@ -4,10 +4,17 @@ const Item = List.Item
 class My extends Component {
 	constructor(props) {
         super(props)
+        this.state = {
+          nickName: '',
+          memberCode: '',
+          portrait: ''
+        }
 	}
 
   componentWillMount() {
-    
+     var jsonUser = sessionStorage.getItem('wechatInfo')
+     let obj = JSON.parse(jsonUser)
+     this.setState({nickName: obj.nickname, memberCode: obj.openid, portrait: obj.headimgurl})
   }
 
   componentDidMount() {
@@ -22,10 +29,10 @@ class My extends Component {
           <List>
             <List.Item>
             <Flex className="portraitArea">
-            <Flex.Item style={{textAlign: 'center'}}><img className="portrait" src='http://www.qqzhi.com/uploadpic/2014-09-23/000247589.jpg'/></Flex.Item>
+            <Flex.Item style={{textAlign: 'center'}}><img className="portrait" src={this.state.portrait}/></Flex.Item>
             <Flex.Item>
-               <div className="nickName">昵称：小七的一天</div>
-               <div className="memberCode">会员号：wx908989sfddf</div>
+               <div className="nickName">昵称：{this.state.nickName}</div>
+               <div className="memberCode">会员号：{this.state.memberCode}</div>
             </Flex.Item>
           </Flex>
             </List.Item>

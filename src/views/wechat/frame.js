@@ -30,31 +30,37 @@ class WechatFrame extends Component {
 	}
 
   componentWillMount() {
-    
-    if (!this.props.location.query.clientId) {
+    let searchPara = handleUrlParams(window.location.href.split('?')[1])
+    if (!searchPara.clientId) {
         hashHistory.push('notservice')
         return
     }
-      if (this.isWeiXin()) {
-        
-        let searchPara = handleUrlParams(window.location.href.split('?')[1])
-        if (!searchPara.code) {
-            searchPara.code = '-1'
-            
+    if (!sessionStorage.getItem('wechatInfo')) {
+        if (location.href.split('?').length > 2) {
+          let reallyUrlArr = location.href.split('#')[0].split('?')
+          location.href = reallyUrlArr[0] + '#/?' + reallyUrlArr[1]
+          return
         }
-        this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code}).then(msg => {
-          let {RequestState, RequestData, ProductJson} = msg
-          if (RequestState == '0') {
-            location.href = RequestData
-          } else if (RequestState == '1') {
-            this.payPara = JSON.parse(RequestData)
-            this.handleProductJson(ProductJson, 'w')
-          } else if (RequestState == '2') {
-            // 请求商品错误
-          } else {
+    
+        if (this.isWeiXin()) {
+          
+          if (!searchPara.code) {
+              searchPara.code = '-1'
           }
-        })
+          this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code}).then(msg => {
+            let {RequestState, RequestData, ProductJson} = msg
+            if (RequestState == '0') {
+              location.href = RequestData
+            } else if (RequestState == '1') {
+              sessionStorage.setItem('wechatInfo', ProductJson)
+            } else if (RequestState == '2') {
+              // 请求商品错误
+            } else {
+            }
+          })
+      }
     }
+    
   }
 
      // 判断是否为微信
