@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TabBar} from 'antd-mobile'
+import {TabBar, Toast} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 import {handleUrlParams} from 'UTIL/mobileUtility'
 import 'ASSET/less/wechat.less'
@@ -25,11 +25,13 @@ class WechatFrame extends Component {
 	constructor(props) {
         super(props)
         this.state = {
-           selectedTab: 'mall'
+           selectedTab: 'mall',
+           canLoad: false
         }
 	}
 
   componentWillMount() {
+    Toast.loading('加载中')
     let searchPara = handleUrlParams(window.location.href.split('?')[1])
     if (!searchPara.clientId) {
         hashHistory.push('notservice')
@@ -53,10 +55,12 @@ class WechatFrame extends Component {
               location.href = RequestData
             } else if (RequestState == '1') {
               sessionStorage.setItem('wechatInfo', ProductJson)
+              this.setState({canLoad: true})
             } else if (RequestState == '2') {
               // 请求商品错误
             } else {
             }
+            Toast.hide()
           })
       }
     }
@@ -93,7 +97,9 @@ class WechatFrame extends Component {
 
 
   render() {
-
+      if (!this.state.canLoad) {
+         return (<div></div>)
+      }
       return (
         <div>
         <div ref="childArea" className="childArea">{this.props.children}</div>
