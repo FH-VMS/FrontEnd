@@ -94,7 +94,7 @@ config.plugins.push(
     chunksSortMode: 'none'
   }),
   new HtmlWebpackPlugin({
-    filename: 'wechat.html',
+    filename: '../wechat.html',
     template:  'src/wechat.html',
     chunksSortMode: 'none'
   }),
