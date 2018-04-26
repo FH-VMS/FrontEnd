@@ -150,7 +150,8 @@ export default {
     require('./wechat/my').default,
     require('./wechat/cart').default,
     require('./wechat/activity').default,
-    require('./wechat/notservice').default
+    require('./wechat/notservice').default,
+    require('./wechat/order').default
   ]
  }
 }

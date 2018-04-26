@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {List, WhiteSpace, Flex} from 'antd-mobile'
+import {hashHistory} from 'react-router'
 const Item = List.Item
 class My extends Component {
 	constructor(props) {
@@ -13,8 +14,11 @@ class My extends Component {
 
   componentWillMount() {
      var jsonUser = sessionStorage.getItem('wechatInfo')
-     let obj = JSON.parse(jsonUser)
-     this.setState({nickName: obj.nickname, memberCode: obj.openid, portrait: obj.headimgurl})
+     if (jsonUser) {
+        let obj = JSON.parse(jsonUser)
+        this.setState({nickName: obj.nickname, memberCode: obj.openid, portrait: obj.headimgurl})
+     }
+     
   }
 
   componentDidMount() {
@@ -43,7 +47,7 @@ class My extends Component {
             thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
             arrow="horizontal"
             extra="查看列表"
-            onClick={() => {}}
+            onClick={() => {hashHistory.push('order')}}
           >我的订单</Item>
           <Item
             thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
