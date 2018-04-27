@@ -3,6 +3,8 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_WECHATAUTH = 'FETCH_WECHATAUTH'
+const FETCH_PRODUCTTYPE = 'FETCH_PRODUCTTYPE'
+const FETCH_PRODUCT = 'FETCH_PRODUCT'
 
 // ================================
 // Action Creator
@@ -22,10 +24,31 @@ const FETCH_WECHATAUTH = 'FETCH_WECHATAUTH'
       return msgs
   })
 
+  const fetchProductType = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetProdcutTypeByClientId(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRODUCTTYPE,
+         payload: msgs
+      })
+  })
+
+  const fetchProduct = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetProdcutByTypeAndClient(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRODUCT,
+         payload: msgs
+      })
+  })
 
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth
+fetchWechatAuth, fetchProductType, fetchProduct
 }
 
 // ================================
@@ -36,7 +59,15 @@ fetchWechatAuth
 // 故在此直接给出处理逻辑
 // ================================
 export const ACTION_HANDLERS = {
-  [FETCH_WECHATAUTH]: (result, { payload }) => ({payload})
+  [FETCH_WECHATAUTH]: (result, { payload }) => ({payload}),
+  [FETCH_PRODUCTTYPE]: (result, { payload }) => {
+    result.productTypeData = payload
+    return result
+ },
+ [FETCH_PRODUCT]: (result, { payload }) => {
+   result.productData = payload
+   return result
+}
 }
 
 

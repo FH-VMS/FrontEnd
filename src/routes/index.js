@@ -13,6 +13,11 @@ const connectTotalMoeny = createContainer(
   require('ACTION/Admin/home/homeAction').default               // mapActionCreators
 )
 
+const connectWechat = createContainer(
+  ({wechat}) => ({ wechat }), // mapStateToProps
+  require('ACTION/wechat/common/wechatAction').default               // mapActionCreators
+)
+
 export default {
   main: {
   
@@ -138,9 +143,9 @@ export default {
      
       require.ensure([], (require) => {
         // 立即注入 Reducer
-        // injectReducer('mobile', require('REDUCER/mobile/pay/payReducer').default)
+        injectReducer('wechat', require('REDUCER/wechat/common/wechatReducer').default)
       
-        cb(null, connectComponent(require('VIEW/wechat/mall').default))
+        cb(null, connectWechat(require('VIEW/wechat/mall').default))
       }, 'wechatView')
       
       

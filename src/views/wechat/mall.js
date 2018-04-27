@@ -4,16 +4,45 @@ import EveryProduct from 'COMPONENT/wechat/mall/everyProduct'
 
 class Mall extends Component {
 	constructor(props) {
-		super(props)
+    super(props)
+    this.state = {
+      productType: []
+    }
 	}
 
   componentWillMount() {
+  }
+
+  componentDidMount() {
+    if (this.props.location.query.clientId) {
+      this.props.fetchProductType({clientId: this.props.location.query.clientId}).then(msg => {
+        if (this.props.wechat.productTypeData.length > 0) {
+          this.setState({productType: this.props.wechat.productTypeData})
+        }
+      })
+    }
     
   }
 
 
+  tabChange = (tab, index) => {
+
+  }
+
+  getProductById = (typeIdVal) => {
+    this.props.fetchProduct({typeId: typeIdVal, clientId: this.props.location.query.clientId}).then(msg => {
+     
+    })
+  }
+
 
   render() {
+      let tabTitles = []
+      let tabContents = []
+      this.state.productType.map((item, index) => {
+        tabTitles.push({ title: <Badge>{item.WaresTypeName}</Badge> })
+        tabContents.push(<div className="tabItem"><EveryProduct /></div>)
+      })
 
       return (
           <div>
@@ -51,27 +80,12 @@ class Mall extends Component {
                 }}
               />
             </Carousel>
-            <Tabs tabs={[
-                { title: <Badge>今日推荐</Badge> },
-                { title: <Badge>套餐</Badge> },
-                { title: <Badge>单品</Badge> }
-              ]}
+            <Tabs tabs={tabTitles}
               initialPage={0}
-              onChange={(tab, index) => { console.log('onChange', index, tab) }}
+              onChange={this.tabChange.bind(this)}
               onTabClick={(tab, index) => { console.log('onTabClick', index, tab) }}
             >
-              <div className="tabItem">
-                <EveryProduct />
-                <EveryProduct />
-                <EveryProduct />
-                <EveryProduct />
-              </div>
-              <div className="tabItem">
-                Content of second tab
-              </div>
-              <div className="tabItem">
-                Content of third tab
-              </div>
+              {tabContents}
             </Tabs>
           </div>
         )

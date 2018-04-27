@@ -281,6 +281,12 @@ const api = {
     Wechat: {
         GetUrl: function (data) {
             return apiService('Wechat', 'GetUrl', 'POST', data)
+        },
+        GetProdcutTypeByClientId: function (data) {
+            return apiService('Wechat', 'GetProdcutTypeByClientId', 'Get', data)
+        },
+        GetProdcutByTypeAndClient: function (data) {
+            return apiService('Wechat', 'GetProdcutByTypeAndClient', 'POST', data)
         }
     },
     MachineCabinet: {
