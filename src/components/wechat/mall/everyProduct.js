@@ -10,14 +10,15 @@ class EveryProduct extends Component {
   }
 
   componentDidMount() {
-
+    
   }
 
   render() {
-
+      let {PicUrl, WaresName} = this.props.dataItem
       return (
-        <div className="everyProduct">
-            商品
+        <div className="everyProduct" onClick={this.props.onClick}>
+            <div className="productImgArea" style={{backgroundImage: `url(${PicUrl})`}}></div>
+            <div className="productDescription">{WaresName}</div>
         </div>
         )
   }

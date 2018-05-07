@@ -1,21 +1,28 @@
 import React, {Component} from 'react'
-import {Carousel, Tabs, Badge} from 'antd-mobile'
-import EveryProduct from 'COMPONENT/wechat/mall/everyProduct'
+import {Carousel, Tabs, Badge, Modal} from 'antd-mobile'
 
+import EveryTab from 'COMPONENT/wechat/mall/everyTab'
+
+const alert = Modal.alert
 class Mall extends Component {
 	constructor(props) {
     super(props)
     this.state = {
       productType: [],
       tabTitles: [],
-      tabContents: [],
-      nowTabContent: {
-
-      }
+      tabContents: []
     }
 	}
 
   componentWillMount() {
+  }
+
+  chooseProduct = (item, ev) => {
+    alert('Much Buttons', <div>More than two buttons</div>, [
+      { text: 'Button1', onPress: () => console.log('第0个按钮被点击了') },
+      { text: 'Button2', onPress: () => console.log('第1个按钮被点击了') },
+      { text: 'Button3', onPress: () => console.log('第2个按钮被点击了') }
+    ])
   }
 
   componentDidMount() {
@@ -26,10 +33,10 @@ class Mall extends Component {
           let tabContents = []
           this.props.wechat.productTypeData.map((item, index) => {
             tabTitles.push({ title: <Badge>{item.WaresTypeName}</Badge> })
-            tabContents.push(<div className="tabItem">{this.state.nowTabContent[index]}</div>)
+            tabContents.push(<EveryTab chooseProduct={this.chooseProduct} tabSource = {item} {...this.props} />)
           })
           this.setState({productType: this.props.wechat.productTypeData, tabTitles: tabTitles, tabContents: tabContents})
-          this.getProductById(0)
+          // this.getProductById(0)
         }
       })
     }
@@ -38,39 +45,21 @@ class Mall extends Component {
 
 
   tabChange = (tab, index) => {
-    this.getProductById(index)
-  }
-
-  getProductById = (index) => {
-   
-    if (!this.state.nowTabContent[index]) {
-      let nowContent = []
-      this.props.fetchProduct({typeId: this.state.productType[index].WaresTypeId, clientId: this.props.location.query.clientId}).then(msg => {
-        console.log('aaaaa', this.props)
-        if (this.props.wechat.productData) {
-          this.props.wechat.productData.map((item, index) => {
-            nowContent.push(<EveryProduct data={item} />)
-          })
-          this.state.nowTabContent[index] = nowContent
-          this.setState({nowTabContent: this.state.nowTabContent})
-        }
-     })
-    }
     
   }
+
+  
 
 
   render() {
      
-     
-
       return (
           <div>
             <Carousel
                 autoplay={true}
                 infinite
-                beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-                afterChange={index => console.log('slide to', index)}
+                beforeChange={(from, to) => {}}
+                afterChange={index => {}}
             >
               <img
                 src={`https://zos.alipayobjects.com/rmsportal/AiyWuByWklrrUDlFignR.png`}
