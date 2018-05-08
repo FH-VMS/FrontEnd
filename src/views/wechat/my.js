@@ -47,7 +47,7 @@ class My extends Component {
             thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
             arrow="horizontal"
             extra="查看列表"
-            onClick={() => {hashHistory.push('order')}}
+            onClick={() => {hashHistory.push('order' + this.props.location.search)}}
           >我的订单</Item>
           <Item
             thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"

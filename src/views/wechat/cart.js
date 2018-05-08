@@ -49,7 +49,7 @@ class Cart extends Component {
     this.state.data.splice(this.state.data.indexOf(record), 1)
     this.setState({data: this.state.data})
     if (this.state.data.length == 0) {
-      wechatUtility.Cart.removeData()
+      wechatUtility.Cart.clearData()
     } else {
       wechatUtility.Cart.setData(this.state.data)
     }

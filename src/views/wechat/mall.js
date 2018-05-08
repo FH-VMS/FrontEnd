@@ -149,30 +149,41 @@ class Mall extends Component {
               { text: '加入购物车', onPress: () => {this.addToCart()} }
             ]}
             wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+            style = {{width: '98%'}}
             >
-            <div style={{ padding: '0 15px' }}>
-            <div style={{ display: 'flex', padding: '15px 0' }}>
-              <img style={{ height: '150px', marginRight: '15px' }} src={this.state.nowProduct.PicUrl} alt="" />
-              <div style={{ lineHeight: 1 }} className="productDetailArea">
-                <div>
-                   {this.state.nowProduct.WaresName}
-                </div>
-                <div>
-                  ¥{this.state.nowProduct.WaresUnitPrice}
-                </div>
-                <div style={{minWidth: '200px'}}>
-                  <Stepper
-                    style={{ width: '100%', minWidth: '100px' }}
-                    showNumber
-                    max={10}
-                    min={1}
-                    value={this.state.nowProduct.chosenNum ? this.state.nowProduct.chosenNum : 1}
-                    onChange={this.stepChange}
-                  />
-                </div>
-              </div>
+            <div className="wechatCart">
+                <div className="rowStyle" style={{borderBottom: 'none'}}>     
+                  <div className="row" style={{padding: 0}}>
+                    <div style={{ display: 'flex' }}>
+                      <div>
+                          <img style={{ height: '150px', marginRight: '15px' }} src={this.state.nowProduct.PicUrl} />
+                      </div>
+                      <div className="row-text">
+                        <div style={{ fontWeight: 'bold', textAlign: 'left' }}>{this.state.nowProduct.WaresName}</div>
+                        <div className="stepperContainer" style={{textAlign: 'left' }}>
+                          <div>
+                              <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{this.state.nowProduct.WaresUnitPrice}</span>元/单价</div>
+                              <div style={{ fontSize: '0.28rem' }}>
+                              </div>
+                          </div>
+                          <div>
+                            <Stepper
+                              style={{ width: '100%', minWidth: '2rem' }}
+                              showNumber
+                              max={10}
+                              min={1}
+                              readonly
+                              value={this.state.nowProduct.chosenNum ? this.state.nowProduct.chosenNum : 1}
+                              onChange={this.stepChange}
+                            />
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
             </div>
-          </div>
+            </div>
           <div className="productDescriptArea">
              <div>商品描述</div>
              <div>{this.state.nowProduct.WaresDescription}</div>

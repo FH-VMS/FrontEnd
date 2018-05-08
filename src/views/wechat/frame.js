@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import {TabBar} from 'antd-mobile'
+import {TabBar, Toast} from 'antd-mobile'
 import {hashHistory} from 'react-router'
-// import {handleUrlParams} from 'UTIL/mobileUtility'
+import {handleUrlParams} from 'UTIL/mobileUtility'
 import wechatUtility from 'UTIL/wechatUtility'
 import 'ASSET/less/wechat.less'
 
@@ -91,7 +91,7 @@ class WechatFrame extends Component {
   }
 
   componentWillMount() {
-    /* 
+ 
     Toast.loading('加载中')
     let searchPara = handleUrlParams(window.location.href.split('?')[1])
     if (!searchPara.clientId) {
@@ -126,7 +126,7 @@ class WechatFrame extends Component {
           })
       }
     }
-    */
+   
   }
 
      // 判断是否为微信
