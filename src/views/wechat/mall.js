@@ -1,28 +1,48 @@
 import React, {Component} from 'react'
-import {Carousel, Tabs, Badge, Modal} from 'antd-mobile'
+import {Carousel, Tabs, Badge, Modal, Stepper} from 'antd-mobile'
+import PropTypes from 'prop-types'
 
 import EveryTab from 'COMPONENT/wechat/mall/everyTab'
 
-const alert = Modal.alert
+function closest(el, selector) {
+  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector
+  while (el) {
+    if (matchesSelector.call(el, selector)) {
+      return el
+    }
+    el = el.parentElement
+  }
+  return null
+}
+
 class Mall extends Component {
 	constructor(props) {
     super(props)
     this.state = {
       productType: [],
       tabTitles: [],
-      tabContents: []
+      tabContents: [],
+      modal: false,
+      nowProduct: {}
     }
-	}
+  }
+  
+  static contextTypes = {
+    callback: PropTypes.func
+  }
 
   componentWillMount() {
+    this.context.callback()
   }
 
   chooseProduct = (item, ev) => {
-    alert('Much Buttons', <div>More than two buttons</div>, [
-      { text: 'Button1', onPress: () => console.log('第0个按钮被点击了') },
-      { text: 'Button2', onPress: () => console.log('第1个按钮被点击了') },
-      { text: 'Button3', onPress: () => console.log('第2个按钮被点击了') }
-    ])
+    this.setState({nowProduct: item, modal: true})
+  }
+
+  onClose = key => () => {
+    this.setState({
+      [key]: false
+    })
   }
 
   componentDidMount() {
@@ -43,13 +63,37 @@ class Mall extends Component {
     
   }
 
+  onWrapTouchStart = (e) => {
+    // fix touch to scroll background page on iOS
+    if (!/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
+      return
+    }
+    const pNode = closest(e.target, '.am-modal-content')
+    if (!pNode) {
+      e.preventDefault()
+    }
+  }
+
+
 
   tabChange = (tab, index) => {
     
   }
 
-  
+  stepChange = (val) => {
+    this.state.nowProduct.chosenNum = val
+    this.setState({nowProduct: this.state.nowProduct})
+  }
 
+  // 去结算
+  gotoPay = () => {
+
+  }
+
+  addToCart = () => {
+    this.context.callback('addcart', this.state.nowProduct)
+    this.setState({nowProduct: {}, modal: false})
+  }
 
   render() {
      
@@ -96,6 +140,45 @@ class Mall extends Component {
             >
               {this.state.tabContents}
             </Tabs>
+            <Modal
+            visible={this.state.modal}
+            transparent
+            closable={true}
+            onClose ={this.onClose('modal')}
+            footer={[
+              { text: '去结算', onPress: () => {this.gotoPay()} },
+              { text: '加入购物车', onPress: () => {this.addToCart()} }
+            ]}
+            wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+            >
+            <div style={{ padding: '0 15px' }}>
+            <div style={{ display: 'flex', padding: '15px 0' }}>
+              <img style={{ height: '150px', marginRight: '15px' }} src={this.state.nowProduct.PicUrl} alt="" />
+              <div style={{ lineHeight: 1 }} className="productDetailArea">
+                <div>
+                   {this.state.nowProduct.WaresName}
+                </div>
+                <div>
+                  ¥{this.state.nowProduct.WaresUnitPrice}
+                </div>
+                <div style={{minWidth: '200px'}}>
+                  <Stepper
+                    style={{ width: '100%', minWidth: '100px' }}
+                    showNumber
+                    max={10}
+                    min={1}
+                    value={this.state.nowProduct.chosenNum ? this.state.nowProduct.chosenNum : 1}
+                    onChange={this.stepChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="productDescriptArea">
+             <div>商品描述</div>
+             <div>{this.state.nowProduct.WaresDescription}</div>
+          </div>
+            </Modal>
           </div>
         )
  }

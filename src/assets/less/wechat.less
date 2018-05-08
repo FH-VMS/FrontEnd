@@ -11,14 +11,16 @@
     .everyProduct{
         width: 43%;
         margin: 15px 0 0 5%;
-        height: 350px;
+        //height: 350px;
         padding: 0.1rem;
+       
 
         & .productImgArea{
             width: 100%;
-            height: 300px;
+            padding-bottom: 100%;
             background-size: cover;
             border: 1px solid pink;
+            overflow: hidden;
         }
 
         & .productDescription{
@@ -27,7 +29,14 @@
             margin-top: 3px;
             
         }
+
+        .productPrice{
+        }
+
+       
     }
+
+    
 
     .tabItem{
         padding-bottom: 15px;
@@ -74,19 +83,64 @@
     
 }
 
-.wechatOrder{
-    .noOrder{
-        width: 100%;
-        text-align: center;
-        padding-top: 0.5rem;
 
-        & img{
-            width: 160px;
-            height: 270px;
+.noOrder{
+    width: 100%;
+    text-align: center;
+    padding-top: 0.5rem;
+
+    & img{
+        width: 160px;
+        height: 270px;
+    }
+
+    &>div:last-child{
+        padding-top: 0.5rem;
+    }
+}
+
+
+
+.productDetailArea{
+    &>div{
+        padding: 3px 3px 4px 0;
+        text-align: left;
+
+        &:first-child{
+            font-weight: bold;
         }
 
-        &>div:last-child{
-            padding-top: 0.5rem;
+        &:nth-child(2){
+            font-size: 0.35rem;
+            color: #ff5b05;
+        }
+    }
+}
+
+.productDescriptArea{
+    margin-top: 5px;
+    border-top: 1px solid #e5e5e5;
+    text-align: left;
+    font-size: 0.25rem;
+}
+
+.wechatCart{
+    .rowStyle .stepperContainer{
+        display: '-webkit-box';
+        display: flex;
+        align-items:center;
+        flex-wrap: nowrap;
+        &>div:first-child{
+            flex-grow:4;
+        }
+
+        &>div:nth-child(2){
+            flex-grow:4;
+        }
+
+        &>div:nth-child(3){
+            flex-grow:1;
+            text-align: center;
         }
     }
 }

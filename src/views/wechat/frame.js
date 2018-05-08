@@ -8,6 +8,7 @@ import 'ASSET/less/wechat.less'
 import wechat from 'ACTION/wechat/common/wechatAction'
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 
 
 // const { Header, Sider, Content } = Layout
@@ -26,9 +27,64 @@ class WechatFrame extends Component {
         super(props)
         this.state = {
            selectedTab: 'mall',
-           canLoad: true
+           canLoad: true,
+           cartCount: 0
         }
-	}
+  }
+  
+  // 父组件声明自己支持 context
+  static childContextTypes = {
+      callback: PropTypes.func
+  }
+
+  // 父组件提供一个函数，用来返回相应的 context 对象
+  getChildContext() {
+      return {
+          callback: this.callback.bind(this)
+      }
+  }
+
+  callback(typ, obj) {
+    
+    switch (typ) {
+      case 'addcart':
+      let carts = []
+      let chosenProducts = localStorage.getItem('cartproducts')
+      
+      if (!chosenProducts) {
+        if (!obj.chosenNum) {
+          obj.chosenNum = 1
+        }
+        carts.push(obj)
+        
+      } else {
+        carts = JSON.parse(chosenProducts)
+        let canPush = true
+        for (let i = 0; i++ ; i < carts.length) {
+          if (obj.WaresId == carts[i].WaresId) {
+            if (!obj.chosenNum) {
+              carts[i].chosenNum = carts[i].chosenNum + 1
+            } else {
+              carts[i].chosenNum = carts[i].chosenNum + obj.chosenNum
+            }
+            
+            canPush = false
+            break
+          }
+        }
+        if (canPush) {
+          if (!obj.chosenNum) {
+            obj.chosenNum = 1
+          }
+          carts.push(obj)
+        }
+      }
+
+      localStorage.setItem('cartproducts', JSON.stringify(carts))
+      this.setState({cartCount: carts.length})
+      break
+    }
+  }
 
   componentWillMount() {
     /*
@@ -94,6 +150,10 @@ class WechatFrame extends Component {
   
   componentDidMount() {
     $(this.refs.childArea).height($(window.document).height() - 100)
+    let chosenProducts = localStorage.getItem('cartproducts')
+    if (chosenProducts) {
+      this.setState({cartCount: JSON.parse(chosenProducts).length})
+    }
   }
 
 
@@ -152,7 +212,7 @@ class WechatFrame extends Component {
             }
             title="购物车"
             key="cart"
-            badge={1}
+            badge={this.state.cartCount}
             selected={this.state.selectedTab === 'cart'}
             onPress={this.tabBarClick.bind(this, 'cart')}
             data-seed="logId1"

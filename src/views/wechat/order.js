@@ -104,14 +104,14 @@ class Order extends Component {
           { title: <Badge>历史订单</Badge> }
         ]}
         initialPage={0}
-        onChange={(tab, index) => { console.log('onChange', index, tab) }}
-        onTabClick={(tab, index) => { console.log('onTabClick', index, tab) }}
+        onChange={(tab, index) => { }}
+        onTabClick={(tab, index) => { }}
       >
         <div className="tabItem">
           <div className="noOrder">
             <div><img src={require('ASSET/img/wechat/cat.png')}/></div>
             <div>暂无订单</div>
-            <div> <Button type="warning" inline size="small" onClick={() => {hashHistory.push('')}}>去商城逛逛--></Button></div>
+            <div> <Button type="warning" inline size="small" onClick={() => {hashHistory.push('' + this.props.location.search)}}>去商城逛逛--></Button></div>
           </div>
         </div>
         <div className="tabItem">
