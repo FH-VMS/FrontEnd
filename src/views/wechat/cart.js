@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {hashHistory} from 'react-router'
 import {Button, Stepper, Badge} from 'antd-mobile'
+import PropTypes from 'prop-types'
+import wechatUtility from 'UTIL/wechatUtility'
 class Cart extends Component {
 	constructor(props) {
      super(props)
@@ -8,10 +10,14 @@ class Cart extends Component {
        data: [],
        totalMoneyIn: 0.00
      }
-	}
+  }
+  
+  static contextTypes = {
+    callback: PropTypes.func
+  }
 
   componentWillMount() {
-    let chosenProducts = localStorage.getItem('cartproducts')
+    let chosenProducts = wechatUtility.Cart.getData()
     if (chosenProducts) {
       this.setState({data: JSON.parse(chosenProducts)})
     }
@@ -35,12 +41,24 @@ class Cart extends Component {
 
       
     })
-      this.setState({data: this.state.data, totalMoney: totalMoneyIn})
-    
+    this.setState({data: this.state.data, totalMoney: totalMoneyIn})
+    wechatUtility.Cart.setData(this.state.data)
  }
 
  deleteCartProduct = (record) => {
-    
+    this.state.data.splice(this.state.data.indexOf(record), 1)
+    this.setState({data: this.state.data})
+    if (this.state.data.length == 0) {
+      wechatUtility.Cart.removeData()
+    } else {
+      wechatUtility.Cart.setData(this.state.data)
+    }
+   
+    this.context.callback('deletecartproduct', '')
+ }
+
+ sumPay = () => {
+
  }
 
 
@@ -87,6 +105,7 @@ class Cart extends Component {
               )
             })
            }
+             <div style={{textAlign: 'center'}}><Button style={{width: '90%', margin: 'auto'}} type="primary" onClick={this.sumPay.bind(this)}>去结算</Button></div>
           </div>
         </div>
         )

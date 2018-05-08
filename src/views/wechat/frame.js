@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {TabBar} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 // import {handleUrlParams} from 'UTIL/mobileUtility'
+import wechatUtility from 'UTIL/wechatUtility'
 import 'ASSET/less/wechat.less'
 
 
@@ -49,7 +50,7 @@ class WechatFrame extends Component {
     switch (typ) {
       case 'addcart':
       let carts = []
-      let chosenProducts = localStorage.getItem('cartproducts')
+      let chosenProducts = wechatUtility.Cart.getData()
       
       if (!chosenProducts) {
         if (!obj.chosenNum) {
@@ -83,11 +84,14 @@ class WechatFrame extends Component {
       localStorage.setItem('cartproducts', JSON.stringify(carts))
       this.setState({cartCount: carts.length})
       break
+      case 'deletecartproduct':
+      this.setState({cartCount: this.state.cartCount - 1})
+      break
     }
   }
 
   componentWillMount() {
-    /*
+    /* 
     Toast.loading('加载中')
     let searchPara = handleUrlParams(window.location.href.split('?')[1])
     if (!searchPara.clientId) {

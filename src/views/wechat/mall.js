@@ -32,7 +32,6 @@ class Mall extends Component {
   }
 
   componentWillMount() {
-    this.context.callback()
   }
 
   chooseProduct = (item, ev) => {
