@@ -61,7 +61,7 @@ class WechatFrame extends Component {
       } else {
         carts = JSON.parse(chosenProducts)
         let canPush = true
-        for (let i = 0; i++ ; i < carts.length) {
+        for (let i = 0;i < carts.length;i++) {
           if (obj.WaresId == carts[i].WaresId) {
             if (!obj.chosenNum) {
               carts[i].chosenNum = carts[i].chosenNum + 1

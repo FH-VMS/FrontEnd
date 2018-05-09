@@ -287,6 +287,9 @@ const api = {
         },
         GetProdcutByTypeAndClient: function (data) {
             return apiService('Wechat', 'GetProdcutByTypeAndClient', 'POST', data)
+        },
+        PostDataW: function (data) {
+            return apiService('Wechat', 'PostDataW', 'POST', data)
         }
     },
     MachineCabinet: {

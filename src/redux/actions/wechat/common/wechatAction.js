@@ -5,6 +5,7 @@ import apis from 'SERVICE/apis'
 const FETCH_WECHATAUTH = 'FETCH_WECHATAUTH'
 const FETCH_PRODUCTTYPE = 'FETCH_PRODUCTTYPE'
 const FETCH_PRODUCT = 'FETCH_PRODUCT'
+const POST_WECHATPAY = 'POST_WECHATPAY'
 
 // ================================
 // Action Creator
@@ -46,9 +47,21 @@ const FETCH_PRODUCT = 'FETCH_PRODUCT'
       })
   })
 
+  const postWechatPay = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .PostDataW(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: POST_WECHATPAY,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay
 }
 
 // ================================
@@ -61,13 +74,14 @@ fetchWechatAuth, fetchProductType, fetchProduct
 export const ACTION_HANDLERS = {
   [FETCH_WECHATAUTH]: (result, { payload }) => ({payload}),
   [FETCH_PRODUCTTYPE]: (result, { payload }) => {
-    result.productTypeData = payload
+      result.productTypeData = payload
+      return result
+  },
+  [FETCH_PRODUCT]: (result, { payload }) => {
+    result.productData = payload
     return result
- },
- [FETCH_PRODUCT]: (result, { payload }) => {
-   result.productData = payload
-   return result
-}
+  },
+  [POST_WECHATPAY]: (result, { payload }) => ({payload})
 }
 
 
