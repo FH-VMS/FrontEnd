@@ -12,7 +12,7 @@ class Order extends Component {
             data: [],
             totalCount: 0,
             page: {
-              PageSize: 15,
+              PageSize: 10,
               PageIndex: 1
             },
             ds: ds
