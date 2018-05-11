@@ -58,7 +58,7 @@ class Cart extends Component {
  }
 
  sumPay = () => {
-
+  hashHistory.push('pay' + this.props.location.search)
  }
 
 
