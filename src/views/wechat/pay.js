@@ -65,7 +65,6 @@ class Pay extends Component {
      window.WeixinJSBridge.invoke(
        'getBrandWCPayRequest', this.payPara,
        (res) => {   
-           
            if (res.err_msg == 'get_brand_wcpay_request:ok') {
               window.WeixinJSBridge.call('closeWindow')
                 // 支付成功 调用支付成功接口
@@ -75,7 +74,7 @@ class Pay extends Component {
  }
 
   callPay = () => {
-    if (this.isWeiXin()) {
+    if (wechatUtility.isWeiXin()) {
        if (typeof window.WeixinJSBridge == 'undefined') {
         if (document.addEventListener) {
             document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false)

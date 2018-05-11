@@ -157,7 +157,7 @@ class Frame extends Component {
               总额：<span className="productPrice">￥{this.state.totalFee.toFixed(2)}</span>
             </List.Item>
           </List>
-          <Button className="btn" type="primary" onClick={this.callPay} style={{marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
+          <Button className="btn" type="primary" onClick={this.callPay} style={{margin: 'auto', marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
         </div>
         )
  }

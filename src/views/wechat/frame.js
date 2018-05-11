@@ -106,7 +106,7 @@ class WechatFrame extends Component {
           return
         }
     
-        if (this.isWeiXin()) {
+        if (wechatUtility.isWeiXin()) {
           
           if (!searchPara.code) {
               searchPara.code = '-1'
@@ -130,17 +130,6 @@ class WechatFrame extends Component {
   }
 
      // 判断是否为微信
-
-  isWeiXin =() =>{
-      
-      var ua = window.navigator.userAgent.toLowerCase()
-      
-      if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-          return true
-      } else {
-          return false
-      }
-  }
 
   tabBarClick = (txt) => {
     if (!txt) {
