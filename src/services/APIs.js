@@ -396,6 +396,20 @@ const api = {
         GetRelationByIdAndType: function (data) {
           return apiService('Ad', 'GetRelationByIdAndType', 'GET', data)
         }
+    },
+    Privilege: {
+        GetData: function (data) {
+          return apiService('Privilege', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('Privilege', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('Privilege', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('Privilege', 'DeleteData', 'DELETE', data)
+        }
     }
     
 }

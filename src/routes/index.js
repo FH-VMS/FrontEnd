@@ -67,6 +67,7 @@ export default {
      require('./admin/salecash').default,  // 现金销售记录
      require('./admin/productstatistic').default, // 商品统计
      require('./admin/moneystatistic').default, // 金额统计
+     require('./admin/privilege').default, // 优惠券管理
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     
