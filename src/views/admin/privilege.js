@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, message, Spin, Popconfirm, Input } from 'antd'
+import { Table, message, Spin, Popconfirm, Input, Select } from 'antd'
 import Dialog from 'COMPONENT/admin/machine/machineListDialog'
 
 const { Column } = Table
@@ -64,12 +64,13 @@ class Privilege extends Component {
         }]
 
        // this.setState({searchDatasource: searchDatasource})
-     /* 
-      this.props.fetchPrivilegeTypeDic().then(msg => {
+ 
+      this.props.fetchDic({id: 'privilegetype'}).then(msg => {
+          console.log('aaaa', msg)
           if (msg) {
             let typeDicSelect = msg.map((item, index) => {
               return (
-                <Option value={item.Id}>{item.Name}</Option>
+                <Option value={item.Value}>{item.BookChinese}</Option>
               )
             })
 
@@ -81,11 +82,10 @@ class Privilege extends Component {
                 </Select>
             })
 
-            this.setState({searchDatasource: searchDatasource, machineTypeDic: msg})
+            this.setState({searchDatasource: searchDatasource, machineTypeDic: msg, loading: false})
           }
       })
-      */
-      this.setState({loading: true, searchDatasource: searchDatasource})
+   
       
     }
 
@@ -94,7 +94,7 @@ class Privilege extends Component {
     getData = (val) => {
       this.setState({loading: true})
        this.props.fetchPrivilegeList(val).then((msg) => {
-         if (this.props.machineList) {
+         if (this.props.privilege) {
            this.setState({dataSource: this.props.privilege.data, pagination: {
                 total: this.props.privilege.pager.TotalRows,
                 showSizeChanger: true,
@@ -256,103 +256,44 @@ class Privilege extends Component {
               
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="设备编号"
-                        dataIndex="DeviceId"
-                        key="DeviceId"
-                    />
-                     <Column
                         title="名称"
-                        dataIndex="Remark"
-                        key="Remark"
+                        dataIndex="PrivilegeName"
+                        key="PrivilegeName"
                     />
                     <Column
-                        title="机型"
-                        dataIndex="TypeText"
-                        key="TypeText"
+                        title="类型"
+                        dataIndex="PrivilegeType"
+                        key="PrivilegeType"
                     />
-
                     <Column
-                        title="所属客户"
-                        dataIndex="ClientText"
-                        key="ClientText"
+                        title="金额"
+                        dataIndex="Money"
+                        key="Money"
+                    />
+                    <Column
+                        title="金额限制"
+                        dataIndex="UseMoneyLimit"
+                        key="UseMoneyLimit"
+                    />
+                    <Column
+                        title="折扣"
+                        dataIndex="Discount"
+                        key="Discount"
                     />
                      <Column
-                        title="当前状态"
-                        dataIndex="LatestOnline"
-                        key="LatestOnline"
-                        render={(text, record) => {
-                            if (text) {
-                                if (parseInt(text, 0) > 900) {
-                                  return <span style={{color: 'red'}}>离线</span>
-                                } else {
-                                  return <span style={{color: 'green'}}>在线</span>
-                                }
-                                
-                            } else {
-                                return '未启用'
-                            }
-                        }
-                      }
+                        title="券数量"
+                        dataIndex="Numbers"
+                        key="Numbers"
                     />
                     <Column
-                        title="信号"
-                        dataIndex="Signal"
-                        key="Signal"
-                        render={(text, record) => {
-                            if (record.LatestOnline) {
-                                if (parseInt(record.LatestOnline, 0) > 900) {
-                                  return '无'
-                                } else {
-                                  return this.getSignal(text)
-                                }
-                                
-                            } else {
-                                return '无'
-                            }
-                        }
-                      }
+                        title="时间规则"
+                        dataIndex="TimeRule"
+                        key="TimeRule"
                     />
-                     <Column
-                        title="温度"
-                        dataIndex="MachineTemp"
-                        key="MachineTemp"
-                        render={(text, record) => {
-                            if (text == -100) {
-                                return <span style={{color: 'red'}}>故障</span>
-                                
-                            } else {
-                                return text
-                            }
-                        }
-                      }
-                    />
-                    <Column
-                        title="门"
-                        dataIndex="Door"
-                        key="Door"
-                        render={(text, record) => {
-                            if (text == 1) {
-                                return '关'
-                                
-                            } else if (text == 2) {
-                                return '开'
-                            } else {
-                                return '无'
-                            }
-                        }
-                      }
-                    />
-                    <Column
-                        title="登录账号"
-                        dataIndex="UserAccountName"
-                        key="UserAccountName"
-                    />
-                    {
-                        /*
                       <Column
-                        title="启用日期"
-                        dataIndex="StartDate"
-                        key="StartDate"
+                        title="过期时间"
+                        dataIndex="ExpireTime"
+                        key="ExpireTime"
                         render={(text, record) => {
                             if (text == '0001-01-01T00:00:00') {
                                 return ''
@@ -362,13 +303,10 @@ class Privilege extends Component {
                         }
                         }
                     />
-                    */
-                    }
-                    
                      <Column
-                        title="创建人"
-                        dataIndex="Creator"
-                        key="Creator"
+                        title="是否绑定商品"
+                        dataIndex="IsBind"
+                        key="IsBind"
                     />
                      <Column
                         title="创建日期"
