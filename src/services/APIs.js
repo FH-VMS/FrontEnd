@@ -290,6 +290,12 @@ const api = {
         },
         PostDataW: function (data) {
             return apiService('Wechat', 'PostDataW', 'POST', data)
+        },
+        GetHistorySalesList: function (data) {
+            return apiService('Wechat', 'GetHistorySalesList', 'GET', data)
+        },
+        GetWaitingSalesList: function (data) {
+            return apiService('Wechat', 'GetWaitingSalesList', 'GET', data)
         }
     },
     MachineCabinet: {

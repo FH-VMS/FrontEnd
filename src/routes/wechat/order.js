@@ -2,8 +2,8 @@ import { injectReducer } from 'REDUCER'
 import createContainer from 'UTIL/createContainer'
 
 const connectComponent = createContainer(
-  ({ order }) => ({ order }), // mapStateToProps
-  require('ACTION/Admin/sales/cashlessAction').default               // mapActionCreators
+  ({ wechat }) => ({ wechat }), // mapStateToProps
+  require('ACTION/wechat/common/wechatAction').default               // mapActionCreators
 )
 
 export default {
@@ -13,10 +13,10 @@ export default {
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       // 立即注入 Reducer
-      injectReducer('order', require('REDUCER/Admin/sales/cashlessReducer').default)
+      injectReducer('wechat', require('REDUCER/Admin/sales/cashlessReducer').default)
 
       cb(null, connectComponent(require('VIEW/wechat/order').default))
-    }, 'orderView')
+    }, 'wechatView')
   },
 
   indexRoute: { // 对应 /msg
