@@ -81,7 +81,6 @@ const FETCH_WAITINGSALESLIST = 'FETCH_WAITINGSALESLIST'
          type: FETCH_WAITINGSALESLIST,
          payload: msgs
       })
-      return msgs
   })
 
 /* default 导出所有 Action Creators */

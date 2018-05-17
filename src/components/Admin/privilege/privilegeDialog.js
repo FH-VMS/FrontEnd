@@ -68,91 +68,55 @@ const PrivilegeDialogForm = Form.create({
     }
 
     componentWillMount() {
-      this.clientId = ''
-      this.payConfigClientId = ''
-      this.adDicClientId = ''
     }
 
 
- getMachineTypeSelect = (data) => {
+ getPrivilegeTypeSelect = (data) => {
    let typeDicSelect = data.map((item, index) => {
       return (
-        <Option value={item.Id}>{item.Name}</Option>
+        <Option value={item.Value}>{item.BookChinese}</Option>
       )
     })
-    this.typeDicSelect = typeDicSelect
+    this.privilegeTypeDicSelect = typeDicSelect
  }
  
- clientChanged = (value) => {
-     this.clientSelect(value)
-     this.payConfigSelect(value)
-     this.adDicSelect(value)
-     this.props.form.setFieldsValue({UserAccount: '', MobilePayId: '', AdId: ''})
- }
-
- clientSelect = (value) => {
-    if (this.clientId == value) { 
-      return
-    }
-    this.props.fetchUserByClientId({id: value}).then(msg => {
-      if (msg) {
-        let userSelect = msg.map((item, index) => {
-          return (
-            <Option value={item.Id}>{item.Name}</Option>
-          )
-        })
-        this.setState({userSelect: userSelect})
-        this.clientId = value
-      }
-    })
-  }
-  
-   payConfigSelect = (value) => {
-    if (this.payConfigClientId == value) { 
-      return
-    }
-    this.props.fetchPayConfigByClientId({clientId: value}).then(msg => {
-      if (msg) {
-        let payConfigSelect = msg.map((item, index) => {
-          return (
-            <Option value={item.Id}>{item.Name}</Option>
-          )
-        })
-        
-            this.setState({payConfigSelect: payConfigSelect})
-            this.payConfigClientId = value
-      }
-    })
-  }
-
-  adDicSelect = (value) => {
-    if (this.adDicClientId == value) { 
-      return
-    }
-    this.props.fetchAdDic({clientId: value}).then(msg => {
-      if (msg) {
-        let adDicSelect = msg.map((item, index) => {
-          return (
-            <Option value={item.Id}>{item.Name}</Option>
-          )
-        })
-        this.setState({adDicSelect: adDicSelect})
-        this.adDicClientId = value
-      }
-    })
-  }
 
   checkTimeRule = (rule, value, callback) => {
+    /*
     if (value.match(/^[\w]{12}$/)) {
       callback()
     } else {
       callback('12位机器编号')
     }
+    */
+    const {getFieldValue, resetFields} = this.props.form
+    if (getFieldValue('TimeRule') || getFieldValue('ExpireTime')) {
+      if (getFieldValue('TimeRule')) {
+        resetFields(['ExpireTime'])
+      } else {
+        resetFields(['TimeRule'])
+      }
+      callback()
+    } else {
+      callback('时间规则和过期时间必填其一')
+    }
+    
     
   }
+  
 
   checkMoneyRule = (rule, value, callback) => {
-
+    const {getFieldValue, resetFields} = this.props.form
+    if (getFieldValue('Money') || getFieldValue('Discount')) {
+      if (getFieldValue('Money')) {
+        resetFields(['Discount'])
+      } else {
+        resetFields(['Money'])
+      }
+      callback()
+    } else {
+      callback('券额和折扣必填其一')
+    }
   }
 
   closeDialog = () => {
@@ -181,6 +145,7 @@ const PrivilegeDialogForm = Form.create({
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
     }
+    this.getPrivilegeTypeSelect(this.props.privilegeTypeDic)
     // let userModel = model.User.UserModel
     return (
       
@@ -216,7 +181,7 @@ const PrivilegeDialogForm = Form.create({
             }]
           })(
             <Select>
-               {this.typeDicSelect}
+               {this.privilegeTypeDicSelect}
             </Select>
           )}
         </FormItem>
@@ -230,7 +195,7 @@ const PrivilegeDialogForm = Form.create({
             validator: this.checkMoneyRule
           }]
         })(
-          <InputNumber />
+          <InputNumber min={0} step={0.01} max={100} precision={2}/>
         )}
       </FormItem>
       <FormItem
@@ -240,10 +205,10 @@ const PrivilegeDialogForm = Form.create({
     >
       {getFieldDecorator('Discount', {
         rules: [{
-            validator: this.checkMoneyRule
+          validator: this.checkMoneyRule
         }]
       })(
-        <InputNumber />
+        <InputNumber min={0} max={10} step={0.1} precision={1}/>
       )}
     </FormItem>
         <FormItem
@@ -253,7 +218,7 @@ const PrivilegeDialogForm = Form.create({
         >
           {getFieldDecorator('TimeRule', {
             rules: [{
-                validator: this.checkTimeRule
+              validator: this.checkTimeRule
             }]
           })(
               <Select>
@@ -268,7 +233,7 @@ const PrivilegeDialogForm = Form.create({
       >
         {getFieldDecorator('ExpireTime', {
           rules: [{
-              validator: this.checkTimeRule
+            validator: this.checkTimeRule
           }]
         })(
             <DatePicker />
@@ -277,7 +242,6 @@ const PrivilegeDialogForm = Form.create({
         <FormItem
           {...formItemLayout}
           label="是否可叠加："
-          hasFeedback
         >
           {getFieldDecorator('IsOverlay', {
             rules: [{
@@ -290,7 +254,6 @@ const PrivilegeDialogForm = Form.create({
         <FormItem
           {...formItemLayout}
           label="是否绑定商品："
-          hasFeedback
         >
           {getFieldDecorator('IsBind', {
             rules: [{

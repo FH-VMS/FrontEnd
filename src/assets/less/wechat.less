@@ -1,146 +1,175 @@
-.globalTabBar{
-    position: fixed;
-    height: 100px;
-    width: 100%;
-    bottom: 0;
-}
-
-.childArea{
-    overflow-x: hidden;
-    overflow-y: auto;;
-    .everyProduct{
-        width: 43%;
-        margin: 15px 0 0 5%;
-        //height: 350px;
-        padding: 0.1rem;
-       
-
-        & .productImgArea{
-            width: 100%;
-            padding-bottom: 100%;
-            background-size: cover;
-            border: 1px solid pink;
-            overflow: hidden;
-        }
-
-        & .productDescription{
-            width: 100%;
-            text-align: center;
-            margin-top: 3px;
-            
-        }
-
-        .productPrice{
-        }
-
-       
+#wechat{
+    .globalTabBar{
+        position: fixed;
+        height: 100px;
+        width: 100%;
+        bottom: 0;
     }
+
+    .childArea{
+        overflow-x: hidden;
+        overflow-y: auto;;
+        .everyProduct{
+            width: 43%;
+            margin: 15px 0 0 5%;
+            //height: 350px;
+            padding: 0.1rem;
+        
+
+            & .productImgArea{
+                width: 100%;
+                padding-bottom: 100%;
+                background-size: cover;
+                border: 1px solid pink;
+                overflow: hidden;
+            }
+
+            & .productDescription{
+                width: 100%;
+                text-align: center;
+                margin-top: 3px;
+                
+            }
+
+            .productPrice{
+            }
+
+        
+        }
+
+        
+
+        .tabItem{
+            padding-bottom: 15px;
+            display: flex;
+            // align-items: center;
+            flex-wrap: wrap;
+            // justify-content: center;
+            background-color: #fff;
+
+            &:after{
+                clear: both;
+                content: '.';
+                height: 0;
+                visibility: hidden;
+                display: block;
+            }
+        }
 
     
-
-    .tabItem{
-        padding-bottom: 15px;
-        display: flex;
-        // align-items: center;
-        flex-wrap: wrap;
-        // justify-content: center;
-        background-color: #fff;
-
-        &:after{
-            clear: both;
-            content: '.';
-            height: 0;
-            visibility: hidden;
-            display: block;
-        }
     }
 
-   
-}
+    .wechatMy{
+        .portraitArea{
+            &>div:first-child{
+                flex: 0.5 1 10%;
+            }
+            .portrait{
+                width: 180px;
+                height: 180px;
+            }
 
-.wechatMy{
-    .portraitArea{
-        &>div:first-child{
-            flex: 0.5 1 10%;
+            &>div:last-child{
+                line-height: 1.8;
+            }
+            .nickName{
+                font-size: 0.3rem;
+                font-weight: bold;
+            }
+            .memberCode{
+                color: #979797;
+                font-size: 0.2rem;
+            }
         }
-        .portrait{
-            width: 180px;
-            height: 180px;
+        
+    }
+
+
+    .noOrder{
+        width: 100%;
+        text-align: center;
+        padding-top: 0.5rem;
+
+        & img{
+            width: 160px;
+            height: 270px;
         }
 
         &>div:last-child{
-            line-height: 1.8;
-        }
-        .nickName{
-            font-size: 0.3rem;
-            font-weight: bold;
-        }
-        .memberCode{
-            color: #979797;
-            font-size: 0.2rem;
+            padding-top: 0.5rem;
         }
     }
-    
-}
 
 
-.noOrder{
-    width: 100%;
-    text-align: center;
-    padding-top: 0.5rem;
 
-    & img{
-        width: 160px;
-        height: 270px;
+    .productDetailArea{
+        &>div{
+            padding: 3px 3px 4px 0;
+            text-align: left;
+
+            &:first-child{
+                font-weight: bold;
+            }
+
+            &:nth-child(2){
+                font-size: 0.35rem;
+                color: #ff5b05;
+            }
+        }
     }
 
-    &>div:last-child{
-        padding-top: 0.5rem;
-    }
-}
-
-
-
-.productDetailArea{
-    &>div{
-        padding: 3px 3px 4px 0;
+    .productDescriptArea{
+        margin-top: 5px;
+        border-top: 1px solid #e5e5e5;
         text-align: left;
+        font-size: 0.25rem;
+    }
 
-        &:first-child{
-            font-weight: bold;
-        }
+    .wechatCart{
+        .rowStyle .stepperContainer{
+            display: '-webkit-box';
+            display: flex;
+            align-items:center;
+            flex-wrap: nowrap;
+            &>div:first-child{
+                flex-grow:4;
+            }
 
-        &:nth-child(2){
-            font-size: 0.35rem;
-            color: #ff5b05;
+            &>div:nth-child(2){
+                flex-grow:4;
+            }
+
+            &>div:nth-child(3){
+                flex-grow:1;
+                text-align: center;
+            }
         }
     }
-}
 
-.productDescriptArea{
-    margin-top: 5px;
-    border-top: 1px solid #e5e5e5;
-    text-align: left;
-    font-size: 0.25rem;
-}
-
-.wechatCart{
-    .rowStyle .stepperContainer{
-        display: '-webkit-box';
+    .historyOrderRow{
         display: flex;
-        align-items:center;
+        flex-direction: row;
         flex-wrap: nowrap;
-        &>div:first-child{
-            flex-grow:4;
-        }
+        align-items: center;
+        padding: 10px;
+        &>div{
+            &:first-child{
+                flex-grow: 2;
+            }
 
-        &>div:nth-child(2){
-            flex-grow:4;
-        }
+            &:last-child{
+                flex-grow: 1;
+            }
 
-        &>div:nth-child(3){
-            flex-grow:1;
-            text-align: center;
+            &>div{
+                &:first-child{
+                    font-size: 0.28rem;
+                }
+
+                &:last-child{
+                    font-size: 0.22rem;
+                }
+            }
         }
     }
 }

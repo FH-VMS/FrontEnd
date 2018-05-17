@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Tabs, Badge, Button, ListView} from 'antd-mobile'
 import {hashHistory} from 'react-router'
+import ReactDOM from 'react-dom'
+
+
 
 class Order extends Component {
 	constructor(props) {
@@ -15,7 +18,8 @@ class Order extends Component {
               PageSize: 10,
               PageIndex: 1
             },
-            ds: ds
+            ds: ds,
+            waitingData: []
         }
 	}
 
@@ -23,34 +27,74 @@ class Order extends Component {
   }
 
   componentDidMount() {
+    this.queryWaitingData()
+  }
 
+  queryWaitingData = () => {
+      let memberInfo = sessionStorage.getItem('wechatInfo')
+      if (!memberInfo) {
+        return
+      }
+      let objMember = JSON.parse(memberInfo)
+      if (!objMember.OpenId) {
+        return
+      }
+      this.props.fetchWaitingSalesList({openid: objMember.OpenId}).then(msg => {
+
+      })
+  }
+
+  tabChange = (tab, index) => {
+    if (index == 1) {
+       if (this.state.data.length == 0) {
+         this.queryData()
+       }
+    } else {
+      if (this.state.waitingData.length == 0) {
+        this.queryWaitingData()
+      }
+    }
   }
 
 
   queryData = () => {
-    // let {page} = this.state
     /*
-    let {fetchMachineList} = this.props
+    let memberInfo = sessionStorage.getItem('wechatInfo')
+    if (!memberInfo) {
+      return
+    }
+    let objMember = JSON.parse(memberInfo)
+    if (!objMember.OpenId) {
+      return
+    }
+    */
+    let {page} = this.state
+    page.openId = 'ojoeH1UWqedvZUe2OMPrGvLLAqKI' // objMember.OpenId
+  
+    let {fetchHistorySalesList} = this.props
     
-    fetchMachineList(page).then(msg => {
+    fetchHistorySalesList(page).then(msg => {
+      console.log('pppp', this.props)
+           
             this.setState({
-                dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.chooseMachine.data]),
+                dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.wechat.historyList]),
                 isLoading: false,
-                data: [...this.state.data, ...this.props.chooseMachine.data],
-                totalCount: parseInt(this.props.chooseMachine.pager.TotalRows, 0),
+                data: [...this.state.data, ...this.props.wechat.historyList],
                 page: {
                   ...page,
                   PageIndex: (page.PageIndex + 1)
                 }
             })
+            /*
             const heiGap = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).getElementsByClassName('am-list-body')[0].offsetHeight
             if (heiGap > 30 && this.state.data.length < this.state.totalCount) {
                 
                 this.queryData()
             }
+            */
 
     })
-    */
+    
    
  }
 
@@ -60,32 +104,52 @@ class Order extends Component {
         if (!event) {return null}
  
        if (isLoading) {return null}
- 
+        /*
         if (this.state.totalCount <= this.state.data.length) {
              this.setState({
              isLoading: false
          })
         } else {
+          */
              this.setState({
                   isLoading: true
              })
              this.queryData()
-        }
+       // }
         
     }
   // 历史订单
   row = (rowData) => {
-    let machineStatus = '未启用'
-    if (rowData.LatestOnline) {
-        if (parseInt(rowData.LatestOnline, 0) > 900) {
-          machineStatus = <span style={{color: 'red'}}>离线</span>
-        } else {
-          machineStatus = <span style={{color: 'green'}}>在线</span>
-        }
-        
+    let tStatus = '其它'
+    switch (rowData.TradeStatus) {
+      case '1':
+         tStatus = '待出货'
+      break
+      case '2':
+        tStatus = '已出货'
+      break
+      case '8':
+        tStatus = '已提货'
+      break
     }
+    let txtDate = rowData.SalesDate
+      if (txtDate == '0001-01-01T00:00:00') {
+        txtDate = ''
+      } else {
+        txtDate = txtDate.replace('T', ' ')
+      }
+  
     return (
-       <Item arrow="horizontal" onClick={this.chooseMachine.bind(this, rowData)} extra={rowData.ClientText}>{rowData.DeviceId} <Item.Brief>{rowData.Remark}({machineStatus})</Item.Brief></Item>
+       <div className="historyOrderRow">
+          <div>
+             <div>{rowData.WaresName}*{rowData.SalesNumber}</div>
+             <div>{rowData.TradeNo}</div>
+          </div>
+          <div>
+            <div>{tStatus} <Badge text={`¥${rowData.TradeAmount}`} style={{ padding: '0 3px', borderRadius: 0 }} /></div>
+            <div>{txtDate}</div>
+          </div>
+       </div>
     )
   }
 
@@ -104,7 +168,7 @@ class Order extends Component {
           { title: <Badge>历史订单</Badge> }
         ]}
         initialPage={0}
-        onChange={(tab, index) => { }}
+        onChange={this.tabChange}
         onTabClick={(tab, index) => { }}
       >
         <div className="tabItem">
@@ -126,7 +190,7 @@ class Order extends Component {
             onEndReached={this.onEndReached}
             onEndReachedThreshold={30}
             style={{
-              height: document.documentElement.clientHeight * 3.8 / 4,
+              height: document.documentElement.clientHeight * 3.2 / 4,
               width: '100%',
               overflow: 'auto',
               border: '1px solid #ddd'

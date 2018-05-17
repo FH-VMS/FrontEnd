@@ -3,7 +3,7 @@ import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Table, message, Spin, Popconfirm, Input, Select } from 'antd'
-import Dialog from 'COMPONENT/admin/machine/machineListDialog'
+import Dialog from 'COMPONENT/admin/privilege/privilegeDialog'
 
 const { Column } = Table
 
@@ -28,6 +28,7 @@ class Privilege extends Component {
             searchDatasource: [],
             machineTypeDic: [],
             clientDicData: [],
+            privilegeTypeDic: [],
             copyMachineId: '',
             copyVisible: false
         }
@@ -66,7 +67,6 @@ class Privilege extends Component {
        // this.setState({searchDatasource: searchDatasource})
  
       this.props.fetchDic({id: 'privilegetype'}).then(msg => {
-          console.log('aaaa', msg)
           if (msg) {
             let typeDicSelect = msg.map((item, index) => {
               return (
@@ -82,7 +82,7 @@ class Privilege extends Component {
                 </Select>
             })
 
-            this.setState({searchDatasource: searchDatasource, machineTypeDic: msg, loading: false})
+            this.setState({searchDatasource: searchDatasource, machineTypeDic: msg, loading: false, privilegeTypeDic: msg})
           }
       })
    
@@ -330,11 +330,8 @@ class Privilege extends Component {
                         onCreate={this.handleCreate}
                         title={this.state.dialogTitle}
                         {...fields}
-                        machineTypeDic={this.state.machineTypeDic}
-                        clientDicData ={this.state.clientDicData}
-                        fetchUserByClientId={this.props.fetchUserByClientId}
-                        fetchPayConfigByClientId={this.props.fetchPayConfigByClientId}
-                        fetchAdDic = {this.props.fetchAdDic}
+                        privilegeTypeDic={this.state.privilegeTypeDic}
+                        
                  />
                 </Spin>
            </div>

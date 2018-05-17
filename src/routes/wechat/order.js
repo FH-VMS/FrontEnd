@@ -13,7 +13,7 @@ export default {
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       // 立即注入 Reducer
-      injectReducer('wechat', require('REDUCER/Admin/sales/cashlessReducer').default)
+      injectReducer('wechat', require('REDUCER/wechat/common/wechatReducer').default)
 
       cb(null, connectComponent(require('VIEW/wechat/order').default))
     }, 'wechatView')
