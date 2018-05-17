@@ -178,7 +178,7 @@ class Privilege extends Component {
            })
           
        } else {
-           this.props.addPrivilegeList({machineListInfo: values}).then((msg) => {
+           this.props.addPrivilegeList({privilegeInfo: values}).then((msg) => {
              if (msg) {
                 message.success('保存成功')
                 this.getData(this.searchPara)
@@ -262,8 +262,8 @@ class Privilege extends Component {
                     />
                     <Column
                         title="类型"
-                        dataIndex="PrivilegeType"
-                        key="PrivilegeType"
+                        dataIndex="PrincipleType"
+                        key="PrincipleType"
                     />
                     <Column
                         title="金额"
@@ -274,11 +274,27 @@ class Privilege extends Component {
                         title="金额限制"
                         dataIndex="UseMoneyLimit"
                         key="UseMoneyLimit"
+                        render={(text, record) => {
+                            if (text) {
+                                return text
+                            } else {
+                                return '-'
+                            }
+                        }
+                        }
                     />
                     <Column
                         title="折扣"
                         dataIndex="Discount"
                         key="Discount"
+                        render={(text, record) => {
+                            if (text) {
+                                return text
+                            } else {
+                                return '-'
+                            }
+                        }
+                        }
                     />
                      <Column
                         title="券数量"
@@ -306,7 +322,14 @@ class Privilege extends Component {
                      <Column
                         title="是否绑定商品"
                         dataIndex="IsBind"
-                        key="IsBind"
+                        key="IsBind" render={(text, record) => {
+                            if (text) {
+                                return '是'
+                            } else {
+                                return '否'
+                            }
+                        }
+                    }
                     />
                      <Column
                         title="创建日期"

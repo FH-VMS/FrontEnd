@@ -63,7 +63,8 @@ const PrivilegeDialogForm = Form.create({
       this.state = {
         userSelect: [],
         payConfigSelect: [],
-        adDicSelect: []
+        adDicSelect: [],
+        isBind: props.IsBind
       }
     }
 
@@ -128,6 +129,10 @@ const PrivilegeDialogForm = Form.create({
   }
 
   componentDidMount() {
+  }
+
+  isBindProduct = (e) => {
+    this.setState({isBind: e.target.checked})
   }
 
   filterClient = (inputValue, treeNode) => {
@@ -236,7 +241,11 @@ const PrivilegeDialogForm = Form.create({
             validator: this.checkTimeRule
           }]
         })(
-            <DatePicker />
+            <DatePicker 
+            showTime
+            format="YYYY-MM-DD HH:mm:ss"
+            style={{width: '100%'}}
+            />
         )}
       </FormItem>
         <FormItem
@@ -260,13 +269,14 @@ const PrivilegeDialogForm = Form.create({
               required: false
             }]
           })(
-             <Checkbox></Checkbox>
+             <Checkbox onChange={this.isBindProduct}></Checkbox>
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
           label="选择绑定商品："
           hasFeedback
+          style={{display: this.state.isBind ? 'inherit' : 'none'}}
         >
           {getFieldDecorator('BindProductIds', {
             rules: [{
@@ -293,19 +303,6 @@ const PrivilegeDialogForm = Form.create({
             }]
           })(
             <InputNumber />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="停用日期："
-          hasFeedback
-        >
-          {getFieldDecorator('StopDate', {
-            rules: [{
-              required: false
-            }]
-          })(
-              <DatePicker />
           )}
         </FormItem>
         </Form>
