@@ -59,6 +59,18 @@ export default {
     dateFormaterString: function(value) {
         return value.format('YYYY/MM/DD')
     },
+    timeFormaterObj: function(value, typeVal) {
+        
+        if (!value) {
+            return
+        }
+        
+         return moment(value, 'YYYY-MM-DD HH:mm:ss')
+
+    },
+    timeFormaterString: function(value) {
+        return value.format('YYYY/MM/DD HH:mm:ss')
+    },
     getUploadObj: function() {
         return {
             name: 'file',

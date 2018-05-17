@@ -126,9 +126,15 @@ class Privilege extends Component {
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: model.Machine.MachineListModel, dialogTitle: '添加机器' })
+           this.setState({ visible: true, savePara: {}, dialogTitle: '添加优惠券' })
          } else {
-            this.setState({ visible: true, savePara: item, dialogTitle: '修改机器' })
+             if (parseFloat(item.Discount, 0) == 0) {
+                item.Discount = ''
+             }
+             if (parseFloat(item.Money, 0) == 0) {
+                item.Money = ''
+             }
+            this.setState({ visible: true, savePara: item, dialogTitle: '修改优惠券' })
          }
          
     }
@@ -160,11 +166,14 @@ class Privilege extends Component {
     }
 
     handleCreate = () => {
+        
         const form = this.form
         form.validateFields((err, values) => {
         if (err) {
+            
             return
         }
+        values.ExpireTime = Utility.timeFormaterString(values.ExpireTime)
         // 更新
        if (this.state.savePara.PrivilegeId) {
            values.PrivilegeId = this.state.savePara.PrivilegeId

@@ -9,7 +9,7 @@ const PrivilegeDialogForm = Form.create({
     return {
        PrivilegeName: {
         ...props.PrivilegeName,
-        value: props.DevPrivilegeNameiceId
+        value: props.PrivilegeName
       },
        PrincipleType: {
         ...props.PrincipleType,
@@ -21,7 +21,7 @@ const PrivilegeDialogForm = Form.create({
       },
        ExpireTime: {
         ...props.ExpireTime,
-        value: Utility.dateFormaterObj(props.ExpireTime)
+        value: Utility.timeFormaterObj(props.ExpireTime)
       },
        TimeRule: {
         ...props.TimeRule,
