@@ -24,13 +24,9 @@ class Privilege extends Component {
                 defaultPageSize: model.BaseSetting.PageSize
             },
             loading: false,
-            savePara: model.Machine.MachindListModel,
+            savePara: {},
             searchDatasource: [],
-            machineTypeDic: [],
-            clientDicData: [],
-            privilegeTypeDic: [],
-            copyMachineId: '',
-            copyVisible: false
+            privilegeTypeDic: []
         }
 
         this.searchPara = {
@@ -143,9 +139,8 @@ class Privilege extends Component {
 
     // 删除
     handleDelete = (record, e) => {
-        
-        if (record.MachineId) {
-            this.props.deleteMachineList({idList: record.MachineId}).then(msg => {
+        if (record.PrivilegeId) {
+            this.props.deletePrivilegeList({idList: record.PrivilegeId}).then(msg => {
                 if (msg) {
                     message.success('删除成功')
                     this.getData(this.searchPara)

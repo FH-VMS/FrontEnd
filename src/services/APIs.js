@@ -416,6 +416,14 @@ const api = {
         DeleteData: function (data) {
           return apiService('Privilege', 'DeleteData', 'DELETE', data)
         }
+    },
+    Member: {
+        GetData: function (data) {
+          return apiService('Member', 'GetData', 'GET', data)
+        },
+        GivePrivilegeTicket: function (data) {
+          return apiService('Member', 'GivePrivilegeTicket', 'POST', data)
+        }
     }
     
 }

@@ -68,6 +68,7 @@ export default {
      require('./admin/productstatistic').default, // 商品统计
      require('./admin/moneystatistic').default, // 金额统计
      require('./admin/privilege').default, // 优惠券管理
+     require('./admin/member').default, // 会员管理
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     
