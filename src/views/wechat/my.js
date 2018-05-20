@@ -51,7 +51,7 @@ class My extends Component {
           >我的订单</Item>
           <Item
             thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
-            onClick={() => {}}
+            onClick={() => {hashHistory.push('myticket' + this.props.location.search)}}
             extra="查看优惠券"
             arrow="horizontal"
           >

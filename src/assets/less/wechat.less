@@ -172,4 +172,51 @@
             }
         }
     }
+    
+    @ticketPadding: 15px;
+    .everyTicket{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 5px;
+        flex-wrap: nowrap;
+        &>div{
+            height: 210px;
+            padding: 10px;
+            &:nth-child(1){
+                flex-grow: 1;
+                justify-content:center;
+                background: -webkit-linear-gradient(left, #ffa058 , #ff6867); /* Safari 5.1 - 6.0 */
+                background: -o-linear-gradient(right, #ffa058 , #ff6867); /* Opera 11.1 - 12.0 */
+                background: -moz-linear-gradient(right, #ffa058 , #ff6867); /* Firefox 3.6 - 15 */
+                background: linear-gradient(to right, #ffa058 , #ff6867); /* 标准的语法 */
+                border-top-left-radius: @ticketPadding;
+                border-bottom-left-radius: @ticketPadding;
+                font-weight: bold;
+                font-size: 0.5rem;
+                display: flex;
+                align-items: center;
+                color: #fff;
+            }
+            &:nth-child(2){
+                flex-grow: 2;
+                background-color: #fff;
+                border-top-right-radius: @ticketPadding;
+                border-bottom-right-radius: @ticketPadding;
+                font-size: 0.2rem;
+                
+            }
+            &:nth-child(3){
+                flex-grow: 1;
+                background-color: #fff;
+                border-top-left-radius: @ticketPadding;
+                border-bottom-left-radius: @ticketPadding;
+                border-left: 1px dotted #ccc;
+                display: flex;
+                align-items: center;
+                justify-content:center;
+                flex-shrink: 0;
+            }
+        }
+    }
 }
