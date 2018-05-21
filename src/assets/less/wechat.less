@@ -181,7 +181,7 @@
         padding: 5px;
         flex-wrap: nowrap;
         &>div{
-            height: 210px;
+            height: 225px;
             padding: 10px;
             &:nth-child(1){
                 flex-grow: 1;
@@ -193,7 +193,7 @@
                 border-top-left-radius: @ticketPadding;
                 border-bottom-left-radius: @ticketPadding;
                 font-weight: bold;
-                font-size: 0.5rem;
+                font-size: 0.4rem;
                 display: flex;
                 align-items: center;
                 color: #fff;
@@ -204,7 +204,9 @@
                 border-top-right-radius: @ticketPadding;
                 border-bottom-right-radius: @ticketPadding;
                 font-size: 0.2rem;
-                
+                letter-spacing: 0px;
+                display: flex;
+                align-items: center;
             }
             &:nth-child(3){
                 flex-grow: 1;
@@ -217,6 +219,16 @@
                 justify-content:center;
                 flex-shrink: 0;
             }
+        }
+
+        .gotoUse{
+            color: #ff6867;
+            border:1px solid #ff6867;
+            border-radius: 0.2rem;
+            margin-top: 15px;
+            font-size: 0.2rem;
+            text-align: center;
+            padding: 0.05rem;
         }
     }
 }

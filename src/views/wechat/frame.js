@@ -172,13 +172,13 @@ class WechatFrame extends Component {
             icon={<div style={{
               width: '44px',
               height: '44px',
-              background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  44px 44px no-repeat' }}
+              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  44px 44px no-repeat` }}
             />
             }
             selectedIcon={<div style={{
               width: '44px',
               height: '44px',
-              background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  44px 44px no-repeat' }}
+              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  44px 44px no-repeat` }}
             />
             }
             selected={this.state.selectedTab === 'mall'}
@@ -193,14 +193,14 @@ class WechatFrame extends Component {
               <div style={{
                 width: '44px',
                 height: '44px',
-                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  44px 44px no-repeat' }}
+                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  44px 44px no-repeat` }}
               />
             }
             selectedIcon={
               <div style={{
                 width: '44px',
                 height: '44px',
-                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  44px 44px no-repeat' }}
+                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  44px 44px no-repeat` }}
               />
             }
             title="购物车"
@@ -216,26 +216,37 @@ class WechatFrame extends Component {
               <div style={{
                 width: '44px',
                 height: '44px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  44px 44px no-repeat' }}
+                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  44px 44px no-repeat` }}
               />
             }
             selectedIcon={
               <div style={{
                 width: '44px',
                 height: '44px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  44px 44px no-repeat' }}
+                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  44px 44px no-repeat` }}
               />
             }
             title="活动"
             key="activity"
-            dot
             selected={this.state.selectedTab === 'activity'}
             onPress={this.tabBarClick.bind(this, 'activity')}
           >
           </TabBar.Item>
           <TabBar.Item
-            icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
-            selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
+          icon={
+            <div style={{
+              width: '44px',
+              height: '44px',
+              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  44px 44px no-repeat` }}
+            />
+          }
+          selectedIcon={
+            <div style={{
+              width: '44px',
+              height: '44px',
+              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  44px 44px no-repeat` }}
+            />
+          }
             title="我的"
             key="my"
             selected={this.state.selectedTab === 'my'}
