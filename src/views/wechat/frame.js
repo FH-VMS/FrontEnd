@@ -182,7 +182,6 @@ class WechatFrame extends Component {
             />
             }
             selected={this.state.selectedTab === 'mall'}
-            badge={1}
             onPress={this.tabBarClick.bind(this, '')}
             data-seed="logId"
           >

@@ -44,13 +44,13 @@ class My extends Component {
           <WhiteSpace size="lg" />
           <List>
           <Item
-            thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+            thumb={require('ASSET/img/wechat/order.png')}
             arrow="horizontal"
             extra="查看列表"
             onClick={() => {hashHistory.push('order' + this.props.location.search)}}
           >我的订单</Item>
           <Item
-            thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+            thumb={require('ASSET/img/wechat/ticket.png')}
             onClick={() => {hashHistory.push('myticket' + this.props.location.search)}}
             extra="查看优惠券"
             arrow="horizontal"
@@ -58,14 +58,14 @@ class My extends Component {
             我的优惠券
           </Item>
           <Item
-          thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+          thumb={require('ASSET/img/wechat/service.png')}
           onClick={() => {}}
           arrow="horizontal"
         >
           联系客服
         </Item>
         <Item
-        thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+        thumb={require('ASSET/img/wechat/position.png')}
         onClick={() => {}}
         arrow="horizontal"
       >
