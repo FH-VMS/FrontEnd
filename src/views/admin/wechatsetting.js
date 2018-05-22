@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import { Spin} from 'antd'
+import { Spin, Tabs} from 'antd'
+const TabPane = Tabs.TabPane
 
 class WechatSetting extends Component {
     constructor(props) {
@@ -15,6 +16,10 @@ class WechatSetting extends Component {
        this.getData()
     }
 
+    tabCallback = (key) => {
+
+    }
+
     
     // 取数据方法
     getData = () => {
@@ -28,7 +33,10 @@ class WechatSetting extends Component {
         return (
             <div>
                <Spin size="large" spinning={this.state.loading}>
-                  公众号设置
+               <Tabs defaultActiveKey="1" onChange={this.tabCallback}>
+               <TabPane tab="首页滚动图" key="1">Content of Tab Pane 1</TabPane>
+               <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>
+             </Tabs>
                </Spin>
            </div>
         )

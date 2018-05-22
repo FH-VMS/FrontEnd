@@ -70,6 +70,7 @@ export default {
      require('./admin/moneystatistic').default, // 金额统计
      require('./admin/privilege').default, // 优惠券管理
      require('./admin/member').default, // 会员管理
+     require('./admin/wechatsetting').default, // 公众号设置
     // 强制“刷新”页面的 hack
     { path: 'redirect', component: require('COMPONENT/Redirect').default },
     
