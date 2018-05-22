@@ -54,7 +54,7 @@ class SaleCash extends Component {
     getData = (val) => {
         this.setState({loading: true})
         
-        val.salesType = 1
+        val.salesType = 2
        this.props.fetchCashList(val).then((msg) => {
          if (this.props.saleCash) {
              let totalCount = this.state.total

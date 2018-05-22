@@ -65,6 +65,7 @@ export default {
      require('./admin/resource').default,  // 资源库
      require('./admin/ad').default,  // 广告设置
      require('./admin/salecash').default,  // 现金销售记录
+     require('./admin/saleic').default,  // IC销售记录
      require('./admin/productstatistic').default, // 商品统计
      require('./admin/moneystatistic').default, // 金额统计
      require('./admin/privilege').default, // 优惠券管理
