@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import { Spin, Tabs} from 'antd'
-import Carousel from 'COMPONENT/admin/websetting/carousel'
 const TabPane = Tabs.TabPane
 
-class WechatSetting extends Component {
+class Carousel extends Component {
     constructor(props) {
 		super(props)
         this.state = {
@@ -32,10 +31,10 @@ class WechatSetting extends Component {
        
         
         return (
-            <div className="webSettingContainer">
+            <div>
                <Spin size="large" spinning={this.state.loading}>
                <Tabs defaultActiveKey="1" onChange={this.tabCallback}>
-               <TabPane tab="首页滚动图" key="1"><Carousel /></TabPane>
+               <TabPane tab="首页滚动图" key="1">Content of Tab Pane 1</TabPane>
                <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>
              </Tabs>
                </Spin>
@@ -44,4 +43,4 @@ class WechatSetting extends Component {
     }
 }
 
-export default WechatSetting
+export default Carousel
