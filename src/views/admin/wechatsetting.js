@@ -35,7 +35,7 @@ class WechatSetting extends Component {
             <div className="webSettingContainer">
                <Spin size="large" spinning={this.state.loading}>
                <Tabs defaultActiveKey="1" onChange={this.tabCallback}>
-               <TabPane tab="首页滚动图" key="1"><Carousel /></TabPane>
+               <TabPane tab="首页滚动图" key="1"><Carousel {...this.props}/></TabPane>
                <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>
              </Tabs>
                </Spin>

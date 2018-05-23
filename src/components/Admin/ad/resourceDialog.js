@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Pagination, Modal, Radio} from 'antd'
+import {Pagination, Modal, Radio, message, Upload, Icon} from 'antd'
+import Utility from 'UTIL/utility'
 
 const RadioGroup = Radio.Group
 
@@ -17,7 +18,7 @@ class ResourceDialog extends Component {
 
         this.searchPara = {
             pageIndex: 1,
-            pageSize: 10,
+            pageSize: 9,
             fileType: 2
         }
     }
@@ -43,11 +44,11 @@ class ResourceDialog extends Component {
                 onShowSizeChange: (current, pageSize) => {
                     this.searchPara.pageIndex = current
                     this.searchPara.pageSize = pageSize
-                    this.getData(this.searchPara)
+                    this.getDataReource(this.searchPara)
                 },
                 onChange: (current) => {
                     this.searchPara.pageIndex = current
-                    this.getData(this.searchPara)
+                    this.getDataReource(this.searchPara)
                 }
            },
            loading: false})
@@ -81,8 +82,25 @@ class ResourceDialog extends Component {
     
 
     render() {
-      
-       console.log('aaaa', this.state.dataSource)
+        const uploadObj = Utility.getUploadObj()
+        uploadObj.onChange = (info) => {
+            this.setState({loading: true, fileList: info.fileList})
+            if (info.file.status !== 'uploading') {
+
+            }
+            if (info.file.status === 'done') {
+                message.success(`上传成功`)
+                this.getDataReource(this.searchPara)
+                if (info.file.response) {
+                // let id = info.file.response.RetObj[0].Id
+                // let name = info.file.response.RetObj[0].Name
+                }
+                this.setState({loading: false, fileList: []})
+            } else if (info.file.status === 'error') {
+                message.error(`上传失败`)
+                this.setState({loading: false, fileList: []})
+            }
+        }
         return (
             <Modal
             maskClosable={false}
@@ -99,6 +117,21 @@ class ResourceDialog extends Component {
                 </RadioGroup>
                 </div>
             <div className="imgContainer">
+            <Upload
+                className="avatar-uploader-dialog"
+                name="avatar"
+                showUploadList={this.state.loading}
+                {...uploadObj} 
+                fileList={this.state.fileList}
+            >
+                {
+                    /*
+                imageUrl ?
+                    <img src={imageUrl} alt="" className="avatar" /> :
+                    */
+                   <Icon type="plus" className="avatar-uploader-trigger-dialog" />
+                }
+            </Upload>
             {
                            this.state.dataSource.map((cItem, cIndex) => {
                                if (cItem.FileType == '1') {
@@ -107,7 +140,7 @@ class ResourceDialog extends Component {
                                     )
                                } else {
                                     return (
-                                        <video src={cItem.PicUrl} title={cItem.PicName} onClick={this.props.resourceClick.bind(this, cItem)}/>
+                                       <span className="video"> <video src={cItem.PicUrl} title={cItem.PicName} onClick={this.props.resourceClick.bind(this, cItem)}/></span>
                                     )
                                }
                                

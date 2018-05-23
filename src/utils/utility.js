@@ -71,10 +71,10 @@ export default {
     timeFormaterString: function(value) {
         return value.format('YYYY/MM/DD HH:mm:ss')
     },
-    getUploadObj: function() {
+    getUploadObj: function(typ) {
         return {
             name: 'file',
-            action: Model.BaseSetting.Root + '/Common/PostUpload',
+            action: Model.BaseSetting.Root + '/Common/PostUpload?typ=' + typ,
             headers: {
                 'FH-COOKIES': JSON.stringify(this.Cookie.getValue('UserInfo'))
             },

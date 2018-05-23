@@ -718,14 +718,42 @@ body{
     cursor: pointer;
   }
 
-  &>video{
+  & video{
+    width: @resourceImg/2;
+    height: @resourceImg/2;
+    margin: 3px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .video{
+    display: inline-block;
     width: @resourceImg/2;
     height: @resourceImg/2;
     margin: 3px;
     cursor: pointer;
     border:1px solid @mainColor;
   }
+
+  .avatar-uploader-dialog{
+    padding-top: @resourceImg/4;
+    float: left;
+    cursor: pointer;
+    width: @resourceImg/2;
+    line-height: inherit;
+  }
+  
+  .avatar-uploader-trigger-dialog {
+    display: inline-block;
+    font-size: 28px;
+    color: #999;
+    width: @resourceImg/2;
+  }
 }
+
+
+
+
 
 .settingPanel{
   height: @threeScreenHeight;
@@ -761,3 +789,4 @@ body{
     padding: 15px;
   }
 }
+

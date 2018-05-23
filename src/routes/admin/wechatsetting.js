@@ -1,5 +1,11 @@
+import { injectReducer } from 'REDUCER'
 import Utility from 'UTIL/utility'
+import createContainer from 'UTIL/createContainer'
 
+const connectComponent = createContainer(
+  ({ wechatSetting }) => ({ wechatSetting }), // mapStateToProps
+  require('ACTION/Admin/websetting/webSettingAction').default               // mapActionCreators
+)
 
 export default {
   path: 'wechatsetting',
@@ -8,9 +14,9 @@ export default {
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       // 立即注入 Reducer
-      // injectReducer('userData', require('REDUCER/Admin/user/userReducer').default)
+      injectReducer('wechatSetting', require('REDUCER/Admin/websetting/webSettingReducer').default)
 
-      cb(null, require('VIEW/admin/wechatsetting').default)
+      cb(null, connectComponent(require('VIEW/admin/wechatsetting').default))
     }, 'wechatSettingView')
   },
 

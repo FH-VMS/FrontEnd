@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Table, Button} from 'antd'
+import {Icon, Table, Button, message, Avatar} from 'antd'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 
 const { Column } = Table
@@ -19,6 +19,22 @@ class Carousel extends Component {
     }
 
     resourceClick = (resourceItem, ev) => {
+        if (this.state.dataSource.length >= 5) {
+            message.warning('资源不能大于五个！')
+            return
+        }
+        let canPush = true
+        for (var i = 0; i < this.state.dataSource.length; i++) {
+            if (this.state.dataSource[i].PicId == resourceItem.PicId) {
+                canPush = false
+            }
+        }
+
+        if (canPush) {
+            this.state.dataSource.push(resourceItem)
+            this.setState({dataSource: this.state.dataSource})
+        }
+
     }
 
     chooseResource = () => {
@@ -27,9 +43,9 @@ class Carousel extends Component {
 
     /* *****************数组上下移动及删除操作**************** */
     arrDelete = (index) => {
-        let tmpArr = this.state.data.Resources[this.nowPosition]
+        let tmpArr = this.state.dataSource
         tmpArr.splice(index, 1)
-        this.setState({data: this.state.data})
+        this.setState({dataSource: this.state.dataSource})
         // this.generateAdData(tmpArr)
     }
 
@@ -47,31 +63,29 @@ class Carousel extends Component {
            return
        }
       
-       let tmpArr = this.state.data.Resources[this.nowPosition]
+       let tmpArr = this.state.dataSource
        tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
-       this.setState({data: this.state.data})
+       this.setState({dataSource: this.state.dataSource})
     }
 
     arrDown = (index) => {
-       if (index == this.state.data.Resources[this.nowPosition].length - 1) {
+       if (index == this.state.dataSource.length - 1) {
            return
        }
-       let tmpArr = this.state.data.Resources[this.nowPosition]
+       let tmpArr = this.state.dataSource
        tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
-       this.setState({data: this.state.data})
+       this.setState({dataSource: this.state.dataSource})
     }
 
     
   
     render() {
         
-        let tableResource = []
-        
         return (
             <div>
               <div className="uploadCarouselWarning"><Icon type="info-circle-o" /> <span>图片大小不能大于10kb,建议尺寸宽*高=375px*200px</span></div>
               <div className="uploadArea">
-              <Table dataSource={tableResource} pagination={false} showHeader={false}>
+              <Table dataSource={this.state.dataSource} pagination={false} showHeader={false}>
               <Column
                    title="序号"
                    key="index"
@@ -94,16 +108,6 @@ class Carousel extends Component {
                    title="名称"
                    dataIndex="PicName"
                    key="PicName"
-               />
-               <Column
-                   title="时长(秒)"
-                   dataIndex="PlayTime"
-                   key="PlayTime"
-                   render={(text, record, index) => (
-                       <Tooltip title="播放时长" trigger="focus">
-                         <InputNumber value={record.PlayTime} onChange={this.payTimeChange.bind(this, record)} min={0} max={999} defaultValue={0} precision={0} />
-                         </Tooltip>
-                       )}
                />
                <Column
                    title="移动"
