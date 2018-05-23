@@ -59,7 +59,7 @@ class My extends Component {
           </Item>
           <Item
           thumb={require('ASSET/img/wechat/service.png')}
-          onClick={() => {}}
+          onClick={() => {hashHistory.push('service' + this.props.location.search)}}
           arrow="horizontal"
         >
           联系客服

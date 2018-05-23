@@ -162,7 +162,8 @@ export default {
     require('./wechat/notservice').default,
     require('./wechat/order').default,
     require('./wechat/pay').default,
-    require('./wechat/myticket').default
+    require('./wechat/myticket').default,
+    require('./wechat/service').default
   ]
  }
 }
