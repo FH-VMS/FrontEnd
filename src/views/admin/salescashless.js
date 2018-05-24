@@ -307,6 +307,10 @@ class SalesCashless extends Component {
                                 return <span style={{color: 'red'}}>出货失败</span>
                             } else if (text == 6) {
                                 return <span style={{color: 'green'}}>已退款</span>
+                            } else if (text == 7) {
+                                return <span style={{color: 'blue', cursor: 'pointer'}}>待提货</span>
+                            } else if (text == 8) {
+                                return <span>已提货</span>
                             }
                         }
                       }
