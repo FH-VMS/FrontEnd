@@ -23,7 +23,8 @@ class Mall extends Component {
       tabTitles: [],
       tabContents: [],
       modal: false,
-      nowProduct: {}
+      nowProduct: {},
+      carouselData: []
     }
   }
   
@@ -59,7 +60,19 @@ class Mall extends Component {
         }
       })
     }
+
+    this.getCarousel()
     
+  }
+
+  getCarousel = () => {
+    if (this.props.location.query.clientId) {
+       this.props.fetchWechatSetting({clientId: this.props.location.query.clientId}).then(msg => {
+         if (this.props.wechat && this.props.wechat.wechatSettingData && this.props.wechat.wechatSettingData.CarouselJson) {
+           this.setState({carouselData: JSON.parse(this.props.wechat.wechatSettingData.CarouselJson)})
+         }
+       })
+    }
   }
 
   onWrapTouchStart = (e) => {
@@ -104,33 +117,20 @@ class Mall extends Component {
                 beforeChange={(from, to) => {}}
                 afterChange={index => {}}
             >
-              <img
-                src={`https://zos.alipayobjects.com/rmsportal/AiyWuByWklrrUDlFignR.png`}
-                alt=""
-                style={{ width: '100%', verticalAlign: 'top' }}
-                onLoad={() => {
-                  // fire window resize event to change height
-                  window.dispatchEvent(new Event('resize'))
-                }}
-              />
-              <img
-                src={`https://zos.alipayobjects.com/rmsportal/TekJlZRVCjLFexlOCuWn.png`}
-                alt=""
-                style={{ width: '100%', verticalAlign: 'top' }}
-                onLoad={() => {
-                  // fire window resize event to change height
-                  window.dispatchEvent(new Event('resize'))
-                }}
-              />
-              <img
-                src={`https://zos.alipayobjects.com/rmsportal/IJOtIlfsYdTyaDTRVrLI.png`}
-                alt=""
-                style={{ width: '100%', verticalAlign: 'top' }}
-                onLoad={() => {
-                  // fire window resize event to change height
-                  window.dispatchEvent(new Event('resize'))
-                }}
-              />
+              {
+                this.state.carouselData.map((item, index) => {
+                  return <img
+                        src={item.PicUrl}
+                        alt=""
+                        style={{ width: '100%', height: '3.5rem', verticalAlign: 'top', objectFit: 'cover' }}
+                        onLoad={() => {
+                          // fire window resize event to change height
+                          window.dispatchEvent(new Event('resize'))
+                        }}
+                      />
+                })
+              }
+              
             </Carousel>
             <Tabs tabs={this.state.tabTitles}
               initialPage={0}

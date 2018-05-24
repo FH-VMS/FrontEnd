@@ -9,7 +9,7 @@ class Carousel extends Component {
 		super(props)
         this.state = {
             visible: false,
-            dataSource: [],
+            dataSource: this.props.webInfo.CarouselJson ? JSON.parse(this.props.webInfo.CarouselJson) : [],
             loading: false
         }
     }
@@ -33,8 +33,13 @@ class Carousel extends Component {
         if (canPush) {
             this.state.dataSource.push(resourceItem)
             this.setState({dataSource: this.state.dataSource})
+            this.generateCarouselJson(this.state.dataSource)
         }
 
+    }
+
+    generateCarouselJson = (data) => {
+         this.props.webInfo.CarouselJson = JSON.stringify(data)
     }
 
     chooseResource = () => {
@@ -46,6 +51,7 @@ class Carousel extends Component {
         let tmpArr = this.state.dataSource
         tmpArr.splice(index, 1)
         this.setState({dataSource: this.state.dataSource})
+        this.generateCarouselJson(this.state.dataSource)
         // this.generateAdData(tmpArr)
     }
 
@@ -66,6 +72,7 @@ class Carousel extends Component {
        let tmpArr = this.state.dataSource
        tmpArr[index] = tmpArr.splice(index - 1, 1, tmpArr[index])[0]
        this.setState({dataSource: this.state.dataSource})
+       this.generateCarouselJson(this.state.dataSource)
     }
 
     arrDown = (index) => {
@@ -75,12 +82,22 @@ class Carousel extends Component {
        let tmpArr = this.state.dataSource
        tmpArr[index] = tmpArr.splice(index + 1, 1, tmpArr[index])[0]
        this.setState({dataSource: this.state.dataSource})
+       this.generateCarouselJson(this.state.dataSource)
+    }
+
+    saveCarousel = () => {
+        this.generateCarouselJson(this.state.dataSource)
+        this.props.saveWebSetting()
     }
 
     
   
     render() {
-        
+        if (this.props.webInfo && this.props.webInfo.CarouselJson) {
+            this.state.dataSource = JSON.parse(this.props.webInfo.CarouselJson)
+        } else {
+            this.state.dataSource = []
+        }
         return (
             <div>
               <div className="uploadCarouselWarning"><Icon type="info-circle-o" /> <span>图片大小不能大于10kb,建议尺寸宽*高=375px*200px</span></div>
@@ -125,6 +142,7 @@ class Carousel extends Component {
                        <Icon type="plus" /> 选择图片
                    </Button>
               </div>
+              <div className="wechatSettingBtn"><Button type="primary" onClick={this.saveCarousel}>保存</Button></div>
               <ResourceDialog 
               visible={this.state.visible} 
               handleOk={this.handleOk} 

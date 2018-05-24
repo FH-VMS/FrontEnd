@@ -296,6 +296,9 @@ const api = {
         },
         GetWaitingSalesList: function (data) {
             return apiService('Wechat', 'GetWaitingSalesList', 'GET', data)
+        },
+        GetWechatSetting: function (data) {
+            return apiService('Wechat', 'GetWechatSetting', 'GET', data)
         }
     },
     MachineCabinet: {
@@ -401,6 +404,14 @@ const api = {
         },
         GetRelationByIdAndType: function (data) {
           return apiService('Ad', 'GetRelationByIdAndType', 'GET', data)
+        }
+    },
+    WebSetting: {
+        GetData: function (data) {
+          return apiService('WebSetting', 'GetData', 'GET', data)
+        },
+        CreateWebInfo: function (data) {
+          return apiService('WebSetting', 'CreateWebInfo', 'POST', data)
         }
     },
     Privilege: {

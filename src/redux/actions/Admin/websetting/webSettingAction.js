@@ -1,9 +1,12 @@
 import apis from 'SERVICE/apis'
+import common from 'ACTION/Admin/common/commonAction'
 
 // ================================
 // Action Type
 // ================================
 const FETCH_RESOURCE = 'FETCH_RESOURCE'
+const FETCH_WEBSETTING = 'FETCH_WEBSETTING'
+const CREATE_WEBSETTING = 'CREATE_WEBSETTING'
 
 
 // ================================
@@ -22,11 +25,34 @@ const FETCH_RESOURCE = 'FETCH_RESOURCE'
       return msgs
   })
 
+  const fetchWebSetting = (queryBody) => dispatch =>
+  apis
+    .WebSetting
+    .GetData(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_WEBSETTING,
+         payload: msgs
+      })
+  })
+
+  const createWebSetting = (queryBody) => dispatch =>
+  apis
+    .WebSetting
+    .CreateWebInfo(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: CREATE_WEBSETTING,
+         payload: msgs
+      })
+      return msgs
+  })
+
 
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchResource
+    fetchResource, fetchWebSetting, createWebSetting, ...common
 }
 
 // ================================
@@ -41,7 +67,12 @@ export const ACTION_HANDLERS = {
     result.resourceData = payload.data
     result.resourcePager = payload.pager
       return {...result, ...payload}
-  }
+  },
+  [FETCH_WEBSETTING]: (result, { payload }) => {
+    result.webData = payload
+      return result
+  },
+  [CREATE_WEBSETTING]: (result, { payload }) => (payload)
 }
 
 
