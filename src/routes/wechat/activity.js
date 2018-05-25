@@ -1,4 +1,4 @@
-
+import $ from 'jquery'
 
 
 export default {
@@ -51,5 +51,11 @@ export default {
       onEnter: userAuth
     }
     * */
-    ]
+    ],
+    onEnter: () => {
+          $('body').css('background', '#ff5242')
+    },
+    onLeave: () => {
+        $('body').css('background', 'none')
+    }
   }
