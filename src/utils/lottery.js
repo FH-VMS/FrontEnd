@@ -1,5 +1,5 @@
 
-
+import jquery from 'jquery'
 // (function() {
     let $ = function(id) {
         return document.getElementById(id);
@@ -82,7 +82,7 @@ var transitionEnd = cssSupport.transitionEnd;
 function init(opts) {
   fnGetPrize = opts.getPrize;
   fnGotBack = opts.gotBack;
-
+  adapterCanvas(opts)
   opts.config(function(data) {
     prizes = opts.prizes = data;
     num = prizes.length;
@@ -128,13 +128,13 @@ function draw(opts) {
     // 开始一条新路径
     ctx.beginPath();
     // 位移到圆心，下面需要围绕圆心旋转
-    ctx.translate(200, 200);
+    ctx.translate(opts.width / 2, opts.width / 2);
     // 从(0, 0)坐标开始定义一条新的子路径
     ctx.moveTo(0, 0);
     // 旋转弧度,需将角度转换为弧度,使用 degrees * Math.PI/180 公式进行计算。
     ctx.rotate((360 / num * i - rotateDeg) * Math.PI / 180);
     // 绘制圆弧
-    ctx.arc(0, 0, 200, 0, 2 * Math.PI / num, false);
+    ctx.arc(0, 0, opts.width / 2, 0, 2 * Math.PI / num, false);
 
     // 颜色间隔
     if (i % 2 == 0) {
@@ -154,7 +154,7 @@ function draw(opts) {
     ctx.restore();
 
     // 奖项列表
-    html.push('<li class="gb-turntable-item"> <span style="' + transform + ': rotate(' + i * turnNum + 'turn)">' + opts.prizes[i] + '</span> </li>');
+    html.push('<li class="gb-turntable-item" style=""> <span style="' + transform + ': rotate(' + i * turnNum + 'turn);-webkit-transform-origin: 50% ' + opts.width / 2 + 'px;-ms-transform-origin: 50% ' + opts.width / 2 + 'px;transform-origin: 50% ' + opts.width / 2 + 'px;">' + opts.prizes[i] + '</span> </li>');
     if ((i + 1) === num) {
       prizeItems.className = 'gb-turntalbe-list';
       container.appendChild(prizeItems);
@@ -163,6 +163,22 @@ function draw(opts) {
 
   }
 
+ 
+
+}
+
+// 根据屏幕适应大小
+function adapterCanvas(opts) {
+  let ele = $(opts.id)
+  let canvas = ele.querySelector('.gb-turntable-canvas');
+  let btn = ele.querySelector('.gb-turntable-btn');
+  let canvasWidth = opts.width 
+  canvas.setAttribute('width', canvasWidth + 'px');
+  canvas.setAttribute('height', canvasWidth + 'px');
+  ele.style.height = canvasWidth + 'px'
+  ele.style.width = canvasWidth + 'px'
+  btn.style.left = canvasWidth / 2 - jquery('.gb-turntable-btn').width() / 2 + 'px'
+  btn.style.marginTop = canvasWidth / 2 - jquery('.gb-turntable-btn').width() / 2 + 'px'
 }
 
 /**

@@ -172,7 +172,7 @@
     "radix": 2,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
-    "semi": [2, "never"],
+    "semi": [1, "never"],
     "semi-spacing": 0,
     "sort-vars": 0,
     "space-after-keywords": [2, "always"],

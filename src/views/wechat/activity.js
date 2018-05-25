@@ -12,6 +12,7 @@ class Activity extends Component {
   }
 
   componentDidMount() {
+    let clientWidth = document.documentElement.clientWidth;
       gbTurntable.init({
         id: 'turntable',
         config: function(callback) {
@@ -26,7 +27,8 @@ class Activity extends Component {
         },
         gotBack: function(data) {
             alert('恭喜抽中' + data)
-        }
+        },
+        width: clientWidth * 0.7
     })
   }
 
@@ -39,8 +41,8 @@ class Activity extends Component {
               <div className="gb-turntable-container">
                   <canvas className="gb-turntable-canvas" width="400" height="400">抱歉！浏览器不支持。</canvas> 
               </div>
-
-              <a className="gb-turntable-btn" href="javascript:;">抽奖</a>    
+               
+              <a className="gb-turntable-btn" href="javascript:;"><span className="aSpan"></span>抽奖</a>    
           </section>
         </div>
         )
