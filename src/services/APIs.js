@@ -299,6 +299,12 @@ const api = {
         },
         GetWechatSetting: function (data) {
             return apiService('Wechat', 'GetWechatSetting', 'GET', data)
+        },
+        GetActivityPrivilegeList: function (data) {
+            return apiService('Wechat', 'GetActivityPrivilegeList', 'GET', data)
+        },
+        GetTicket: function (data) {
+            return apiService('Wechat', 'GetTicket', 'POST', data)
         }
     },
     MachineCabinet: {

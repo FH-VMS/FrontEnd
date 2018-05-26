@@ -26,7 +26,8 @@ class Privilege extends Component {
             loading: false,
             savePara: {},
             searchDatasource: [],
-            privilegeTypeDic: []
+            privilegeTypeDic: [],
+            timeRuleDic: []
         }
 
         this.searchPara = {
@@ -85,6 +86,14 @@ class Privilege extends Component {
       
     }
 
+    getTimeRuleDic = () => {
+        this.props.fetchDic({id: 'timerule'}).then(msg => {
+            if (msg) {
+              this.setState({timeRuleDic: msg})
+            }
+        })
+    }
+
     
     // 取数据方法
     getData = (val) => {
@@ -107,6 +116,10 @@ class Privilege extends Component {
            loading: false})
          }
       })
+    }
+
+    componentDidMount() {
+        this.getTimeRuleDic()
     }
     
     // 查询
@@ -168,7 +181,10 @@ class Privilege extends Component {
             
             return
         }
-        values.ExpireTime = Utility.timeFormaterString(values.ExpireTime)
+        if (values.ExpireTime) {
+            values.ExpireTime = Utility.timeFormaterString(values.ExpireTime)
+        }
+        
         // 更新
        if (this.state.savePara.PrivilegeId) {
            values.PrivilegeId = this.state.savePara.PrivilegeId
@@ -266,8 +282,8 @@ class Privilege extends Component {
                     />
                     <Column
                         title="类型"
-                        dataIndex="PrincipleType"
-                        key="PrincipleType"
+                        dataIndex="PrincipleTypeText"
+                        key="PrincipleTypeText"
                     />
                     <Column
                         title="金额"
@@ -307,8 +323,8 @@ class Privilege extends Component {
                     />
                     <Column
                         title="时间规则"
-                        dataIndex="TimeRule"
-                        key="TimeRule"
+                        dataIndex="TimeRuleText"
+                        key="TimeRuleText"
                     />
                       <Column
                         title="过期时间"
@@ -336,6 +352,19 @@ class Privilege extends Component {
                     }
                     />
                      <Column
+                        title="开始活动"
+                        dataIndex="StartTime"
+                        key="StartTime"
+                        render={(text, record) => {
+                            if (text == '0001-01-01T00:00:00') {
+                                return ''
+                            } else {
+                                return text.replace('T', ' ')
+                            }
+                        }
+                      }
+                    />
+                     <Column
                         title="创建日期"
                         dataIndex="CreateDate"
                         key="CreateDate"
@@ -358,7 +387,7 @@ class Privilege extends Component {
                         title={this.state.dialogTitle}
                         {...fields}
                         privilegeTypeDic={this.state.privilegeTypeDic}
-                        
+                        timeRuleDic={this.state.timeRuleDic}
                  />
                 </Spin>
            </div>

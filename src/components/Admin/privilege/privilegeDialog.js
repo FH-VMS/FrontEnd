@@ -23,6 +23,10 @@ const PrivilegeDialogForm = Form.create({
         ...props.ExpireTime,
         value: Utility.timeFormaterObj(props.ExpireTime)
       },
+      StartTime: {
+       ...props.StartTime,
+       value: Utility.timeFormaterObj(props.StartTime)
+     },
        TimeRule: {
         ...props.TimeRule,
         value: props.TimeRule
@@ -61,7 +65,7 @@ const PrivilegeDialogForm = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        userSelect: [],
+        timeRuleSelect: [],
         payConfigSelect: [],
         adDicSelect: [],
         isBind: props.IsBind
@@ -79,6 +83,15 @@ const PrivilegeDialogForm = Form.create({
       )
     })
     this.privilegeTypeDicSelect = typeDicSelect
+ }
+
+ getTimeRuleSelect = (data) => {
+  let timeRuleSelect = data.map((item, index) => {
+    return (
+      <Option value={item.Value}>{item.BookChinese}</Option>
+    )
+  })
+  this.timeRuleSelect = timeRuleSelect
  }
  
 
@@ -151,6 +164,7 @@ const PrivilegeDialogForm = Form.create({
       wrapperCol: { span: 14 }
     }
     this.getPrivilegeTypeSelect(this.props.privilegeTypeDic)
+    this.getTimeRuleSelect(this.props.timeRuleDic)
     // let userModel = model.User.UserModel
     return (
       
@@ -227,7 +241,7 @@ const PrivilegeDialogForm = Form.create({
             }]
           })(
               <Select>
-                 {this.state.userSelect}
+                 {this.timeRuleSelect}
             </Select>
           )}
         </FormItem>
@@ -305,6 +319,23 @@ const PrivilegeDialogForm = Form.create({
             <InputNumber />
           )}
         </FormItem>
+        <FormItem
+        {...formItemLayout}
+        label="开始时间："
+        hasFeedback
+      >
+        {getFieldDecorator('StartTime', {
+          rules: [{
+            required: false
+          }]
+        })(
+            <DatePicker 
+            showTime
+            format="YYYY-MM-DD HH:mm:ss"
+            style={{width: '100%'}}
+            />
+        )}
+      </FormItem>
         </Form>
       </Modal>
      

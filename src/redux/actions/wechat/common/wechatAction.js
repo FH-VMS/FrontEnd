@@ -9,6 +9,8 @@ const POST_WECHATPAY = 'POST_WECHATPAY'
 const FETCH_HISTORYSALESLIST = 'FETCH_HISTORYSALESLIST'
 const FETCH_WAITINGSALESLIST = 'FETCH_WAITINGSALESLIST'
 const FETCH_WECHATSETTING = 'FETCH_WECHATSETTING'
+const FETCH_ACTIVITYLIST = 'FETCH_ACTIVITYLIST'
+const GET_TICKET = 'GET_TICKET'
 
 // ================================
 // Action Creator
@@ -95,9 +97,33 @@ const FETCH_WECHATSETTING = 'FETCH_WECHATSETTING'
       })
   })
 
+  const fetchActivityList = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetActivityPrivilegeList(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_ACTIVITYLIST,
+         payload: msgs
+      })
+      return msgs
+  })
+
+  const getTicket = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetTicket(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: GET_TICKET,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket
 }
 
 // ================================
@@ -129,7 +155,9 @@ export const ACTION_HANDLERS = {
     result.wechatSettingData = payload
     return result
   },
-  [POST_WECHATPAY]: (result, { payload }) => ({payload})
+  [POST_WECHATPAY]: (result, { payload }) => ({payload}),
+  [FETCH_ACTIVITYLIST]: (result, { payload }) => ({payload}),
+  [GET_TICKET]: (result, { payload }) => ({payload})
 }
 
 

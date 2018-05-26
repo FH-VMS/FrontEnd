@@ -154,7 +154,7 @@ function draw(opts) {
     ctx.restore();
 
     // 奖项列表
-    html.push('<li class="gb-turntable-item" style=""> <span style="' + transform + ': rotate(' + i * turnNum + 'turn);-webkit-transform-origin: 50% ' + opts.width / 2 + 'px;-ms-transform-origin: 50% ' + opts.width / 2 + 'px;transform-origin: 50% ' + opts.width / 2 + 'px;">' + opts.prizes[i] + '</span> </li>');
+    html.push('<li class="gb-turntable-item" style=""> <span style="' + transform + ': rotate(' + i * turnNum + 'turn);-webkit-transform-origin: 50% ' + opts.width / 2 + 'px;-ms-transform-origin: 50% ' + opts.width / 2 + 'px;transform-origin: 50% ' + opts.width / 2 + 'px;">' + opts.prizes[i].Money + '元</span> </li>');
     if ((i + 1) === num) {
       prizeItems.className = 'gb-turntalbe-list';
       container.appendChild(prizeItems);
@@ -218,30 +218,36 @@ function runRotate(deg) {
  * @return {[type]} [description]
  */
 function events() {
-  bind(btn, 'click', function() {
-/*      var prizeId,
-        chances;*/
-
-    addClass(btn, 'disabled');
-
-    fnGetPrize(function(data) {
-      optsPrize = {
-        prizeId: data[0],
-        chances: data[1]
-      }
-      // 计算旋转角度
-      deg = deg || 0;
-      deg = deg + (360 - deg % 360) + (360 * 10 - data[0] * (360 / num))
-      runRotate(deg);
-    });
-
-    // 中奖提示
-    bind(container, transitionEnd, eGot);
-  });
+  fnGetPrize(function(oData) {
+      if (oData[1]) {
+      bind(btn, 'click', function() {
+        /*      var prizeId,
+                chances;*/
+        
+            addClass(btn, 'disabled');
+        
+            fnGetPrize(function(data) {
+              optsPrize = {
+                prizeId: data[0],
+                chances: data[1] - 1
+              }
+              // 计算旋转角度
+              deg = deg || 0;
+              deg = deg + (360 - deg % 360) + (360 * 10 - data[0] * (360 / num))
+              runRotate(deg);
+            });
+        
+            // 中奖提示
+            bind(container, transitionEnd, eGot);
+          });
+        }
+      });
 }
 
 function eGot() {
+  
     if (optsPrize.chances) removeClass(btn, 'disabled');  
+    
     fnGotBack(prizes[optsPrize.prizeId]);
 }
 

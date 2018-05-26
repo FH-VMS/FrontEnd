@@ -74,8 +74,6 @@ class Order extends Component {
     let {fetchHistorySalesList} = this.props
     
     fetchHistorySalesList(page).then(msg => {
-      console.log('pppp', this.props)
-           
             this.setState({
                 dataSource: this.state.ds.cloneWithRows([...this.state.data, ...this.props.wechat.historyList]),
                 isLoading: false,

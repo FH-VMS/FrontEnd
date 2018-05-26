@@ -1,10 +1,14 @@
 import React, {Component} from 'react'
 import 'ASSET/csslib/GB-canvas-turntable.less'
 import gbTurntable from 'UTIL/lottery'
+import {Toast} from 'antd-mobile'
 
 class Activity extends Component {
 	constructor(props) {
         super(props)
+        this.state = {
+            chance: 1
+        }
 	}
 
   componentWillMount() {
@@ -12,24 +16,58 @@ class Activity extends Component {
   }
 
   componentDidMount() {
-    let clientWidth = document.documentElement.clientWidth;
-      gbTurntable.init({
-        id: 'turntable',
-        config: function(callback) {
-            // 获取奖品信息
-            callback && callback(['1元红包', '2元红包', '3元红包', '4元红包', '5元红包', '6元红包'])  
-        },
-        getPrize: function(callback) {
-            // 获取中奖信息
-            let num = Math.random() * 6 >>> 0   // 奖品ID
-            let chances = num  // 可抽奖次数
-             callback && callback([num, chances]) 
-        },
-        gotBack: function(data) {
-            alert('恭喜抽中' + data)
-        },
-        width: clientWidth * 0.7
-    })
+    if (this.props.location.query.clientId) {
+        Toast.loading('加载中')
+        this.props.fetchActivityList({clientId: this.props.location.query.clientId, principleType: 2}).then(msg => {
+            let clientWidth = document.documentElement.clientWidth;
+            let obj = {
+                id: 'turntable',
+                config: (callback) => {
+                    // 获取奖品信息
+                    callback && callback(msg)  
+                },
+                getPrize: (callback) => {
+                    // 获取中奖信息
+                    let num = Math.random() * msg.length >>> 0   // 奖品ID
+                    // let chances = num  // 可抽奖次数
+                    let data = [num, this.state.chance]
+                    callback && callback(data) 
+                },
+                gotBack: (data) => {
+                    
+                    let tmpObj = {}
+                    
+                    var jsonUser = sessionStorage.getItem('wechatInfo')
+                    if (jsonUser) {
+                        let userObj = JSON.parse(jsonUser)
+                
+                        tmpObj.MemberId = userObj.openid
+                        tmpObj.PrivilegeId = data.PrivilegeId
+                        tmpObj.PrivilegeName = data.PrivilegeName
+                        tmpObj.ExpireTime = data.ExpireTime
+                        tmpObj.PrincipleType = data.PrincipleType
+                        tmpObj.UseMoneyLimit = data.UseMoneyLimit
+                        tmpObj.IsBind = data.IsBind
+                        tmpObj.ClientId = data.ClientId
+                        tmpObj.IsOverlay = data.IsOverlay
+                        tmpObj.SourceId = data.SourceId
+                        tmpObj.PrivilegeInstru = data.PrivilegeInstru
+                        tmpObj.Money = data.Money
+                        tmpObj.Discount = data.Discount
+                        tmpObj.ComeFrom = '转盘自摇'
+                        tmpObj.TimeRule = data.TimeRule
+                        this.props.getTicket({privilegeMemberInfo: tmpObj}).then(result => {
+                            // console.log('aaaa', result)
+                        })
+                     }
+                },
+                width: clientWidth * 0.7
+            }
+            gbTurntable.init(obj)
+            Toast.hide()
+        })
+    }
+    
   }
 
   render() {
