@@ -11,6 +11,7 @@ const FETCH_WAITINGSALESLIST = 'FETCH_WAITINGSALESLIST'
 const FETCH_WECHATSETTING = 'FETCH_WECHATSETTING'
 const FETCH_ACTIVITYLIST = 'FETCH_ACTIVITYLIST'
 const GET_TICKET = 'GET_TICKET'
+const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
 
 // ================================
 // Action Creator
@@ -121,9 +122,20 @@ const GET_TICKET = 'GET_TICKET'
       return msgs
   })
 
+  const fetchPrivilegeByMember = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetPrivilegeByMemberId(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRIVILEGEBYMEMBER,
+         payload: msgs
+      })
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember
 }
 
 // ================================
@@ -157,7 +169,11 @@ export const ACTION_HANDLERS = {
   },
   [POST_WECHATPAY]: (result, { payload }) => ({payload}),
   [FETCH_ACTIVITYLIST]: (result, { payload }) => ({payload}),
-  [GET_TICKET]: (result, { payload }) => ({payload})
+  [GET_TICKET]: (result, { payload }) => ({payload}),
+  [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => {
+    result.privilegeData = payload
+    return result
+  }
 }
 
 

@@ -63,6 +63,6 @@ export default {
           $('body').css('background', '#ff5242')
     },
     onLeave: () => {
-        $('body').css('background', 'none')
+        $('body').css('background', '#f5f5f9')
     }
   }
