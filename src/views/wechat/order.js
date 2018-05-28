@@ -36,10 +36,10 @@ class Order extends Component {
         return
       }
       let objMember = JSON.parse(memberInfo)
-      if (!objMember.OpenId) {
+      if (!objMember.openid) {
         return
       }
-      this.props.fetchWaitingSalesList({openid: objMember.OpenId}).then(msg => {
+      this.props.fetchWaitingSalesList({openid: objMember.openid}).then(msg => {
 
       })
   }
@@ -58,18 +58,16 @@ class Order extends Component {
 
 
   queryData = () => {
-    /*
     let memberInfo = sessionStorage.getItem('wechatInfo')
     if (!memberInfo) {
       return
     }
     let objMember = JSON.parse(memberInfo)
-    if (!objMember.OpenId) {
+    if (!objMember.openid) {
       return
     }
-    */
     let {page} = this.state
-    page.openId = 'ojoeH1UWqedvZUe2OMPrGvLLAqKI' // objMember.OpenId
+    page.openId = objMember.OpenId
   
     let {fetchHistorySalesList} = this.props
     

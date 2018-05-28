@@ -308,6 +308,9 @@ const api = {
         },
         GetPrivilegeByMemberId: function (data) {
             return apiService('Wechat', 'GetPrivilegeByMemberId', 'GET', data)
+        },
+        GetCanTakeTicketCount: function (data) {
+            return apiService('Wechat', 'GetCanTakeTicketCount', 'GET', data)
         }
     },
     MachineCabinet: {

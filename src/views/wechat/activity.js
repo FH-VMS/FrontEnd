@@ -17,6 +17,7 @@ class Activity extends Component {
 
   componentDidMount() {
     if (this.props.location.query.clientId) {
+        var jsonUser = sessionStorage.getItem('wechatInfo')
         Toast.loading('加载中')
         this.props.fetchActivityList({clientId: this.props.location.query.clientId, principleType: 2}).then(msg => {
             let clientWidth = document.documentElement.clientWidth;
@@ -30,14 +31,23 @@ class Activity extends Component {
                     // 获取中奖信息
                     let num = Math.random() * msg.length >>> 0   // 奖品ID
                     // let chances = num  // 可抽奖次数
-                    let data = [num, this.state.chance]
-                    callback && callback(data) 
+                    if (jsonUser) {
+                        this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, principleType: 2}).then(count => {
+                         
+                            let data = [num, count]
+                            callback && callback(data) 
+                        })
+                    } else {
+                        let data = [num, 0]
+                        callback && callback(data) 
+                    }
+                    
+                   
                 },
                 gotBack: (data) => {
                     
                     let tmpObj = {}
                     
-                    var jsonUser = sessionStorage.getItem('wechatInfo')
                     if (jsonUser) {
                         let userObj = JSON.parse(jsonUser)
                 
