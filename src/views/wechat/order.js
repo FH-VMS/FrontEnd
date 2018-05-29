@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Tabs, Badge, Button, ListView} from 'antd-mobile'
+import wechatUtility from 'UTIL/wechatUtility'
 import {hashHistory} from 'react-router'
 import ReactDOM from 'react-dom'
 
@@ -31,16 +32,16 @@ class Order extends Component {
   }
 
   queryWaitingData = () => {
-      let memberInfo = sessionStorage.getItem('wechatInfo')
-      if (!memberInfo) {
+   
+      let openIdVal = wechatUtility.GetMemberId()
+      if (!openIdVal) {
         return
       }
-      let objMember = JSON.parse(memberInfo)
-      if (!objMember.openid) {
-        return
-      }
-      this.props.fetchWaitingSalesList({openid: objMember.openid}).then(msg => {
-
+    
+      this.props.fetchWaitingSalesList({openId: openIdVal}).then(msg => {
+          if (this.props.wechat && this.props.wechat.waitingList) {
+            this.setState({waitingData: this.props.wechat.waitingList})
+          }
       })
   }
 
@@ -58,16 +59,12 @@ class Order extends Component {
 
 
   queryData = () => {
-    let memberInfo = sessionStorage.getItem('wechatInfo')
-    if (!memberInfo) {
-      return
-    }
-    let objMember = JSON.parse(memberInfo)
-    if (!objMember.openid) {
+    let openId = wechatUtility.GetMemberId()
+    if (!openId) {
       return
     }
     let {page} = this.state
-    page.openId = objMember.OpenId
+    page.openId = openId
   
     let {fetchHistorySalesList} = this.props
     
@@ -168,7 +165,20 @@ class Order extends Component {
         onTabClick={(tab, index) => { }}
       >
         <div className="tabItem">
-          <div className="noOrder">
+          {
+            this.state.waitingData.map((item, index) => {
+              return <div className="historyOrderRow">
+                      <div>
+                        <div>{item.WaresName}</div>
+                        <div>{item.TradeNo}</div>
+                      </div>
+                      <div className="pickUpCode">
+                        {item.PickupNo}
+                      </div>
+                  </div>
+            })
+          }
+          <div className="noOrder" style={{display: this.state.waitingData.length == 0 ? 'block' : 'none'}}>
             <div><img src={require('ASSET/img/wechat/cat.png')}/></div>
             <div>暂无订单</div>
             <div> <Button type="warning" inline size="small" onClick={() => {hashHistory.push('' + this.props.location.search)}}>去商城逛逛--></Button></div>

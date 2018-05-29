@@ -15,10 +15,18 @@ class EveryPrivilege extends Component {
 
   render() {
       let {ExpireTime, PrivilegeInstru, PrivilegeStatus} = this.props.data
+      var ex = new Date(ExpireTime)
+      var now = new Date()
+      let isExipire = false
+      if (now.getTime() > ex.getTime()) {
+        isExipire = true
+      }
       let tmpHtml = []
-      if (PrivilegeStatus == 1) {
+      if (PrivilegeStatus == 1 && !isExipire) {
         tmpHtml.push(<div>已领取</div>)
         tmpHtml.push(<div className="gotoUse">去使用</div>)
+      } else {
+        tmpHtml.push(<div>已失效</div>)
       }
       return (
         <div>
@@ -26,7 +34,7 @@ class EveryPrivilege extends Component {
                 <div>¥0.01</div>
                 <div>
                     <div>
-                        <div>失效时间: {ExpireTime} </div>
+                        <div>失效时间: {ExpireTime.replace('T', ' ')} </div>
                         <div>使用规则：{PrivilegeInstru}</div>
                     </div>
                   </div>

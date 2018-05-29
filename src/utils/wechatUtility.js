@@ -25,6 +25,14 @@ export default {
         } else {
             return false
         }
+    },
+    GetMemberId: function() {
+        let memberInfo = sessionStorage.getItem('wechatInfo')
+        if (!memberInfo) {
+            return ''
+        }
+
+        return JSON.parse(memberInfo).openid
     }
 }
 

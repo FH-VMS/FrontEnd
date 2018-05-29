@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import 'ASSET/csslib/GB-canvas-turntable.less'
 import gbTurntable from 'UTIL/lottery'
-import {Toast} from 'antd-mobile'
+import {Toast, Button} from 'antd-mobile'
+import {hashHistory} from 'react-router'
 
 class Activity extends Component {
 	constructor(props) {
         super(props)
         this.state = {
-            chance: 1
+            chance: 0
         }
 	}
 
@@ -33,7 +34,7 @@ class Activity extends Component {
                     // let chances = num  // 可抽奖次数
                     if (jsonUser) {
                         this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, principleType: 2}).then(count => {
-                         
+                            this.setState({chance: count})
                             let data = [num, count]
                             callback && callback(data) 
                         })
@@ -70,6 +71,10 @@ class Activity extends Component {
                             // console.log('aaaa', result)
                         })
                      }
+                     if (this.state.chance) {
+                        this.setState({chance: this.state.chance - 1})
+                     }
+                     
                 },
                 width: clientWidth * 0.7
             }
@@ -92,6 +97,10 @@ class Activity extends Component {
                
               <a className="gb-turntable-btn" href="javascript:;"><span className="aSpan"></span>抽奖</a>    
           </section>
+          <div className="lotteryText">
+            <div>今天还能抽{this.state.chance}次</div>
+            <div><Button type="ghost" size="small" inline onClick={() => {hashHistory.push('myticket' + this.props.location.search)}}>我的幸运</Button></div>
+          </div>
         </div>
         )
   }

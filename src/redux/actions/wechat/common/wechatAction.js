@@ -80,7 +80,7 @@ const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
   const fetchWaitingSalesList = (queryBody) => dispatch =>
   apis
     .Wechat
-    .GetHistorySalesList(queryBody)
+    .GetWaitingSalesList(queryBody)
     .then(msgs => {
       dispatch({
          type: FETCH_WAITINGSALESLIST,
