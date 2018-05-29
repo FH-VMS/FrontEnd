@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, List, Toast} from 'antd-mobile'
+import {Button, List, Toast, Badge} from 'antd-mobile'
 import wechatUtility from 'UTIL/wechatUtility'
 import {handleUrlParams} from 'UTIL/mobileUtility'
 
@@ -8,7 +8,10 @@ class Pay extends Component {
         super(props)
         this.state = {
           data: [],
-          totalFee: 0
+          totalFee: 0,
+          privilegeIds: '',
+          privilegeData: [],
+          chosenPrivilege: ''
         }
         this.payPara = {}
 	}
@@ -37,8 +40,8 @@ class Pay extends Component {
          tmpObj.IsGroup = item.IsGroup
          lstProductPay.push(tmpObj)
       })
-      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, lstProductPay: lstProductPay}).then(msg => {
-        let {RequestState, RequestData, ProductJson} = msg
+      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: '', lstProductPay: lstProductPay}).then(msg => {
+        let {RequestState, RequestData, ProductJson, PrivilegeJson} = msg
         if (RequestState == '0') {
           location.href = RequestData
         } else if (RequestState == '1') {
@@ -48,7 +51,13 @@ class Pay extends Component {
           products.map((item, index) => {
             fee = fee + item.TradeAmount * item.Number
           })
-          this.setState({data: products, totalFee: fee})
+          if (PrivilegeJson) {
+            let privilegeJsonObj = JSON.parse(PrivilegeJson)
+            this.setState({data: products, totalFee: fee - privilegeJsonObj[0].Money, privilegeData: privilegeJsonObj, chosenPrivilege: privilegeJsonObj[0]})
+          } else {
+            this.setState({data: products, totalFee: fee})
+          }
+          
           // this.handleProductJson(ProductJson, 'w')
           // Toast.hide()
         } else if (RequestState == '2') {
@@ -104,6 +113,9 @@ class Pay extends Component {
                 </List.Item>
          })
        }
+          <List.Item arrow="horizontal" style={{display: this.state.chosenPrivilege ? 'block' : 'none'}} extra={<span className="productNum" style={{color: '#f96268'}}>￥-{this.state.chosenPrivilege.Money}</span>}>
+              <Badge text="红包" style={{ padding: '0 3px', backgroundColor: '#f96268', borderRadius: 2 }} /> {this.state.chosenPrivilege.PrivilegeName}
+          </List.Item>
          <List.Item>
            总额：<span className="productPrice">￥{this.state.totalFee.toFixed(2)}</span>
          </List.Item>
