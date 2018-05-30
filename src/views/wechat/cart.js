@@ -58,6 +58,7 @@ class Cart extends Component {
  }
 
  sumPay = () => {
+  sessionStorage.removeItem('immeditelypay')
   hashHistory.push('pay' + this.props.location.search)
  }
 

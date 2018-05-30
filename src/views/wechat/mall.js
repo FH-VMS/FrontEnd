@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Carousel, Tabs, Badge, Modal, Stepper} from 'antd-mobile'
+import {hashHistory} from 'react-router'
 import PropTypes from 'prop-types'
 
 import EveryTab from 'COMPONENT/wechat/mall/everyTab'
@@ -99,7 +100,11 @@ class Mall extends Component {
 
   // 去结算
   gotoPay = () => {
-
+     if (!this.state.nowProduct.chosenNum) {
+        this.state.nowProduct.chosenNum = 1
+     }
+     sessionStorage.setItem('immeditelypay', JSON.stringify([this.state.nowProduct]))
+     hashHistory.push('pay' + this.props.location.search)
   }
 
   addToCart = () => {

@@ -21,7 +21,14 @@ class Pay extends Component {
   }
 
   componentDidMount() {
-    let chosenProducts = wechatUtility.Cart.getData()
+    let chosenProducts = ''
+    let immedite = sessionStorage.getItem('immeditelypay')
+    if (immedite) {
+      chosenProducts = immedite
+    } else {
+      chosenProducts = wechatUtility.Cart.getData()
+    }
+    // let chosenProducts = wechatUtility.Cart.getData()
     if (chosenProducts) {
       let searchPara = handleUrlParams(window.location.href.split('?')[1])
       let wechatInfo = sessionStorage.getItem('wechatInfo')
@@ -40,7 +47,7 @@ class Pay extends Component {
          tmpObj.IsGroup = item.IsGroup
          lstProductPay.push(tmpObj)
       })
-      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: '', lstProductPay: lstProductPay}).then(msg => {
+      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: this.state.privilegeIds, lstProductPay: lstProductPay}).then(msg => {
         let {RequestState, RequestData, ProductJson, PrivilegeJson} = msg
         if (RequestState == '0') {
           location.href = RequestData
