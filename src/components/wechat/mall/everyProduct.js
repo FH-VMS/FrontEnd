@@ -16,9 +16,10 @@ class EveryProduct extends Component {
 
   render() {
       let {PicUrl, WaresName, WaresUnitPrice} = this.props.dataItem
+      
       return (
         <div className="everyProduct" onClick={this.props.onClick}>
-            <div className="productImgArea" style={{backgroundImage: `url(${PicUrl})`}}></div>
+            <div className="productImgArea" style={{backgroundImage: `url('${PicUrl}')`}}></div>
             <div className="productDescription">
             <Badge text={`¥${WaresUnitPrice}`} style={{ padding: '0 3px', borderRadius: 0 }} className="productPrice" /><Badge text={WaresName.length > 6 ? WaresName.substr(0, 6) + '...' : WaresName} style={{
               padding: '0 3px',

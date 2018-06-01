@@ -154,7 +154,7 @@ function draw(opts) {
     ctx.restore();
 
     // 奖项列表
-    html.push('<li class="gb-turntable-item" style=""> <span style="' + transform + ': rotate(' + i * turnNum + 'turn);-webkit-transform-origin: 50% ' + opts.width / 2 + 'px;-ms-transform-origin: 50% ' + opts.width / 2 + 'px;transform-origin: 50% ' + opts.width / 2 + 'px;">' + opts.prizes[i].Money + '元</span> </li>');
+    html.push('<li class="gb-turntable-item" style=""> <span style="' + transform + ': rotate(' + i * turnNum + 'turn);-webkit-transform-origin: 50% ' + opts.width / 2 + 'px;-ms-transform-origin: 50% ' + opts.width / 2 + 'px;transform-origin: 50% ' + opts.width / 2 + 'px;">' + opts.prizes[i].DisplayText + '</span> </li>');
     if ((i + 1) === num) {
       prizeItems.className = 'gb-turntalbe-list';
       container.appendChild(prizeItems);

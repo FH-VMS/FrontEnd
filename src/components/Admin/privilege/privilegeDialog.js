@@ -58,6 +58,14 @@ const PrivilegeDialogForm = Form.create({
     PrivilegeInstru: {
         ...props.PrivilegeInstru,
         value: props.PrivilegeInstru
+    },
+    DisplayText: {
+        ...props.DisplayText,
+        value: props.DisplayText
+    },
+    PrincipleGroup: {
+        ...props.PrincipleGroup,
+        value: props.PrincipleGroup
     }
     }
   }
@@ -68,11 +76,22 @@ const PrivilegeDialogForm = Form.create({
         timeRuleSelect: [],
         payConfigSelect: [],
         adDicSelect: [],
-        isBind: props.IsBind
+        isBind: props.IsBind,
+        formItem: [],
+        isRound: false,
+        pricipleType: 1
       }
     }
 
     componentWillMount() {
+    }
+
+    groupChange = (val) => {
+      if (val == '1') {
+        this.setState({isRound: true})
+      } else {
+        this.setState({isRound: false})
+      }
     }
 
 
@@ -84,6 +103,15 @@ const PrivilegeDialogForm = Form.create({
     })
     this.privilegeTypeDicSelect = typeDicSelect
  }
+
+ getPrivilegeGroupSelect = (data) => {
+  let typeDicSelect = data.map((item, index) => {
+     return (
+       <Option value={item.Value}>{item.BookChinese}</Option>
+     )
+   })
+   this.privilegeGroupDicSelect = typeDicSelect
+}
 
  getTimeRuleSelect = (data) => {
   let timeRuleSelect = data.map((item, index) => {
@@ -142,6 +170,12 @@ const PrivilegeDialogForm = Form.create({
   }
 
   componentDidMount() {
+    if (this.props.PricipleType) {
+      this.setState({pricipleType: this.props.PricipleType})
+    } else {
+      this.setState({pricipleType: 1})
+    }
+   
   }
 
   isBindProduct = (e) => {
@@ -156,16 +190,91 @@ const PrivilegeDialogForm = Form.create({
     return true
 }
 
+getFormItems = (val) => {
+  let items = []
+  switch (val) {
+    case '1':
+    items.push({label: '券额：', key: 'Money', rules: [{
+      required: true, message: '券额必填'
+    }],
+     control: <InputNumber min={0} step={0.01} max={100} precision={2}/>
+   })
+    break
+    case '2':
+    items.push({label: '券折扣：', key: 'Discount', rules: [{
+      required: true, message: '折扣必填'
+    }],
+    control: <InputNumber min={0} max={10} step={0.1} precision={1}/>})
+    break
+    case '3':
+    items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
+      required: true, message: '选择赠送商品：'
+    }],
+    control: <Select>
+      
+    </Select>})
+    break
+    case '4':
+    items.push({label: '券额：', key: 'Money', rules: [{
+      required: true, message: '券额必填'
+    }],
+     control: <InputNumber min={0} step={0.01} max={100} precision={2}/>
+   },
+  )
+  items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
+    required: true, message: '选择赠送商品：'
+  }],
+  control: <Select>
+    
+  </Select>})
+    break
+    case '5':
+    items.push({label: '券折扣：', key: 'Discount', rules: [{
+      required: true, message: '折扣必填'
+    }],
+    control: <InputNumber min={0} max={10} step={0.1} precision={1}/>})
+    items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
+      required: true, message: '选择赠送商品：'
+    }],
+    control: <Select>
+      
+    </Select>})
+    break
+  }
+
+  return items
+}
+
+principleTypeChange = (val) => {
+  this.setState({pricipleType: val})
+}
+
     render() {
     const { visible, form, title} = this.props
-    const { getFieldDecorator } = form
+    const { getFieldDecorator, getFieldValue } = form
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
     }
     this.getPrivilegeTypeSelect(this.props.privilegeTypeDic)
+    this.getPrivilegeGroupSelect(this.props.privilegeGroupDic)
     this.getTimeRuleSelect(this.props.timeRuleDic)
     // let userModel = model.User.UserModel
+    // alert(this.state.pricipleType)
+    
+    const items = this.getFormItems(getFieldValue('PrincipleType')).map((item, index) => {
+      return <FormItem
+      {...formItemLayout}
+      label={item.label}
+      hasFeedback
+    >
+      {getFieldDecorator(item.key, {
+        rules: item.rules
+      })(
+        item.control
+      )}
+    </FormItem>
+    }) 
     return (
       
       <Modal
@@ -189,6 +298,19 @@ const PrivilegeDialogForm = Form.create({
            <Input />
           )}
         </FormItem>
+        <FormItem
+        {...formItemLayout}
+        label="展示名称："
+        hasFeedback
+      >
+        {getFieldDecorator('DisplayText', {
+          rules: [{
+            required: true, message: '展示名称'
+          }]
+        })(
+         <Input />
+        )}
+      </FormItem>
          <FormItem
           {...formItemLayout}
           label="券类型："
@@ -199,35 +321,41 @@ const PrivilegeDialogForm = Form.create({
               required: true, message: '券类型必选'
             }]
           })(
-            <Select>
+            <Select onChange={this.principleTypeChange}>
                {this.privilegeTypeDicSelect}
             </Select>
           )}
         </FormItem>
         <FormItem
         {...formItemLayout}
-        label="券额："
+        label="券组："
         hasFeedback
+        
       >
-        {getFieldDecorator('Money', {
+        {getFieldDecorator('PrincipleGroup', {
           rules: [{
-            validator: this.checkMoneyRule
+            required: false
           }]
         })(
-          <InputNumber min={0} step={0.01} max={100} precision={2}/>
+          <Select allowClear={true} onChange={this.groupChange}>
+             {this.privilegeGroupDicSelect}
+          </Select>
         )}
       </FormItem>
+      {
+        items
+      }
       <FormItem
       {...formItemLayout}
-      label="券折扣："
+      label="使用金额限制："
       hasFeedback
     >
-      {getFieldDecorator('Discount', {
+      {getFieldDecorator('UseMoneyLimit', {
         rules: [{
-          validator: this.checkMoneyRule
+          required: false
         }]
       })(
-        <InputNumber min={0} max={10} step={0.1} precision={1}/>
+         <InputNumber min={0} step={0.01} max={10000} precision={2}/>
       )}
     </FormItem>
         <FormItem
@@ -240,7 +368,7 @@ const PrivilegeDialogForm = Form.create({
               validator: this.checkTimeRule
             }]
           })(
-              <Select>
+              <Select allowClear={true}>
                  {this.timeRuleSelect}
             </Select>
           )}
@@ -274,38 +402,7 @@ const PrivilegeDialogForm = Form.create({
             <Checkbox></Checkbox>
           )}
         </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="是否绑定商品："
-        >
-          {getFieldDecorator('IsBind', {
-            rules: [{
-              required: false
-            }]
-          })(
-             <Checkbox onChange={this.isBindProduct}></Checkbox>
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="选择绑定商品："
-          hasFeedback
-          style={{display: this.state.isBind ? 'inherit' : 'none'}}
-        >
-          {getFieldDecorator('BindProductIds', {
-            rules: [{
-              required: false
-            }]
-          })(
-            <Select
-            mode="multiple"
-            placeholder=""
-            defaultValue={[]}
-            style={{ width: '100%' }}
-          >
-          </Select>
-          )}
-        </FormItem>
+        
         <FormItem
           {...formItemLayout}
           label="券数量："

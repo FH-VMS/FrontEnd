@@ -27,7 +27,8 @@ class Privilege extends Component {
             savePara: {},
             searchDatasource: [],
             privilegeTypeDic: [],
-            timeRuleDic: []
+            timeRuleDic: [],
+            privilegeGroupDic: []
         }
 
         this.searchPara = {
@@ -82,7 +83,11 @@ class Privilege extends Component {
             this.setState({searchDatasource: searchDatasource, machineTypeDic: msg, loading: false, privilegeTypeDic: msg})
           }
       })
-   
+      this.props.fetchDic({id: 'privilegegroup'}).then(msg => {
+        if (msg) {
+          this.setState({loading: false, privilegeGroupDic: msg})
+        }
+    })
       
     }
 
@@ -183,6 +188,16 @@ class Privilege extends Component {
         }
         if (values.ExpireTime) {
             values.ExpireTime = Utility.timeFormaterString(values.ExpireTime)
+        }
+        if (values.StartTime) {
+            values.StartTime = Utility.timeFormaterString(values.StartTime)
+        }
+        if (values.IsBind) {
+            values.IsBind = 1
+        }
+
+        if (values.IsOverlay) {
+            values.IsOverlay = 1
         }
         
         // 更新
@@ -387,6 +402,7 @@ class Privilege extends Component {
                         title={this.state.dialogTitle}
                         {...fields}
                         privilegeTypeDic={this.state.privilegeTypeDic}
+                        privilegeGroupDic={this.state.privilegeGroupDic}
                         timeRuleDic={this.state.timeRuleDic}
                  />
                 </Spin>

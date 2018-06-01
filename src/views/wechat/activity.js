@@ -49,7 +49,7 @@ class Activity extends Component {
     if (this.props.location.query.clientId) {
         var jsonUser = sessionStorage.getItem('wechatInfo')
         Toast.loading('加载中')
-        this.props.fetchActivityList({clientId: this.props.location.query.clientId, principleType: 2}).then(msg => {
+        this.props.fetchActivityList({clientId: this.props.location.query.clientId, principleType: 1}).then(msg => {
             let clientWidth = document.documentElement.clientWidth;
             let obj = {
                 id: 'turntable',
