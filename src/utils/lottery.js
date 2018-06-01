@@ -219,8 +219,9 @@ function runRotate(deg) {
  */
 function events() {
   fnGetPrize(function(oData) {
-      if (oData[1]) {
-      bind(btn, 'click', function() {
+     if (oData[1]) {
+      
+      bind(btn, 'click', function(ev) {
         /*      var prizeId,
                 chances;*/
         
@@ -239,16 +240,18 @@ function events() {
         
             // 中奖提示
             bind(container, transitionEnd, eGot);
+            ev.stopPropagation();
           });
-        }
-      });
+       }
+    });
 }
 
-function eGot() {
+function eGot(ev) {
   
     if (optsPrize.chances) removeClass(btn, 'disabled');  
     
     fnGotBack(prizes[optsPrize.prizeId]);
+    ev.stopPropagation();
 }
 
 
@@ -261,6 +264,7 @@ function eGot() {
 function bind(ele, event, fn) {
     if (typeof addEventListener === 'function') {
         ele.addEventListener(event, fn, false);
+        event.stopPropagation();
     } else if (ele.attachEvent) {
         ele.attachEvent('on' + event, fn);   
     }  

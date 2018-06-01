@@ -39,6 +39,9 @@ class Map extends Component {
 
         return (
             <div className="mapContainer">
+                <div className="machineArea">
+                   
+                </div>
                 <div id="allmap">
                 
                 </div>

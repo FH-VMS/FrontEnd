@@ -355,10 +355,17 @@ body{
 }
 
 // 地图
-.mapContainer>div{
-  width: 100%;
-  height: 800px;
-  overflow: hidden;
+.mapContainer{
+  &>div:last-child{
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+  }
+
+  .machineArea{
+    position: absolute;
+    
+  }
 }
 
 
