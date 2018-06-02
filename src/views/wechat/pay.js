@@ -64,7 +64,7 @@ class Pay extends Component {
             if (privilegeJsonObj[0].Money && privilegeJsonObj[0].Money > 0) {
               finalFee = fee - privilegeJsonObj[0].Money
             } else {
-              finalFee = (fee * privilegeJsonObj[0].Discount) / 100
+              finalFee = (fee * privilegeJsonObj[0].Discount) / 10
             }
             this.setState({data: products, totalFee: finalFee, privilegeData: privilegeJsonObj, chosenPrivilege: privilegeJsonObj[0]})
           } else {
@@ -133,7 +133,7 @@ class Pay extends Component {
                 </List.Item>
          })
        }
-          <List.Item arrow="horizontal" style={{display: this.state.chosenPrivilege ? 'block' : 'none'}} extra={<span className="productNum" style={{color: '#f96268'}}>￥-{privilegeText}</span>}>
+          <List.Item arrow="horizontal" style={{display: this.state.chosenPrivilege ? 'block' : 'none'}} extra={<span className="productNum" style={{color: '#f96268'}}>{privilegeText}</span>}>
               <Badge text="红包" style={{ padding: '0 3px', backgroundColor: '#f96268', borderRadius: 2 }} /> {this.state.chosenPrivilege.PrivilegeName}
           </List.Item>
          <List.Item>
