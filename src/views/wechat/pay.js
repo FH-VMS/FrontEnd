@@ -11,7 +11,7 @@ class Pay extends Component {
           totalFee: 0,
           privilegeIds: '',
           privilegeData: [],
-          chosenPrivilege: ''
+          chosenPrivilege: []
         }
         this.payPara = {}
 	}
@@ -48,27 +48,32 @@ class Pay extends Component {
          lstProductPay.push(tmpObj)
       })
       this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: this.state.privilegeIds, lstProductPay: lstProductPay}).then(msg => {
-        let {RequestState, RequestData, ProductJson, PrivilegeJson} = msg
+        let {RequestState, RequestData, ProductJson, PrivilegeJson, TotalMoney} = msg
         if (RequestState == '0') {
           location.href = RequestData
         } else if (RequestState == '1') {
           this.payPara = JSON.parse(RequestData)
           let products = JSON.parse(ProductJson)
+          
+          /*
           let fee = 0
           products.map((item, index) => {
             fee = fee + item.TradeAmount * item.Number
           })
+          */
           if (PrivilegeJson) {
             let privilegeJsonObj = JSON.parse(PrivilegeJson)
+            /*
             let finalFee = 0
             if (privilegeJsonObj[0].Money && privilegeJsonObj[0].Money > 0) {
               finalFee = fee - privilegeJsonObj[0].Money
             } else {
               finalFee = (fee * privilegeJsonObj[0].Discount) / 10
             }
-            this.setState({data: products, totalFee: finalFee, privilegeData: privilegeJsonObj, chosenPrivilege: privilegeJsonObj[0]})
+            */
+            this.setState({data: products, totalFee: TotalMoney, privilegeData: privilegeJsonObj})
           } else {
-            this.setState({data: products, totalFee: fee})
+            this.setState({data: products, totalFee: TotalMoney})
           }
           
           // this.handleProductJson(ProductJson, 'w')
@@ -114,6 +119,7 @@ class Pay extends Component {
  
 
   render() {
+    /*
     let privilegeText = ''
     let {Money, Discount} = this.state.chosenPrivilege
     if (Money && Money > 0) {
@@ -121,6 +127,7 @@ class Pay extends Component {
     } else {
       privilegeText = Discount + '折'
     }
+    */
       return (
         <div className="payContainer">
         <div id="aliForm" style={{display: 'none'}}></div>
@@ -133,9 +140,14 @@ class Pay extends Component {
                 </List.Item>
          })
        }
-          <List.Item arrow="horizontal" style={{display: this.state.chosenPrivilege ? 'block' : 'none'}} extra={<span className="productNum" style={{color: '#f96268'}}>{privilegeText}</span>}>
-              <Badge text="红包" style={{ padding: '0 3px', backgroundColor: '#f96268', borderRadius: 2 }} /> {this.state.chosenPrivilege.PrivilegeName}
-          </List.Item>
+       {
+         this.state.privilegeData.map((item, index) => {
+           return <List.Item arrow="horizontal" extra={<span className="productNum" style={{color: '#f96268'}}>{item.DisplayText}</span>}>
+                      <Badge text="红包" style={{ padding: '0 3px', backgroundColor: '#f96268', borderRadius: 2 }} /> {item.PrivilegeName}
+                  </List.Item>
+         })
+       }
+          
          <List.Item>
            总额：<span className="productPrice">￥{this.state.totalFee.toFixed(2)}</span>
          </List.Item>

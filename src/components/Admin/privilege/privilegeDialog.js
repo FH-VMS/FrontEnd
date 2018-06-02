@@ -79,11 +79,14 @@ const PrivilegeDialogForm = Form.create({
         isBind: props.IsBind,
         formItem: [],
         isRound: false,
-        pricipleType: 1
+        pricipleType: 1,
+        productDic: [],
+        productDicSelect: ''
       }
     }
 
     componentWillMount() {
+      
     }
 
     groupChange = (val) => {
@@ -190,6 +193,20 @@ const PrivilegeDialogForm = Form.create({
     return true
 }
 
+getProductSelect = () => {
+  if (this.state.productDic.length == 0) {
+    this.props.fetchProductDic().then(msg => {
+       if (msg) {
+        let productSelectLet = msg.map((item, index) => {
+          return <Option value={item.Id}>{item.Name}</Option>
+        })
+        this.setState({productDicSelect: productSelectLet})
+       }
+    })
+  }
+  
+}
+
 getFormItems = (val) => {
   let items = []
   switch (val) {
@@ -210,9 +227,14 @@ getFormItems = (val) => {
     items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
       required: true, message: '选择赠送商品：'
     }],
-    control: <Select>
-      
-    </Select>})
+    control: <Select
+    showSearch
+    style={{ width: '100%' }}
+    placeholder="选择商品"
+    optionFilterProp="children"
+    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+>{this.state.productDicSelect}</Select>})
+    this.getProductSelect()
     break
     case '4':
     items.push({label: '券额：', key: 'Money', rules: [{
@@ -227,6 +249,7 @@ getFormItems = (val) => {
   control: <Select>
     
   </Select>})
+  
     break
     case '5':
     items.push({label: '券折扣：', key: 'Discount', rules: [{

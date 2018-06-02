@@ -99,6 +99,8 @@ class Activity extends Component {
                         tmpObj.Discount = data.Discount
                         tmpObj.ComeFrom = '转盘自摇'
                         tmpObj.TimeRule = data.TimeRule
+                        tmpObj.BindProductIds = data.BindProductIds
+                        tmpObj.DisplayText = data.DisplayText
                         this.props.getTicket({privilegeMemberInfo: tmpObj}).then(result => {
                             // console.log('aaaa', result)
                             if (result && this.state.chance) {

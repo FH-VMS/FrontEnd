@@ -404,6 +404,7 @@ class Privilege extends Component {
                         privilegeTypeDic={this.state.privilegeTypeDic}
                         privilegeGroupDic={this.state.privilegeGroupDic}
                         timeRuleDic={this.state.timeRuleDic}
+                        fetchProductDic={this.props.fetchProductDic}
                  />
                 </Spin>
            </div>

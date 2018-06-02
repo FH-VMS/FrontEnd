@@ -10,6 +10,7 @@ const FETCH_CABINETDIC = 'FETCH_CABINETDIC'
 const FETCH_PAYCONFIGDIC = 'FETCH_PAYCONFIGDIC'
 const FETCH_ADDIC = 'FETCH_ADDIC'
 const FETCH_PRODUCTTYPEDIC = 'FETCH_PRODUCTTYPEDIC'
+const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -132,8 +133,21 @@ const fetchDic = (searParam) => dispatch =>
             return msgs
        })
 
+       // 取商品字典
+  const fetchProductDic = () => dispatch =>
+  apis
+    .Common
+    .GetProductDic()
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRODUCTDIC,
+         payload: msgs
+      })
+      return msgs
+  })
+
 export default {
-  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic
+  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, fetchProductDic
 }
 
 export const ACTION_HANDLERS = {
@@ -168,6 +182,10 @@ export const ACTION_HANDLERS = {
   [FETCH_ADDIC]: (result, { payload }) => ({payload}),
   [FETCH_PRODUCTTYPEDIC]: (result, { payload }) => {
     result.productTypeDic = payload
+    return result
+},
+[FETCH_PRODUCTDIC]: (result, { payload }) => {
+    result.DicData = payload
     return result
 }
 }
