@@ -140,7 +140,7 @@ class Mall extends Component {
             <Tabs tabs={this.state.tabTitles}
               initialPage={0}
               onChange={this.tabChange.bind(this)}
-              onTabClick={(tab, index) => { console.log('onTabClick', index, tab) }}
+              onTabClick={(tab, index) => { }}
             >
               {this.state.tabContents}
             </Tabs>
