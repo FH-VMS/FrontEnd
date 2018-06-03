@@ -1,10 +1,10 @@
-import { Modal, Form, Input, DatePicker, InputNumber, Select, Upload, Icon, Button, message } from 'antd'
+import { Modal, Form, Input, InputNumber, Select, Upload, Icon, Button, message } from 'antd'
 import Utility from 'UTIL/utility'
 import React, {Component} from 'react'
 const FormItem = Form.Item
 const Option = Select.Option
 
-const ProductListDialog = Form.create({
+const ProductGroupDialog = Form.create({
   mapPropsToFields(props) {
     return {
        WaresName: {
@@ -14,30 +14,6 @@ const ProductListDialog = Form.create({
        WaresUnitPrice: {
         ...props.WaresUnitPrice,
         value: props.WaresUnitPrice
-      },
-       WaresWeight: {
-        ...props.WaresWeight,
-        value: props.WaresWeight
-      },
-       WaresSpecifications: {
-        ...props.WaresSpecifications,
-        value: props.WaresSpecifications
-      },
-       WaresManufactureDate: {
-        ...props.WaresManufactureDate,
-        value: Utility.dateFormaterObj(props.WaresManufactureDate)
-      },
-       WaresQualityPeriod: {
-        ...props.WaresQualityPeriod,
-        value: Utility.dateFormaterObj(props.WaresQualityPeriod)
-      },
-       WaresTypeId: {
-        ...props.WaresTypeId,
-        value: props.WaresTypeId
-      },
-       SupplierId: {
-        ...props.SupplierId,
-        value: props.SupplierId
       },
        PicId: {
         ...props.PicId,
@@ -53,8 +29,7 @@ const ProductListDialog = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        picSelect: [],
-        productTypeSelect: []
+        picSelect: []
       }
     }
 
@@ -65,9 +40,6 @@ const ProductListDialog = Form.create({
          this.getPicSelect(msg)
       })
 
-      this.props.fetchProductTypeDic().then(msg => {
-         this.getProductTypeSelect(msg)
-      })
     }
 
    getPicSelect = (data) => {
@@ -82,15 +54,6 @@ const ProductListDialog = Form.create({
      }
    }
 
-   getProductTypeSelect = (data) => {
-    if (data) {
-      let letProductTypeSelect = data.map((item, index) => {
-        return <Option value={item.Id}>{item.Name}</Option>
-      })
-
-      this.setState({productTypeSelect: letProductTypeSelect})
-    }
-  }
 
   componentDidMount() {
   }
@@ -148,12 +111,12 @@ const ProductListDialog = Form.create({
         <Form horizontal>
          <FormItem
           {...formItemLayout}
-          label="商品名称："
+          label="商品组名称："
           hasFeedback
         >
           {getFieldDecorator('WaresName', {
             rules: [{
-              required: true, message: '商品名称必填'
+              required: true, message: '商品组名称必填'
             }]
           })(
            <Input />
@@ -172,87 +135,7 @@ const ProductListDialog = Form.create({
            <InputNumber step="0.01" />
           )}
         </FormItem>
-         <FormItem
-          {...formItemLayout}
-          label="重量："
-          hasFeedback
-        >
-          {getFieldDecorator('WaresWeight', {
-            rules: [{
-              validator: this.checkNum
-            }]
-          })(
-           <InputNumber step="0.01" />
-          )}克
-        </FormItem>
-         <FormItem
-          {...formItemLayout}
-          label="规格："
-          hasFeedback
-        >
-          {getFieldDecorator('WaresSpecifications', {
-            rules: [{
-              required: false, message: '规格必选'
-            }]
-          })(
-           <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="生产日期："
-          hasFeedback
-        >
-          {getFieldDecorator('WaresManufactureDate', {
-            rules: [{
-              required: false
-            }]
-          })(
-             <DatePicker />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="保质期至："
-          hasFeedback
-        >
-          {getFieldDecorator('WaresQualityPeriod', {
-            rules: [{
-              required: false
-            }]
-          })(
-              <DatePicker />
-          )}
-        </FormItem>
-        
-         <FormItem
-          {...formItemLayout}
-          label="所属类型："
-          hasFeedback
-        >
-          {getFieldDecorator('WaresTypeId', {
-            rules: [{
-              required: false, message: '所属类型必填'
-            }]
-          })(
-             <Select>
-             {this.state.productTypeSelect}
-             </Select>
-          )}
-        </FormItem>
-          <FormItem
-          {...formItemLayout}
-          label="供应商："
-          hasFeedback
-        >
-          {getFieldDecorator('SupplierId', {
-            rules: [{
-              required: false, message: '供应商'
-            }]
-          })(
-             <Select></Select>
-          )}
-        </FormItem>
+         
        
         <FormItem
           {...formItemLayout}
@@ -305,4 +188,4 @@ const ProductListDialog = Form.create({
   }
 )
 
-export default ProductListDialog
+export default ProductGroupDialog

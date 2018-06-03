@@ -196,6 +196,24 @@ const api = {
             return apiService('ProductType', 'DeleteData', 'DELETE', data)
         }
     }, 
+    /* ***********************商品组************************ */
+    ProductGroup: {
+        GetData: function (data) {
+            return apiService('ProductGroup', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+            return apiService('ProductGroup', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+            return apiService('ProductGroup', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+            return apiService('ProductGroup', 'DeleteData', 'DELETE', data)
+        },
+        GetProductRelationById: function (data) {
+            return apiService('ProductGroup', 'GetProductRelationById', 'GET', data)
+        }
+    }, 
     SaleCashless: {
       GetData: function (data) {
           return apiService('SaleCashless', 'GetData', 'GET', data)
