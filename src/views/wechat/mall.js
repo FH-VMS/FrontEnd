@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Carousel, Tabs, Badge, Modal, Stepper} from 'antd-mobile'
+import {Carousel, Tabs, Modal, Stepper, Badge} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 import PropTypes from 'prop-types'
 
@@ -48,8 +48,36 @@ class Mall extends Component {
 
   componentDidMount() {
     if (this.props.location.query.clientId) {
-      this.props.fetchProductType({clientId: this.props.location.query.clientId}).then(msg => {
-        if (this.props.wechat.productTypeData.length > 0) {
+      // this.props.fetchProductType({clientId: this.props.location.query.clientId}).then(msg => {
+        // if (this.props.wechat.productTypeData.length > 0) {
+          this.props.fetchProduct({typeId: '', clientId: this.props.location.query.clientId}).then(msg => {
+            let productObj = {}
+            let productTypeArr = []
+            if (this.props.wechat.productData) {
+              
+              this.props.wechat.productData.map((item, index) => {
+                 if (!productObj[item.WaresTypeId]) {
+                    productTypeArr.push({productTypeId: item.WaresTypeId, productTypeName: item.WaresTypeText})
+                    productObj[item.WaresTypeId] = []
+                    productObj[item.WaresTypeId].push(item)
+                   
+                 } else {
+                   productObj[item.WaresTypeId].push(item)
+                 }
+
+                 
+              })
+              let tabTitles = []
+              let tabContents = []
+              productTypeArr.map((item, index) => {
+                tabTitles.push({ title: <Badge>{item.productTypeName}</Badge> })
+                tabContents.push(<EveryTab chooseProduct={this.chooseProduct} data={productObj[item.productTypeId]} />)
+               })
+               this.setState({productType: this.props.wechat.productTypeData, tabTitles: tabTitles, tabContents: tabContents})
+              // this.setState({data: this.props.wechat.productData})
+            }
+         })
+          /*
           let tabTitles = []
           let tabContents = []
           this.props.wechat.productTypeData.map((item, index) => {
@@ -57,9 +85,10 @@ class Mall extends Component {
             tabContents.push(<EveryTab chooseProduct={this.chooseProduct} tabSource = {item} {...this.props} />)
           })
           this.setState({productType: this.props.wechat.productTypeData, tabTitles: tabTitles, tabContents: tabContents})
+          */
           // this.getProductById(0)
-        }
-      })
+        // }
+      // })
     }
 
     this.getCarousel()

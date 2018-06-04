@@ -14,7 +14,7 @@ class EveryTab extends Component {
   }
 
   componentDidMount() {
-    this.getProductById()
+   // this.getProductById()
   }
 
   getProductById = () => {
@@ -34,7 +34,7 @@ class EveryTab extends Component {
       return (
         <div className="tabItem">
             {
-                this.state.data && this.state.data.map((item, index) => {
+                this.props.data && this.props.data.map((item, index) => {
                     return <EveryProduct onClick={this.props.chooseProduct.bind(this, item)} dataItem = {item} />
                 })
             }
