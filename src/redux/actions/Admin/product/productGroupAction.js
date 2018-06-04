@@ -7,6 +7,7 @@ const FETCH_PRODUCTGROUP = 'FETCH_PRODUCTGROUP'
 const ADD_PRODUCTGROUP = 'ADD_PRODUCTGROUP'
 const UPDATE_PRODUCTGROUP = 'UPDATE_PRODUCTGROUP'
 const DELETE_PRODUCTGROUP = 'DELETE_PRODUCTGROUP'
+const FETCH_PRODUCTGROUPBYID = 'FETCH_PRODUCTGROUPBYID'
 
 // ================================
 // Action Creator
@@ -60,10 +61,22 @@ const updateProductGroup = (updBody) => dispatch =>
   })
 
 
+  const fetchProductGroupById = (queryBody) => dispatch =>
+  apis
+    .ProductGroup
+    .GetProductRelationById(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRODUCTGROUPBYID,
+         payload: msgs
+      })
+  })
+
+
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchProductGroup, addProductGroup, updateProductGroup, deleteProductGroup, ...common
+    fetchProductGroup, addProductGroup, updateProductGroup, deleteProductGroup, fetchProductGroupById, ...common
 }
 
 // ================================
@@ -81,7 +94,11 @@ export const ACTION_HANDLERS = {
   },
   [ADD_PRODUCTGROUP]: (result, { payload }) => ({payload}),
   [UPDATE_PRODUCTGROUP]: (result, { payload }) => ({payload}),
-  [DELETE_PRODUCTGROUP]: (result, { payload }) => ({payload})
+  [DELETE_PRODUCTGROUP]: (result, { payload }) => ({payload}),
+  [FETCH_PRODUCTGROUPBYID]: (result, { payload }) => {
+    result.groupData = payload
+    return result
+}
 }
 
 

@@ -7,6 +7,7 @@ import $ from 'jquery'
 
 class ApiService {
 	apiServiceMethod(apimodule, apiname, type, parameters, excel) {
+		message.loading('', 0)
         const domain = Model.BaseSetting.Root
 		const deferred = $.Deferred()
 		var method = type.toUpperCase()
@@ -130,9 +131,11 @@ class ApiService {
                     } else {
                         deferred.resolve(RetObj, response)
                         console.error(' Error Message : [ code : ' + RetCode + ' ]' + RetMsg + ' 返回信息没有RetCode ')
-                    }
+					}
+					message.destroy()
 		})
 		.fail(function(err) {
+			message.destroy()
              console.error(err)
 		})
 

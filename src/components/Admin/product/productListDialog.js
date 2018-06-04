@@ -144,6 +144,7 @@ const ProductListDialog = Form.create({
         title={title}
         onCancel={onCancel}
         onOk={onCreate}
+        maskClosable={false}
       >
         <Form horizontal>
          <FormItem

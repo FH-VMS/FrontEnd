@@ -95,7 +95,17 @@ class ProductGroup extends Component {
          if (txt == '创建') {
            this.setState({ visible: true, savePara: {} })
          } else {
-            this.setState({ visible: true, savePara: item })
+            this.props.fetchProductGroupById().then(msg => {
+                let {groupData} = this.props.productGroup
+                if (groupData) {
+                    item.ProductRelation = []
+                    $.each(groupData, (index, eItem) => {
+                       item.ProductRelation.push(eItem.WaresId)
+                    })
+                }
+                this.setState({ visible: true, savePara: item })
+            })
+            
          }
          
     }
@@ -128,11 +138,15 @@ class ProductGroup extends Component {
         if (err) {
             return
         }
-        
+        if (values.ProductRelation && values.ProductRelation.length > 0) {
+            values.lstProductRelation = []
+            $.each(values.ProductRelation, (index, item) => {
+                values.lstProductRelation.push({WaresId: item})
+            })
+        }
         // 更新
        if (this.state.savePara.WaresId) {
            values.WaresId = this.state.savePara.WaresId
-           console.log('values', values)
            this.props.updateProductGroup({productListInfo: values}).then((msg) => {
                if (msg) {
                   message.success('更新成功')
@@ -261,6 +275,8 @@ class ProductGroup extends Component {
                         title="添加商品组"
                         {...fields}
                         fetchPictureDic={this.props.fetchPictureDic}
+                        fetchProductDic={this.props.fetchProductDic}
+                        fetchProductTypeDic={this.props.fetchProductTypeDic}
                  />
                 </Spin>
            </div>

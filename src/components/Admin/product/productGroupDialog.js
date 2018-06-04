@@ -19,9 +19,17 @@ const ProductGroupDialog = Form.create({
         ...props.PicId,
         value: props.PicId
       },
+      WaresTypeId: {
+       ...props.WaresTypeId,
+       value: props.WaresTypeId
+     },
        WaresDescription: {
         ...props.WaresDescription,
         value: props.WaresDescription
+      },
+      ProductRelation: {
+        ...props.ProductRelation,
+        value: props.ProductRelation
       }
     }
   }
@@ -29,7 +37,10 @@ const ProductGroupDialog = Form.create({
     constructor(props) {
       super(props)
       this.state = {
-        picSelect: []
+        picSelect: [],
+        productDicSelect: [],
+        productDic: [],
+        productTypeSelect: []
       }
     }
 
@@ -40,6 +51,21 @@ const ProductGroupDialog = Form.create({
          this.getPicSelect(msg)
       })
 
+      
+      this.props.fetchProductTypeDic().then(msg => {
+          this.getProductTypeSelect(msg)
+      })
+
+    }
+
+    getProductTypeSelect = (data) => {
+      if (data) {
+        let letProductTypeSelect = data.map((item, index) => {
+          return <Option value={item.Id}>{item.Name}</Option>
+        })
+  
+        this.setState({productTypeSelect: letProductTypeSelect})
+      }
     }
 
    getPicSelect = (data) => {
@@ -56,6 +82,21 @@ const ProductGroupDialog = Form.create({
 
 
   componentDidMount() {
+    this.getProductSelect()
+  }
+
+  getProductSelect = () => {
+    if (this.state.productDic.length == 0) {
+      this.props.fetchProductDic().then(msg => {
+         if (msg) {
+          let productSelectLet = msg.map((item, index) => {
+            return <Option value={item.Id}>{item.Name}</Option>
+          })
+          this.setState({productDicSelect: productSelectLet})
+         }
+      })
+    }
+    
   }
 
    checkNum = (rule, value, callback) => {
@@ -64,6 +105,14 @@ const ProductGroupDialog = Form.create({
          return
       }
      callback('不能为空')
+    }
+
+    checkProductRelation = (rule, value, callback) => {
+      if (value.length == 0) {
+        callback('至少选一个商品')
+      } else {
+        callback()
+      }
     }
 
   radioChange = (value) => {
@@ -107,6 +156,7 @@ const ProductGroupDialog = Form.create({
         title={title}
         onCancel={onCancel}
         onOk={onCreate}
+        maskClosable={false}
       >
         <Form horizontal>
          <FormItem
@@ -135,8 +185,42 @@ const ProductGroupDialog = Form.create({
            <InputNumber step="0.01" />
           )}
         </FormItem>
-         
        
+        <FormItem
+        {...formItemLayout}
+        label="对应商品："
+        hasFeedback
+      >
+        {getFieldDecorator('ProductRelation', {
+          rules: [{
+            validator: this.checkProductRelation
+          }]
+        })(
+          <Select
+          mode="multiple"
+          showSearch
+          style={{ width: '100%' }}
+          placeholder="选择商品"
+          optionFilterProp="children"
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+      >{this.state.productDicSelect}</Select>
+        )}
+      </FormItem>
+      <FormItem
+      {...formItemLayout}
+      label="所属类型："
+      hasFeedback
+    >
+      {getFieldDecorator('WaresTypeId', {
+        rules: [{
+          required: false, message: '所属类型必填'
+        }]
+      })(
+         <Select>
+         {this.state.productTypeSelect}
+         </Select>
+      )}
+    </FormItem>
         <FormItem
           {...formItemLayout}
           label="图片："
