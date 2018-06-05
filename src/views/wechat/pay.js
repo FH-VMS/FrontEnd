@@ -47,10 +47,11 @@ class Pay extends Component {
          tmpObj.IsGroup = item.IsGroup
          lstProductPay.push(tmpObj)
       })
+    
       this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: this.state.privilegeIds, lstProductPay: lstProductPay}).then(msg => {
         let {RequestState, RequestData, ProductJson, PrivilegeJson, TotalMoney} = msg
         if (RequestState == '0') {
-          location.href = RequestData
+          // location.href = RequestData
         } else if (RequestState == '1') {
           this.payPara = JSON.parse(RequestData)
           let products = JSON.parse(ProductJson)

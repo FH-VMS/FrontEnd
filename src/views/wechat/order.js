@@ -181,7 +181,7 @@ class Order extends Component {
           <div className="noOrder" style={{display: this.state.waitingData.length == 0 ? 'block' : 'none'}}>
             <div><img src={require('ASSET/img/wechat/cat.png')}/></div>
             <div>暂无订单</div>
-            <div> <Button type="warning" inline size="small" onClick={() => {hashHistory.push('' + this.props.location.search)}}>去商城逛逛--></Button></div>
+            <div> <Button type="warning" inline size="small" onClick={() => {hashHistory.push('/' + this.props.location.search)}}>去商城逛逛--></Button></div>
           </div>
         </div>
         <div className="tabItem">

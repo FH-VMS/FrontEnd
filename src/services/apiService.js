@@ -7,7 +7,7 @@ import $ from 'jquery'
 
 class ApiService {
 	apiServiceMethod(apimodule, apiname, type, parameters, excel) {
-		message.loading('', 0)
+		// message.loading('', 0)
         const domain = Model.BaseSetting.Root
 		const deferred = $.Deferred()
 		var method = type.toUpperCase()
@@ -135,7 +135,7 @@ class ApiService {
 					message.destroy()
 		})
 		.fail(function(err) {
-			message.destroy()
+			// message.destroy()
              console.error(err)
 		})
 

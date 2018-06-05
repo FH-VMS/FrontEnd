@@ -28,7 +28,7 @@ class WechatFrame extends Component {
         super(props)
         this.state = {
            selectedTab: 'mall',
-           canLoad: true,
+           canLoad: false,
            cartCount: 0
         }
   }
@@ -91,21 +91,20 @@ class WechatFrame extends Component {
   }
 
   componentWillMount() {
- 
+    
     Toast.loading('加载中')
     let searchPara = handleUrlParams(window.location.href.split('?')[1])
     if (!searchPara.clientId) {
-        hashHistory.push('notservice')
+        hashHistory.push('/notservice')
         return
     }
-    
     if (!sessionStorage.getItem('wechatInfo')) {
         if (location.href.split('?').length > 2) {
           let reallyUrlArr = location.href.split('#')[0].split('?')
           location.href = reallyUrlArr[0] + '#/?' + reallyUrlArr[1]
           return
         }
-    
+        
         if (wechatUtility.isWeiXin()) {
           
           if (!searchPara.code) {

@@ -47,23 +47,28 @@ class My extends Component {
             thumb={require('ASSET/img/wechat/order.png')}
             arrow="horizontal"
             extra="查看列表"
-            onClick={() => {hashHistory.push('order' + this.props.location.search)}}
+            onClick={() => {hashHistory.push('/order' + this.props.location.search)}}
           >我的订单</Item>
           <Item
             thumb={require('ASSET/img/wechat/ticket.png')}
-            onClick={() => {hashHistory.push('myticket' + this.props.location.search)}}
+            onClick={() => {hashHistory.push('/myticket' + this.props.location.search)}}
             extra="查看优惠券"
             arrow="horizontal"
           >
             我的优惠券
           </Item>
-          <Item
+          {
+            /*
+             <Item
           thumb={require('ASSET/img/wechat/service.png')}
-          onClick={() => {hashHistory.push('service' + this.props.location.search)}}
+          onClick={() => {hashHistory.push('/service' + this.props.location.search)}}
           arrow="horizontal"
         >
           联系客服
         </Item>
+            */
+          }
+         
         <Item
         thumb={require('ASSET/img/wechat/position.png')}
         onClick={() => {}}
