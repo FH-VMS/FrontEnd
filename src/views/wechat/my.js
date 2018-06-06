@@ -71,7 +71,7 @@ class My extends Component {
          
         <Item
         thumb={require('ASSET/img/wechat/position.png')}
-        onClick={() => {}}
+        onClick={() => {hashHistory.push('/around' + this.props.location.search)}}
         arrow="horizontal"
       >
         附近咖啡机
