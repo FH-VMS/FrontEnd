@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, message, Spin, Input } from 'antd'
+import { Table, Spin, Input } from 'antd'
 import DetailDialog from 'COMPONENT/admin/member/privilegeDetailDialog'
 
 const { Column } = Table
@@ -11,7 +11,7 @@ class Member extends Component {
     constructor(props) {
 		super(props)
         this.state = {
-            visible: false,
+            detailVisible: false,
             dataSource: [],
             dialogTitle: '添加优惠券',
             auth: {
@@ -24,7 +24,7 @@ class Member extends Component {
                 defaultPageSize: model.BaseSetting.PageSize
             },
             loading: false,
-            savePara: {},
+            nowRecord: '',
             searchDatasource: [{
                 label: '昵称',
                 name: 'nickName',
@@ -38,10 +38,6 @@ class Member extends Component {
         }
     }
 
-    /* *********************拷贝机器操作方法******************************* */
-    saveCopyFormRef = (form) => {
-        this.copyForm = form
-    }
 
 
     componentWillMount() {
@@ -84,18 +80,7 @@ class Member extends Component {
     
     // 新增或修改
     showDialog = (txt, item, e) => {
-         if (txt == '创建') {
-           this.setState({ visible: true, savePara: {}, dialogTitle: '赠送优惠券' })
-         } else {
-             if (parseFloat(item.Discount, 0) == 0) {
-                item.Discount = ''
-             }
-             if (parseFloat(item.Money, 0) == 0) {
-                item.Money = ''
-             }
-            this.setState({ visible: true, savePara: item, dialogTitle: '赠送优惠券' })
-         }
-         
+           this.setState({ detailVisible: true, nowRecord: item, dialogTitle: '赠送优惠券' })
     }
     
     
@@ -105,16 +90,14 @@ class Member extends Component {
     
     
     /* ****************************对弹出框form的操作方法********************************** */
-    saveFormRef = (form) => {
-        this.form = form
-    }
+  
 
     handleCancel = () => {
-        this.setState({ visible: false })
+        this.setState({ detailVisible: false })
     }
 
     handleCreate = () => {
-        
+        /*
         const form = this.form
         form.validateFields((err, values) => {
         if (err) {
@@ -150,6 +133,8 @@ class Member extends Component {
         form.resetFields()
         this.setState({ visible: false })
         })
+        */
+        this.setState({ detailVisible: false })
     }
 
      /* ****************************对弹出框form的操作方法********************************** */
@@ -164,7 +149,7 @@ class Member extends Component {
                         <span>
                              <a>赠券</a>
                              <span className="ant-divider" />
-                             <a>优惠券详情</a>
+                             <a onClick={this.showDialog.bind(this, '优惠券详情', record)}>优惠券详情</a>
                         </span>
                         )}
                     />
@@ -174,7 +159,7 @@ class Member extends Component {
             key="action"
             render={(text, record) => (
             <span>
-                  <a>优惠券详情</a>
+                  <a onClick={this.showDialog.bind(this, '优惠券详情', record)}>优惠券详情</a>
             </span>
             )}
         />
@@ -184,11 +169,6 @@ class Member extends Component {
 
     render() {
         this.getAuth()
-        
-        
-
-        // 修改时直接绑定参数
-        const fields = this.state.savePara
         
         return (
             <div>
@@ -206,10 +186,10 @@ class Member extends Component {
                         dataIndex="Sex"
                         key="Sex"
                         render={(text, record) => {
-                            if (text) {
-                                return text
+                            if (text == '1') {
+                                return '男'
                             } else {
-                                return '-'
+                                return '女'
                             }
                         }
                         }
@@ -252,13 +232,13 @@ class Member extends Component {
                    {this.DeleteAndModify}
               </Table>
               
-              <DetailDialog ref={this.saveFormRef}
-                        visible={this.state.visible}
-                        onCancel={this.handleCancel}
-                        onCreate={this.handleCreate}
-                        title={this.state.dialogTitle}
-                        {...fields}
-                        
+              <DetailDialog
+                    visible={this.state.detailVisible}
+                    onCancel={this.handleCancel}
+                    onCreate={this.handleCreate}
+                    title={this.state.dialogTitle}
+                    nowRecord={this.state.nowRecord}
+                    fetchPrivilegeByMember={this.props.fetchPrivilegeByMember}
                  />
                 </Spin>
            </div>

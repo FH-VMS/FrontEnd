@@ -5,6 +5,7 @@ import apis from 'SERVICE/apis'
 // ================================
 const FETCH_MEMBER = 'FETCH_MEMBER'
 const GIVE_PRIVILEGE = 'GIVE_PRIVILEGE'
+const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
 
 // ================================
 // Action Creator
@@ -34,11 +35,23 @@ const givePrivilege = (queryBody) => dispatch =>
   })
 
 
+  const fetchPrivilegeByMember = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetPrivilegeByMemberId(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRIVILEGEBYMEMBER,
+         payload: msgs
+      })
+      return msgs
+  })
+
 
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchMemberList, givePrivilege
+    fetchMemberList, givePrivilege, fetchPrivilegeByMember
 }
 
 // ================================
@@ -54,7 +67,8 @@ export const ACTION_HANDLERS = {
       result.pager = payload.pager
       return result
   },
-  [givePrivilege]: (result, { payload }) => ({payload})
+  [givePrivilege]: (result, { payload }) => ({payload}),
+  [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => ({payload})
 }
 
 
