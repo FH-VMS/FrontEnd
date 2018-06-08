@@ -4,7 +4,7 @@ import model from 'STORE/model'
 
 const { Column } = Table
 
-class PrivilegeDetailDialog extends Component {
+class PrivilegeListDialog extends Component {
     constructor(props) {
       super(props)
       this.state = {
@@ -12,7 +12,8 @@ class PrivilegeDetailDialog extends Component {
           pagination: {
               defaultPageSize: model.BaseSetting.PageSize
           },
-          canLoad: true
+          canLoad: true,
+          selectedRowKeys: []
       }
 
       this.searchPara = {
@@ -34,16 +35,14 @@ class PrivilegeDetailDialog extends Component {
 
     generatePrivilegeList = () => {
       // let {page} = this.state
-      console.log('oooooo', this.props.nowRecord)
-      this.searchPara.memberId = this.props.nowRecord.OpenId
     
-      let {fetchPrivilegeByMember} = this.props
+      let {fetchPrivilegeList} = this.props
       this.state.canLoad = false
-      fetchPrivilegeByMember(this.searchPara).then(msg => {
-                console.log('00000', this.props)
+      fetchPrivilegeList(this.searchPara).then(msg => {
+          console.log('aaaaa', this.props.member)
               this.setState({
-                  dataSource: this.props.member.privilegeData, pagination: {
-                  total: this.props.member.privilegePager.TotalRows,
+                  dataSource: this.props.member.privilegeListData, pagination: {
+                  total: this.props.member.privilegeListPager.TotalRows,
                   showSizeChanger: true,
                   onShowSizeChange: (current, pageSize) => {
                       this.searchPara.pageIndex = current
@@ -78,10 +77,21 @@ class PrivilegeDetailDialog extends Component {
         this.props.onCreate()
     }
 
+    onSelectChange = (selectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys)
+        this.setState({ selectedRowKeys })
+    }
+
     render() {
     const { visible, title} = this.props
     if (visible && this.state.canLoad) {
       this.generatePrivilegeList()
+    }
+    const { selectedRowKeys } = this.state
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+      type: 'radio'
     }
     return (
       
@@ -90,42 +100,18 @@ class PrivilegeDetailDialog extends Component {
         title={title}
         onCancel={this.onCancel}
         onOk={this.onCreate}
-        style={{minWidth: '700px'}}
+        style={{minWidth: '800px'}}
       >
-      <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
+      <Table rowSelection={rowSelection} dataSource={this.state.dataSource} pagination={this.state.pagination}>
           <Column
               title="券名"
               dataIndex="PrivilegeName"
               key="PrivilegeName"
           />
           <Column
-              title="状态"
-              dataIndex="Status"
-              key="Status"
-              render={(text, record) => {
-               
-                if (record.PrivilegeStatus == 2) {
-                   return '已使用'
-                } else {
-                    var ex = new Date(record.ExpireTime)
-                    var now = new Date()
-                    let isExipire = false
-                    if (now.getTime() > ex.getTime()) {
-                        isExipire = true
-                    }
-                    if (isExipire) {
-                        return '已过期'
-                    } else {
-                        return '已领取'
-                    }
-                }
-              }
-              }
-          />
-          <Column
               title="类型"
-              dataIndex="PrivilegeTypeText"
-              key="PrivilegeTypeText"
+              dataIndex="PrincipleTypeText"
+              key="PrincipleTypeText"
           />
           <Column
               title="券额(折扣或赠品)"
@@ -145,6 +131,42 @@ class PrivilegeDetailDialog extends Component {
             }
           />
           <Column
+                title="数量"
+                dataIndex="Numbers"
+                key="Numbers"
+            />
+            <Column
+                title="过期规则"
+                dataIndex="TimeRuleText"
+                key="TimeRuleText"
+            />
+            <Column
+                title="是否可叠加"
+                dataIndex="IsOverlay"
+                key="IsOverlay"
+                render={(text, record) => {
+                    if (text) {
+                        return '是'
+                    } else {
+                        return '否'
+                    }
+                  }
+                }
+            />
+            <Column
+                title="是否绑定商品"
+                dataIndex="IsBind"
+                key="IsBind"
+                render={(text, record) => {
+                    if (text) {
+                        return '是'
+                    } else {
+                        return '否'
+                    }
+                  }
+                }
+            />
+          <Column
               title="使用限额"
               dataIndex="UseMoneyLimit"
               key="UseMoneyLimit"
@@ -158,15 +180,12 @@ class PrivilegeDetailDialog extends Component {
             }
           />
           <Column
-          title="使用日期"
-          dataIndex="HappenDate"
-          key="HappenDate"
+          title="开始时间"
+          dataIndex="StartTime"
+          key="StartTime"
           render={(text, record) => {
-              if (record.PrivilegeStatus != 2) {
-                  return '-'
-              }
               if (text == '0001-01-01T00:00:00') {
-                  return ''
+                  return '立即'
               } else {
                   return text.replace('T', ' ')
               }
@@ -174,18 +193,19 @@ class PrivilegeDetailDialog extends Component {
         }
       />
           <Column
-              title="领取日期"
-              dataIndex="GetDate"
-              key="GetDate"
-              render={(text, record) => {
-                  if (text == '0001-01-01T00:00:00') {
-                      return ''
-                  } else {
-                      return text.replace('T', ' ')
-                  }
+          title="过期时间"
+          dataIndex="ExpireTime"
+          key="ExpireTime"
+          render={(text, record) => {
+              if (text == '0001-01-01T00:00:00') {
+                  return '-'
+              } else {
+                  return text.replace('T', ' ')
               }
-            }
-          />
+          }
+        }
+      />
+         
     </Table>
      
       </Modal>
@@ -195,4 +215,4 @@ class PrivilegeDetailDialog extends Component {
   }
 
 
-export default PrivilegeDetailDialog
+export default PrivilegeListDialog

@@ -4,6 +4,7 @@ import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Table, Spin, Input } from 'antd'
 import DetailDialog from 'COMPONENT/admin/member/privilegeDetailDialog'
+import ListDialog from 'COMPONENT/admin/member/privilegeListDialog'
 
 const { Column } = Table
 
@@ -29,7 +30,9 @@ class Member extends Component {
                 label: '昵称',
                 name: 'nickName',
                 control: <Input placeholder="昵称" />
-            }]
+            }],
+            listVisible: false,
+            listTitle: '添加优惠券'
         }
 
         this.searchPara = {
@@ -77,26 +80,32 @@ class Member extends Component {
          this.searchPara.NickName = value.nickName
          this.getData(this.searchPara)
     }
-    
+    /* ****************************查看用户对应的应用券详情********************************** */
     // 新增或修改
     showDialog = (txt, item, e) => {
-           this.setState({ detailVisible: true, nowRecord: item, dialogTitle: '赠送优惠券' })
+           this.setState({ detailVisible: true, nowRecord: item, dialogTitle: '优惠券详情' })
     }
     
-    
-
-    
-
-    
-    
-    /* ****************************对弹出框form的操作方法********************************** */
-  
-
     handleCancel = () => {
         this.setState({ detailVisible: false })
     }
 
     handleCreate = () => {
+        this.setState({ detailVisible: false })
+    }
+
+
+     /* ****************************对用户赠送********************************** */
+        // 新增或修改
+        showListDialog = (txt, item, e) => {
+            this.setState({ listVisible: true, nowRecord: item, listTitle: '赠送优惠券' })
+        }
+
+        handleListCancel = () => {
+        this.setState({ listVisible: false })
+        }
+
+        handleListCreate = () => {
         /*
         const form = this.form
         form.validateFields((err, values) => {
@@ -106,36 +115,36 @@ class Member extends Component {
         }
         values.ExpireTime = Utility.timeFormaterString(values.ExpireTime)
         // 更新
-       if (this.state.savePara.PrivilegeId) {
-           values.PrivilegeId = this.state.savePara.PrivilegeId
-           this.props.givePrivilege({privilegeMemberInfo: values}).then((msg) => {
-               if (msg) {
-                  message.success('更新成功')
-                  this.getData(this.searchPara)
-               } else {
-                  message.warning('更新失败')
-               }
-           })
-          
-       } else {
-           this.props.givePrivilege({privilegeMemberInfo: values}).then((msg) => {
-             if (msg) {
+        if (this.state.savePara.PrivilegeId) {
+            values.PrivilegeId = this.state.savePara.PrivilegeId
+            this.props.givePrivilege({privilegeMemberInfo: values}).then((msg) => {
+                if (msg) {
+                message.success('更新成功')
+                this.getData(this.searchPara)
+                } else {
+                message.warning('更新失败')
+                }
+            })
+        
+        } else {
+            this.props.givePrivilege({privilegeMemberInfo: values}).then((msg) => {
+            if (msg) {
                 message.success('保存成功')
                 this.getData(this.searchPara)
-             } else {
+            } else {
                 message.warning('保存失败')
-             }
-              
+            }
+            
         })
-       }
+        }
         
-     
+
         form.resetFields()
         this.setState({ visible: false })
         })
         */
         this.setState({ detailVisible: false })
-    }
+        }
 
      /* ****************************对弹出框form的操作方法********************************** */
      
@@ -147,7 +156,7 @@ class Member extends Component {
                         key="action"
                         render={(text, record) => (
                         <span>
-                             <a>赠券</a>
+                             <a onClick={this.showListDialog.bind(this, '赠送优惠券', record)}>赠券</a>
                              <span className="ant-divider" />
                              <a onClick={this.showDialog.bind(this, '优惠券详情', record)}>优惠券详情</a>
                         </span>
@@ -240,6 +249,13 @@ class Member extends Component {
                     nowRecord={this.state.nowRecord}
                     {...this.props}
                  />
+                 <ListDialog
+                 visible={this.state.listVisible}
+                 onCancel={this.handleListCancel}
+                 onCreate={this.handleListCreate}
+                 title={this.state.listTitle}
+                 {...this.props}
+              />
                 </Spin>
            </div>
         )

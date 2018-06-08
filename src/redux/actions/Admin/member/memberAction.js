@@ -6,6 +6,7 @@ import apis from 'SERVICE/apis'
 const FETCH_MEMBER = 'FETCH_MEMBER'
 const GIVE_PRIVILEGE = 'GIVE_PRIVILEGE'
 const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
+const FETCH_PRIVILEGELIST = 'FETCH_PRIVILEGELIST'
 
 // ================================
 // Action Creator
@@ -46,11 +47,22 @@ const givePrivilege = (queryBody) => dispatch =>
       })
   })
 
+  const fetchPrivilegeList = (queryBody) => dispatch =>
+  apis
+    .Privilege
+    .GetData(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_PRIVILEGELIST,
+         payload: msgs
+      })
+  })
+
 
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchMemberList, givePrivilege, fetchPrivilegeByMember
+    fetchMemberList, givePrivilege, fetchPrivilegeByMember, fetchPrivilegeList
 }
 
 // ================================
@@ -70,6 +82,11 @@ export const ACTION_HANDLERS = {
   [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => {
       result.privilegeData = payload.data
       result.privilegePager = payload.pager
+      return result
+  },
+  [FETCH_PRIVILEGELIST]: (result, { payload }) => {
+      result.privilegeListData = payload.data
+      result.privilegeListPager = payload.pager
       return result
   }
 }
