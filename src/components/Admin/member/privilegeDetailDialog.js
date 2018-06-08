@@ -40,10 +40,10 @@ class PrivilegeDetailDialog extends Component {
       let {fetchPrivilegeByMember} = this.props
       this.state.canLoad = false
       fetchPrivilegeByMember(this.searchPara).then(msg => {
-              console.log('llllll', msg)
+                console.log('00000', this.props)
               this.setState({
-                  dataSource: msg.data, pagination: {
-                  total: msg.pager.TotalRows,
+                  dataSource: this.props.member.privilegeData, pagination: {
+                  total: this.props.member.privilegePager.TotalRows,
                   showSizeChanger: true,
                   onShowSizeChange: (current, pageSize) => {
                       this.searchPara.pageIndex = current
@@ -68,8 +68,18 @@ class PrivilegeDetailDialog extends Component {
       })
     }
 
+    onCancel = () => {
+        this.state.canLoad = true
+        this.props.onCancel()
+    }
+
+    onCreate = () => {
+        this.state.canLoad = true
+        this.props.onCreate()
+    }
+
     render() {
-    const { visible, onCancel, onCreate, title} = this.props
+    const { visible, title} = this.props
     if (visible && this.state.canLoad) {
       this.generatePrivilegeList()
     }
@@ -78,54 +88,94 @@ class PrivilegeDetailDialog extends Component {
       <Modal
         visible={visible}
         title={title}
-        onCancel={onCancel}
-        onOk={onCreate}
+        onCancel={this.onCancel}
+        onOk={this.onCreate}
       >
       <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
           <Column
-              title="昵称"
-              dataIndex="NickName"
-              key="NickName"
+              title="券名"
+              dataIndex="PrivilegeName"
+              key="PrivilegeName"
           />
           <Column
-              title="性别"
-              dataIndex="Sex"
-              key="Sex"
+              title="状态"
+              dataIndex="Status"
+              key="Status"
               render={(text, record) => {
-                  if (text) {
-                      return text
-                  } else {
-                      return '-'
+               
+                if (record.PrivilegeStatus == 2) {
+                   return '已使用'
+                } else {
+                    var ex = new Date(record.ExpireTime)
+                    var now = new Date()
+                    let isExipire = false
+                    if (now.getTime() > ex.getTime()) {
+                        isExipire = true
+                    }
+                    if (isExipire) {
+                        return '已过期'
+                    } else {
+                        return '已领取'
+                    }
+                }
+              }
+              }
+          />
+          <Column
+              title="类型"
+              dataIndex="PrivilegeTypeText"
+              key="PrivilegeTypeText"
+          />
+          <Column
+              title="券额(折扣或赠品)"
+              dataIndex="Privielege"
+              key="Privielege"
+              render={(text, record) => {
+                  if (record.Money) {
+                      return record.Money + '元'
+                  } 
+                  if (record.Discount) {
+                      return record.Discount + '折'
+                  }
+                  if (record.BindProductIds) {
+                      return record.WaresName
                   }
               }
+            }
+          />
+          <Column
+              title="使用限额"
+              dataIndex="UseMoneyLimit"
+              key="UseMoneyLimit"
+              render={(text, record) => {
+                  if (text > 0) {
+                      return text + '元'
+                  } else {
+                     return '无'
+                  }
               }
+            }
           />
           <Column
-              title="国家"
-              dataIndex="Country"
-              key="Country"
-          />
+          title="使用日期"
+          dataIndex="HappenDate"
+          key="HappenDate"
+          render={(text, record) => {
+              if (record.PrivilegeStatus != 2) {
+                  return '-'
+              }
+              if (text == '0001-01-01T00:00:00') {
+                  return ''
+              } else {
+                  return text.replace('T', ' ')
+              }
+          }
+        }
+      />
           <Column
-              title="省份"
-              dataIndex="Province"
-              key="Province"
-          />
-          <Column
-              title="城市"
-              dataIndex="City"
-              key="City"
-            
-          />
-          <Column
-              title="所属客户"
-              dataIndex="ClientName"
-              key="ClientName"
-          
-          />
-          <Column
-              title="创建日期"
-              dataIndex="CreateDate"
-              key="CreateDate"
+              title="领取日期"
+              dataIndex="GetDate"
+              key="GetDate"
               render={(text, record) => {
                   if (text == '0001-01-01T00:00:00') {
                       return ''

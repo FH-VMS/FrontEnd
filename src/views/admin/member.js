@@ -238,7 +238,7 @@ class Member extends Component {
                     onCreate={this.handleCreate}
                     title={this.state.dialogTitle}
                     nowRecord={this.state.nowRecord}
-                    fetchPrivilegeByMember={this.props.fetchPrivilegeByMember}
+                    {...this.props}
                  />
                 </Spin>
            </div>

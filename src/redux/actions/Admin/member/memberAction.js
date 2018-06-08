@@ -37,14 +37,13 @@ const givePrivilege = (queryBody) => dispatch =>
 
   const fetchPrivilegeByMember = (queryBody) => dispatch =>
   apis
-    .Wechat
+    .Member
     .GetPrivilegeByMemberId(queryBody)
     .then(msgs => {
       dispatch({
          type: FETCH_PRIVILEGEBYMEMBER,
          payload: msgs
       })
-      return msgs
   })
 
 
@@ -68,7 +67,11 @@ export const ACTION_HANDLERS = {
       return result
   },
   [givePrivilege]: (result, { payload }) => ({payload}),
-  [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => ({payload})
+  [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => {
+      result.privilegeData = payload.data
+      result.privilegePager = payload.pager
+      return result
+  }
 }
 
 

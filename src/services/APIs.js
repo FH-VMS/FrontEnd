@@ -464,6 +464,9 @@ const api = {
         },
         GivePrivilegeTicket: function (data) {
           return apiService('Member', 'GivePrivilegeTicket', 'POST', data)
+        },
+        GetPrivilegeByMemberId: function (data) {
+          return apiService('Member', 'GetPrivilegeByMemberId', 'POST', data)
         }
     }
     

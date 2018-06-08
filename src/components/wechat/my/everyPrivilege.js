@@ -35,7 +35,7 @@ class EveryPrivilege extends Component {
             tmpHtml.push(<div>已领取</div>)
             tmpHtml.push(<div className="gotoUse">去使用</div>)
           } else {
-            tmpHtml.push(<div>已失效</div>)
+            tmpHtml.push(<div>已过期</div>)
           }
       }
       
