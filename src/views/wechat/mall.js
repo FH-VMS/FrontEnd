@@ -25,7 +25,8 @@ class Mall extends Component {
       tabContents: [],
       modal: false,
       nowProduct: {},
-      carouselData: []
+      carouselData: [],
+      nowPage: 0
     }
   }
   
@@ -67,14 +68,20 @@ class Mall extends Component {
 
                  
               })
-              let tabTitles = []
+              let tabs = []
               let tabContents = []
               productTypeArr.map((item, index) => {
-                tabTitles.push({ title: <Badge>{item.productTypeName}</Badge> })
+                tabs.push({ title: <Badge>{item.productTypeName}</Badge> })
                 tabContents.push(<EveryTab chooseProduct={this.chooseProduct} data={productObj[item.productTypeId]} />)
                })
-               this.setState({productType: this.props.wechat.productTypeData, tabTitles: tabTitles, tabContents: tabContents})
-              // this.setState({data: this.props.wechat.productData})
+               this.setState({productType: this.props.wechat.productTypeData, tabTitles: tabs, tabContents: tabContents})
+              
+            }
+            if (/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
+              setTimeout(() => {
+                  this.setState({nowPage: 1})
+                  this.setState({nowPage: 0})
+              }, 200)
             }
          })
           /*
@@ -106,6 +113,7 @@ class Mall extends Component {
   }
 
   onWrapTouchStart = (e) => {
+    
     // fix touch to scroll background page on iOS
     if (!/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
       return
@@ -114,12 +122,13 @@ class Mall extends Component {
     if (!pNode) {
       e.preventDefault()
     }
+    
   }
 
 
 
   tabChange = (tab, index) => {
-    
+    this.setState({nowPage: index})
   }
 
   stepChange = (val) => {
@@ -142,7 +151,7 @@ class Mall extends Component {
   }
 
   render() {
-     
+    const tabs = this.state.tabTitles
       return (
           <div>
             <Carousel
@@ -166,10 +175,13 @@ class Mall extends Component {
               }
               
             </Carousel>
-            <Tabs tabs={this.state.tabTitles}
+            <Tabs tabs={tabs}
               initialPage={0}
               onChange={this.tabChange.bind(this)}
-              onTabClick={(tab, index) => { }}
+              onTabClick={(tab, index) => { this.setState({nowPage: index}) }}
+              renderTabBar={props => <Tabs.DefaultTabBar {...props} page={4} />}
+              page={this.state.nowPage}
+              renderTab={tab => <span>{tab.title}</span>}
             >
               {this.state.tabContents}
             </Tabs>
