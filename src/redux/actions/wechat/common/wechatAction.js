@@ -13,6 +13,7 @@ const FETCH_ACTIVITYLIST = 'FETCH_ACTIVITYLIST'
 const GET_TICKET = 'GET_TICKET'
 const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
 const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
+const GET_WEIXINJSCONFIG = 'GET_WEIXINJSCONFIG'
 
 // ================================
 // Action Creator
@@ -146,9 +147,21 @@ const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
       return msgs
   })
 
+  const getWeixinConfig = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetWeixinJsConfig(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: GET_WEIXINJSCONFIG,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember, getCanTicketCount
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember, getCanTicketCount, getWeixinConfig
 }
 
 // ================================
@@ -187,7 +200,8 @@ export const ACTION_HANDLERS = {
   [FETCH_PRIVILEGEBYMEMBER]: (result, { payload }) => {
     result.privilegeData = payload
     return result
-  }
+  },
+  [GET_WEIXINJSCONFIG]: (result, { payload }) => ({payload})
 }
 
 

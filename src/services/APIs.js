@@ -329,6 +329,9 @@ const api = {
         },
         GetCanTakeTicketCount: function (data) {
             return apiService('Wechat', 'GetCanTakeTicketCount', 'GET', data)
+        },
+        GetWeixinJsConfig: function (data) {
+            return apiService('Wechat', 'GetWeixinJsConfig', 'POST', data)
         }
     },
     MachineCabinet: {

@@ -243,6 +243,11 @@ class ProductGroup extends Component {
                         dataIndex="WaresUnitPrice"
                         key="WaresUnitPrice"
                     />
+                    <Column
+                        title="类型"
+                        dataIndex="WaresTypeText"
+                        key="WaresTypeText"
+                    />
                      <Column
                         title="所属客户"
                         dataIndex="ClientName"
