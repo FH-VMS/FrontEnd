@@ -1,4 +1,4 @@
-import { injectReducer } from 'REDUCER'
+// import { injectReducer } from 'REDUCER'
 import createContainer from 'UTIL/createContainer'
 import Utility from 'UTIL/utility'
 const connectComponent = createContainer(
@@ -12,7 +12,7 @@ export default {
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       // 立即注入 Reducer
-      injectReducer('machineMap', require('REDUCER/Admin/machine/mapReducer').default)
+      // injectReducer('machineMap', require('REDUCER/Admin/machine/mapReducer').default)
 
       cb(null, connectComponent(require('VIEW/admin/map').default))
     }, 'machineMapView')

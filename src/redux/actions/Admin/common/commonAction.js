@@ -11,6 +11,7 @@ const FETCH_PAYCONFIGDIC = 'FETCH_PAYCONFIGDIC'
 const FETCH_ADDIC = 'FETCH_ADDIC'
 const FETCH_PRODUCTTYPEDIC = 'FETCH_PRODUCTTYPEDIC'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
+const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -146,8 +147,21 @@ const fetchDic = (searParam) => dispatch =>
       return msgs
   })
 
+   // 取机器字典
+   const fetchMachineDic = () => dispatch =>
+   apis
+     .Common
+     .GetMachineDic()
+     .then(msgs => {
+       dispatch({
+          type: FETCH_MACHINEDIC,
+          payload: msgs
+       })
+       return msgs
+   })
+
 export default {
-  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, fetchProductDic
+  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, fetchProductDic, fetchMachineDic
 }
 
 export const ACTION_HANDLERS = {
@@ -185,6 +199,10 @@ export const ACTION_HANDLERS = {
     return result
 },
 [FETCH_PRODUCTDIC]: (result, { payload }) => {
+    result.DicData = payload
+    return result
+},
+[FETCH_MACHINEDIC]: (result, { payload }) => {
     result.DicData = payload
     return result
 }
