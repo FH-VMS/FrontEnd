@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import { Row, Col, Select, InputNumber, Radio, Button, message } from 'antd'
+import { Row, Col, Select, InputNumber, Button, message } from 'antd'
 
-const RadioGroup = Radio.Group
+// const RadioGroup = Radio.Group
 const ButtonGroup = Button.Group
 
 class MapModule extends Component {
@@ -15,7 +15,8 @@ class MapModule extends Component {
             closestCross: '',
             closetRoad: '',
             closetPoi: '',
-            machineId: ''
+            machineId: '',
+            nowRecord: {}
         }
 	}
     
@@ -23,6 +24,37 @@ class MapModule extends Component {
     componentWillMount() {
 
     }
+
+    // 初始化定位
+    initPosition = () => {
+        this.map.plugin('AMap.Geolocation', function() {
+            var geolocation = new window.AMap.Geolocation({
+              // 是否使用高精度定位，默认：true
+              enableHighAccuracy: true,
+              // 设置定位超时时间，默认：无穷大
+              timeout: 10000,
+              // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+              buttonOffset: new window.AMap.Pixel(10, 20),
+              //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+              zoomToAccuracy: false,     
+              //  定位按钮的排放位置,  RB表示右下
+              buttonPosition: 'RB'
+            })
+          
+            geolocation.getCurrentPosition()
+            window.AMap.event.addListener(geolocation, 'complete', onComplete)
+            window.AMap.event.addListener(geolocation, 'error', onError)
+          
+            function onComplete (data) {
+              // data是具体的定位信息
+            }
+          
+            function onError (data) {
+              // 定位出错
+            }
+          })
+    }
+    
 
     componentDidMount() {
         /*
@@ -53,16 +85,11 @@ class MapModule extends Component {
             zoom: 11,
             scrollWheel: true
         })
-        var marker = new window.AMap.Marker({
-            position: [116.39, 39.9],
-            map: this.map
-        })
-        marker.content = '机器id'
-        this.map.add(marker); // 添加到地图
-        marker.on('click', this.onMarkerClick)
-        this.infoWindow.setContent(marker.content);
-        this.infoWindow.open(this.map, marker.getPosition())
 
+        this.initPosition()
+        /*
+        
+       */
         this.mapComplete()
 
         window.AMapUI.loadUI(['misc/PositionPicker'], (PositionPicker) => {
@@ -107,7 +134,7 @@ class MapModule extends Component {
    // 地图加载完成
    mapComplete = () => {
         this.map.on('complete', () => {
-            console.log('bbbbb', this.map.getBounds())
+            this.getData()
             // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
         })
    }
@@ -115,6 +142,7 @@ class MapModule extends Component {
    // 移动事件
    mapMoveEnd = () => {
     this.map.on('moveend', () => {
+        this.getData()
         // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
     })
    }
@@ -122,6 +150,7 @@ class MapModule extends Component {
    // 容器大小改变
    containerResize = () => {
     this.map.on('resize', () => {
+        this.getData()
         // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
     })
    }
@@ -132,12 +161,49 @@ class MapModule extends Component {
     
    }
 
+   mapDragMethod = (e) => {
+      this.setState({radioValue: e.target.value})
+      if (e.target.value == 1) {
+        
+      } else {
+
+      }
+   }
+
    // 根据经纬度范围加载数据
    getData = () => {
        let {southwest, northeast} = this.map.getBounds()
        if (southwest && northeast) {
-           // this.props.
+           
+           this.props.fetchMachineLocation({startLong: southwest.lng, endLong: northeast.lng, startLati: southwest.lat, endLati: northeast.lat}).then(msg => {
+             if (this.props.machineMap) {
+                 let {data} = this.props.machineMap
+                 if (data) {
+                     data.map((item, index) => {
+                        this.drawPoint(item)
+                     })
+                 }
+             }
+            
+           })
        }
+   }
+
+   // 绘制猫点
+   drawPoint = (item) => {
+        
+        let marker = new window.AMap.Marker({
+            position: [item.Longitude, item.Latitude],
+            map: this.map,
+            title: item.MachineId
+        })
+        marker.content = item.MachineId
+        this.map.add(marker); // 添加到地图
+        marker.on('click', this.onMarkerClick)
+        /*
+        infoWindow.setContent(marker.content);
+        infoWindow.open(this.map, marker.getPosition())
+        */
    }
    
    startOrStopChoose = (val) => {
@@ -155,9 +221,62 @@ class MapModule extends Component {
    machineChange = (val) => {
        this.state.machineId = val
        this.props.fetchLocationByMachine({machineId: val}).then(msg => {
-           console.log('99999999', msg)
+           if (msg && msg.Id) {
+               let {Longitude, Latitude, Address, MachineId} = msg
+               this.setState({longitude: Longitude, latitude: Latitude, address: Address, machineId: MachineId, nowRecord: msg})
+            var position = new window.AMap.LngLat(msg.Longitude, msg.Latitude)
+              this.map.setCenter(position)
+           }
        })
    }
+   
+   // 保存地址
+   saveLocation = () => {
+      if (!this.state.machineId) {
+          message.warning('请选择机器')
+          return
+      }
+
+      if (!this.state.longitude) {
+         message.warning('经度不能为空')
+         return
+      }
+
+      if (!this.state.latitude) {
+        message.warning('纬度不能为空')
+        return
+     }
+
+     if (!this.state.address) {
+        message.warning('地址不能为空')
+        return
+     }
+     let saveParam = {}
+     
+     saveParam.Address = this.state.address
+     saveParam.Longitude = this.state.longitude
+     saveParam.Latitude = this.state.latitude
+     if (this.state.nowRecord.Id) {
+        saveParam.MachineId = this.state.nowRecord.MachineId
+        saveParam.Id = this.state.nowRecord.Id
+        this.props.updateMachineLocation({machineLocationInfo: saveParam}).then(msg => {
+            if (msg) {
+                message.success('更新地址成功')
+                this.positionPicker.stop()
+            }
+        })
+     } else {
+        saveParam.MachineId = this.state.machineId
+        this.props.addMachineLocation({machineLocationInfo: saveParam}).then(msg => {
+          if (msg) {
+              message.success('保存成功')
+              this.positionPicker.stop()
+          }
+        })
+     }
+    
+   }
+
     
     render() {
 
@@ -188,18 +307,24 @@ class MapModule extends Component {
                     <Col span={6}>详细地址</Col>
                     <Col span={18}><textarea style={{width: '100%', height: '100px'}} onChange={(e) => {this.setState({address: e.target.value})}} value={this.state.address}></textarea></Col>
                   </Row>
-
+                  <Row style={{marginTop: '5px'}}>
+                  <Col span={24} style={{textAlign: 'center'}}><Button onClick={this.saveLocation.bind(this)} type="primary">保存位置</Button></Col></Row>
                   <div> 
                     <div className="mapPanelContainer">
                         <div>
                             <div className="panelTitle">选择模式</div>
+                            {
+                            /*
+                            
                             <div>
-                            <RadioGroup onChange={e => this.setState({radioValue: e.target.value})} value={this.state.radioValue}>
+                            <RadioGroup onChange={this.mapDragMethod} value={this.state.radioValue}>
                             <Radio value={1}>拖曳地图模式</Radio>
                             <Radio value={2}>拖拽Marker模式</Radio>
                             </RadioGroup>
                             </div>
-                            <div>
+                            */
+                        }
+                            <div style={{paddingTop: '10px'}}>
                                 <ButtonGroup>
                                     <Button onClick={this.startOrStopChoose.bind(this, 'start')}>开始选点</Button>
                                     <Button onClick={this.startOrStopChoose.bind(this, 'stop')}>关闭选点</Button>

@@ -14,6 +14,7 @@ const GET_TICKET = 'GET_TICKET'
 const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
 const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
 const GET_WEIXINJSCONFIG = 'GET_WEIXINJSCONFIG'
+const FETCH_MACHINELOCATIONS = 'FETCH_MACHINELOCATIONS'
 
 // ================================
 // Action Creator
@@ -159,9 +160,22 @@ const GET_WEIXINJSCONFIG = 'GET_WEIXINJSCONFIG'
       return msgs
   })
 
+  const fetchLocations = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetMachineLocations(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_MACHINELOCATIONS,
+         payload: msgs
+      })
+      return msgs
+  })
+
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember, getCanTicketCount, getWeixinConfig
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember, getCanTicketCount, getWeixinConfig, fetchLocations
 }
 
 // ================================
@@ -201,7 +215,11 @@ export const ACTION_HANDLERS = {
     result.privilegeData = payload
     return result
   },
-  [GET_WEIXINJSCONFIG]: (result, { payload }) => ({payload})
+  [GET_WEIXINJSCONFIG]: (result, { payload }) => ({payload}),
+  [FETCH_MACHINELOCATIONS]: (result, { payload }) => {
+    result.locationData = payload
+    return result
+  }
 }
 
 

@@ -349,6 +349,9 @@ const api = {
         },
         GetWeixinJsConfig: function (data) {
             return apiService('Wechat', 'GetWeixinJsConfig', 'POST', data)
+        },
+        GetMachineLocations: function (data) {
+            return apiService('Wechat', 'GetMachineLocations', 'GET', data)
         }
     },
     MachineCabinet: {

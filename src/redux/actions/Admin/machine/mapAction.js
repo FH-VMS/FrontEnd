@@ -9,7 +9,7 @@ const DELETE_MACHINELOCATION = 'DELETE_MACHINELOCATION'
 const FETCH_LOCATIONBYMACHINE = 'FETCH_LOCATIONBYMACHINE'
 
 
-const fetchMachineList = (queryBody) => dispatch =>
+const fetchMachineLocation = (queryBody) => dispatch =>
 apis
   .MachineLocation
   .GetData(queryBody)
@@ -73,7 +73,7 @@ apis
 
 /* default 导出所有 Action Creators */
 export default {
-  fetchMachineList, addMachineLocation, updateMachineLocation, deleteMachineLocation, fetchLocationByMachine, ...common
+  fetchMachineLocation, addMachineLocation, updateMachineLocation, deleteMachineLocation, fetchLocationByMachine, ...common
 }
 
 
