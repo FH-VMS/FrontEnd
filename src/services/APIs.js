@@ -167,6 +167,23 @@ const api = {
           return apiService('TunnelConfig', 'GetPriceByWaresId', 'GET', data)
       }
 	}, 
+    MachineLocation: {
+        GetData: function (data) {
+            return apiService('MachineLocation', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+            return apiService('MachineLocation', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+            return apiService('MachineLocation', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+            return apiService('MachineLocation', 'DeleteData', 'DELETE', data)
+        },
+        GetLocationByMachineId: function (data) {
+            return apiService('MachineLocation', 'GetLocationByMachineId', 'GET', data)
+        }
+      }, 
   ProductList: {
       GetData: function (data) {
           return apiService('ProductList', 'GetData', 'GET', data)

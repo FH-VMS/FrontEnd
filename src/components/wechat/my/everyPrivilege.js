@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {hashHistory} from 'react-router'
 
 class EveryPrivilege extends Component {
 	constructor(props) {
@@ -11,6 +12,10 @@ class EveryPrivilege extends Component {
 
   componentDidMount() {
 
+  }
+
+  gotoUse = () => {
+    hashHistory.push('/' + this.props.location.search)
   }
 
   render() {
@@ -33,7 +38,7 @@ class EveryPrivilege extends Component {
       } else {
           if (PrivilegeStatus == 1 && !isExipire) {
             tmpHtml.push(<div>已领取</div>)
-            tmpHtml.push(<div className="gotoUse">去使用</div>)
+            tmpHtml.push(<div onClick={this.gotoUse} className="gotoUse">去使用</div>)
           } else {
             tmpHtml.push(<div>已过期</div>)
           }

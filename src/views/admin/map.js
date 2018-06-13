@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
-import { Row, Col, Select, InputNumber } from 'antd'
+import { Row, Col, Select, InputNumber, Radio, Button, message } from 'antd'
+
+const RadioGroup = Radio.Group
+const ButtonGroup = Button.Group
 
 class MapModule extends Component {
     constructor(props) {
@@ -7,7 +10,12 @@ class MapModule extends Component {
         this.state = {
             machineDic: [],
             longitude: '',
-            latitude: ''
+            latitude: '',
+            radioValue: 1,
+            closestCross: '',
+            closetRoad: '',
+            closetPoi: '',
+            machineId: ''
         }
 	}
     
@@ -41,7 +49,10 @@ class MapModule extends Component {
         this.infoWindow = new window.AMap.InfoWindow({
             offset: new window.AMap.Pixel(0, -25)
         })
-        this.map = new window.AMap.Map('allmap')
+        this.map = new window.AMap.Map('allmap', {
+            zoom: 11,
+            scrollWheel: true
+        })
         var marker = new window.AMap.Marker({
             position: [116.39, 39.9],
             map: this.map
@@ -52,12 +63,67 @@ class MapModule extends Component {
         this.infoWindow.setContent(marker.content);
         this.infoWindow.open(this.map, marker.getPosition())
 
+        this.mapComplete()
 
+        window.AMapUI.loadUI(['misc/PositionPicker'], (PositionPicker) => {
+            
+            this.positionPicker = new PositionPicker({
+                mode: 'dragMap', // 设定为拖拽地图模式，可选'dragMap'、'dragMarker'，默认为'dragMap'
+                map: this.map, // 依赖地图对象
+                iconStyle: { // 自定义外观
+                   url: 'http://webapi.amap.com/ui/1.0/assets/position-picker2.png', // 图片地址
+                   size: [48, 48],  // 要显示的点大小，将缩放图片
+                   ancher: [24, 40] // 锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
+                }
+            })
+            /*
+            map.addControl(new window.AMap.ToolBar({
+                liteStyle: true
+            }))
+            */
+            this.positionPicker.on('success', (positionResult) => {
+                let {position, address, nearestJunction, nearestRoad, nearestPOI} = positionResult
+
+                this.setState({longitude: position.lng, latitude: position.lat, address: address, closestCross: nearestJunction, closetRoad: nearestRoad, closetPoi: nearestPOI})
+                /*
+                document.getElementById('lnglat').innerHTML = positionResult.position;
+                document.getElementById('address').innerHTML = positionResult.address;
+                document.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
+                document.getElementById('nearestRoad').innerHTML = positionResult.nearestRoad;
+                document.getElementById('nearestPOI').innerHTML = positionResult.nearestPOI;
+                */
+            })
+            // this.positionPicker.start([120.153576, 30.287478]);
+            this.map.panBy(0, 1);
+            // TODO:事件绑定、结果处理等
+        })
         // 取机器字典
      this.props.fetchMachineDic().then(msg => {
          this.setState({machineDic: msg})
      })
         
+   }
+
+   // 地图加载完成
+   mapComplete = () => {
+        this.map.on('complete', () => {
+            console.log('bbbbb', this.map.getBounds())
+            // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
+        })
+   }
+
+   // 移动事件
+   mapMoveEnd = () => {
+    this.map.on('moveend', () => {
+        // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
+    })
+   }
+
+   // 容器大小改变
+   containerResize = () => {
+    this.map.on('resize', () => {
+        // document.getElementById('tip').innerHTML = "地图图块加载完毕！当前地图中心点为：" + map.getCenter();
+    })
    }
 
    onMarkerClick = (e) => {
@@ -66,6 +132,32 @@ class MapModule extends Component {
     
    }
 
+   // 根据经纬度范围加载数据
+   getData = () => {
+       let {southwest, northeast} = this.map.getBounds()
+       if (southwest && northeast) {
+           // this.props.
+       }
+   }
+   
+   startOrStopChoose = (val) => {
+    if (val == 'start') {
+        if (!this.state.machineId) {
+            message.warning('请先选择机器')
+            return
+        }
+        this.positionPicker.start(this.map.getCenter())
+    } else if (val == 'stop') {
+        this.positionPicker.stop()
+    }
+   }
+
+   machineChange = (val) => {
+       this.state.machineId = val
+       this.props.fetchLocationByMachine({machineId: val}).then(msg => {
+           console.log('99999999', msg)
+       })
+   }
     
     render() {
 
@@ -89,14 +181,60 @@ class MapModule extends Component {
                     </Row>
                     <Row style={{marginTop: '5px'}}>
                       <Col span={6}>经纬度</Col>
-                      <Col span={9}><InputNumber placeholder='经度' onChange={(val) => {this.setState({longitude: val})}} /></Col>
-                      <Col span={9}><InputNumber placeholder='纬度' onChange={(val) => {this.setState({latitude: val})}} /></Col>
+                      <Col span={9}><InputNumber placeholder='经度' value={this.state.longitude} onChange={(val) => {this.setState({longitude: val})}} /></Col>
+                      <Col span={9}><InputNumber placeholder='纬度' value={this.state.latitude} onChange={(val) => {this.setState({latitude: val})}} /></Col>
                     </Row>
                     <Row style={{marginTop: '5px'}}>
                     <Col span={6}>详细地址</Col>
-                    <Col span={18}><textarea style={{width: '100%', height: '100px'}}></textarea></Col>
+                    <Col span={18}><textarea style={{width: '100%', height: '100px'}} onChange={(e) => {this.setState({address: e.target.value})}} value={this.state.address}></textarea></Col>
                   </Row>
+
+                  <div> 
+                    <div className="mapPanelContainer">
+                        <div>
+                            <div className="panelTitle">选择模式</div>
+                            <div>
+                            <RadioGroup onChange={e => this.setState({radioValue: e.target.value})} value={this.state.radioValue}>
+                            <Radio value={1}>拖曳地图模式</Radio>
+                            <Radio value={2}>拖拽Marker模式</Radio>
+                            </RadioGroup>
+                            </div>
+                            <div>
+                                <ButtonGroup>
+                                    <Button onClick={this.startOrStopChoose.bind(this, 'start')}>开始选点</Button>
+                                    <Button onClick={this.startOrStopChoose.bind(this, 'stop')}>关闭选点</Button>
+                                </ButtonGroup>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="panelTitle">选址结果</div>
+                            <div className="resultArea">
+                                <div className="secondTitle">经纬度:</div>
+                                <div>{this.state.longitude}, {this.state.latitude}</div>
+                            </div>
+
+                            <div className="resultArea">
+                                <div className="secondTitle">地址:</div>
+                                <div>{this.state.address}</div>
+                            </div>
+
+                            <div className="resultArea">
+                                <div className="secondTitle">最近路口:</div>
+                                <div>{this.state.closestCross}</div>
+                            </div>
+                            <div className="resultArea">
+                                <div className="secondTitle">最近的路:</div>
+                                <div>{this.state.closetRoad}</div>
+                            </div>
+                            <div className="resultArea">
+                                <div className="secondTitle">最近的POI:</div>
+                                <div>{this.state.closetPoi}</div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
                 </div>
+               
                 <div id="allmap">
               
                 </div>
