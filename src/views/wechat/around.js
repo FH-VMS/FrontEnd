@@ -27,7 +27,6 @@ class Around extends Component {
                     wx.getLocation({
                         type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                         success: (res) => {
-                            alert(res.longitude)
                             this.getLocations(res.longitude, res.latitude)
                             // var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
                             // var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
@@ -71,7 +70,7 @@ class Around extends Component {
               {
                   this.state.aroundData.map((item, index) => {
                       return (
-                      <EveryLocation data={item}/>
+                      <EveryLocation location={this.props.location} data={item}/>
                       )
                   })
               }
