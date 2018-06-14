@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {List} from 'antd-mobile'
+import {hashHistory} from 'react-router'
 class EveryLocation extends Component {
     constructor(props) {
         super(props)
@@ -8,13 +9,17 @@ class EveryLocation extends Component {
     }
 
 
+    gotoMap = (item) => {
+        sessionStorage.setItem('AroundMap', JSON.stringify(item))
+        hashHistory.push('/aroundmap' + this.props.location.search)
+    }
+
 
     render() {
         let {MachineId, Remark, Address, Distance} = this.props.data
         let displayDistance = ''
         if (Distance) {
             if (parseFloat(Distance) > 1000) {
-                console.log('llllllll', parseFloat(Distance))
                 displayDistance = (parseFloat(Distance) / 1000).toFixed(2) + '公里'
             } else {
                 displayDistance = parseFloat(Distance).toFixed(2) + '米'
@@ -29,7 +34,7 @@ class EveryLocation extends Component {
                         thumb={require('ASSET/img/wechat/position.png')}
                         arrow="horizontal"
                         extra="查看地图"
-                        onClick={() => {}}
+                        onClick={this.gotoMap.bind(this, this.props.data)}
                         >约{displayDistance}</List.Item>
                 </List>
                    

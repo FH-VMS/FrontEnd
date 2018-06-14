@@ -351,7 +351,7 @@ const api = {
             return apiService('Wechat', 'GetWeixinJsConfig', 'POST', data)
         },
         GetMachineLocations: function (data) {
-            return apiService('Wechat', 'GetMachineLocations', 'GET', data)
+            return apiService('Wechat', 'GetMachineLocations', 'POST', data)
         }
     },
     MachineCabinet: {

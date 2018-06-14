@@ -28,7 +28,7 @@ class WechatFrame extends Component {
         super(props)
         this.state = {
            selectedTab: 'mall',
-           canLoad: true,
+           canLoad: false,
            cartCount: 0
         }
   }
