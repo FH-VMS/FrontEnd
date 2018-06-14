@@ -491,6 +491,23 @@ const api = {
         GetPrivilegeByMemberId: function (data) {
           return apiService('Member', 'GetPrivilegeByMemberId', 'POST', data)
         }
+    },
+    Activity: {
+        GetData: function (data) {
+          return apiService('Activity', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('Activity', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('Activity', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('Activity', 'DeleteData', 'DELETE', data)
+        },
+        GetActivityRelationById: function (data) {
+          return apiService('Activity', 'GetActivityRelationById', 'GET', data)
+        }
     }
     
 }
