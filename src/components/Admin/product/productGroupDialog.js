@@ -40,7 +40,10 @@ const ProductGroupDialog = Form.create({
         picSelect: [],
         productDicSelect: [],
         productDic: [],
-        productTypeSelect: []
+        productTypeSelect: [],
+        chosenProduct: [],
+        canLoad: true,
+        initData: true
       }
     }
 
@@ -119,14 +122,51 @@ const ProductGroupDialog = Form.create({
 
   }
 
+  onCreate = () => {
+    this.setState({canLoad: true, initData: true})
+    this.props.onCreate()
+  }
+
+  onCancel = () => {
+    this.setState({canLoad: true, initData: true})
+    this.props.onCancel()
+  }
+
+  // 商品选择改变事件
+  productChange = (item) => {
+    if (item) {
+      this.setState({chosenProduct: item, canLoad: false})
+    } else {
+      this.setState({chosenProduct: [], canLoad: false})
+    }
+  
+  }
+
+  
+
+
     render() {
     // 此为修改
-    const { visible, onCancel, onCreate, form, title} = this.props
-    const { getFieldDecorator } = form
+    const { visible, form, title} = this.props
+    const { getFieldDecorator, setFieldsValue } = form
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 }
     }
+    
+   if (visible && this.state.canLoad) {
+     setTimeout(() => {
+      this.productChange(this.props.ProductRelation)
+      let setValues = {}
+      this.state.chosenProduct.map((item, index) => {
+          setValues[item.key] = item.number
+      })
+
+      if (Object.keys(setValues).length > 0) {
+        setFieldsValue(setValues)
+      }
+     }, 20)
+   }
 
     // 上传方法
     const uploadObj = Utility.getUploadObj()
@@ -148,20 +188,27 @@ const ProductGroupDialog = Form.create({
         message.error(`上传失败`)
       }
   }
+  
+ 
+
+  
+ 
+  
     // let userModel = model.User.UserModel
     return (
       
       <Modal
         visible={visible}
         title={title}
-        onCancel={onCancel}
-        onOk={onCreate}
+        onCancel={this.onCancel}
+        onOk={this.onCreate}
         maskClosable={false}
       >
         <Form horizontal>
          <FormItem
           {...formItemLayout}
           label="商品组名称："
+          key='WaresName'
           hasFeedback
         >
           {getFieldDecorator('WaresName', {
@@ -203,9 +250,27 @@ const ProductGroupDialog = Form.create({
           placeholder="选择商品"
           optionFilterProp="children"
           filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+          onChange={this.productChange}
+          labelInValue={true}
       >{this.state.productDicSelect}</Select>
         )}
       </FormItem>
+      {
+        this.state.chosenProduct.map((item, index) => {
+           return (<FormItem
+             {...formItemLayout}
+             label={item.label}
+             key={item.key}
+             hasFeedback
+           >
+             {getFieldDecorator(item.key, {
+               rules: [{required: false}]
+             })(
+               <InputNumber placeholder="数量(默认1)" min={1} step={1} max={10} precision={0}/>
+             )}
+           </FormItem>)
+         }) 
+      }
       <FormItem
       {...formItemLayout}
       label="所属类型："

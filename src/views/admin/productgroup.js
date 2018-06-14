@@ -93,17 +93,17 @@ class ProductGroup extends Component {
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: {} })
+           this.setState({ visible: true, savePara: {}})
          } else {
-            this.props.fetchProductGroupById().then(msg => {
+            this.props.fetchProductGroupById({waresGroupId: item.WaresId}).then(msg => {
                 let {groupData} = this.props.productGroup
                 if (groupData) {
                     item.ProductRelation = []
                     $.each(groupData, (index, eItem) => {
-                       item.ProductRelation.push(eItem.WaresId)
+                       item.ProductRelation.push({key: eItem.WaresId, number: eItem.Numbers})
                     })
                 }
-                this.setState({ visible: true, savePara: item })
+                this.setState({ visible: true, savePara: item})
             })
             
          }
@@ -138,10 +138,14 @@ class ProductGroup extends Component {
         if (err) {
             return
         }
+       
         if (values.ProductRelation && values.ProductRelation.length > 0) {
             values.lstProductRelation = []
             $.each(values.ProductRelation, (index, item) => {
-                values.lstProductRelation.push({WaresId: item})
+                if (!values[item.key]) {
+                    values[item.key] = 1
+                }
+                values.lstProductRelation.push({WaresId: item.key, Numbers: values[item.key]})
             })
         }
         // 更新
