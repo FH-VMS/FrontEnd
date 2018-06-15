@@ -1,5 +1,6 @@
 import { Modal, Form, Input, InputNumber, Select, DatePicker } from 'antd'
 import React, {Component} from 'react'
+import Utility from 'UTIL/utility'
 const FormItem = Form.Item
 const Option = Select.Option
 
@@ -24,11 +25,11 @@ const ActivityDialog = Form.create({
      },
      StartTime: {
         ...props.StartTime,
-        value: props.StartTime
+        value: Utility.timeFormaterObj(props.StartTime)
       },
       EndTime: {
          ...props.EndTime,
-         value: props.EndTime
+         value: Utility.timeFormaterObj(props.EndTime)
        },
       RelationData: {
         ...props.RelationData,
@@ -71,7 +72,14 @@ const ActivityDialog = Form.create({
        this.timeRuleSelect = timeRuleSelect
       }
 
-
+      getPrivilegeDicSelect = (data) => {
+        let typeDicSelect = data.map((item, index) => {
+           return (
+             <Option value={item.Id}>{item.Name}</Option>
+           )
+         })
+         this.privilegeDicSelect = typeDicSelect
+      }
   componentDidMount() {
     
   }
@@ -88,7 +96,7 @@ const ActivityDialog = Form.create({
 
     checkRelation = (rule, value, callback) => {
       if (value.length == 0) {
-        callback('至少选一个商品')
+        callback('至少选一个优惠券')
       } else {
         callback()
       }
@@ -129,12 +137,13 @@ const ActivityDialog = Form.create({
     }
     this.getPrivilegeGroupSelect(this.props.privilegeGroupDic)
     this.getTimeRuleSelect(this.props.timeRuleDic)
+    this.getPrivilegeDicSelect(this.props.privilegeDic)
    if (visible && this.state.canLoad) {
      setTimeout(() => {
       this.relationChange(this.props.RelationData)
       let setValues = {}
       this.state.chosenPrivilege.map((item, index) => {
-          setValues[item.key] = item.number
+          setValues[item.key] = item.rate
       })
 
       if (Object.keys(setValues).length > 0) {
@@ -210,7 +219,7 @@ const ActivityDialog = Form.create({
           filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           onChange={this.relationChange}
           labelInValue={true}
-      >{this.state.productDicSelect}</Select>
+      >{this.privilegeDicSelect}</Select>
         )}
       </FormItem>
       {
@@ -263,12 +272,12 @@ const ActivityDialog = Form.create({
   </FormItem>
   <FormItem
   {...formItemLayout}
-  label="开始时间："
+  label="结束时间："
   hasFeedback
 >
   {getFieldDecorator('EndTime', {
     rules: [{
-        required: true, message: '活动开始时间必填'
+        required: true, message: '活动结束时间必填'
     }]
   })(
       <DatePicker 
@@ -277,21 +286,6 @@ const ActivityDialog = Form.create({
       style={{width: '100%'}}
       />
   )}
-</FormItem>
-<FormItem
-{...formItemLayout}
-label="时间规则："
-hasFeedback
->
-{getFieldDecorator('TimeRule', {
-  rules: [{
-    required: false
-  }]
-})(
-    <Select allowClear={true}>
-       {this.timeRuleSelect}
-  </Select>
-)}
 </FormItem>
         </Form>
       </Modal>

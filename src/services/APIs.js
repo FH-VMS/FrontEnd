@@ -52,6 +52,9 @@ const api = {
       },
       GetProductTypeDic: function(data) {
           return apiService('Common', 'GetProductTypeDic', 'GET', data)
+      },
+      GetNotExpirePrivilegeDic: function(data) {
+          return apiService('Common', 'GetNotExpirePrivilegeDic', 'GET', data)
       }
 	}, 
   User: {

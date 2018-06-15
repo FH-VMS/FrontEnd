@@ -12,6 +12,7 @@ const FETCH_ADDIC = 'FETCH_ADDIC'
 const FETCH_PRODUCTTYPEDIC = 'FETCH_PRODUCTTYPEDIC'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
+const FETCH_PRIVILEGEDIC = 'FETCH_PRIVILEGEDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -160,8 +161,23 @@ const fetchDic = (searParam) => dispatch =>
        return msgs
    })
 
+      // 取未过期优惠券作字典
+      const fetchPrivilegeDic = () => dispatch =>
+      apis
+        .Common
+        .GetNotExpirePrivilegeDic()
+        .then(msgs => {
+          dispatch({
+             type: FETCH_PRIVILEGEDIC,
+             payload: msgs
+          })
+          return msgs
+      })
+
 export default {
-  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, fetchProductDic, fetchMachineDic
+  fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, 
+  fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, 
+  fetchProductDic, fetchMachineDic, fetchPrivilegeDic
 }
 
 export const ACTION_HANDLERS = {
@@ -203,6 +219,10 @@ export const ACTION_HANDLERS = {
     return result
 },
 [FETCH_MACHINEDIC]: (result, { payload }) => {
+    result.DicData = payload
+    return result
+},
+[FETCH_PRIVILEGEDIC]: (result, { payload }) => {
     result.DicData = payload
     return result
 }

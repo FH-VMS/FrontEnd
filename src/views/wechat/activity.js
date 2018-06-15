@@ -21,7 +21,8 @@ class Activity extends Component {
         this.state = {
             chance: 0,
             modal: false,
-            money: 0
+            money: 0,
+            message: ''
         }
 	}
 
@@ -105,6 +106,20 @@ class Activity extends Component {
                             // console.log('aaaa', result)
                             if (result && this.state.chance) {
                                 this.setState({chance: this.state.chance - 1, modal: true, money: data.Money})
+                                switch (data.PrincipleType) {
+                                    case '1':
+                                    this.setState({message: `恭喜你，领到${data.Money}元满减券`})
+                                    break
+                                    case '2':
+                                    this.setState({message: `恭喜你，领到${data.Discount}折打折券`})
+                                    break
+                                    case '3':
+                                    this.setState({message: `恭喜你，领到一张赠品券`})
+                                    break
+                                    case '4':
+                                    this.setState({message: '谢谢惠顾，下次记得努力哦'})
+                                    break
+                                }
                              }
                         })
                      }
@@ -151,7 +166,9 @@ class Activity extends Component {
           wrapProps={{ onTouchStart: this.onWrapTouchStart }}
           style = {{width: '98%'}}
           >
-           恭喜你，领取{this.state.money}元红包
+            {
+                this.state.message
+            }
           </Modal>
         </div>
         )

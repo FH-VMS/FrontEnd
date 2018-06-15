@@ -26,7 +26,8 @@ class Activity extends Component {
             savePara: {},
             searchDatasource: [],
             privilegeGroupDic: [],
-            timeRuleDic: []
+            timeRuleDic: [],
+            privilegeDic: []
         }
 
         this.searchPara = {
@@ -72,7 +73,11 @@ class Activity extends Component {
           }
       })
      
-    
+      this.props.fetchPrivilegeDic().then(msg => {
+        if (msg) {
+          this.setState({loading: false, privilegeDic: msg})
+        }
+    })
      
       
     }
@@ -134,7 +139,7 @@ class Activity extends Component {
     // 删除
     handleDelete = (record, e) => {
         
-        if (record.WaresId) {
+        if (record.Id) {
             this.props.deleteActivity({idList: record.Id}).then(msg => {
                 if (msg) {
                     message.success('删除成功')
@@ -159,11 +164,11 @@ class Activity extends Component {
         if (err) {
             return
         }
-       
+         console.log('aaaaa', values)
         if (values.RelationData && values.RelationData.length > 0) {
-            values.RelationData = []
+            values.listActivityPrivilege = []
             $.each(values.RelationData, (index, item) => {
-                values.lstProductRelation.push({PrivilegeId: item.key, Rate: values[item.key]})
+                values.listActivityPrivilege.push({PrivilegeId: item.key, Rate: values[item.key]})
             })
         }
         // 更新
@@ -320,6 +325,7 @@ class Activity extends Component {
                         {...fields}
                         privilegeGroupDic={this.state.privilegeGroupDic}
                         timeRuleDic={this.state.timeRuleDic}
+                        privilegeDic={this.state.privilegeDic}
                  />
                 </Spin>
            </div>

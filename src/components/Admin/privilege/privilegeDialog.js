@@ -237,18 +237,6 @@ getFormItems = (val) => {
     this.getProductSelect()
     break
     case '4':
-    items.push({label: '券额：', key: 'Money', rules: [{
-      required: true, message: '券额必填'
-    }],
-     control: <InputNumber min={0} step={0.01} max={100} precision={2}/>
-   },
-  )
-  items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
-    required: true, message: '选择赠送商品：'
-  }],
-  control: <Select>
-    
-  </Select>})
   
     break
     case '5':
@@ -262,6 +250,21 @@ getFormItems = (val) => {
     control: <Select>
       
     </Select>})
+    break
+    case '6':
+    items.push({label: '券额：', key: 'Money', rules: [{
+      required: true, message: '券额必填'
+    }],
+     control: <InputNumber min={0} step={0.01} max={100} precision={2}/>
+   },
+  )
+  items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
+    required: true, message: '选择赠送商品：'
+  }],
+  control: <Select>
+    
+  </Select>})
+  
     break
   }
 
@@ -349,7 +352,9 @@ principleTypeChange = (val) => {
             </Select>
           )}
         </FormItem>
-        <FormItem
+        {
+          /*
+           <FormItem
         {...formItemLayout}
         label="券组："
         hasFeedback
@@ -365,6 +370,9 @@ principleTypeChange = (val) => {
           </Select>
         )}
       </FormItem>
+          */
+        }
+       
       {
         items
       }
