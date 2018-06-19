@@ -91,6 +91,8 @@ class MapModule extends Component {
         
        */
         this.mapComplete()
+        this.mapMoveEnd()
+        this.containerResize()
 
         window.AMapUI.loadUI(['misc/PositionPicker'], (PositionPicker) => {
             

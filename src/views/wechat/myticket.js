@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {ListView} from 'antd-mobile'
 import EveryPrivilege from 'COMPONENT/wechat/my/everyPrivilege'
+import $ from 'jquery'
 
 class MyTicket extends Component {
 	constructor(props) {
@@ -115,7 +116,7 @@ onEndReached = (event) => {
             onEndReached={this.onEndReached}
             onEndReachedThreshold={30}
             style={{
-              height: document.documentElement.clientHeight * 3 / 4,
+              height: document.documentElement.clientHeight - $('.globalTabBar').height(),
               width: '100%',
               overflow: 'auto',
               border: '1px solid #ddd'
