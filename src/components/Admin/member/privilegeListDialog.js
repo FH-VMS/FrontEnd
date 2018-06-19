@@ -1,4 +1,4 @@
-import { Modal, Table } from 'antd'
+import { Modal, Table, message } from 'antd'
 import React, {Component} from 'react'
 import model from 'STORE/model'
 
@@ -24,6 +24,7 @@ class PrivilegeListDialog extends Component {
 
     componentWillMount() {
         // console.log('iiii', this.props)
+        this.rowData = ''
     }
 
 
@@ -31,7 +32,7 @@ class PrivilegeListDialog extends Component {
 
   componentDidMount() {
       
-    }
+ }
 
     generatePrivilegeList = () => {
       // let {page} = this.state
@@ -73,12 +74,26 @@ class PrivilegeListDialog extends Component {
     }
 
     onCreate = () => {
-        this.state.canLoad = true
-        this.props.onCreate()
+        if (!this.rowData) {
+            message.warning('请选择一个优惠券')
+            return
+        }
+        Modal.confirm({
+            title: '确认框',
+            content: '确定赠送吗?',
+            onOk: () => {
+                this.props.onCreate(this.rowData)
+                this.state.canLoad = true
+            },
+            onCancel: () => {}
+          })
+        
+        
     }
 
-    onSelectChange = (selectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys)
+    onSelectChange = (selectedRowKeys, rows) => {
+        console.log('selectedRowKeys changed: ', rows[0])
+        this.rowData = rows[0]
         this.setState({ selectedRowKeys })
     }
 
@@ -101,6 +116,7 @@ class PrivilegeListDialog extends Component {
         onCancel={this.onCancel}
         onOk={this.onCreate}
         style={{minWidth: '800px'}}
+       
       >
       <Table rowSelection={rowSelection} dataSource={this.state.dataSource} pagination={this.state.pagination}>
           <Column

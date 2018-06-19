@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, Spin, Input } from 'antd'
+import { Table, Spin, Input, message } from 'antd'
 import DetailDialog from 'COMPONENT/admin/member/privilegeDetailDialog'
 import ListDialog from 'COMPONENT/admin/member/privilegeListDialog'
 
@@ -105,7 +105,35 @@ class Member extends Component {
         this.setState({ listVisible: false })
         }
 
-        handleListCreate = () => {
+        handleListCreate = (record) => {
+            let tmpObj = {}
+            tmpObj.MemberId = this.state.nowRecord.OpenId
+            tmpObj.PrivilegeId = record.PrivilegeId
+            tmpObj.PrivilegeName = record.PrivilegeName
+            tmpObj.ExpireTime = record.ExpireTime
+            tmpObj.PrincipleType = record.PrincipleType
+            tmpObj.UseMoneyLimit = record.UseMoneyLimit
+            tmpObj.IsBind = record.IsBind
+            tmpObj.ClientId = record.ClientId
+            tmpObj.IsOverlay = record.IsOverlay
+            tmpObj.SourceId = record.SourceId
+            tmpObj.PrivilegeInstru = record.PrivilegeInstru
+            tmpObj.Money = record.Money
+            tmpObj.Discount = record.Discount
+            tmpObj.ComeFrom = '商家赠送'
+            tmpObj.TimeRule = record.TimeRule
+            tmpObj.BindProductIds = record.BindProductIds
+            tmpObj.DisplayText = record.DisplayText
+            console.log(this.state.nowRecord)
+           
+            this.props.givePrivilege({privilegeMemberInfo: tmpObj}).then(result => {
+                if (result) {
+                    message.success('赠送成功')
+                    this.setState({listVisible: false})
+                } else {
+                    message.error('赠送失败')
+                }
+            })
         /*
         const form = this.form
         form.validateFields((err, values) => {
