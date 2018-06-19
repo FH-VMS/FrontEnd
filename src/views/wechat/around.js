@@ -41,11 +41,13 @@ class Around extends Component {
     }
 
     getLocations = (lng, lat) => {
-        this.props.fetchLocations({longitude: lng, latitude: lat}).then(msg => {
-          if (this.props.wechat && this.props.wechat.locationData) {
-              this.setState({aroundData: this.props.wechat.locationData})
-          }
-        })
+        if (this.props.location.query.clientId) {
+            this.props.fetchLocations({longitude: lng, latitude: lat, clientId: this.props.location.query.clientId}).then(msg => {
+            if (this.props.wechat && this.props.wechat.locationData) {
+                this.setState({aroundData: this.props.wechat.locationData})
+            }
+            })
+        }
     }
 
 
