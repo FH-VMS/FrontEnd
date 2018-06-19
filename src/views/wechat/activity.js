@@ -3,6 +3,8 @@ import 'ASSET/csslib/GB-canvas-turntable.less'
 import gbTurntable from 'UTIL/lottery'
 import {Toast, Button, Modal} from 'antd-mobile'
 import {hashHistory} from 'react-router'
+// import $ from 'jquery'
+
 
 function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector
@@ -47,11 +49,14 @@ class Activity extends Component {
   }
 
   componentDidMount() {
+    let clientWidth = document.documentElement.clientWidth;
+    // jquery('#' + opts.id).width(canvasWidth + 'px')
     if (this.props.location.query.clientId) {
         var jsonUser = sessionStorage.getItem('wechatInfo')
         Toast.loading('加载中')
-        this.props.fetchActivityList({clientId: this.props.location.query.clientId, principleType: 1}).then(msg => {
-            let clientWidth = document.documentElement.clientWidth;
+       
+        this.props.fetchActivityList({clientId: this.props.location.query.clientId, activityType: 1}).then(msg => {
+            
             let obj = {
                 id: 'turntable',
                 config: (callback) => {
@@ -59,27 +64,54 @@ class Activity extends Component {
                     callback && callback(msg)  
                 },
                 getPrize: (callback) => {
+                 
+                    // msg.map
                     // 获取中奖信息
-                    let num = Math.random() * msg.length >>> 0   // 奖品ID
-                    // let chances = num  // 可抽奖次数
+                    let rateArr = []
+                    let totalRate = 0
+                    msg.map((item, index) => {
+                        totalRate = totalRate + item.Rate
+                        rateArr.push(item.Rate)
+                    })
                     
-                  
-                    if (jsonUser) {
-                        this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, principleType: 2}).then(count => {
-                            
-                            this.setState({chance: count})
-                            let data = [num, count]
-                            callback && callback(data) 
-                        })
-                    } else {
-                        let data = [num, 0]
-                        callback && callback(data) 
+                    let randomRate = Math.random() * totalRate
+                    let num = -1
+                    let nowIndex = 0
+                    for (let i = 0; i < rateArr.length; i++) {
+                        nowIndex = nowIndex + rateArr[i]
+                        let lessVal = 0
+                        if (i > 0) {
+                            lessVal = nowIndex - rateArr[i]
+                        }
+                        if (randomRate > lessVal && randomRate <= nowIndex) {
+                            num = i
+                            break 
+                        }
+                        
                     }
                     
+                     // let num = Math.floor(random * msg.length) // >>> 0   // 奖品ID
+                    // let chances = num  // 可抽奖次数
+                    
+                    if (num == -1) {
+                        let data = [num, 0]
+                        callback && callback(data) 
+                    } else {
+                        if (jsonUser) {
+                            this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, principleType: 2}).then(count => {
+                                
+                                this.setState({chance: count})
+                                let data = [num, count]
+                                callback && callback(data) 
+                            })
+                        } else {
+                            let data = [num, 0]
+                            callback && callback(data) 
+                        }
+                    }
                    
                 },
                 gotBack: (data) => {
-                    
                     let tmpObj = {}
                     
                     if (jsonUser) {
@@ -130,7 +162,7 @@ class Activity extends Component {
             gbTurntable.init(obj)
             setTimeout(() => {
                 Toast.hide()
-            }, 5000)
+            }, 1000)
             
         })
     }
@@ -138,11 +170,14 @@ class Activity extends Component {
   }
 
   render() {
-
+    let clientWidth = document.documentElement.clientWidth;
+    let size = clientWidth * 0.7 + 'px'
+    // $('#turntable').height(clientWidth * 0.7)
+    // $('#turntable').width(clientWidth * 0.7)
       return (
         <div className="lotteryContainer">
           <div><img className="lotteryTitle" src={require('ASSET/img/wechat/lottery/title.png')}/></div>
-          <section id="turntable" className="gb-turntable lotteryContent">
+          <section id="turntable" className="gb-turntable lotteryContent" style={{width: size, height: size}}>
               <div className="gb-turntable-container">
                   <canvas className="gb-turntable-canvas" width="400" height="400">抱歉！浏览器不支持。</canvas> 
               </div>

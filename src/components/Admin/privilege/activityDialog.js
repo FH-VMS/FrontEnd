@@ -287,6 +287,19 @@ const ActivityDialog = Form.create({
       />
   )}
 </FormItem>
+<FormItem
+{...formItemLayout}
+label="数量："
+hasFeedback
+>
+{getFieldDecorator('Numbers', {
+  rules: [{
+      required: true, message: '数量必填'
+  }]
+})(
+  <InputNumber />
+)}
+</FormItem>
         </Form>
       </Modal>
      

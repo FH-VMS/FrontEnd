@@ -164,7 +164,6 @@ class Activity extends Component {
         if (err) {
             return
         }
-         console.log('aaaaa', values)
         if (values.RelationData && values.RelationData.length > 0) {
             values.listActivityPrivilege = []
             $.each(values.RelationData, (index, item) => {

@@ -82,10 +82,11 @@ var transitionEnd = cssSupport.transitionEnd;
 function init(opts) {
   fnGetPrize = opts.getPrize;
   fnGotBack = opts.gotBack;
-  adapterCanvas(opts)
+  
   opts.config(function(data) {
     prizes = opts.prizes = data;
     num = prizes.length;
+    adapterCanvas(opts)
     draw(opts);
   });
   
@@ -169,16 +170,20 @@ function draw(opts) {
 
 // 根据屏幕适应大小
 function adapterCanvas(opts) {
+ 
   let ele = $(opts.id)
   let canvas = ele.querySelector('.gb-turntable-canvas');
   let btn = ele.querySelector('.gb-turntable-btn');
   let canvasWidth = opts.width 
-  canvas.setAttribute('width', canvasWidth + 'px');
-  canvas.setAttribute('height', canvasWidth + 'px');
-  ele.style.height = canvasWidth + 'px'
-  ele.style.width = canvasWidth + 'px'
+  canvas.setAttribute('width', canvasWidth);
+  canvas.setAttribute('height', canvasWidth);
+  // jquery('#' + opts.id).height(canvasWidth + 'px')
+  // jquery('#' + opts.id).width(canvasWidth + 'px')
+  // ele.style.height = canvasWidth + 'px'
+  // ele.style.width = canvasWidth + 'px'
   btn.style.left = canvasWidth / 2 - jquery('.gb-turntable-btn').width() / 2 + 'px'
   btn.style.marginTop = canvasWidth / 2 - jquery('.gb-turntable-btn').width() / 2 + 'px'
+  
 }
 
 /**
