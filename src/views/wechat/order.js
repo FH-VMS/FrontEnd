@@ -3,6 +3,7 @@ import {Tabs, Badge, Button, ListView} from 'antd-mobile'
 import wechatUtility from 'UTIL/wechatUtility'
 import {hashHistory} from 'react-router'
 import ReactDOM from 'react-dom'
+import $ from 'jquery'
 
 
 
@@ -29,6 +30,7 @@ class Order extends Component {
 
   componentDidMount() {
     this.queryWaitingData()
+    this.adapterTab()
   }
 
   queryWaitingData = () => {
@@ -89,6 +91,10 @@ class Order extends Component {
     })
     
    
+ }
+
+ adapterTab = () => {
+   $('.wechatOrder').height(document.documentElement.clientHeight - $('.globalTabBar').height())
  }
 
   onEndReached = (event) => {
@@ -171,6 +177,7 @@ class Order extends Component {
                       <div>
                         <div>{item.WaresName}</div>
                         <div>{item.TradeNo}</div>
+                        <div>{item.CreateDate.replace('T', ' ')}</div>
                       </div>
                       <div className="pickUpCode">
                         {item.PickupNo}

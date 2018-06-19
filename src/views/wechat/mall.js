@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Carousel, Tabs, Modal, Stepper, Badge} from 'antd-mobile'
 import {hashHistory} from 'react-router'
 import PropTypes from 'prop-types'
+import $ from 'jquery'
 
 import EveryTab from 'COMPONENT/wechat/mall/everyTab'
 
@@ -45,6 +46,11 @@ class Mall extends Component {
     this.setState({
       [key]: false
     })
+  }
+
+  adapterTab = () => {
+    console.log(document.documentElement.clientHeight, $('.globalTabBar').height(), $('#wechatCarousel').height())
+    $('#wechatTabs').height(document.documentElement.clientHeight - $('.globalTabBar').height() - $('#wechatCarousel').height())
   }
 
   componentDidMount() {
@@ -99,6 +105,7 @@ class Mall extends Component {
     }
 
     this.getCarousel()
+    this.adapterTab()
     
   }
 
@@ -154,11 +161,13 @@ class Mall extends Component {
     const tabs = this.state.tabTitles
       return (
           <div>
+            <div id="wechatCarousel">
             <Carousel
                 autoplay={true}
                 infinite
                 beforeChange={(from, to) => {}}
                 afterChange={index => {}}
+                style={{height: '3.5rem'}}
             >
               {
                 this.state.carouselData.map((item, index) => {
@@ -175,6 +184,8 @@ class Mall extends Component {
               }
               
             </Carousel>
+            </div>
+            <div id='wechatTabs'>
             <Tabs tabs={tabs}
               initialPage={0}
               onChange={this.tabChange.bind(this)}
@@ -185,6 +196,7 @@ class Mall extends Component {
             >
               {this.state.tabContents}
             </Tabs>
+            </div>
             <Modal
             visible={this.state.modal}
             transparent

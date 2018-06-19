@@ -115,7 +115,7 @@ onEndReached = (event) => {
             onEndReached={this.onEndReached}
             onEndReachedThreshold={30}
             style={{
-              height: document.documentElement.clientHeight * 3.2 / 4,
+              height: document.documentElement.clientHeight * 3 / 4,
               width: '100%',
               overflow: 'auto',
               border: '1px solid #ddd'

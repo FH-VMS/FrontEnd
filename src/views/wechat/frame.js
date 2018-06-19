@@ -87,6 +87,10 @@ class WechatFrame extends Component {
       case 'deletecartproduct':
       this.setState({cartCount: this.state.cartCount - 1})
       break
+      case 'clearcart':
+      wechatUtility.Cart.clearData()
+      this.setState({cartCount: 0})
+      break
     }
   }
 

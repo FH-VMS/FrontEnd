@@ -238,6 +238,11 @@ class Customer extends Component {
               <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
+                        title="编号"
+                        dataIndex="Id"
+                        key="Id"
+                    />
+                    <Column
                         title="名称"
                         dataIndex="ClientName"
                         key="ClientName"

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Button, List, Toast, Badge} from 'antd-mobile'
 import wechatUtility from 'UTIL/wechatUtility'
 import {handleUrlParams} from 'UTIL/mobileUtility'
+import {hashHistory} from 'react-router'
 
 class Pay extends Component {
 	constructor(props) {
@@ -94,7 +95,8 @@ class Pay extends Component {
        'getBrandWCPayRequest', this.payPara,
        (res) => {   
            if (res.err_msg == 'get_brand_wcpay_request:ok') {
-              window.WeixinJSBridge.call('closeWindow')
+              // window.WeixinJSBridge.call('closeWindow')
+              hashHistory.push('/result' + this.props.location.search)
                 // 支付成功 调用支付成功接口
            }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
        }

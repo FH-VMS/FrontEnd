@@ -167,7 +167,8 @@ export default {
     require('./wechat/myticket').default,
     require('./wechat/service').default,
     require('./wechat/around').default,
-    require('./wechat/aroundmap').default
+    require('./wechat/aroundmap').default,
+    require('./wechat/result').default
   ]
  }
 }
