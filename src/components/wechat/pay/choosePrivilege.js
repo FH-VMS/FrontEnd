@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {Modal} from 'antd-mobile'
+import {Modal, List, Checkbox} from 'antd-mobile'
+const CheckboxItem = Checkbox.CheckboxItem
 
 class ChoosePrivilege extends Component {
 	constructor(props) {
@@ -14,6 +15,10 @@ class ChoosePrivilege extends Component {
 
   }
 
+  onChange = (val) => {
+    console.log(val);
+  }
+
 
   render() {
       
@@ -26,7 +31,21 @@ class ChoosePrivilege extends Component {
             animationType="slide-up"
             maskClosable={false}
         >
-            12321
+            <List renderHeader={() => 'CheckboxItem demo'}>
+            {this.props.canOverlay.map(i => (
+            <CheckboxItem key={i.Id} onChange={() => this.onChange(i.value)} multipleLine>
+               {i.DisplayText}<List.Item.Brief>{i.PrivilegeTypeText},满{i.UseMoneyLimit}可用</List.Item.Brief>
+            </CheckboxItem>
+            ))}
+        </List>
+        <List renderHeader={() => 'CheckboxItem demo'}>
+        {this.props.cannotOverlay.map(i => (
+            <CheckboxItem key={i.Id} onChange={() => this.onChange(i.value)} multipleLine>
+            {i.DisplayText}<List.Item.Brief>{i.PrivilegeTypeText},满{i.UseMoneyLimit}可用</List.Item.Brief>
+         </CheckboxItem>
+         
+        ))}
+    </List>
         </Modal>
         )
   }

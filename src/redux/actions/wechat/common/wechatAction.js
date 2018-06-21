@@ -15,6 +15,7 @@ const FETCH_PRIVILEGEBYMEMBER = 'FETCH_PRIVILEGEBYMEMBER'
 const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
 const GET_WEIXINJSCONFIG = 'GET_WEIXINJSCONFIG'
 const FETCH_MACHINELOCATIONS = 'FETCH_MACHINELOCATIONS'
+const FETCH_NONEEXPIREPRIVILEGE = 'FETCH_NONEEXPIREPRIVILEGE'
 
 // ================================
 // Action Creator
@@ -173,9 +174,25 @@ const FETCH_MACHINELOCATIONS = 'FETCH_MACHINELOCATIONS'
   })
 
 
+  const fetchNoneExiprePrivilege = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetNoneExpirePrivilegeByMemberId(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_NONEEXPIREPRIVILEGE,
+         payload: msgs
+      })
+      return msgs
+  })
+
+
 /* default 导出所有 Action Creators */
 export default {
-fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay, fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting, fetchActivityList, getTicket, fetchPrivilegeByMember, getCanTicketCount, getWeixinConfig, fetchLocations
+fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay,
+ fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting,
+  fetchActivityList, getTicket, fetchPrivilegeByMember, 
+  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege
 }
 
 // ================================
@@ -218,6 +235,10 @@ export const ACTION_HANDLERS = {
   [GET_WEIXINJSCONFIG]: (result, { payload }) => ({payload}),
   [FETCH_MACHINELOCATIONS]: (result, { payload }) => {
     result.locationData = payload
+    return result
+  },
+  [FETCH_NONEEXPIREPRIVILEGE]: (result, { payload }) => {
+    result.noneExpireData = payload
     return result
   }
 }

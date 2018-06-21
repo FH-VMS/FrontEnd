@@ -355,6 +355,9 @@ const api = {
         },
         GetMachineLocations: function (data) {
             return apiService('Wechat', 'GetMachineLocations', 'POST', data)
+        },
+        GetNoneExpirePrivilegeByMemberId: function (data) {
+            return apiService('Wechat', 'GetNoneExpirePrivilegeByMemberId', 'POST', data)
         }
     },
     MachineCabinet: {

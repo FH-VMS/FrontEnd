@@ -14,7 +14,10 @@ class Pay extends Component {
           privilegeIds: '',
           privilegeData: [],
           chosenPrivilege: [],
-          visible: false
+          visible: false,
+          canOverlay: [],
+          cannotOverlay: []
+
         }
         this.payPara = {}
 	}
@@ -34,12 +37,11 @@ class Pay extends Component {
     // let chosenProducts = wechatUtility.Cart.getData()
     if (chosenProducts) {
       let searchPara = handleUrlParams(window.location.href.split('?')[1])
-      let wechatInfo = sessionStorage.getItem('wechatInfo')
-      if (!sessionStorage) {
+      let openid = wechatUtility.GetMemberId()
+      if (!openid) {
         Toast.warning('未登录')
         return
       }
-      let openid = JSON.parse(wechatInfo).openid
       let lstProductPay = []
       JSON.parse(chosenProducts).map((item, index) => {
          let tmpObj = {}
@@ -127,7 +129,32 @@ class Pay extends Component {
 
 
   privilegeClick = () => {
-    this.setState({visible: true})
+   
+    if (this.state.chosenPrivilege.length == 0) {
+      let openid = wechatUtility.GetMemberId()
+      if (!openid) {
+        Toast.warning('未登录')
+        return
+      }
+      this.props.fetchNoneExiprePrivilege({memberId: openid}).then(msg => {
+        if (msg) {
+          let canOverlay = []
+          let cannotOverlay = []
+          msg.map((item, index) => {
+              if (item.IsOverlay) {
+                canOverlay.push(item)
+              } else {
+                cannotOverlay.push(item)
+              }
+          })
+          this.setState({visible: true, chosenPrivilege: msg, canOverlay: canOverlay, cannotOverlay: cannotOverlay})
+        }
+         
+      })
+    } else {
+      this.setState({visible: true})
+    }
+    
   }
  
 
@@ -166,7 +193,7 @@ class Pay extends Component {
          </List.Item>
        </List>
        <Button className="btn" type="primary" onClick={this.callPay} style={{margin: 'auto', marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
-       <ModalPrivilege visible={this.state.visible} onClose={this.onClose}/>
+       <ModalPrivilege canOverlay={this.state.canOverlay} cannotOverlay={this.state.cannotOverlay} visible={this.state.visible} onClose={this.onClose}/>
      </div>
         )
   }
