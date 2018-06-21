@@ -3,6 +3,7 @@ import {Button, List, Toast, Badge} from 'antd-mobile'
 import wechatUtility from 'UTIL/wechatUtility'
 import {handleUrlParams} from 'UTIL/mobileUtility'
 import {hashHistory} from 'react-router'
+import ModalPrivilege from 'COMPONENT/wechat/pay/choosePrivilege'
 
 class Pay extends Component {
 	constructor(props) {
@@ -12,7 +13,8 @@ class Pay extends Component {
           totalFee: 0,
           privilegeIds: '',
           privilegeData: [],
-          chosenPrivilege: []
+          chosenPrivilege: [],
+          visible: false
         }
         this.payPara = {}
 	}
@@ -119,6 +121,14 @@ class Pay extends Component {
   }
 
 
+  onClose = () => {
+    this.setState({visible: false})
+  }
+
+
+  privilegeClick = () => {
+    this.setState({visible: true})
+  }
  
 
   render() {
@@ -145,7 +155,7 @@ class Pay extends Component {
        }
        {
          this.state.privilegeData.map((item, index) => {
-           return <List.Item arrow="horizontal" extra={<span className="productNum" style={{color: '#f96268'}}>{item.DisplayText}</span>}>
+           return <List.Item arrow="horizontal" onClick={this.privilegeClick} extra={<span className="productNum" style={{color: '#f96268'}}>{item.DisplayText}</span>}>
                       <Badge text="红包" style={{ padding: '0 3px', backgroundColor: '#f96268', borderRadius: 2 }} /> {item.PrivilegeName}
                   </List.Item>
          })
@@ -156,6 +166,7 @@ class Pay extends Component {
          </List.Item>
        </List>
        <Button className="btn" type="primary" onClick={this.callPay} style={{margin: 'auto', marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
+       <ModalPrivilege visible={this.state.visible} onClose={this.onClose}/>
      </div>
         )
   }

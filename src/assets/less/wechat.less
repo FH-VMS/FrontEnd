@@ -185,21 +185,17 @@
         width: 100%;
         &>div{
             height: 225px;
-            padding: 10px;
+            padding: 5px;
             &:nth-child(1){
-                flex-grow: 1;
                 justify-content:center;
-                background: -webkit-linear-gradient(left, #ffa058 , #ff6867); /* Safari 5.1 - 6.0 */
-                background: -o-linear-gradient(right, #ffa058 , #ff6867); /* Opera 11.1 - 12.0 */
-                background: -moz-linear-gradient(right, #ffa058 , #ff6867); /* Firefox 3.6 - 15 */
-                background: linear-gradient(to right, #ffa058 , #ff6867); /* 标准的语法 */
                 border-top-left-radius: @ticketPadding;
                 border-bottom-left-radius: @ticketPadding;
                 font-weight: bold;
-                font-size: 0.4rem;
+                font-size: 0.3rem;
                 display: flex;
                 align-items: center;
                 color: #fff;
+                flex-grow: 1;
             }
             &:nth-child(2){
                 flex-grow: 2;
@@ -220,8 +216,22 @@
                 display: flex;
                 align-items: center;
                 justify-content:center;
-                flex-shrink: 0;
             }
+        }
+
+        .expireStyle {
+            background: -webkit-linear-gradient(left, #a2a2a2 , #d0d1d2); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #a2a2a2 , #d0d1d2); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #a2a2a2 , #d0d1d2); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #a2a2a2 , #d0d1d2); /* 标准的语法 */
+        }
+
+        .notExpireStyle
+        {
+            background: -webkit-linear-gradient(left, #ffa058 , #ff6867) !important; /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #ffa058 , #ff6867) !important; /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #ffa058 , #ff6867) !important; /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #ffa058 , #ff6867) !important; /* 标准的语法 */
         }
 
         .gotoUse{

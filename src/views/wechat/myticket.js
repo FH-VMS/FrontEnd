@@ -29,7 +29,6 @@ class MyTicket extends Component {
   }
 
   queryData = () => {
-    
     let memberInfo = sessionStorage.getItem('wechatInfo')
     if (!memberInfo) {
       return
@@ -38,7 +37,6 @@ class MyTicket extends Component {
     if (!objMember.openid) {
       return
     }
-    
     let {page} = this.state
     page.memberId = objMember.openid
   
@@ -91,7 +89,7 @@ onEndReached = (event) => {
   row = (rowData) => {
   
     return (
-      <EveryPrivilege data={rowData} />
+      <EveryPrivilege location={this.props.location} data={rowData} />
     )
   }
 

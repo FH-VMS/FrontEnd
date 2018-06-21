@@ -33,13 +33,15 @@ class EveryPrivilege extends Component {
         isExipire = true
       }
       let tmpHtml = []
+      let style = 'notExpireStyle'
       if (PrivilegeStatus == 2) {
         tmpHtml.push(<div>已使用</div>)
       } else {
           if (PrivilegeStatus == 1 && !isExipire) {
             tmpHtml.push(<div>已领取</div>)
-            tmpHtml.push(<div onClick={this.gotoUse} className="gotoUse">去使用</div>)
+            tmpHtml.push(<div onClick={this.gotoUse.bind(this)} className="gotoUse">去使用</div>)
           } else {
+            style = 'expireStyle'
             tmpHtml.push(<div>已过期</div>)
           }
       }
@@ -47,7 +49,7 @@ class EveryPrivilege extends Component {
       return (
         <div>
             <div className="everyTicket">
-                <div>{privilegeMoney}</div>
+                <div className={style}>{privilegeMoney}</div>
                 <div>
                     <div>
                         <div>失效时间: {ExpireTime.replace('T', ' ')} </div>
