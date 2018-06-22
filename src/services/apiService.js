@@ -116,8 +116,7 @@ class ApiService {
                         console.error(' Error Message : [ code : ' + msg.RetCode + ' ] ' + RetMsg)
                         deferred.reject(msg)
                     } else if (RetCode == 20 || RetCode == 100) {
-						
-                        if (RetMsg != null && RetMsg.length > 0) {
+                        if (RetMsg) {
                             message.warning(RetMsg)
                         }
 						// hashHistory.push({ pathname: rootRouter.login.path})
@@ -132,7 +131,7 @@ class ApiService {
                         deferred.resolve(RetObj, response)
                         console.error(' Error Message : [ code : ' + RetCode + ' ]' + RetMsg + ' 返回信息没有RetCode ')
 					}
-					message.destroy()
+					// message.destroy()
 		})
 		.fail(function(err) {
 			// message.destroy()

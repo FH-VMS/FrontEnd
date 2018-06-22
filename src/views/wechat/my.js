@@ -36,7 +36,7 @@ class My extends Component {
             <Flex.Item style={{textAlign: 'center'}}><img className="portrait" src={this.state.portrait}/></Flex.Item>
             <Flex.Item>
                <div className="nickName">昵称：{this.state.nickName}</div>
-               <div className="memberCode">会员号：{this.state.memberCode}</div>
+               <div className="memberCode">会员号：{this.state.memberCode.substr(0, 10)}</div>
             </Flex.Item>
           </Flex>
             </List.Item>

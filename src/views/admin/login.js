@@ -54,7 +54,7 @@ class Frame extends Component {
           } else {
             
           }
-           form.resetFields()
+           // form.resetFields()
           this.setState({loading: false})
           
       })

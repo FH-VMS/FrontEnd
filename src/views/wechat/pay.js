@@ -12,6 +12,7 @@ class Pay extends Component {
           data: [],
           totalFee: 0,
           privilegeIds: '',
+          selfChosen: '',
           privilegeData: [],
           chosenPrivilege: [],
           visible: false,
@@ -27,6 +28,11 @@ class Pay extends Component {
   }
 
   componentDidMount() {
+    
+    this.computeSum()
+  }
+
+  computeSum = () => {
     let chosenProducts = ''
     let immedite = sessionStorage.getItem('immeditelypay')
     if (immedite) {
@@ -53,7 +59,7 @@ class Pay extends Component {
          lstProductPay.push(tmpObj)
       })
     
-      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: this.state.privilegeIds, lstProductPay: lstProductPay}).then(msg => {
+      this.props.postWechatPay({clientId: searchPara.clientId, openId: openid, privilegeIds: this.state.privilegeIds, selfChosen: this.state.selfChosen, lstProductPay: lstProductPay}).then(msg => {
         let {RequestState, RequestData, ProductJson, PrivilegeJson, TotalMoney} = msg
         if (RequestState == '0') {
           // location.href = RequestData
@@ -79,7 +85,7 @@ class Pay extends Component {
             */
             this.setState({data: products, totalFee: TotalMoney, privilegeData: privilegeJsonObj})
           } else {
-            this.setState({data: products, totalFee: TotalMoney})
+            this.setState({data: products, totalFee: TotalMoney, privilegeData: []})
           }
           
           // this.handleProductJson(ProductJson, 'w')
@@ -90,7 +96,6 @@ class Pay extends Component {
         Toast.hide()
       })
     }
-    
   }
 
   onBridgeReady = () => {
@@ -127,6 +132,36 @@ class Pay extends Component {
     this.setState({visible: false})
   }
 
+  onOk = (data) => {
+    this.setState({visible: false})
+     if (data.length == 0) {
+       this.state.privilegeIds = ''
+       this.state.selfChosen = 'y'
+       this.computeSum()
+       return
+     }
+     let ids = data.map((item, index) => {
+            return item.Id
+     })
+     /*
+     let canReload = false
+     if (ids.length == this.state.privilegeData.length) {
+        for (let i = 0; i < this.state.privilegeData.length; i++) {
+            if (ids.indexOf(this.state.privilegeData[i].Id) == -1) {
+              canReload = true
+            }
+        }
+     }
+
+     if (canReload) {
+     */
+      this.state.selfChosen = 'y'
+       this.state.privilegeIds = ids.join(',')
+       this.computeSum()
+     // }
+     
+  }
+
 
   privilegeClick = () => {
    
@@ -138,16 +173,21 @@ class Pay extends Component {
       }
       this.props.fetchNoneExiprePrivilege({memberId: openid}).then(msg => {
         if (msg) {
+          /*
           let canOverlay = []
           let cannotOverlay = []
           msg.map((item, index) => {
+              if (this.privilegeDataId.indexOf(item.Id) > -1) {
+                item.Chosen = true
+              }
               if (item.IsOverlay) {
                 canOverlay.push(item)
               } else {
                 cannotOverlay.push(item)
               }
           })
-          this.setState({visible: true, chosenPrivilege: msg, canOverlay: canOverlay, cannotOverlay: cannotOverlay})
+          */
+          this.setState({visible: true, chosenPrivilege: msg})
         }
          
       })
@@ -188,12 +228,12 @@ class Pay extends Component {
          })
        }
           
-         <List.Item>
+         <List.Item arrow="horizontal" onClick={this.privilegeClick}>
            总额：<span className="productPrice">￥{this.state.totalFee.toFixed(2)}</span>
          </List.Item>
        </List>
        <Button className="btn" type="primary" onClick={this.callPay} style={{margin: 'auto', marginTop: '0.3rem', width: '95%'}}>立即支付</Button>
-       <ModalPrivilege canOverlay={this.state.canOverlay} cannotOverlay={this.state.cannotOverlay} visible={this.state.visible} onClose={this.onClose}/>
+       <ModalPrivilege products={this.state.data} chosenPrivilege={this.state.chosenPrivilege} privilegeData={this.state.privilegeData} visible={this.state.visible} onClose={this.onClose} onOk={this.onOk}/>
      </div>
         )
   }
