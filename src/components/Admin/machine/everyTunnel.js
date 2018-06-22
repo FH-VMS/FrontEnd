@@ -92,7 +92,7 @@ class EveryTunnel extends Component {
                </div>
                 <div>
                   <Tooltip title="货道最大放量" trigger="focus">
-                     <InputNumber title="货道最大放量" value={this.state.MaxPuts} className="textRequired" placeholder="最大排放" onChange={this.inputChange} min={0} max={30} style={{ width: '100%' }} />
+                     <InputNumber title="货道最大放量" value={this.state.MaxPuts} className="textRequired" placeholder="最大排放" onChange={this.inputChange} min={0} max={200} style={{ width: '100%' }} />
                   </Tooltip>
                </div>
            </div>
