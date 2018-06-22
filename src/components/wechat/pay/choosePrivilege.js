@@ -21,7 +21,9 @@ class ChoosePrivilege extends Component {
   }
 
   reconstructePrivilege = () => {
+      
     this.privileges = []
+    this.nowChosen = []
     let ids = this.props.privilegeData.map((item, index) => {
         return item.Id
     })
@@ -36,6 +38,7 @@ class ChoosePrivilege extends Component {
            item.Chosen = true
            this.nowChosen.push(item)
        }
+      
        switch (item.PrincipleType) {
          case '1': // 满减券
          if (item.UseMoneyLimit <= totalFee) {
@@ -74,7 +77,6 @@ class ChoosePrivilege extends Component {
 
   privilegeChange = (item, e) => {
     if (!e.target.checked) {
-       
        item.Chosen = e.target.checked
     } else {
         if (this.nowChosen.length == 0) {
@@ -84,7 +86,7 @@ class ChoosePrivilege extends Component {
         } else {
             let canPush = true
             for (let i = 0; i < this.nowChosen.length; i++) {
-               if (this.nowChosen[i].IsOverlay != 1) {
+               if (this.nowChosen[i].IsOverlay != 1 || item.IsOverlay != 1) {
                    canPush = false
                    Toast.info('先取消其它选中的券')
                    break
