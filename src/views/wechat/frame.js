@@ -10,6 +10,7 @@ import wechat from 'ACTION/wechat/common/wechatAction'
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import $ from 'jquery'
 
 
 // const { Header, Sider, Content } = Layout
@@ -28,7 +29,7 @@ class WechatFrame extends Component {
         super(props)
         this.state = {
            selectedTab: 'mall',
-           canLoad: false,
+           canLoad: true,
            cartCount: 0
         }
   }

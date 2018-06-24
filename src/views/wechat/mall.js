@@ -49,7 +49,6 @@ class Mall extends Component {
   }
 
   adapterTab = () => {
-    console.log(document.documentElement.clientHeight, $('.globalTabBar').height(), $('#wechatCarousel').height())
     $('#wechatTabs').height(document.documentElement.clientHeight - $('.globalTabBar').height() - $('#wechatCarousel').height())
   }
 
@@ -167,7 +166,7 @@ class Mall extends Component {
                 infinite
                 beforeChange={(from, to) => {}}
                 afterChange={index => {}}
-                style={{height: '3.5rem'}}
+                style={{height: '3rem'}}
             >
               {
                 this.state.carouselData.map((item, index) => {
