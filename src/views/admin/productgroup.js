@@ -291,6 +291,7 @@ class ProductGroup extends Component {
                         fetchPictureDic={this.props.fetchPictureDic}
                         fetchProductDic={this.props.fetchProductDic}
                         fetchProductTypeDic={this.props.fetchProductTypeDic}
+                        fetchDic={this.props.fetchDic}
                  />
                 </Spin>
            </div>

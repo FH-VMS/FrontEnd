@@ -34,7 +34,11 @@ const ProductGroupDialog = Form.create({
       ProductRelation: {
         ...props.ProductRelation,
         value: props.ProductRelation
-      }
+      },
+      WaresStatus: {
+       ...props.WaresStatus,
+       value: props.WaresStatus
+     }
     }
   }
 })(class ClassDialog extends Component {
@@ -47,7 +51,8 @@ const ProductGroupDialog = Form.create({
         productTypeSelect: [],
         chosenProduct: [],
         canLoad: true,
-        initData: true
+        initData: true,
+        productStatusSelect: []
       }
     }
 
@@ -63,6 +68,19 @@ const ProductGroupDialog = Form.create({
           this.getProductTypeSelect(msg)
       })
 
+      this.props.fetchDic({id: 'productstatus'}).then(msg => {
+        this.getProductStatus(msg)
+      })
+    }
+
+    getProductStatus = (data) => {
+      if (data) {
+        let letProductStatuseSelect = data.map((item, index) => {
+          return <Option value={item.Value}>{item.BookChinese}</Option>
+        })
+  
+        this.setState({productStatusSelect: letProductStatuseSelect})
+      }
     }
 
     getProductTypeSelect = (data) => {
@@ -333,6 +351,21 @@ const ProductGroupDialog = Form.create({
             </Upload>
           )}
         </FormItem>
+        <FormItem
+        {...formItemLayout}
+        label="状态："
+        hasFeedback
+      >
+        {getFieldDecorator('WaresStatus', {
+          rules: [{
+            required: true, message: '状态必填'
+          }]
+        })(
+           <Select>
+              {this.state.productStatusSelect}
+           </Select>
+        )}
+      </FormItem>
          <FormItem
           {...formItemLayout}
           label="备注："
