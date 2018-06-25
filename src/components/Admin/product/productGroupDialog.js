@@ -15,6 +15,10 @@ const ProductGroupDialog = Form.create({
         ...props.WaresUnitPrice,
         value: props.WaresUnitPrice
       },
+      WaresDiscountUnitPrice: {
+        ...props.WaresDiscountUnitPrice,
+        value: props.WaresDiscountUnitPrice
+      },
        PicId: {
         ...props.PicId,
         value: props.PicId
@@ -221,7 +225,7 @@ const ProductGroupDialog = Form.create({
         </FormItem>
          <FormItem
           {...formItemLayout}
-          label="单价："
+          label="原价："
           hasFeedback
         >
           {getFieldDecorator('WaresUnitPrice', {
@@ -229,10 +233,22 @@ const ProductGroupDialog = Form.create({
               validator: this.checkNum
             }]
           })(
-           <InputNumber step="0.01" />
+           <InputNumber min={0.01} step="0.01" />
           )}
         </FormItem>
-       
+        <FormItem
+        {...formItemLayout}
+        label="活动价："
+        hasFeedback
+      >
+        {getFieldDecorator('WaresDiscountUnitPrice', {
+          rules: [{
+            validator: this.checkNum
+          }]
+        })(
+         <InputNumber min={0.01} step="0.01" />
+        )}
+      </FormItem>
         <FormItem
         {...formItemLayout}
         label="对应商品："

@@ -51,7 +51,7 @@ class Pay extends Component {
       let lstProductPay = []
       JSON.parse(chosenProducts).map((item, index) => {
          let tmpObj = {}
-         tmpObj.TradeAmount = item.WaresUnitPrice
+         tmpObj.TradeAmount = item.WaresDiscountUnitPrice
          tmpObj.Number = item.chosenNum
          tmpObj.WaresId = item.WaresId
          tmpObj.WaresName = item.WaresName

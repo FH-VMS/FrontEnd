@@ -22,20 +22,39 @@
                 background-size: cover;
                 border: 1px solid pink;
                 overflow: hidden;
-                flex-basis: 200px;
-                height: 200px;
+                flex-basis: 35%;
+                padding-bottom: 35%;
             }
 
             & .productDescription{
                 text-align: left;
                 margin-top: 3px;
                 flex-grow: 1;
-                padding-left: 15px;
+                padding-left: 20px;
+                display: flex;
+                flex-direction: column;
+                padding-bottom: 0.1rem;
+                justify-content: space-between;
             }
 
             .productPrice{
             }
 
+            .waresName{
+                color: #000;
+                font-size: 0.28rem;
+            }
+
+            .originPrice{
+                text-decoration: line-through;
+            }
+
+            .activityPrice{
+                color: #ff5b05;
+                & span{
+                    font-size: 0.35rem;
+                }
+            }
         
         }
 

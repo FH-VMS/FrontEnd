@@ -243,9 +243,14 @@ class ProductGroup extends Component {
                         key="WaresName"
                     />
                     <Column
-                        title="单价"
+                        title="原价"
                         dataIndex="WaresUnitPrice"
                         key="WaresUnitPrice"
+                    />
+                    <Column
+                        title="活动价"
+                        dataIndex="WaresDiscountUnitPrice"
+                        key="WaresDiscountUnitPrice"
                     />
                     <Column
                         title="类型"

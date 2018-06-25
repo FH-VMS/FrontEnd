@@ -46,9 +46,9 @@ class My extends Component {
           <Item
             thumb={require('ASSET/img/wechat/order.png')}
             arrow="horizontal"
-            extra="查看列表"
+            extra="查看订单"
             onClick={() => {hashHistory.push('/order' + this.props.location.search)}}
-          >我的订单</Item>
+          >取货</Item>
           <Item
             thumb={require('ASSET/img/wechat/ticket.png')}
             onClick={() => {hashHistory.push('/myticket' + this.props.location.search)}}

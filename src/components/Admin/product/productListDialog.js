@@ -15,6 +15,10 @@ const ProductListDialog = Form.create({
         ...props.WaresUnitPrice,
         value: props.WaresUnitPrice
       },
+      WaresDiscountUnitPrice: {
+        ...props.WaresDiscountUnitPrice,
+        value: props.WaresDiscountUnitPrice
+      },
        WaresWeight: {
         ...props.WaresWeight,
         value: props.WaresWeight
@@ -162,7 +166,7 @@ const ProductListDialog = Form.create({
         </FormItem>
          <FormItem
           {...formItemLayout}
-          label="单价："
+          label="原价："
           hasFeedback
         >
           {getFieldDecorator('WaresUnitPrice', {
@@ -170,12 +174,25 @@ const ProductListDialog = Form.create({
               validator: this.checkNum
             }]
           })(
-           <InputNumber step="0.01" />
+           <InputNumber min={0.01} step="0.01" />
           )}
         </FormItem>
+        <FormItem
+        {...formItemLayout}
+        label="活动价："
+        hasFeedback
+      >
+        {getFieldDecorator('WaresDiscountUnitPrice', {
+          rules: [{
+            validator: this.checkNum
+          }]
+        })(
+         <InputNumber min={0.01} step="0.01" />
+        )}
+      </FormItem>
          <FormItem
           {...formItemLayout}
-          label="重量："
+          label="容量："
           hasFeedback
         >
           {getFieldDecorator('WaresWeight', {
@@ -184,7 +201,7 @@ const ProductListDialog = Form.create({
             }]
           })(
            <InputNumber step="0.01" />
-          )}克
+          )}
         </FormItem>
          <FormItem
           {...formItemLayout}

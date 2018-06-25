@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Badge} from 'antd-mobile'
 
 class EveryProduct extends Component {
 	constructor(props) {
@@ -15,20 +14,30 @@ class EveryProduct extends Component {
   }
 
   render() {
-      let {PicUrl, WaresName, WaresUnitPrice} = this.props.dataItem
+      let {PicUrl, WaresName, WaresUnitPrice, WaresDiscountUnitPrice, WaresWeight, WaresSpecifications} = this.props.dataItem
+      let orginPriceText = '活动价：'
+      if (!WaresDiscountUnitPrice) {
+        WaresDiscountUnitPrice = WaresUnitPrice
+      }
+      if (WaresUnitPrice == WaresDiscountUnitPrice) {
+        orginPriceText = '价格：'
+      }
       
       return (
         <div className="everyProduct" onClick={this.props.onClick}>
             <div className="productImgArea" style={{backgroundImage: `url('${PicUrl}')`}}></div>
             <div className="productDescription">
-            <Badge text={`¥${WaresUnitPrice}`} style={{ padding: '0 3px', borderRadius: 0 }} className="productPrice" /><Badge text={WaresName.length > 6 ? WaresName.substr(0, 6) + '...' : WaresName} style={{
-              padding: '0 3px',
-              backgroundColor: '#fff',
-              borderRadius: 2,
-              color: '#ff5b05'
-            }} /> 
-            
-          </div>
+              <div>
+                <div className="waresName">{WaresName}</div>
+                <div className="waresSpecification" style={{display: WaresWeight && WaresSpecifications ? 'block' : 'none'}}>{WaresWeight} {WaresSpecifications}</div>
+              </div>
+              <div>
+                <div style={{display: orginPriceText == '活动价：' ? 'block' : 'none'}} className="originPrice">原价：¥{WaresUnitPrice}</div>
+                <div className="activityPrice">{orginPriceText}¥<span>{WaresDiscountUnitPrice}</span></div>
+              </div>
+              
+              
+            </div>
         </div>
         )
   }
