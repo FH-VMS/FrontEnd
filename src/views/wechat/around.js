@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import EveryLocation from 'COMPONENT/wechat/around/everyLocation'
+import {Toast} from 'antd-mobile'
 /*
 import { Map } from 'react-amap'
 <Map amapkey={'9015a8600408fdc7cb39d8cb1b83155a'} version={'1.4.7'} />
@@ -17,6 +18,7 @@ class Around extends Component {
 
     componentWillMount() {
         if (this.props.location.query.clientId) {
+            Toast.loading('加载中')
             this.props.getWeixinConfig({clientId: this.props.location.query.clientId}).then(msg => {
                 let {RequestState, RequestData} = msg
                 if (RequestState == '1') {
@@ -35,6 +37,7 @@ class Around extends Component {
                         }
                     })
                 }
+                Toast.hide()
             })
         }
        
