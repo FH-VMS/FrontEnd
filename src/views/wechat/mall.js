@@ -219,7 +219,7 @@ class Mall extends Component {
                         <div style={{ fontWeight: 'bold', textAlign: 'left' }}>{this.state.nowProduct.WaresName}</div>
                         <div className="stepperContainer" style={{textAlign: 'left' }}>
                           <div>
-                              <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{this.state.nowProduct.WaresUnitPrice}</span>元/单价</div>
+                              <div style={{marginBottom: '0.15rem', marginTop: '0.15rem'}}><span style={{ fontSize: '0.4rem', color: '#FF6E27' }}>{this.state.nowProduct.WaresDiscountUnitPrice}</span>元/单价</div>
                               <div style={{ fontSize: '0.28rem' }}>
                               </div>
                           </div>
