@@ -148,6 +148,19 @@ class User extends Component {
             })
         }
     }
+
+    // 重置
+    resetPassword = (record, e) => {
+       if (record.Id) {
+           this.props.resetPassword({userInfo: record}).then(msg => {
+                if (msg) {
+                    message.success('重置成功')
+                } else {
+                    message.success('失败成功')
+                }
+           })
+       }
+    }
     
     /* ****************************对弹出框form的操作方法********************************** */
     saveFormRef = (form) => {
@@ -264,6 +277,21 @@ class User extends Component {
 
         // 修改时直接绑定参数
         const fields = this.state.savePara
+        let userInfo = Utility.Cookie.getValue('UserInfo')
+        let resetColumn = ''
+        if (userInfo.Sts == 100) {
+            resetColumn = <Column
+            title="重置密码"
+            key="resetpassword"
+            render={(text, record) => (
+            <span>
+                 <Popconfirm title="确认重置吗?" onConfirm={this.resetPassword.bind(this, record)} okText="确定" cancelText="取消">
+                    <a>重置</a>
+                </Popconfirm>
+            </span>
+            )}
+        />
+        }
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
@@ -285,6 +313,7 @@ class User extends Component {
                         key="UserClientName"
                     />
                    {this.DeleteAndModify}
+                   {resetColumn}
               </Table>
               <Dialog ref={this.saveFormRef}
                         visible={this.state.visible}

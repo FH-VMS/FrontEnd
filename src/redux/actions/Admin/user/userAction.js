@@ -9,6 +9,7 @@ const UPDATE_USER = 'UPDATE_USER'
 const DELETE_USER = 'DELETE_USER'
 const FETCH_AUTHDIC = 'FETCH_AUTHDIC'
 const FETCH_CLIENTDIC = 'FETCH_CLIENTDIC'
+const RESET_USER = 'RESET_USER'
 
 // ================================
 // Action Creator
@@ -83,9 +84,22 @@ const updateUser = (updBody) => dispatch =>
       })
   })
 
+  // 重置密码
+  const resetPassword = (bdy) => dispatch =>
+  apis
+    .User
+    .ResetPass(bdy)
+    .then(msgs => {
+      dispatch({
+         type: RESET_USER,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
-  fetchUser, addUser, updateUser, deleteUser, fetchAuthDic, fetchClientDic
+  fetchUser, addUser, updateUser, deleteUser, fetchAuthDic, fetchClientDic, resetPassword
 }
 
 // ================================
@@ -104,6 +118,7 @@ export const ACTION_HANDLERS = {
   [ADD_USER]: (result, { payload }) => ({payload}),
   [UPDATE_USER]: (result, { payload }) => ({payload}),
   [DELETE_USER]: (result, { payload }) => ({payload}),
+  [RESET_USER]: (result, { payload }) => ({payload}),
   [FETCH_AUTHDIC]: (auth, { payload }) => {
       auth.authData = payload
       return auth

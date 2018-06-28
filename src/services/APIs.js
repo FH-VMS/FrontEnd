@@ -75,6 +75,9 @@ const api = {
       },
       GetAuthDic: function (data) {
           return apiService('User', 'GetAuthDic', 'GET', data)
+      },
+      ResetPass: function (data) {
+          return apiService('User', 'ResetPass', 'POST', data)
       }
 	}, 
   Auth: {
