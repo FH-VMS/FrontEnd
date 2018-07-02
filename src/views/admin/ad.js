@@ -103,7 +103,6 @@ class Ad extends Component {
         if (!data.IsPush) {
             data.IsPush = 0
         }
-        console.log('aaaaa', data)
         this.props.addAd({adInfo: data}).then(msg => {
             if (msg) {
                 message.success('保存成功')

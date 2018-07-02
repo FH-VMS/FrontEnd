@@ -218,7 +218,7 @@ class ThreeScreen extends Component {
                         dataIndex="PlayTime"
                         key="PlayTime"
                         render={(text, record, index) => (
-                            <Tooltip title="播放时长" trigger="focus">
+                            <Tooltip title="播放时长(秒)" trigger="focus">
                               <InputNumber value={record.PlayTime} onChange={this.payTimeChange.bind(this, record)} min={0} max={999} defaultValue={0} precision={0} />
                               </Tooltip>
                             )}
