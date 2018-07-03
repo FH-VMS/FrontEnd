@@ -3,9 +3,9 @@ import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import EveryResource from 'COMPONENT/admin/resource/everyResource'
-import { Select, Table, message, Spin, Popconfirm, Pagination, Upload, Icon } from 'antd'
+import EditDialog from 'COMPONENT/admin/resource/editDialog'
+import { Select, message, Spin, Pagination, Upload, Icon } from 'antd'
 
-const { Column } = Table
 
 class Resource extends Component {
     constructor(props) {
@@ -26,7 +26,10 @@ class Resource extends Component {
             loading: false,
             savePara: {},
             imageUrl: '',
-            fileList: []
+            fileList: [],
+            nowItem: '',
+            typDic: [],
+            searchDatasource: []
         }
 
         this.searchPara = {
@@ -40,6 +43,34 @@ class Resource extends Component {
      this.getData(this.searchPara)
      // 页面级权限
      this.setState({auth: Utility.Cookie.getAuth()})
+        // 查询条件
+        let searchDatasource = [{
+            label: '类型',
+            name: 'userAccount',
+            control: <Select>
+            <Option value='1'>图片</Option>
+            <Option value='2'>视频</Option>
+        </Select>
+        }]
+     this.props.fetchDic({id: 'resourcebelong'}).then(msg => {
+        if (msg) {
+          let typeDicSelect = msg.map((item, index) => {
+            return (
+              <Option value={item.Value}>{item.BookChinese}</Option>
+            )
+          })
+
+          searchDatasource.push({
+              label: '属于',
+              name: 'belong',
+              control: <Select>
+                  {typeDicSelect}
+              </Select>
+          })
+
+          this.setState({searchDatasource: searchDatasource, typDic: msg})
+        }
+    })
     }
     
     // 取数据方法
@@ -71,7 +102,7 @@ class Resource extends Component {
     onSearch = (value) => {
             this.searchPara.fileType = value.fileType
         
-
+            this.searchPara.belong = value.belong
         
          
          
@@ -79,16 +110,7 @@ class Resource extends Component {
          this.getData(this.searchPara)
     }
     
-    // 新增或修改
-    showDialog = (txt, item, e) => {
-         if (txt == '创建') {
-           this.setState({ visible: true, savePara: {} })
-         } else {
-            item.UserPassword = ''
-            this.setState({ visible: true, savePara: item })
-         }
-         
-    }
+  
 
     // 删除
     handleDelete = (record, e) => {
@@ -168,52 +190,25 @@ class Resource extends Component {
      }
 
      updateDialog = (typ, item) => {
-        
+        this.setState({visible: true, nowItem: item})
     }
      
-     // 修改和删除的权限控制
-    getAuth = () =>{
-        if (this.state.auth.CanDelete == 'none' && this.state.auth.CanModify == 'none') {
-            this.DeleteAndModify = ''
-        } else if (this.state.auth.CanDelete == 'none') {
-            this.DeleteAndModify = <Column
-                        title="操作"
-                        key="action"
-                        render={(text, record) => (
-                        <span>
-                            <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
-                        </span>
-                        )}
-                    />
-        } else if (this.state.auth.CanModify == 'none') {
-            this.DeleteAndModify = <Column
-                        title="操作"
-                        key="action"
-                        render={(text, record) => (
-                        <span>
-                             <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
-                                <a style={{display: this.state.auth.CanDelete}}>删除</a>
-                            </Popconfirm>
-                        </span>
-                        )}
-                    />
-        } else {
-            this.DeleteAndModify = <Column
-                        title="操作"
-                        key="action"
-                        render={(text, record) => (
-                        <span>
-                             <Popconfirm title="确认删除吗?" onConfirm={this.handleDelete.bind(this, record)} okText="确定" cancelText="取消">
-                                <a style={{display: this.state.auth.CanDelete}}>删除</a>
-                            </Popconfirm>
-                            <span className="ant-divider" />
-                            <a onClick={this.showDialog.bind(this, '修改', record)}>修改</a>
-                        </span>
-                        )}
-                    />
-        }
+    editDialogOk = (val) => {
+      this.state.nowItem.Belong = val
+      this.props.updateResource({picInfo: this.state.nowItem}).then(msg => {
+          if (msg) {
+              message.success('更新成功')
+              this.setState({visible: false})
+          } else {
+              message.error('更新失败')
+          }
+      })
     }
 
+    editDialogCancel = () => {
+        this.setState({visible: false})
+    }
+    
     
     
 
@@ -238,22 +233,13 @@ class Resource extends Component {
                 this.setState({loading: false, fileList: []})
             }
         }
-        this.getAuth()
         
-        // 查询条件
-        let searchDatasource = [{
-            label: '类型',
-            name: 'userAccount',
-            control: <Select>
-            <Option value='1'>图片</Option>
-            <Option value='2'>视频</Option>
-        </Select>
-        }]
+        
 
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch}/>
               <div className="resourceContainer">
                   <div className="everyResource newUpload">
                   <Upload
@@ -283,6 +269,13 @@ class Resource extends Component {
               </div>
               <Pagination showSizeChanger onChange={this.state.pagination.onChange} onShowSizeChange={this.state.pagination.onShowSizeChange} defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
                </Spin>
+               <EditDialog 
+                 visible={this.state.visible}
+                 nowItem={this.state.nowItem}
+                 handleOk={this.editDialogOk}
+                 handleCancel={this.editDialogCancel}
+                 typDic = {this.state.typDic}
+                />
            </div>
         )
     }

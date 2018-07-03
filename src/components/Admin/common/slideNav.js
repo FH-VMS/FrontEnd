@@ -111,7 +111,11 @@ class SlideNav extends Component {
         case 'saleic':
         auth.CanAdd = 'none'
         auth.CanDelete = 'none'
-      break
+        break
+        case 'resource':
+        auth.CanAdd = 'none'
+        break
+     
      }
      // 刷新时选中菜单缓存
      sessionStorage.setItem('chosenMenuVal', JSON.stringify({PId: 'p' + pItem.MenuId, CId: 'c' + cItem.MenuId}))

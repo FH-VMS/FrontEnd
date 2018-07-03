@@ -1,4 +1,5 @@
 import apis from 'SERVICE/apis'
+import common from 'ACTION/Admin/common/commonAction'
 
 // ================================
 // Action Type
@@ -60,7 +61,7 @@ const updateResource = (updBody) => dispatch =>
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchResource, addResource, updateResource, deleteResource
+    fetchResource, addResource, updateResource, deleteResource, ...common
 }
 
 // ================================
