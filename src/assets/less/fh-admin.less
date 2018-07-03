@@ -744,7 +744,7 @@ body{
 
 .imgContainer{
   display: block;
-  
+  min-height: 100px;
   &>img{
     width: @resourceImg/2;
     height: @resourceImg/2;
@@ -782,6 +782,14 @@ body{
     font-size: 28px;
     color: #999;
     width: @resourceImg/2;
+  }
+
+  &:after{
+    content: '.';
+    height: 0;
+    visibility: 0;
+    clear: both;
+    display: block;
   }
 }
 

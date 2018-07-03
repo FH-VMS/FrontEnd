@@ -148,6 +148,7 @@ class Carousel extends Component {
               handleOk={this.handleOk} 
               handleCancel={this.handleCancel}
               resourceClick={this.resourceClick}
+              typ = {3} // 代表上传资源为微信滚动图
               {...this.props}
               />
             </div>

@@ -83,10 +83,10 @@ const fetchDic = (searParam) => dispatch =>
   })
 
   // 取图片字典
-  const fetchPictureDic = () => dispatch =>
+  const fetchPictureDic = (bdy) => dispatch =>
   apis
     .Common
-    .GetPictureDic()
+    .GetPictureDic(bdy)
     .then(msgs => {
       dispatch({
          type: FETCH_PICTRUEDIC,

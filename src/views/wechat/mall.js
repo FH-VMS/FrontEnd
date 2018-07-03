@@ -162,26 +162,23 @@ class Mall extends Component {
           <div>
             <div id="wechatCarousel">
             <Carousel
-                autoplay={true}
+                autoplay
                 infinite
-                beforeChange={(from, to) => {}}
-                afterChange={index => {}}
                 style={{height: '3rem'}}
             >
               {
                 this.state.carouselData.map((item, index) => {
-                  return <img
+                  return (<img
                         src={item.PicUrl}
                         alt=""
-                        style={{ width: '100%', height: '3.5rem', verticalAlign: 'top', objectFit: 'cover' }}
+                        style={{ width: '100%', height: '3rem', verticalAlign: 'top', objectFit: 'cover' }}
                         onLoad={() => {
                           // fire window resize event to change height
                           window.dispatchEvent(new Event('resize'))
                         }}
-                      />
+                      />)
                 })
               }
-              
             </Carousel>
             </div>
             <div id='wechatTabs'>

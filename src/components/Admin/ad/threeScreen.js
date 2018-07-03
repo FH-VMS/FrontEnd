@@ -244,6 +244,7 @@ class ThreeScreen extends Component {
               handleOk={this.handleOk} 
               handleCancel={this.handleCancel}
               resourceClick={this.resourceClick}
+              typ = {2} // 代表上传资源为广告资源
               {...this.props}
               />
            </div>

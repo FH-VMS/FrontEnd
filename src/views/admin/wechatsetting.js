@@ -104,7 +104,12 @@ class WechatSetting extends Component {
                </Row>
                <Tabs defaultActiveKey="1" onChange={this.tabCallback}>
                <TabPane tab="首页滚动图" key="1"><Carousel saveWebSetting={this.saveWebSetting} webInfo={this.state.webInfo} {...this.props}/></TabPane>
-               <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>
+               {
+                   /*
+                   <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>
+                   */
+               }
+               
              </Tabs>
                </Spin>
            </div>

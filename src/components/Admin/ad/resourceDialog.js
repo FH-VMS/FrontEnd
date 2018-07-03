@@ -13,13 +13,13 @@ class ResourceDialog extends Component {
                 defaultPageSize: 10
             },
             loading: false,
-            value: 2
+            value: 1
         }
 
         this.searchPara = {
             pageIndex: 1,
             pageSize: 9,
-            fileType: 2
+            fileType: 1
         }
     }
 
@@ -30,11 +30,13 @@ class ResourceDialog extends Component {
     }
 
     componentDidMount() {
+        
         this.getDataReource(this.searchPara)
     }
     
     // 取数据方法
     getDataReource = (val) => {
+      val.belong = this.props.typ
       this.setState({loading: true})
        this.props.fetchResource(val).then((msg) => {
          if (msg) {
@@ -82,7 +84,7 @@ class ResourceDialog extends Component {
     
 
     render() {
-        const uploadObj = Utility.getUploadObj()
+        const uploadObj = Utility.getUploadObj(this.props.typ)
         uploadObj.onChange = (info) => {
             this.setState({loading: true, fileList: info.fileList})
             if (info.file.status !== 'uploading') {
@@ -148,8 +150,10 @@ class ResourceDialog extends Component {
                        }
                
             </div>
-            <Pagination showSizeChanger onChange={this.state.pagination.onChange} onShowSizeChange={this.state.pagination.onShowSizeChange} defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
-         </div>
+            <div>
+               <Pagination showSizeChanger onChange={this.state.pagination.onChange} onShowSizeChange={this.state.pagination.onShowSizeChange} defaultPageSize={this.state.pagination.defaultPageSize} defaultCurrent={1} total={this.state.pagination.total} />
+            </div>
+            </div>
             </Modal>
             
         )

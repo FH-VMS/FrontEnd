@@ -69,7 +69,7 @@ const ProductListDialog = Form.create({
 
     componentWillMount() {
       this.PicData = []
-      this.props.fetchPictureDic().then(msg => {
+      this.props.fetchPictureDic({typ: '1'}).then(msg => {
         this.PicData = msg
          this.getPicSelect(msg)
       })
@@ -140,7 +140,7 @@ const ProductListDialog = Form.create({
     }
 
     // 上传方法
-    const uploadObj = Utility.getUploadObj()
+    const uploadObj = Utility.getUploadObj(1)
     uploadObj.onChange = (info) => {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList)
