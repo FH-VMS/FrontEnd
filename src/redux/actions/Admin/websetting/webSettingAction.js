@@ -64,15 +64,19 @@ export default {
 // ================================
 export const ACTION_HANDLERS = {
   [FETCH_RESOURCE]: (result, { payload }) => {
+    console.log('ddddd', payload)
     result.resourceData = payload.data
     result.resourcePager = payload.pager
-      return {...result, ...payload}
+      return result
   },
   [FETCH_WEBSETTING]: (result, { payload }) => {
     result.webData = payload
       return result
   },
-  [CREATE_WEBSETTING]: (result, { payload }) => (payload)
+  [CREATE_WEBSETTING]: (result, { payload }) => {
+    result.result = payload
+      return result
+  }
 }
 
 
