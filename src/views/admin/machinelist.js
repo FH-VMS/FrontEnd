@@ -44,7 +44,7 @@ class MachineList extends Component {
         this.copyForm = form
     }
     copyMachine = (txt, item, e) => {
-       this.setState({copyMachineId: item.DeviceId, copyVisible: true})
+       this.setState({copyMachineId: item.MachineId, copyVisible: true})
     }
 
     copyCreate = () => {
@@ -54,7 +54,7 @@ class MachineList extends Component {
             return
         }
         
-        this.props.copyOneMachine({oldMachineId: this.state.copyMachineId, newMachineId: values.DeviceId, copyItem: values.CopyItems}).then(msg => {
+        this.props.copyOneMachine({oldMachineId: this.state.copyMachineId, newMachineId: values.MachineId, copyItem: values.CopyItems}).then(msg => {
           if (msg) {
               message.success('复制成功')
               this.getData(this.searchPara)
@@ -78,8 +78,8 @@ class MachineList extends Component {
      
      // 查询条件
         let searchDatasource = [{
-            label: '设备编号',
-            name: 'deviceId',
+            label: '机器编号',
+            name: 'machineId',
             control: <Input placeholder="设备编号" />
         },
         {
@@ -169,7 +169,7 @@ class MachineList extends Component {
     
     // 查询
     onSearch = (value) => {
-          this.searchPara.deviceId = value.deviceId
+          this.searchPara.machineId = value.machineId
         
 
           this.searchPara.clinetName = value.clinetName
@@ -381,8 +381,8 @@ class MachineList extends Component {
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
                         title="设备编号"
-                        dataIndex="DeviceId"
-                        key="DeviceId"
+                        dataIndex="MachineId"
+                        key="MachineId"
                     />
                      <Column
                         title="名称"

@@ -11,6 +11,10 @@ const MachineTypeDialog = Form.create({
         ...props.DeviceId,
         value: props.DeviceId
       },
+      MachineId: {
+        ...props.MachineId,
+        value: props.MachineId
+      },
       Remark: {
         ...props.Remark,
         value: props.Remark
@@ -143,6 +147,15 @@ const MachineTypeDialog = Form.create({
     
   }
 
+  checkDeviceId = (rule, value, callback) => {
+    if (value.match(/^[\w]{15}$/)) {
+      callback()
+    } else {
+      callback('15位机器编号')
+    }
+    
+  }
+
   closeDialog = () => {
     this.setState({userSelect: [], payConfigSelect: [], adDicSelect: []})
     this.clientId = ''
@@ -197,14 +210,29 @@ const MachineTypeDialog = Form.create({
         maskClosable={false}
       >
         <Form horizontal>
+        <FormItem
+        {...formItemLayout}
+        label="设备编号："
+        hasFeedback
+      >
+        {getFieldDecorator('DeviceId', {
+          rules: [{
+            required: true, message: '必填'
+          }, {
+            validator: this.checkDeviceId
+          }]
+        })(
+         <Input disabled={isDisable}/>
+        )}
+      </FormItem>
          <FormItem
           {...formItemLayout}
           label="机器编号："
           hasFeedback
         >
-          {getFieldDecorator('DeviceId', {
+          {getFieldDecorator('MachineId', {
             rules: [{
-              required: true, message: '12位机器编号'
+              required: true, message: '必填'
             }, {
               validator: this.checkMachineId
             }]
@@ -325,7 +353,7 @@ const MachineTypeDialog = Form.create({
         >
           {getFieldDecorator('StartDate', {
             rules: [{
-              required: false
+              required: true, message: '必填'
             }]
           })(
              <DatePicker />
@@ -338,7 +366,7 @@ const MachineTypeDialog = Form.create({
         >
           {getFieldDecorator('StopDate', {
             rules: [{
-              required: false
+              required: true, message: '必填'
             }]
           })(
               <DatePicker />
