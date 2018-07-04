@@ -151,7 +151,7 @@ const MachineTypeDialog = Form.create({
     if (value.match(/^[\w]{15}$/)) {
       callback()
     } else {
-      callback('15位机器编号')
+      callback('15位设备编号')
     }
     
   }

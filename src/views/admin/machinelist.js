@@ -30,6 +30,7 @@ class MachineList extends Component {
             machineTypeDic: [],
             clientDicData: [],
             copyMachineId: '',
+            copyDeviceId: '',
             copyVisible: false
         }
 
@@ -44,7 +45,7 @@ class MachineList extends Component {
         this.copyForm = form
     }
     copyMachine = (txt, item, e) => {
-       this.setState({copyMachineId: item.MachineId, copyVisible: true})
+       this.setState({copyMachineId: item.MachineId, copyDeviceId: item.DeviceId, copyVisible: true})
     }
 
     copyCreate = () => {
@@ -54,7 +55,7 @@ class MachineList extends Component {
             return
         }
         
-        this.props.copyOneMachine({oldMachineId: this.state.copyMachineId, newMachineId: values.MachineId, copyItem: values.CopyItems}).then(msg => {
+        this.props.copyOneMachine({oldMachineId: this.state.copyMachineId, newMachineId: values.MachineId, newDeviceId: values.DeviceId, copyItem: values.CopyItems}).then(msg => {
           if (msg) {
               message.success('复制成功')
               this.getData(this.searchPara)
@@ -526,6 +527,7 @@ class MachineList extends Component {
                    ref={this.saveCopyFormRef}
                    visible={this.state.copyVisible}
                    copyMachineId = {this.state.copyMachineId}
+                   copyDeviceId = {this.state.copyDeviceId}
                    onCreate = {this.copyCreate}
                    onCancel = {this.copyCancel}
                  />

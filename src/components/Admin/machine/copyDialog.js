@@ -30,6 +30,15 @@ const CopyDialog = Form.create()(class Copy extends Component {
     
   }
 
+  checkDeviceId = (rule, value, callback) => {
+    if (value.match(/^[\w]{15}$/)) {
+      callback()
+    } else {
+      callback('15位设备编号')
+    }
+    
+  }
+
   componentDidMount() {
     this.props.form.setFieldsValue({'CopyItems': ['机器配置', '货道配置'], 'DeviceId': ''})
   }
@@ -38,7 +47,7 @@ const CopyDialog = Form.create()(class Copy extends Component {
 
     render() {
    
-    const { visible, copyMachineId, form} = this.props
+    const { visible, copyMachineId, form, copyDeviceId} = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
       labelCol: { span: 6 },
@@ -57,17 +66,30 @@ const CopyDialog = Form.create()(class Copy extends Component {
         maskClosable={false}
       >
         <Form horizontal>
+        <FormItem
+        {...formItemLayout}
+        label={copyDeviceId + '  --> '}
+        hasFeedback
+      >
+        {getFieldDecorator('DeviceId', {
+          rules: [ {
+            validator: this.checkDeviceId
+          }]
+        })(
+         <Input placeholder="设备编号"/>
+        )}
+      </FormItem>
          <FormItem
           {...formItemLayout}
           label={copyMachineId + '  --> '}
           hasFeedback
         >
-          {getFieldDecorator('DeviceId', {
+          {getFieldDecorator('MachineId', {
             rules: [ {
               validator: this.checkMachineId
             }]
           })(
-           <Input />
+           <Input placeholder="机器编号"/>
           )}
         </FormItem>
         <FormItem
