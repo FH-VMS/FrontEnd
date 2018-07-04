@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SlideNav from 'COMPONENT/admin/common/slideNav'
+import {message, Tooltip} from 'antd'
 // import {Icon, Layout} from 'antd'
 // import rootRouter from 'ROUTE/index'
  // import {hashHistory} from 'react-router'
@@ -70,6 +71,17 @@ class Frame extends Component {
     })
   }
 
+  clearLoginCache = () => {
+    console.log('aaaaa', this.props)
+    this.props.common.clearLoginCache().then(msg => {
+      if (msg) {
+        message.success('清除完成')
+      } else {
+        location.href = 'login.html'
+      }
+    })
+  }
+
 
 
   render() {
@@ -93,8 +105,14 @@ class Frame extends Component {
            <div className="headerArea">
              <div className="logo">控制中心</div>
             <div className="userArea">
+              <Tooltip placement="bottom" title='清除缓存'>
+                 <span onClick={this.clearLoginCache.bind(this)}><i className="fa fa-eraser"></i></span>
+              </Tooltip>
+              <Tooltip placement="bottom" title='退出登录'>
+                <span onClick={this.logout}><i className="fa fa-arrow-circle-o-right"></i>
+                </span>
+              </Tooltip>
               <span><i className="fa fa-user-circle"></i>{this.userInfo.UserAccount}</span>
-              <span onClick={this.logout}><i className="fa fa-arrow-circle-o-right"></i>退出</span>
             </div>
            </div>
            <div className="leftMenu">

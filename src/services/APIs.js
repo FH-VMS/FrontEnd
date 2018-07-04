@@ -55,6 +55,9 @@ const api = {
       },
       GetNotExpirePrivilegeDic: function(data) {
           return apiService('Common', 'GetNotExpirePrivilegeDic', 'GET', data)
+      },
+      ClearLoginCache: function(data) {
+          return apiService('Common', 'ClearLoginCache', 'POST', data)
       }
 	}, 
   User: {

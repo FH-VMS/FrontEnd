@@ -4,6 +4,7 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_MENU = 'FETCH_MENU'
+const CLEAR_LOGINCACHE = 'CLEAR_LOGINCACHE'
 
 
 // ================================
@@ -21,11 +22,22 @@ const fetchMenu = () => dispatch =>
 
       return msgs
   })
-
+      // 清除登录缓存
+      const clearLoginCache = () => dispatch =>
+      apis
+        .Common
+        .ClearLoginCache()
+        .then(msgs => {
+          dispatch({
+             type: CLEAR_LOGINCACHE,
+             payload: msgs
+          })
+          return msgs
+      })
   
 /* default 导出所有 Action Creators */
 export default {
-  fetchMenu
+  fetchMenu, clearLoginCache
 }
 
 // ================================
@@ -38,7 +50,8 @@ export default {
 export const ACTION_HANDLERS = {
   [FETCH_MENU]: (menus, { payload }) => ({
       menus: payload
-  })
+  }),
+  [CLEAR_LOGINCACHE]: (result, { payload }) => ({payload})
 }
 
 
