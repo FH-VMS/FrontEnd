@@ -217,9 +217,9 @@ const MachineTypeDialog = Form.create({
       >
         {getFieldDecorator('DeviceId', {
           rules: [{
-            required: true, message: '必填'
+            required: !isDisable, message: '必填'
           }, {
-            validator: this.checkDeviceId
+            validator: isDisable ? '' : this.checkDeviceId
           }]
         })(
          <Input disabled={isDisable}/>

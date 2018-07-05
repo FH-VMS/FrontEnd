@@ -45,9 +45,9 @@ class MachineTrans extends Component {
      
      // 查询条件
         let searchDatasource = [{
-            label: '设备编号',
-            name: 'deviceId',
-            control: <Input placeholder="设备编号" />
+            label: '机器编号',
+            name: 'machineId',
+            control: <Input placeholder="机器编号" />
         },
         {
             label: '客户名称',
@@ -136,7 +136,7 @@ class MachineTrans extends Component {
     
     // 查询
     onSearch = (value) => {
-          this.searchPara.deviceId = value.deviceId
+          this.searchPara.machineId = value.machineId
         
 
           this.searchPara.clinetName = value.clinetName
@@ -253,9 +253,9 @@ class MachineTrans extends Component {
               
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="设备编号"
-                        dataIndex="DeviceId"
-                        key="DeviceId"
+                        title="机器编号"
+                        dataIndex="MachineId"
+                        key="MachineId"
                     />
                      <Column
                         title="名称"

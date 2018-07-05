@@ -85,7 +85,7 @@ class MachineConfig extends Component {
     
     // 查询
     onSearch = (value) => {
-          this.searchPara.deviceId = value.deviceId
+          this.searchPara.machineId = value.machineId
         
 
           this.searchPara.clinetName = value.clinetName
@@ -264,8 +264,8 @@ class MachineConfig extends Component {
         
         // 查询条件
         let searchDatasource = [{
-            label: '设备编号',
-            name: 'deviceId',
+            label: '机器编号',
+            name: 'machineId',
             control: <Input placeholder="设备编号" />
         }]
 
@@ -278,9 +278,9 @@ class MachineConfig extends Component {
               <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="设备编号"
-                        dataIndex="DeviceId"
-                        key="DeviceId"
+                        title="机器编号"
+                        dataIndex="MachineId"
+                        key="MachineId"
                     />
                     <Column
                         title="状态"

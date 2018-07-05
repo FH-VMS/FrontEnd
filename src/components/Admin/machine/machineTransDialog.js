@@ -6,9 +6,9 @@ const FormItem = Form.Item
 const MachineTransDialog = Form.create({
   mapPropsToFields(props) {
     return {
-       DeviceId: {
-        ...props.DeviceId,
-        value: props.DeviceId
+      MachineId: {
+        ...props.MachineId,
+        value: props.MachineId
       },
       Remark: {
         ...props.Remark,
@@ -175,7 +175,7 @@ const MachineTransDialog = Form.create({
           label="机器编号："
           hasFeedback
         >
-          {getFieldDecorator('DeviceId', {
+          {getFieldDecorator('MachineId', {
             rules: [{
               required: true, message: '机器编号必填'
             }]

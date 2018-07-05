@@ -7,9 +7,9 @@ const CheckboxGroup = Checkbox.Group
 const MachineTypeDialog = Form.create({
   mapPropsToFields(props) {
     return {
-       DeviceId: {
-        ...props.DeviceId,
-        value: props.DeviceId
+      MachineId: {
+        ...props.MachineId,
+        value: props.MachineId
       },
       McStatus: {
         ...props.McStatus,
@@ -102,12 +102,12 @@ const MachineTypeDialog = Form.create({
           {...formItemLayout}
           label="机器编号："
         >
-          {getFieldDecorator('DeviceId', {
+          {getFieldDecorator('MachineId', {
             rules: [{
               required: false
             }]
           })(
-            <label>{this.props.DeviceId}</label>
+            <label>{this.props.MachineId}</label>
           )}
         </FormItem>
          <FormItem
