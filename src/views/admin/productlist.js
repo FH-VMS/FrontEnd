@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, message, Spin, Popconfirm, Input } from 'antd'
+import { Table, message, Spin, Popconfirm, Input, Tooltip } from 'antd'
 import Dialog from 'COMPONENT/admin/product/productListDialog'
 
 const { Column } = Table
@@ -117,6 +117,11 @@ class ProductList extends Component {
             })
         }
     }
+
+    showQrcode = (item) => {
+        
+    }
+
     
     /* ****************************对弹出框form的操作方法********************************** */
     saveFormRef = (form) => {
@@ -127,6 +132,7 @@ class ProductList extends Component {
         this.setState({ visible: false })
     }
 
+    
     handleCreate = () => {
         const form = this.form
         form.validateFields((err, values) => {
@@ -291,6 +297,24 @@ class ProductList extends Component {
                         title="商品类型"
                         dataIndex="WaresTypeText"
                         key="WaresTypeText"
+                    />
+                    <Column
+                        title="状态"
+                        dataIndex="WaresStatusText"
+                        key="WaresStatusText"
+                        render={(text, record) => {
+                            if (record.WaresStatus == '1') {
+                                return <span style={{color: 'green'}}>上架</span>
+                                
+                            } else if (record.WaresStatus == '2') {
+                                return <span style={{color: 'red'}}>下架</span>
+                            } else if (record.WaresStatus == '3') {
+                                return <Tooltip placement="top" title={'生成二维码'}><div onClick={this.showQrcode.bind(this, record)} style={{cursor: 'pointer'}}><span style={{color: 'blue'}}>线下</span><i className="fa fa-qrcode"></i></div></Tooltip>
+                            } else {
+                                return ''
+                            }
+                        }
+                    }
                     />
                      <Column
                         title="供应商"
