@@ -4,6 +4,7 @@ import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import { Table, message, Spin, Popconfirm, Input, Tooltip } from 'antd'
 import Dialog from 'COMPONENT/admin/product/productGroupDialog'
+import QrDialog from 'COMPONENT/admin/product/qrcodeDialog'
 
 const { Column } = Table
 
@@ -24,7 +25,9 @@ class ProductGroup extends Component {
             },
             loading: false,
             savePara: {},
-            searchDatasource: []
+            searchDatasource: [],
+            qrVisible: false,
+            qrNowItem: ''
         }
 
         this.searchPara = {
@@ -124,7 +127,7 @@ class ProductGroup extends Component {
     }
 
     showQrcode = (item) => {
-        
+        this.setState({qrVisible: true, qrNowItem: item})
     }
 
     
@@ -315,6 +318,13 @@ class ProductGroup extends Component {
                         fetchProductDic={this.props.fetchProductDic}
                         fetchProductTypeDic={this.props.fetchProductTypeDic}
                         fetchDic={this.props.fetchDic}
+                 />
+                 <QrDialog 
+                    visible={this.state.qrVisible}
+                    onQrCreate = {() => {this.setState({qrVisible: false})}}
+                    onQrCancel = {() => {this.setState({qrVisible: false})}}
+                    qrNowItem = {this.state.qrNowItem}
+                    title='生成二维码'
                  />
                 </Spin>
            </div>

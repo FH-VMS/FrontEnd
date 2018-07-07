@@ -28,18 +28,33 @@ class Pay extends Component {
   }
 
   componentDidMount() {
+    let searchPara = handleUrlParams(window.location.href.split('?')[1])
+    if (searchPara.waresId) {
+       this.props.fetchWaresByWaresId({waresId: searchPara.waresId}).then(msg => {
+        if (this.props.wechat.waresInfo) {
+          this.props.wechat.waresInfo.chosenNum = 1
+          this.computeSum(JSON.stringify([this.props.wechat.waresInfo]))
+        }
+       })
+    } else {
+      this.computeSum()
+    }
     
-    this.computeSum()
   }
 
-  computeSum = () => {
+  computeSum = (products) => {
     let chosenProducts = ''
-    let immedite = sessionStorage.getItem('immeditelypay')
-    if (immedite) {
-      chosenProducts = immedite
+    if (products) {
+      chosenProducts = products
     } else {
-      chosenProducts = wechatUtility.Cart.getData()
+      let immedite = sessionStorage.getItem('immeditelypay')
+      if (immedite) {
+        chosenProducts = immedite
+      } else {
+        chosenProducts = wechatUtility.Cart.getData()
+      }
     }
+    
     // let chosenProducts = wechatUtility.Cart.getData()
     if (chosenProducts) {
       let searchPara = handleUrlParams(window.location.href.split('?')[1])

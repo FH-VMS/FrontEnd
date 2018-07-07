@@ -6,7 +6,7 @@ const connectWechat = createContainer(
   )
 
 export default {
-    path: 'pay',
+    path: 'pay/:waresId',
   
     /* 布局基页 */
     getComponent (nextState, cb) {

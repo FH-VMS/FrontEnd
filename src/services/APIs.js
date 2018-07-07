@@ -364,6 +364,9 @@ const api = {
         },
         GetNoneExpirePrivilegeByMemberId: function (data) {
             return apiService('Wechat', 'GetNoneExpirePrivilegeByMemberId', 'POST', data)
+        },
+        GetProdcutAndGroupByWaresId: function (data) {
+            return apiService('Wechat', 'GetProdcutAndGroupByWaresId', 'POST', data)
         }
     },
     MachineCabinet: {

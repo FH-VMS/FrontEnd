@@ -16,6 +16,7 @@ const GET_CANTICKETCOUNT = 'GET_CANTICKETCOUNT'
 const GET_WEIXINJSCONFIG = 'GET_WEIXINJSCONFIG'
 const FETCH_MACHINELOCATIONS = 'FETCH_MACHINELOCATIONS'
 const FETCH_NONEEXPIREPRIVILEGE = 'FETCH_NONEEXPIREPRIVILEGE'
+const FETCH_WARESBYWARESID = 'FETCH_WARESBYWARESID'
 
 // ================================
 // Action Creator
@@ -186,13 +187,24 @@ const FETCH_NONEEXPIREPRIVILEGE = 'FETCH_NONEEXPIREPRIVILEGE'
       return msgs
   })
 
+  const fetchWaresByWaresId = (queryBody) => dispatch =>
+  apis
+    .Wechat
+    .GetProdcutAndGroupByWaresId(queryBody)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_WARESBYWARESID,
+         payload: msgs
+      })
+  })
+
 
 /* default 导出所有 Action Creators */
 export default {
 fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay,
  fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting,
   fetchActivityList, getTicket, fetchPrivilegeByMember, 
-  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege
+  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId
 }
 
 // ================================
@@ -239,6 +251,10 @@ export const ACTION_HANDLERS = {
   },
   [FETCH_NONEEXPIREPRIVILEGE]: (result, { payload }) => {
     result.noneExpireData = payload
+    return result
+  },
+  [FETCH_WARESBYWARESID]: (result, { payload }) => {
+    result.waresInfo = payload
     return result
   }
 }

@@ -22,6 +22,7 @@
     "history": "^2.0.0",
     "jquery": "^3.2.1",
     "lodash": "^4.17.2",
+    "qrcode.react": "^0.8.0",
     "react": "^15.4.0",
     "react-amap": "^1.2.7",
     "react-amap-plugin-geolocation": "^0.0.2",

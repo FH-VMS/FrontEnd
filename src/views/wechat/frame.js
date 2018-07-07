@@ -29,7 +29,7 @@ class WechatFrame extends Component {
         super(props)
         this.state = {
            selectedTab: 'mall',
-           canLoad: true,
+           canLoad: false,
            cartCount: 0
         }
   }
@@ -103,6 +103,9 @@ class WechatFrame extends Component {
         hashHistory.push('/notservice')
         return
     }
+    if (searchPara.waresId) {
+      hashHistory.push(`/pay?clientId=${searchPara.clientId}&waresId=${searchPara.waresId}`)
+    }
     if (!sessionStorage.getItem('wechatInfo')) {
         if (location.href.split('?').length > 2) {
           let reallyUrlArr = location.href.split('#')[0].split('?')
@@ -115,7 +118,11 @@ class WechatFrame extends Component {
           if (!searchPara.code) {
               searchPara.code = '-1'
           }
-          this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code}).then(msg => {
+          let backUrl = ''
+          if (this.props.params.waresId) {
+            backUrl = escape(`&waresId=${this.props.params.waresId}`)
+          }
+          this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code, retBack: backUrl}).then(msg => {
             let {RequestState, RequestData, ProductJson} = msg
             if (RequestState == '0') {
               location.href = RequestData
