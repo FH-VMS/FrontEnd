@@ -48,7 +48,7 @@ class My extends Component {
             arrow="horizontal"
             extra="查看订单"
             onClick={() => {hashHistory.push('/order' + this.props.location.search)}}
-          >取货</Item>
+          >取货码</Item>
           <Item
             thumb={require('ASSET/img/wechat/ticket.png')}
             onClick={() => {hashHistory.push('/myticket' + this.props.location.search)}}
