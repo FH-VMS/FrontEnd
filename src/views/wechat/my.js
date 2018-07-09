@@ -50,6 +50,12 @@ class My extends Component {
             onClick={() => {hashHistory.push('/order' + this.props.location.search)}}
           >取货码</Item>
           <Item
+            thumb={require('ASSET/img/wechat/share.png')}
+            arrow="horizontal"
+            extra="去分享"
+            onClick={() => {hashHistory.push('/share' + this.props.location.search)}}
+          >请朋友</Item>
+          <Item
             thumb={require('ASSET/img/wechat/ticket.png')}
             onClick={() => {hashHistory.push('/myticket' + this.props.location.search)}}
             extra="查看优惠券"

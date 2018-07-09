@@ -260,6 +260,11 @@ const api = {
           return apiService('SaleCashless', 'GetStatisticSalesMoneyByDate', 'GET', data)
       }
 	}, 
+    PickSales: {
+      GetData: function (data) {
+          return apiService('PickSales', 'GetData', 'GET', data)
+      }
+	}, 
     Statistic: {
         GetMobilePayStatistic: function (data) {
           return apiService('Statistic', 'GetMobilePayStatistic', 'GET', data)

@@ -9,7 +9,7 @@ const { Column } = Table
 
 const { RangePicker } = DatePicker
 
-class SalesCashless extends Component {
+class PickSales extends Component {
     constructor(props) {
 		super(props)
         let oneWeekDate = Utility.getCurrentWeekDate()
@@ -29,7 +29,6 @@ class SalesCashless extends Component {
             refundDetail: {},
             outTradeNo: '',
             payType: '',
-            description: '统计金额需选定时间范围，',
             defaultRange: oneWeekDate
         }
 
@@ -57,13 +56,13 @@ class SalesCashless extends Component {
         this.setState({loading: true})
         
       
-       this.props.fetchCashlessList(val).then((msg) => {
-         if (this.props.salesCashless) {
+       this.props.fetchPickSalesList(val).then((msg) => {
+         if (this.props.pickSales) {
              let totalCount = this.state.total
-             if (this.props.salesCashless.pager) {
-                totalCount = this.props.salesCashless.pager.TotalRows
+             if (this.props.pickSales.pager) {
+                totalCount = this.props.pickSales.pager.TotalRows
              }
-           this.setState({dataSource: this.props.salesCashless.data, pagination: {
+           this.setState({dataSource: this.props.pickSales.data, pagination: {
                 total: totalCount,
                 showSizeChanger: true,
                 onShowSizeChange: (current, pageSize) => {
@@ -75,7 +74,7 @@ class SalesCashless extends Component {
                     this.searchPara.pageIndex = current
                     this.getData(this.searchPara)
                 },
-                showTotal: (total) => `${this.state.description}共 ${total} 行`
+                showTotal: (total) => `共 ${total} 行`
            },
            loading: false
            })
@@ -100,18 +99,6 @@ class SalesCashless extends Component {
          this.searchPara.pageIndex = 1
          
          this.getData(this.searchPara)
-          if (this.searchPara.salesDate) {
-          this.props.fetchSalesMoney({salesDate: this.searchPara.salesDate}).then(msg => {
-              if (msg) {
-                  let arrMoney = JSON.parse(msg).map((item, index) => {
-                      return item.PAY_INTERFACE + ':' + item.TOTALMONEY + ',手续费:' + item.SERVICECHARGE
-                  })
-                  this.setState({description: arrMoney.join(';') + ';'})
-              }
-          })
-      } else {
-           this.setState({description: '统计金额需选定时间范围，'})
-      }
     }
     
 
@@ -129,7 +116,7 @@ class SalesCashless extends Component {
       this.props.fetchRefundDetail({orderNo: orderNoVal, typ: typeVal}).then(()=> {
          
          try {
-           this.setState({ visible: true, refundDetail: JSON.parse(this.props.salesCashless.refundDetail.RefundDetail), outTradeNo: record.TradeNo, payType: typeVal })
+           this.setState({ visible: true, refundDetail: JSON.parse(this.props.pickSales.refundDetail.RefundDetail), outTradeNo: record.TradeNo, payType: typeVal })
          } catch (e) {
 
          }
@@ -190,10 +177,8 @@ class SalesCashless extends Component {
             label: '状态',
             name: 'tradeStatus',
             control: <Select placeholder="状态">
-                    <Option value="1">待出货</Option>
-                    <Option value="2">已出货</Option>
-                    <Option value="5">出货失败</Option>
-                    <Option value="6">已退款</Option>
+                    <Option value="7">待提货</Option>
+                    <Option value="8">已提货</Option>
                 </Select>
         },
         {
@@ -284,6 +269,12 @@ class SalesCashless extends Component {
                         }
                       }
                     />
+                    <Column
+                    title="提货码"
+                    dataIndex="PickupCode"
+                    key="PickupCode"
+                  
+                />
                      <Column
                         title="所属客户"
                         dataIndex="ClientName"
@@ -295,19 +286,7 @@ class SalesCashless extends Component {
                         dataIndex="TradeStatus"
                         key="TradeStatus"
                         render={(text, record) => {
-                            if (text == '1') {
-                                return '待出货'
-                            } else if (text == '2') {
-                                return '已出货'
-                            } else if (text == 3) {
-                                return <span style={{color: 'red'}}>未退款(部分失败)</span>
-                            } else if (text == 4) {
-                                return <span style={{color: 'green'}}>已退款(部分失败)</span>
-                            } else if (text == 5) {
-                                return <span style={{color: 'red'}}>出货失败</span>
-                            } else if (text == 6) {
-                                return <span style={{color: 'green'}}>已退款</span>
-                            } else if (text == 7) {
+                            if (text == 7) {
                                 return <span style={{color: 'blue', cursor: 'pointer'}}>待提货</span>
                             } else if (text == 8) {
                                 return <span>已提货</span>
@@ -346,4 +325,4 @@ class SalesCashless extends Component {
     }
 }
 
-export default SalesCashless
+export default PickSales

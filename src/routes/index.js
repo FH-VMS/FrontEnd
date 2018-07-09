@@ -50,6 +50,7 @@ export default {
      require('./admin/productgroup').default,  // 商品组
      require('./admin/producttype').default,  // 商品类型
      require('./admin/salesCashless').default,  // 销售列表
+     require('./admin/picksales').default,  // 取货销售列表
      require('./admin/customerInfo').default,  // 客户运营信息
      require('./admin/userInfo').default,  // 用户运营信息
      require('./admin/machineConfigInfo').default,  // 机器配置信息
@@ -169,7 +170,8 @@ export default {
     require('./wechat/service').default,
     require('./wechat/around').default,
     require('./wechat/aroundmap').default,
-    require('./wechat/result').default
+    require('./wechat/result').default,
+    require('./wechat/share').default
   ]
  }
 }
