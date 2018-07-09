@@ -161,9 +161,9 @@ class PickSales extends Component {
         
  // 查询条件
         let searchDatasource = [{
-            label: '设备编号',
+            label: '机器编号',
             name: 'machineId',
-            control: <Input placeholder="设备编号" />
+            control: <Input placeholder="机器编号" />
         },
         {
             label: '支付方式',
@@ -199,7 +199,7 @@ class PickSales extends Component {
               <Tools auth={this.state.auth} searchDatasource={searchDatasource} defaultValue={fields} onSearch={this.onSearch} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="设备编号"
+                        title="机器编号"
                         dataIndex="MachineId"
                         key="MachineId"
                     />

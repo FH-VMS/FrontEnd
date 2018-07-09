@@ -81,7 +81,7 @@ class MachineList extends Component {
         let searchDatasource = [{
             label: '机器编号',
             name: 'machineId',
-            control: <Input placeholder="设备编号" />
+            control: <Input placeholder="机器编号" />
         },
         {
             label: '客户名称',
