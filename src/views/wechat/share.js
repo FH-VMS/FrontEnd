@@ -26,7 +26,7 @@ class Share extends Component {
   queryWaitingData = () => {
    
       let openIdVal = wechatUtility.GetMemberId()
-      openIdVal = 'o20iGwtoUzSrJiugFilbiDLhmFnc'
+      // openIdVal = 'o20iGwtoUzSrJiugFilbiDLhmFnc'
       if (!openIdVal) {
         return
       }
