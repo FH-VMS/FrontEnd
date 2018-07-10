@@ -18,6 +18,8 @@ const FETCH_MACHINELOCATIONS = 'FETCH_MACHINELOCATIONS'
 const FETCH_NONEEXPIREPRIVILEGE = 'FETCH_NONEEXPIREPRIVILEGE'
 const FETCH_WARESBYWARESID = 'FETCH_WARESBYWARESID'
 
+const FETCH_PICURLBYWARESID = 'FETCH_PICURLBYWARESID'
+
 // ================================
 // Action Creator
 // ================================
@@ -198,13 +200,26 @@ const FETCH_WARESBYWARESID = 'FETCH_WARESBYWARESID'
       })
   })
 
+  // 根据商品id取图片地址
+const fetchPicUrlByWaresId = (bdy) => dispatch =>
+apis
+  .Common
+  .GetPicPathByWaresId(bdy)
+  .then(msgs => {
+    dispatch({
+       type: FETCH_PICURLBYWARESID,
+       payload: msgs
+    })
+    return msgs
+})
+
 
 /* default 导出所有 Action Creators */
 export default {
 fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay,
  fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting,
   fetchActivityList, getTicket, fetchPrivilegeByMember, 
-  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId
+  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId, fetchPicUrlByWaresId
 }
 
 // ================================
@@ -256,7 +271,8 @@ export const ACTION_HANDLERS = {
   [FETCH_WARESBYWARESID]: (result, { payload }) => {
     result.waresInfo = payload
     return result
-  }
+  },
+  [FETCH_PICURLBYWARESID]: (result, { payload }) => ({payload})
 }
 
 

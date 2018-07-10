@@ -58,6 +58,9 @@ const api = {
       },
       ClearLoginCache: function(data) {
           return apiService('Common', 'ClearLoginCache', 'POST', data)
+      },
+      GetPicPathByWaresId: function(data) {
+          return apiService('Common', 'GetPicPathByWaresId', 'GET', data)
       }
 	}, 
   User: {

@@ -101,6 +101,7 @@ doShare = () => {
   if (this.props.location.query.clientId) {
     Toast.loading('加载中')
     this.props.getWeixinConfig({clientId: this.props.location.query.clientId}).then(msg => {
+      
         let {RequestState, RequestData} = msg
         if (RequestState == '1') {
             let config = JSON.parse(RequestData)
@@ -131,20 +132,28 @@ doShare = () => {
                   // alert(res.errMsg);
                 }
               })
-              wx.onMenuShareAppMessage({
-                  title: `请您享用${this.state.nowShareItem.WaresName}`, // 分享标题
-                  desc: des, // 分享描述
-                  link: `${location.origin}/p/wechat.html#/mall/${openIdVal}/${this.state.nowShareItem.PickupNo}?clientId=${this.props.location.query.clientId}`, // 分享链接
-                  imgUrl: `http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E6%91%84%E5%BD%B1%E5%B8%88%E5%90%B4%E7%A7%8B%E7%85%8C&step_word=&hs=0&pn=22&spn=0&di=0&pi=51669677295&rn=1&tn=baiduimagedetail&is=0%2C0&istype=2&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=-1&cs=914852326%2C2946927230&os=&simid=&adpicid=0&lpn=0&ln=210&fr=&fmq=1531103237105_R&fm=&ic=0&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&ist=&jit=&cg=&bdtype=-1&oriquery=&objurl=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F94cad1c8a786c917908aa70ec53d70cf3bc75778.jpg&fromurl=&gsm=0&rpstart=0&rpnum=0&islist=&querylist=`, // 分享图标
-                  type: 'link', // 分享类型,music、video或link，不填默认为link
-                  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                  success: function () {
-                      // 用户确认分享后执行的回调函数
-                  },
-                  cancel: function () {
-                      // 用户取消分享后执行的回调函数
-                  }
+              
+              this.props.fetchPicUrlByWaresId({waresId: this.state.nowShareItem.WaresId}).then(url => {
+                
+                $('.shareGuide').show()
+                wx.onMenuShareAppMessage({
+                    title: `请您享用${this.state.nowShareItem.WaresName}`, // 分享标题
+                    desc: des, // 分享描述
+                    link: escape(`${location.origin}/p/wechat.html#/mall/${openIdVal}/${this.state.nowShareItem.PickupNo}`) + `?clientId=${this.props.location.query.clientId}&from=singlemessage`, // 分享链接
+                    imgUrl: url, // 分享图标
+                    type: 'link', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        $('.shareGuide').show()
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        $('.shareGuide').show()
+                    }
+                })
               })
+              
 
               wx.hideMenuItems({
                 menuList: ['menuItem:share:timeline', 
@@ -167,7 +176,7 @@ doShare = () => {
         }
         Toast.hide()
         this.setState({modalVisible: false, rdValue: 0})
-        $('.shareGuide').show()
+        
     })
 }
 }
