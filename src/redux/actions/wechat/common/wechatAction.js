@@ -19,6 +19,7 @@ const FETCH_NONEEXPIREPRIVILEGE = 'FETCH_NONEEXPIREPRIVILEGE'
 const FETCH_WARESBYWARESID = 'FETCH_WARESBYWARESID'
 
 const FETCH_PICURLBYWARESID = 'FETCH_PICURLBYWARESID'
+const POST_EXCHANGEWARES = 'POST_EXCHANGEWARES'
 
 // ================================
 // Action Creator
@@ -214,12 +215,25 @@ apis
 })
 
 
+  // 朋友领取赠送的商品
+  const postExchangeWares = (bdy) => dispatch =>
+  apis
+    .Common
+    .PostFriendShare(bdy)
+    .then(msgs => {
+      dispatch({
+         type: POST_EXCHANGEWARES,
+         payload: msgs
+      })
+      return msgs
+  })
+
 /* default 导出所有 Action Creators */
 export default {
 fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay,
  fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting,
   fetchActivityList, getTicket, fetchPrivilegeByMember, 
-  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId, fetchPicUrlByWaresId
+  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId, fetchPicUrlByWaresId, postExchangeWares
 }
 
 // ================================
@@ -272,7 +286,8 @@ export const ACTION_HANDLERS = {
     result.waresInfo = payload
     return result
   },
-  [FETCH_PICURLBYWARESID]: (result, { payload }) => ({payload})
+  [FETCH_PICURLBYWARESID]: (result, { payload }) => ({payload}),
+  [POST_EXCHANGEWARES]: (result, { payload }) => ({payload})
 }
 
 

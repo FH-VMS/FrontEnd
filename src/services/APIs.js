@@ -375,6 +375,9 @@ const api = {
         },
         GetProdcutAndGroupByWaresId: function (data) {
             return apiService('Wechat', 'GetProdcutAndGroupByWaresId', 'POST', data)
+        },
+        PostFriendShare: function (data) {
+            return apiService('Wechat', 'PostFriendShare', 'POST', data)
         }
     },
     MachineCabinet: {
