@@ -103,9 +103,7 @@ class WechatFrame extends Component {
         hashHistory.push('/notservice')
         return
     }
-    if (searchPara.waresId) {
-      hashHistory.push(`/pay?clientId=${searchPara.clientId}&waresId=${searchPara.waresId}`)
-    }
+    this.gotoPage(searchPara)
     if (!sessionStorage.getItem('wechatInfo')) {
         if (location.href.split('?').length > 2) {
           let reallyUrlArr = location.href.split('#')[0].split('?')
@@ -118,10 +116,7 @@ class WechatFrame extends Component {
           if (!searchPara.code) {
               searchPara.code = '-1'
           }
-          let backUrl = ''
-          if (this.props.params.waresId) {
-            backUrl = escape(`&waresId=${this.props.params.waresId}`)
-          }
+          let backUrl = this.getBackUrl(searchPara)
           this.props.wechat.fetchWechatAuth({m: searchPara.clientId, code: searchPara.code, retBack: backUrl}).then(msg => {
             let {RequestState, RequestData, ProductJson} = msg
             if (RequestState == '0') {
@@ -140,6 +135,25 @@ class WechatFrame extends Component {
    
   }
 
+  // 微信回调页面
+  getBackUrl = (searchPara) => {
+    let backUrl = ''
+    if (this.props.params.waresId) {
+      backUrl = escape(`&waresId=${this.props.params.waresId}`)
+    } else if (searchPara.openId && searchPara.pickupNo) {
+      backUrl = escape(`&openId=${searchPara.openId}&pickupNo=${searchPara.pickupNo}`)
+    }
+    return backUrl
+  }
+
+  // 跳转页面
+  gotoPage = (searchPara) => {
+    if (searchPara.waresId) {
+      hashHistory.push(`/pay?clientId=${searchPara.clientId}&waresId=${searchPara.waresId}`)
+    } else if (searchPara.openId && searchPara.pickupNo) {
+      hashHistory.push(`/getshare/${searchPara.openId}/${searchPara.pickupNo}?clientId=${searchPara.clientId}`)
+    }
+  }
      // 判断是否为微信
 
   tabBarClick = (txt) => {

@@ -148,7 +148,7 @@ class ProductList extends Component {
            values.WaresId = this.state.savePara.WaresId
            values.WaresManufactureDate = Utility.dateFormaterString(values.WaresManufactureDate)
            values.WaresQualityPeriod = Utility.dateFormaterString(values.WaresQualityPeriod)
-           console.log('aaaa', values)
+          
            this.props.updateProductList({productListInfo: values}).then((msg) => {
                if (msg) {
                   message.success('更新成功')

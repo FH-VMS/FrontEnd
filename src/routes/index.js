@@ -171,7 +171,8 @@ export default {
     require('./wechat/around').default,
     require('./wechat/aroundmap').default,
     require('./wechat/result').default,
-    require('./wechat/share').default
+    require('./wechat/share').default,
+    require('./wechat/getshare').default
   ]
  }
 }

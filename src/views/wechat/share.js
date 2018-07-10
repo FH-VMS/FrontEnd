@@ -18,7 +18,11 @@ const ShareForm = createForm()(class Share extends Component {
             rdValue: 0,
             nowShareItem: '',
             diyDes: '',
-            shareWords: [{value: 1, content: '海内存知己，天涯若比邻'}, {value: 2, content: '夏日朗朗，记忆中的片片美好'}, {value: 3, content: '睡XX，起来嗨'}, {value: 4, content: '自定义'}]
+            shareWords: [{value: 1, content: '海内存知己，天涯若比邻'}, 
+            {value: 2, content: '夏日朗朗，记忆中的片片美好'}, 
+            {value: 3, content: '昨夜小寐，忽疑君到，却是琉璃火，未央天。'}, 
+            {value: 5, content: '所谓深情挚爱，就是你心中有我，我心中有你，原来，一个人吃饭没有两个人吃饭开心。'}, 
+            {value: 4, content: '自定义'}]
         }
 	}
 
@@ -139,17 +143,17 @@ doShare = () => {
                 wx.onMenuShareAppMessage({
                     title: `请您享用${this.state.nowShareItem.WaresName}`, // 分享标题
                     desc: des, // 分享描述
-                    link: escape(`${location.origin}/p/wechat.html#/mall/${openIdVal}/${this.state.nowShareItem.PickupNo}`) + `?clientId=${this.props.location.query.clientId}&from=singlemessage`, // 分享链接
+                    link: `${location.origin}/p/wechat.html?clientId=${this.props.location.query.clientId}&openId=${openIdVal}&pickupNo=${this.state.nowShareItem.PickupNo}&from=singlemessage`, // 分享链接
                     imgUrl: url, // 分享图标
                     type: 'link', // 分享类型,music、video或link，不填默认为link
                     dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                     success: function () {
                         // 用户确认分享后执行的回调函数
-                        $('.shareGuide').show()
+                        $('.shareGuide').hide()
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
-                        $('.shareGuide').show()
+                        $('.shareGuide').hide()
                     }
                 })
               })
@@ -223,7 +227,7 @@ onChange = (value) => {
         >
         <List renderHeader={() => <div>选择寄语</div>}>
         {this.state.shareWords.map(i => (
-          <List.Item extra={<Radio checked={this.state.rdValue == i.value}/>} onClick={this.onChange.bind(this, i.value)}>
+          <List.Item multipleLine align="top" wrap extra={<Radio checked={this.state.rdValue == i.value}/>} onClick={this.onChange.bind(this, i.value)}>
           {i.content}
         </List.Item>
         ))}
@@ -235,7 +239,7 @@ onChange = (value) => {
           initialValue: ''
         })}
         rows={5}
-        count={100}
+        count={200}
         value={this.state.diyDes}
         onChange={(val) => {this.setState({diyDes: val})}}
       />
