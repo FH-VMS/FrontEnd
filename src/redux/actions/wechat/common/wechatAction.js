@@ -218,7 +218,7 @@ apis
   // 朋友领取赠送的商品
   const postExchangeWares = (bdy) => dispatch =>
   apis
-    .Common
+    .Wechat
     .PostFriendShare(bdy)
     .then(msgs => {
       dispatch({
@@ -233,7 +233,8 @@ export default {
 fetchWechatAuth, fetchProductType, fetchProduct, postWechatPay,
  fetchHistorySalesList, fetchWaitingSalesList, fetchWechatSetting,
   fetchActivityList, getTicket, fetchPrivilegeByMember, 
-  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId, fetchPicUrlByWaresId, postExchangeWares
+  getCanTicketCount, getWeixinConfig, fetchLocations, fetchNoneExiprePrivilege, fetchWaresByWaresId,
+   fetchPicUrlByWaresId, postExchangeWares
 }
 
 // ================================
