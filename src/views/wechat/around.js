@@ -24,7 +24,7 @@ class Around extends Component {
                 if (RequestState == '1') {
                     let config = JSON.parse(RequestData)
                     config.debug = false
-                    config.jsApiList = ['getLocation']
+                    config.jsApiList = ['getLocation', 'onMenuShareAppMessage']
                     wx.config(config)
                     wx.getLocation({
                         type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
