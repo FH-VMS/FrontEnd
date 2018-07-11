@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Table, Button, message, Avatar} from 'antd'
+import {Icon, Table, Button, message, Avatar, Input} from 'antd'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 
 const { Column } = Table
@@ -126,6 +126,16 @@ class Carousel extends Component {
                    dataIndex="PicName"
                    key="PicName"
                />
+               <Column
+                    title="链接"
+                    key="url"
+                    render={(record) => {
+                        console.log('bbbbb', record)
+                        return <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" />
+                    }
+                        
+                    }
+                />
                <Column
                    title="移动"
                    key="move"

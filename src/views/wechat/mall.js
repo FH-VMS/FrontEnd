@@ -156,6 +156,18 @@ class Mall extends Component {
     this.setState({nowProduct: {}, modal: false})
   }
 
+  transferNewSite = (item) => {
+      if (item.Url) {
+         if (item.Url.toLowerCase().indexOf('http://') > -1 || item.Url.toLowerCase().indexOf('https://') > -1) {
+           location.href = item.Url
+         } else {
+          location.href = 'http://' + item.Url
+         }
+      } else {
+
+      }
+  }
+
   render() {
     const tabs = this.state.tabTitles
       return (
@@ -169,6 +181,7 @@ class Mall extends Component {
               {
                 this.state.carouselData.map((item, index) => {
                   return (<img
+                        onClick={this.transferNewSite.bind(this, item)}
                         src={item.PicUrl}
                         alt=""
                         style={{ width: '100%', height: '3rem', verticalAlign: 'top', objectFit: 'cover' }}
