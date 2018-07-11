@@ -210,7 +210,7 @@ class Mall extends Component {
                   <div className="row" style={{padding: 0}}>
                     <div style={{ display: 'flex' }}>
                       <div>
-                          <img style={{ height: '150px', marginRight: '15px' }} src={this.state.nowProduct.PicUrl} />
+                          <img style={{ marginRight: '15px' }} src={this.state.nowProduct.PicUrl} />
                       </div>
                       <div className="row-text">
                         <div style={{ fontWeight: 'bold', textAlign: 'left' }}>{this.state.nowProduct.WaresName}</div>
