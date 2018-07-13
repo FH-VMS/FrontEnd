@@ -100,7 +100,7 @@ class Carousel extends Component {
         }
         return (
             <div>
-              <div className="uploadCarouselWarning"><Icon type="info-circle-o" /> <span>图片大小不能大于10kb,建议尺寸宽*高=375px*200px</span></div>
+              <div className="uploadCarouselWarning"><Icon type="info-circle-o" /> <span>图片大小不能大于10kb,建议尺寸宽*高=750px*345px</span></div>
               <div className="uploadArea">
               <Table dataSource={this.state.dataSource} pagination={false} showHeader={false}>
               <Column
