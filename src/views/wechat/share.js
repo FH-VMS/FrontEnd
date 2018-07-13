@@ -244,7 +244,7 @@ onChange = (value) => {
         onChange={(val) => {this.setState({diyDes: val})}}
       />
         <List.Item>
-          <Button type="primary" onClick={this.doShare}>分享</Button>
+          <Button type="primary" onClick={this.doShare}>确定</Button>
         </List.Item>
       </List>
         </Modal>
