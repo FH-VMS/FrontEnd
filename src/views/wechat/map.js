@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Map, Marker } from 'react-amap'
-import Geolocation from 'react-amap-plugin-geolocation'
-
+// import Geolocation from 'react-amap-plugin-geolocation'
+/*
 const pluginProps = {
     enableHighAccuracy: true,
     timeout: 10000,
@@ -10,7 +10,7 @@ const pluginProps = {
     buttonPosition: 'RB',
     zoomToAccuracy: true
   }
-
+*/
 class AroundMap extends Component {
     constructor(props) {
         super(props)
@@ -43,7 +43,12 @@ class AroundMap extends Component {
             <div>
                <div className="aroundMapContainer">
                 <Map resizeEnable={true} zoom={15} center={postion} amapkey={'9015a8600408fdc7cb39d8cb1b83155a'} version={'1.4.6'}>
-                    <Geolocation {...pluginProps} />
+                {
+                    /*
+                     <Geolocation {...pluginProps} />
+                    */
+                }
+                   
                     <Marker position={postion} />
                 </Map>
                </div>
