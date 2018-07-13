@@ -23,6 +23,10 @@ const ActivityDialog = Form.create({
        ...props.ActivityType,
        value: props.ActivityType
      },
+     Numbers: {
+      ...props.Numbers,
+      value: props.Numbers
+    },
      StartTime: {
         ...props.StartTime,
         value: Utility.timeFormaterObj(props.StartTime)
@@ -287,7 +291,7 @@ const ActivityDialog = Form.create({
       />
   )}
 </FormItem>
-<FormItem
+  <FormItem
 {...formItemLayout}
 label="数量："
 hasFeedback
@@ -300,6 +304,7 @@ hasFeedback
   <InputNumber />
 )}
 </FormItem>
+
         </Form>
       </Modal>
      
