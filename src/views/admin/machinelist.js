@@ -381,9 +381,14 @@ class MachineList extends Component {
               
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="设备编号"
+                        title="机器编号"
                         dataIndex="MachineId"
                         key="MachineId"
+                    />
+                    <Column
+                        title="设备编号"
+                        dataIndex="DeviceId"
+                        key="DeviceId"
                     />
                      <Column
                         title="名称"
