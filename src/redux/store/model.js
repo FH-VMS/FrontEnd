@@ -8,10 +8,10 @@
 **************** */
 let rootApi = 'http://localhost:5000/api'
 if (__RELEASE__) { 
-    rootApi = 'http://120.27.217.224:8088/api'
+    rootApi = 'http://www.fy-cn.top:8088/api'
 }
 if (__PROD__) { // 为了方便  跑起来使用云上的接口
-    rootApi = 'http://120.27.217.224:8088/api'
+    rootApi = 'http://www.fy-cn.top:8088/api'
 }
 const Front = { 
     BaseSetting: {
