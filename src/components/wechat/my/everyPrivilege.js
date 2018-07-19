@@ -19,7 +19,7 @@ class EveryPrivilege extends Component {
   }
 
   render() {
-      let {ExpireTime, PrivilegeInstru, PrivilegeStatus, Money, Discount} = this.props.data
+      let {ExpireTime, PrivilegeInstru, PrivilegeStatus, Money, Discount, DisplayText} = this.props.data
       let privilegeMoney = ''
       if (Money && Money > 0) {
         privilegeMoney = '¥' + Money
@@ -52,6 +52,7 @@ class EveryPrivilege extends Component {
                 <div className={style}>{privilegeMoney}</div>
                 <div>
                     <div>
+                        <div style={{color: (PrivilegeStatus == 1 && !isExipire) ? '#ff6867' : 'inherit', marginBottom: '5px', fontSize: '0.25rem'}}>{DisplayText}</div>
                         <div>失效时间: {ExpireTime.replace('T', ' ')} </div>
                         <div>使用规则：{PrivilegeInstru}</div>
                     </div>
