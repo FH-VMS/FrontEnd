@@ -60,7 +60,7 @@ export default {
     * */
     ],
     onEnter: () => {
-          $('body').css('background', '#ff5242')
+          
     },
     onLeave: () => {
         $('body').css('background', '#f5f5f9')

@@ -142,6 +142,10 @@ class WechatFrame extends Component {
       backUrl = escape(`&waresId=${this.props.params.waresId}`)
     } else if (searchPara.openId && searchPara.pickupNo) {
       backUrl = escape(`&openId=${searchPara.openId}&pickupNo=${searchPara.pickupNo}`)
+    } else if (searchPara.goto && searchPara.goto == 'my') {
+      backUrl = escape(`&goto=my`)
+    } else if (searchPara.goto && searchPara.goto == 'activity') {
+      backUrl = escape(`&goto=activity`)
     }
     return backUrl
   }
@@ -152,6 +156,10 @@ class WechatFrame extends Component {
       hashHistory.push(`/pay?clientId=${searchPara.clientId}&waresId=${searchPara.waresId}`)
     } else if (searchPara.openId && searchPara.pickupNo) {
       hashHistory.push(`/getshare/${searchPara.openId}/${searchPara.pickupNo}?clientId=${searchPara.clientId}`)
+    } else if (searchPara.goto && searchPara.goto == 'my') {
+      hashHistory.push(`/my?clientId=${searchPara.clientId}`)
+    } else if (searchPara.goto && searchPara.goto == 'activity') {
+      hashHistory.push(`/activity?clientId=${searchPara.clientId}`)
     }
   }
      // 判断是否为微信

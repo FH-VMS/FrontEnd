@@ -3,7 +3,7 @@ import 'ASSET/csslib/GB-canvas-turntable.less'
 import gbTurntable from 'UTIL/lottery'
 import {Toast, Button, Modal} from 'antd-mobile'
 import {hashHistory} from 'react-router'
-// import $ from 'jquery'
+import $ from 'jquery'
 
 
 function closest(el, selector) {
@@ -167,6 +167,8 @@ class Activity extends Component {
         })
     }
     
+
+    $('body').css('background', '#ff5242')
   }
 
   render() {
