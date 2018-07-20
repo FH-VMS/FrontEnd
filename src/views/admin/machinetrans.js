@@ -187,11 +187,10 @@ class MachineTrans extends Component {
         if (err) {
             return
         }
-        
         // 更新
        if (this.state.savePara.MachineId) {
-           values.MachineId = this.state.savePara.MachineId
-           this.props.updateMachineList({machineListInfo: values}).then((msg) => {
+         
+           this.props.updateMachineList({machineListInfo: {...this.state.savePara, ...values}}).then((msg) => {
                if (msg) {
                   message.success('更新成功')
                   this.getData(this.searchPara)
