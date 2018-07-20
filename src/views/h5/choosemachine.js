@@ -84,7 +84,7 @@ class ChooseMachine extends Component {
    }
 
    chooseMachine = (rowData, ev) => {
-       localStorage.setItem('ChooseMachineDeviceId', rowData.DeviceId)
+       localStorage.setItem('ChooseMachineDeviceId', rowData.MachineId)
       hashHistory.push('h5main')
    }
 
@@ -99,7 +99,7 @@ class ChooseMachine extends Component {
           
       }
       return (
-         <Item arrow="horizontal" onClick={this.chooseMachine.bind(this, rowData)} extra={rowData.ClientText}>{rowData.DeviceId} <Item.Brief>{rowData.Remark}({machineStatus})</Item.Brief></Item>
+         <Item arrow="horizontal" onClick={this.chooseMachine.bind(this, rowData)} extra={rowData.ClientText}>{rowData.MachineId} <Item.Brief>{rowData.Remark}({machineStatus})</Item.Brief></Item>
       )
     }
 
