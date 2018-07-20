@@ -231,7 +231,6 @@ class Customer extends Component {
 
         // 修改时直接绑定参数
         const fields = this.state.savePara
-
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
@@ -247,6 +246,11 @@ class Customer extends Component {
                         dataIndex="ClientName"
                         key="ClientName"
                     />
+                    <Column
+                    title="所属客户"
+                    dataIndex="FatherName"
+                    key="FatherName"
+                />
                     <Column
                         title="状态"
                         dataIndex="ClientStatus"
