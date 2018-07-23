@@ -188,6 +188,8 @@ class WechatFrame extends Component {
       if (!this.state.canLoad) {
          return (<div></div>)
       }
+      let size = '0.45rem'
+      let titleSize = '0.2rem'
       return (
         <div>
         <div ref="childArea" className="childArea">{this.props.children}</div>
@@ -200,18 +202,18 @@ class WechatFrame extends Component {
           noRenderContent={true}
         >
           <TabBar.Item
-            title="商城"
+            title={<span style={{fontSize: titleSize}}>商城</span>}
             key="mall"
             icon={<div style={{
-              width: '44px',
-              height: '44px',
-              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  44px 44px no-repeat` }}
+              width: size,
+              height: size,
+              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  ${size} ${size} no-repeat` }}
             />
             }
             selectedIcon={<div style={{
-              width: '44px',
-              height: '44px',
-              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  44px 44px no-repeat` }}
+              width: size,
+              height: size,
+              background: `url(${require('ASSET/img/wechat/mall.png')}) center center /  ${size} ${size} no-repeat` }}
             />
             }
             selected={this.state.selectedTab === 'mall'}
@@ -223,19 +225,19 @@ class WechatFrame extends Component {
           <TabBar.Item
             icon={
               <div style={{
-                width: '44px',
-                height: '44px',
-                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  44px 44px no-repeat` }}
+                width: size,
+                height: size,
+                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  ${size} ${size} no-repeat` }}
               />
             }
             selectedIcon={
               <div style={{
-                width: '44px',
-                height: '44px',
-                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  44px 44px no-repeat` }}
+                width: size,
+                height: size,
+                background: `url(${require('ASSET/img/wechat/cart.png')}) center center /  ${size} ${size} no-repeat` }}
               />
             }
-            title="购物车"
+            title={<span style={{fontSize: titleSize}}>购物车</span>}
             key="cart"
             badge={this.state.cartCount}
             selected={this.state.selectedTab === 'cart'}
@@ -246,19 +248,19 @@ class WechatFrame extends Component {
           <TabBar.Item
             icon={
               <div style={{
-                width: '44px',
-                height: '44px',
-                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  44px 44px no-repeat` }}
+                width: size,
+                height: size,
+                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  ${size} ${size} no-repeat` }}
               />
             }
             selectedIcon={
               <div style={{
-                width: '44px',
-                height: '44px',
-                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  44px 44px no-repeat` }}
+                width: size,
+                height: size,
+                background: `url(${require('ASSET/img/wechat/gift.png')}) center center /  ${size} ${size} no-repeat` }}
               />
             }
-            title="活动"
+            title={<span style={{fontSize: titleSize}}>活动</span>}
             key="activity"
             selected={this.state.selectedTab === 'activity'}
             onPress={this.tabBarClick.bind(this, 'activity')}
@@ -267,19 +269,19 @@ class WechatFrame extends Component {
           <TabBar.Item
           icon={
             <div style={{
-              width: '44px',
-              height: '44px',
-              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  44px 44px no-repeat` }}
+              width: size,
+              height: size,
+              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  ${size} ${size} no-repeat` }}
             />
           }
           selectedIcon={
             <div style={{
-              width: '44px',
-              height: '44px',
-              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  44px 44px no-repeat` }}
+              width: size,
+              height: size,
+              background: `url(${require('ASSET/img/wechat/my.png')}) center center /  ${size} ${size} no-repeat` }}
             />
           }
-            title="我的"
+            title={<span style={{fontSize: titleSize}}>我的</span>}
             key="my"
             selected={this.state.selectedTab === 'my'}
             onPress={this.tabBarClick.bind(this, 'my')}
