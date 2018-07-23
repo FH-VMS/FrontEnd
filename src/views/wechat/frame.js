@@ -188,7 +188,7 @@ class WechatFrame extends Component {
       if (!this.state.canLoad) {
          return (<div></div>)
       }
-      let size = '0.45rem'
+      let size = '0.42rem'
       let titleSize = '0.2rem'
       return (
         <div>
