@@ -117,7 +117,6 @@ class MachineConfig extends Component {
                     item.MachineFucLists.push(eItem.value)
                 }
             })
-            console.log('eeeee', item)
             this.setState({ visible: true, savePara: item })
          }
          
@@ -155,7 +154,7 @@ class MachineConfig extends Component {
             return
         }
          
-        if (!this.state.savePara.MachineIdB) {
+        if (!this.state.savePara.MachineId) {
             return
         }
         
@@ -170,7 +169,7 @@ class MachineConfig extends Component {
                 values[item] = 1
             })
         }
-        values.MachineId = this.state.savePara.MachineIdB
+        values.MachineId = this.state.savePara.MachineId
 
         this.props.addMachineConfig({machineConfigInfo: values}).then((msg) => {
              if (msg) {
@@ -266,7 +265,7 @@ class MachineConfig extends Component {
         let searchDatasource = [{
             label: '机器编号',
             name: 'machineId',
-            control: <Input placeholder="设备编号" />
+            control: <Input placeholder="机器编号" />
         }]
 
         // 修改时直接绑定参数
