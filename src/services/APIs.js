@@ -452,7 +452,10 @@ const api = {
         },
         CopyOneMachine: function (data) {
             return apiService('MachineOperation', 'CopyOneMachine', 'POST', data)
-          }
+        },
+        ProductPush: function (data) {
+            return apiService('MachineOperation', 'ProductPush', 'POST', data)
+        }
     },
     Resource: {
         GetData: function (data) {

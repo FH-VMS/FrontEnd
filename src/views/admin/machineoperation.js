@@ -3,7 +3,7 @@ import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
 import {hashHistory} from 'react-router'
-import { Table, Spin, Popconfirm, Input } from 'antd'
+import { Table, Spin, Popconfirm, Input, message } from 'antd'
 
 const { Column } = Table
 
@@ -70,12 +70,48 @@ class MachineOperation extends Component {
     }
 
     handleFullfilByOneKey = (record, e) => {
-
+        let lastOnlineTime = record.Name.split('~')[record.Name.split('~').length - 1]
+        if (lastOnlineTime) {
+            if (parseInt(lastOnlineTime, 0) > 900) {
+                message.warning('机器当前离线状态')
+            } else {
+              this.props.fullfilOneyKey({machineId: record.Id}).then(msg => {
+                  if (msg) {
+                    message.success('操作成功')
+                  } else {
+                    message.error('操作失败')
+                  }
+              })
+            }
+            
+        } else {
+            message.warning('机器未启用')
+        }
     }
 
     // 现金价格下推
     cashPush = (item, ev) => {
         hashHistory.push(`cash/${item.Id}`)
+    }
+
+    productPush = (record, ev) => {
+        let lastOnlineTime = record.Name.split('~')[record.Name.split('~').length - 1]
+        if (lastOnlineTime) {
+            if (parseInt(lastOnlineTime, 0) > 900) {
+                message.warning('机器当前离线状态')
+            } else {
+              this.props.pushProduct({machineId: record.Id}).then(msg => {
+                  if (msg) {
+                    message.success('操作成功')
+                  } else {
+                    message.error('操作失败')
+                  }
+              })
+            }
+            
+        } else {
+            message.warning('机器未启用')
+        }
     }
   
 
@@ -97,8 +133,30 @@ class MachineOperation extends Component {
                         title="机器"
                         dataIndex="Name"
                         key="Name"
+                        render={(text, record) => {
+                            return text.split('~')[0]
+                        }
+                      }
                     />
-                    
+                    <Column
+                    title="当前状态"
+                    dataIndex="LatestOnline"
+                    key="LatestOnline"
+                    render={(text, record) => {
+                        let lastOnlineTime = record.Name.split('~')[record.Name.split('~').length - 1]
+                        if (lastOnlineTime) {
+                            if (parseInt(lastOnlineTime, 0) > 900) {
+                              return <span style={{color: 'red'}}>离线</span>
+                            } else {
+                              return <span style={{color: 'green'}}>在线</span>
+                            }
+                            
+                        } else {
+                            return '未启用'
+                        }
+                    }
+                  }
+                />
                     <Column
                         title="操作"
                         key="action"
@@ -108,11 +166,20 @@ class MachineOperation extends Component {
                                 <a>一键补货</a>
                             </Popconfirm>
                             <span className="ant-divider" />
-                            <a>详细补货</a>
+                            <Popconfirm title="确认商品下推吗?" okText="确定" onConfirm={this.productPush.bind(this, record)} cancelText="取消">
+                            <a>商品下推</a>
+                            </Popconfirm>
+                            {
+                                /*
+                                 <a>详细补货</a>
                             <span className="ant-divider" />
                             <a>最大库存</a>
                             <span className="ant-divider" />
                             <a onClick = {this.cashPush.bind(this, record)}>现金价格</a>
+                                */
+
+                            }
+                           
                         </span>
                         )}
                     />

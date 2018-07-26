@@ -4,6 +4,8 @@ import apis from 'SERVICE/apis'
 // Action Type
 // ================================
 const FETCH_MACHINES = 'FETCH_MACHINES'
+const FULLFIL_ONEKEY = 'FULLFIL_ONEKEY'
+const PUSH_PRODUCT = 'PUSH_PRODUCT'
 
 // ================================
 // Action Creator
@@ -20,14 +22,38 @@ const fetchMachines = (queryBody) => dispatch =>
   })
 
 
- 
+   // 一键补货
+   const fullfilOneyKey = (updBody) => dispatch =>
+   apis
+     .TunnelInfo
+     .PostFullFilByOneKey(updBody)
+     .then(msgs => {
+       dispatch({
+          type: FULLFIL_ONEKEY,
+          payload: msgs
+       })
+       return msgs
+   })
 
+
+    // 商品更新下推
+    const pushProduct = (updBody) => dispatch =>
+    apis
+      .MachineOperation
+      .ProductPush(updBody)
+      .then(msgs => {
+        dispatch({
+           type: PUSH_PRODUCT,
+           payload: msgs
+        })
+        return msgs
+    })
  
 
 
 /* default 导出所有 Action Creators */
 export default {
-    fetchMachines
+    fetchMachines, fullfilOneyKey, pushProduct
 }
 
 // ================================
@@ -42,7 +68,9 @@ export const ACTION_HANDLERS = {
       result.data = payload.data
       result.pager = payload.pager
       return result
-  }
+  },
+  [FULLFIL_ONEKEY]: (result, { payload }) => ({payload}),
+  [PUSH_PRODUCT]: (result, { payload }) => ({payload})
 }
 
 
