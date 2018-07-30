@@ -82,7 +82,8 @@ class WechatFrame extends Component {
         }
       }
 
-      localStorage.setItem('cartproducts', JSON.stringify(carts))
+      // localStorage.setItem('cartproducts', JSON.stringify(carts))
+      wechatUtility.Cart.setData(carts)
       this.setState({cartCount: carts.length})
       break
       case 'deletecartproduct':
