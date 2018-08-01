@@ -108,8 +108,10 @@ class WechatFrame extends Component {
     if (!sessionStorage.getItem('wechatInfo')) {
         if (location.href.split('?').length > 2) {
           let reallyUrlArr = location.href.split('#')[0].split('?')
+         
           location.href = reallyUrlArr[0] + '#/?' + reallyUrlArr[1]
-          return
+          window.history.pushState({}, 0, reallyUrlArr[0] + '#/?clientId=' + searchPara.clientId)
+          
         }
         
         if (wechatUtility.isWeiXin()) {

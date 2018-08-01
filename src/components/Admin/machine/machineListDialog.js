@@ -192,6 +192,7 @@ const MachineTypeDialog = Form.create({
       this.adDicSelect(this.props.ClientId)
       isDisable = true
     }
+   
     const { visible, form, title, clientDicData, machineTypeDic} = this.props
     const { getFieldDecorator } = form
     const formItemLayout = {
@@ -210,7 +211,9 @@ const MachineTypeDialog = Form.create({
         maskClosable={false}
       >
         <Form horizontal>
-        <FormItem
+        {
+          /*
+          <FormItem
         {...formItemLayout}
         label="设备编号："
         hasFeedback
@@ -225,6 +228,24 @@ const MachineTypeDialog = Form.create({
          <Input disabled={isDisable}/>
         )}
       </FormItem>
+          */
+        }
+        
+      <FormItem
+      {...formItemLayout}
+      label="设备编号："
+      hasFeedback
+    >
+      {getFieldDecorator('DeviceId', {
+        rules: [{
+          required: true, message: '必填'
+        }, {
+          validator: this.checkDeviceId
+        }]
+      })(
+       <Input />
+      )}
+    </FormItem>
          <FormItem
           {...formItemLayout}
           label="机器编号："
