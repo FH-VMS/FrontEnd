@@ -31,6 +31,8 @@ class Frame extends Component {
   componentWillMount() {
     Utility.Cookie.clear('UserInfo')
     sessionStorage.removeItem('chosenMenuVal')
+    sessionStorage.removeItem('Clients')
+    sessionStorage.removeItem('DisplayClient')
   }
 
   login = (e) => {
@@ -48,7 +50,7 @@ class Frame extends Component {
          
           let userInfo = this.props.loginData
           if (userInfo && userInfo.Id != '' && this.props.loginData.Id != null) {
-             Utility.Cookie.setValue('UserInfo', {UserAccount: userInfo.UserAccount, UserAccessId: userInfo.UserAccessId, UserClientId: userInfo.UserClientId, Sts: userInfo.Sts})
+             Utility.Cookie.setValue('UserInfo', {UserAccount: userInfo.UserAccount, UserAccessId: userInfo.UserAccessId, UserClientId: userInfo.UserClientId, Sts: userInfo.Sts, OriginClientId: userInfo.UserClientId})
              // hashHistory.push({ pathname: rootRouter.admin.path})
              location.href = 'index.html'
           } else {

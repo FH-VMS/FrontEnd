@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Spin, Tabs, Row, Col, TreeSelect, message} from 'antd'
 import Carousel from 'COMPONENT/admin/websetting/carousel'
+import Utility from 'UTIL/utility'
 const TabPane = Tabs.TabPane
 
 class WechatSetting extends Component {
@@ -16,29 +17,13 @@ class WechatSetting extends Component {
         }
     }
 
-    getTreeClient = (data) => {
-        $.each(data, (index, item) => {
-            item.label = item.Name
-        
-            item.value = item.Id
-            item.key = item.Id
-            delete item.Name
-            delete item.Id
-            if (item.children && item.children.length > 0) {
-            this.getTreeClient(item.children)
-            } else {
-                delete item.children
-            }
-        })
-        return data
-    }
 
     componentDidMount() {
         // 客户字典
         this.props.fetchClientDic().then(msg => {
             
             if (msg) {
-                this.setState({clientDicData: this.getTreeClient(msg), loading: false})
+                this.setState({clientDicData: Utility.getTreeClient(msg), loading: false})
             }
 
         

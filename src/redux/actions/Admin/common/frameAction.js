@@ -5,6 +5,7 @@ import apis from 'SERVICE/apis'
 // ================================
 const FETCH_MENU = 'FETCH_MENU'
 const CLEAR_LOGINCACHE = 'CLEAR_LOGINCACHE'
+const FETCH_CLIENTDIC = 'FETCH_CLIENTDIC'
 
 
 // ================================
@@ -34,10 +35,24 @@ const fetchMenu = () => dispatch =>
           })
           return msgs
       })
+
+        // 取客户当字典
+  const fetchClient = (bdy) => dispatch =>
+  apis
+    .User
+    .GetClientDic(bdy)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_CLIENTDIC,
+         payload: msgs
+      })
+
+      return msgs
+  })
   
 /* default 导出所有 Action Creators */
 export default {
-  fetchMenu, clearLoginCache
+  fetchMenu, clearLoginCache, fetchClient
 }
 
 // ================================

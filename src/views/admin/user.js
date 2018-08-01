@@ -48,7 +48,7 @@ class User extends Component {
        this.props.fetchClientDic().then(msg => {
           
          if (this.props.userData && this.props.userData.clientDic) {
-            this.setState({clientDicData: this.getTreeClient(this.props.userData.clientDic)})
+            this.setState({clientDicData: Utility.getTreeClient(this.props.userData.clientDic)})
          }
 
         
@@ -56,22 +56,7 @@ class User extends Component {
        this.reconstructCount = 0
     }
 
-    getTreeClient = (data) => {
-            $.each(data, (index, item) => {
-                item.label = item.Name
-               
-                item.value = item.Id
-                item.key = item.Id
-                delete item.Name
-                delete item.Id
-                if (item.children && item.children.length > 0) {
-                   this.getTreeClient(item.children)
-                } else {
-                    delete item.children
-                }
-            })
-            return data
-    }
+   
     
     // 取数据方法
     getData = (val) => {
