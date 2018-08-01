@@ -138,40 +138,34 @@ export default {
           location.href = 'login.html'
         }
     },
-    getTreeClient: function(data) {
+    getTreeClient: function(list) {
         let userInfoCookie = this.Cookie.getValue('UserInfo')
         let rClientId = userInfoCookie.UserClientId
         // 将数据存储为 以 id 为 KEY 的 map 索引数据列
-        var map = {};
-        data.forEach(function (item) {
-            map[item.Id] = {label: item.Name, value: item.Id, fId: item.FatherId}
-        });
-       
-        var val = [];
-        data.forEach(function (item) {
-
-            // 以当前遍历项，的pid,去map对象中找到索引的id
-            var parent = map[item.FatherId];
-            
-
-            // 好绕啊，如果找到索引，那么说明此项不在顶级当中,那么需要把此项添加到，他对应的父级中
-            if (parent) {
-
-                (parent.children || (parent.children = [])).push({label: item.Name, value: item.Id, fId: item.FatherId});
-
-            } else {
-                // 如果没有在map中找到对应的索引ID,那么直接把 当前的item添加到 val结果集中，作为顶级
-                val.push({label: item.Name, value: item.Id, fId: item.FatherId});
-                
-            }
-        });
-        let finalData = []
-        for (let tmp in map) {
-           if (map[tmp].fId == rClientId || map[tmp].value == rClientId) {
-            finalData.push(map[tmp])
-           }
+        let items = {};
+        // 获取每个节点的直属子节点，*记住是直属，不是所有子节点
+        for (let i = 0; i < list.length; i++) {
+             let key = list[i].fatherid;
+             if (items[key]) {
+                 items[key].push(list[i]);
+             } else {
+                 items[key] = [];
+                 items[key].push(list[i]);
+             }
+         }
+        console.log(this.formatTree(items, rClientId))
+        return this.formatTree(items, rClientId);
+    },
+    formatTree: function(items, parentId) {
+        let result = [];
+        if (!items[parentId]) {
+            return result;
         }
-        return finalData
+        for (let t of items[parentId]) {
+            t.children = this.formatTree(items, t.value)
+            result.push(t);
+        }
+       return result;
     }
 }
 
