@@ -26,7 +26,7 @@ class PayResult extends Component {
                 title="支付成功"
             />
 
-            <div style={{textAlign: 'center', marginTop: '1rem'}}> <Button type="primary" inline size="small" onClick={() => {hashHistory.push('/' + this.props.location.search)}}>继续购物--></Button></div>
+            <div style={{textAlign: 'center', marginTop: '1rem'}}> <Button type="ghost" style={{marginRight: '0.2rem'}} inline size="small" onClick={() => {hashHistory.push('/order' + this.props.location.search)}}>查看订单</Button> <Button type="primary" inline size="small" onClick={() => {hashHistory.push('/' + this.props.location.search)}}>继续购物</Button></div>
           </div>
         )
  }
