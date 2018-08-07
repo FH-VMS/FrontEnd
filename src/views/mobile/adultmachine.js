@@ -10,6 +10,7 @@ class AdultMachine extends Component {
 
   componentWillMount() {
     document.title = this.props.params.id
+    sessionStorage.setItem('ParamMachineId', this.props.params.id)
   }
 
   render() {
