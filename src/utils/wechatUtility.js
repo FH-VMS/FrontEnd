@@ -37,12 +37,26 @@ export default {
         }
     },
     GetMemberId: function() {
-        let memberInfo = sessionStorage.getItem('wechatInfo')
+        let clientId = this.Cart.GetClientId()
+        let memberInfo = sessionStorage.getItem(clientId + 'wechatInfo')
         if (!memberInfo) {
             return ''
         }
 
         return JSON.parse(memberInfo).openid
+    },
+    getWechatInfo: function() {
+        let clientId = this.Cart.GetClientId()
+        let wechatInfo = sessionStorage.getItem(clientId + 'wechatInfo')
+        if (!wechatInfo) {
+            return ''
+        }
+
+        return wechatInfo
+    },
+    setWechatInfo: function(jsonData) {
+        let clientId = this.Cart.GetClientId()
+        sessionStorage.setItem(clientId + 'wechatInfo', jsonData)
     }
 }
 

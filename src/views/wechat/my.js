@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {List, WhiteSpace, Flex} from 'antd-mobile'
 import {hashHistory} from 'react-router'
+import wechatUtility from 'UTIL/wechatUtility'
+
 const Item = List.Item
 class My extends Component {
 	constructor(props) {
@@ -13,7 +15,7 @@ class My extends Component {
 	}
 
   componentWillMount() {
-     var jsonUser = sessionStorage.getItem('wechatInfo')
+     var jsonUser = wechatUtility.getWechatInfo()
      if (jsonUser) {
         let obj = JSON.parse(jsonUser)
         this.setState({nickName: obj.nickname, memberCode: obj.openid, portrait: obj.headimgurl})

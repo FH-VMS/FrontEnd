@@ -3,6 +3,7 @@ import 'ASSET/csslib/GB-canvas-turntable.less'
 import gbTurntable from 'UTIL/lottery'
 import {Toast, Button, Modal} from 'antd-mobile'
 import {hashHistory} from 'react-router'
+import wechatUtility from 'UTIL/wechatUtility'
 import $ from 'jquery'
 
 
@@ -52,7 +53,7 @@ class Activity extends Component {
     let clientWidth = document.documentElement.clientWidth;
     // jquery('#' + opts.id).width(canvasWidth + 'px')
     if (this.props.location.query.clientId) {
-        var jsonUser = sessionStorage.getItem('wechatInfo')
+        var jsonUser = wechatUtility.getWechatInfo()
         Toast.loading('加载中')
        
         this.props.fetchActivityList({clientId: this.props.location.query.clientId, activityType: 1}).then(msg => {

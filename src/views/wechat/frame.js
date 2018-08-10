@@ -105,7 +105,7 @@ class WechatFrame extends Component {
         return
     }
     this.gotoPage(searchPara)
-    if (!sessionStorage.getItem('wechatInfo')) {
+    if (!wechatUtility.getWechatInfo()) {
         if (location.href.split('?').length > 2) {
           let reallyUrlArr = location.href.split('#')[0].split('?')
          
@@ -125,7 +125,7 @@ class WechatFrame extends Component {
             if (RequestState == '0') {
               location.href = RequestData
             } else if (RequestState == '1') {
-              sessionStorage.setItem('wechatInfo', ProductJson)
+              wechatUtility.setWechatInfo(ProductJson)
               this.setState({canLoad: true})
             } else if (RequestState == '2') {
               // 请求商品错误

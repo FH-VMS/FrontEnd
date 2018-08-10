@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {ListView} from 'antd-mobile'
 import EveryPrivilege from 'COMPONENT/wechat/my/everyPrivilege'
+import wechatUtility from 'UTIL/wechatUtility'
 import $ from 'jquery'
 
 class MyTicket extends Component {
@@ -29,7 +30,7 @@ class MyTicket extends Component {
   }
 
   queryData = () => {
-    let memberInfo = sessionStorage.getItem('wechatInfo')
+    let memberInfo = wechatUtility.getWechatInfo()
     if (!memberInfo) {
       return
     }
