@@ -81,7 +81,8 @@ const PrivilegeDialogForm = Form.create({
         isRound: false,
         pricipleType: 1,
         productDic: [],
-        productDicSelect: ''
+        productDicSelect: '',
+        loadProductDic: true
       }
     }
 
@@ -194,7 +195,7 @@ const PrivilegeDialogForm = Form.create({
 }
 
 getProductSelect = () => {
-  if (this.state.productDic.length == 0) {
+  if (this.state.loadProductDic) {
     this.props.fetchProductDic().then(msg => {
        if (msg) {
         let productSelectLet = msg.map((item, index) => {
@@ -202,7 +203,9 @@ getProductSelect = () => {
         })
         this.setState({productDicSelect: productSelectLet})
        }
+       
     })
+    this.setState({loadProductDic: false})
   }
   
 }

@@ -25,6 +25,7 @@ class EveryTunnel extends Component {
     productSelect = (value) => {
         this.props.datasource.WaresId = value
         this.props.fetchPriceByWaresId({waresId: value}).then(msg => {
+            msg = isNaN(parseFloat(msg)) ? 0 : parseFloat(msg)
             this.props.datasource.AlipayPrices = msg
             this.props.datasource.WpayPrices = msg
             this.props.datasource.CashPrices = msg
@@ -76,18 +77,18 @@ class EveryTunnel extends Component {
                     >{this.productDicSelect}</Select></div>
                <div>
                   <Tooltip title="支付宝" trigger="focus">
-                     <InputNumber value={this.state.AlipayPrices} placeholder="支付宝" min={0} onChange={this.zPayChange} style={{ width: '48%', marginRight: '1%' }} />
+                     <InputNumber step={0.01} precision={2} value={this.state.AlipayPrices} placeholder="支付宝" min={0} onChange={this.zPayChange} style={{ width: '48%', marginRight: '1%' }} />
                   </Tooltip>
                   <Tooltip title="微信" trigger="focus">
-                     <InputNumber title="微信价格" value={this.state.WpayPrices} placeholder="微信" min={0} onChange={this.wPayChange} style={{ width: '48%' }} />
+                     <InputNumber step={0.01} precision={2} title="微信价格" value={this.state.WpayPrices} placeholder="微信" min={0} onChange={this.wPayChange} style={{ width: '48%' }} />
                   </Tooltip>
                </div>
                <div>
                   <Tooltip title="现金" trigger="focus">
-                     <InputNumber value={this.state.CashPrices} placeholder="现金" onChange={this.xPayChange} className="textRequired" min={0} style={{ width: '48%', marginRight: '1%' }} />
+                     <InputNumber step={0.01} precision={2} value={this.state.CashPrices} placeholder="现金" onChange={this.xPayChange} className="textRequired" min={0} style={{ width: '48%', marginRight: '1%' }} />
                   </Tooltip>
                   <Tooltip title="IC卡" trigger="focus">
-                     <InputNumber value={this.state.IcPrices} placeholder="刷卡" onChange={this.icPayChange} min={0} style={{ width: '48%' }} />
+                     <InputNumber step={0.01} precision={2} value={this.state.IcPrices} placeholder="刷卡" onChange={this.icPayChange} min={0} style={{ width: '48%' }} />
                   </Tooltip>
                </div>
                 <div>
