@@ -126,6 +126,7 @@ class WechatFrame extends Component {
               location.href = RequestData
             } else if (RequestState == '1') {
               wechatUtility.setWechatInfo(ProductJson)
+              this.gotoPage(searchPara)
               this.setState({canLoad: true})
             } else if (RequestState == '2') {
               // 请求商品错误
