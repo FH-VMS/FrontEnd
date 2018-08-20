@@ -14,7 +14,7 @@ class EveryProduct extends Component {
   }
 
   render() {
-      let {PicUrl, WaresName, WaresUnitPrice, WaresDiscountUnitPrice, WaresWeight, WaresSpecifications} = this.props.dataItem
+      let {PicUrl, WaresName, WaresUnitPrice, WaresDiscountUnitPrice, WaresSpecifications} = this.props.dataItem
       let orginPriceText = '活动价：'
       if (!WaresDiscountUnitPrice) {
         WaresDiscountUnitPrice = WaresUnitPrice
@@ -29,7 +29,7 @@ class EveryProduct extends Component {
             <div className="productDescription">
               <div>
                 <div className="waresName">{WaresName}</div>
-                <div className="waresSpecification" style={{display: WaresWeight && WaresSpecifications ? 'block' : 'none'}}>{WaresWeight} {WaresSpecifications}</div>
+                <div className="waresSpecification" style={{display: WaresSpecifications ? 'block' : 'none'}}>{WaresSpecifications}</div>
               </div>
               <div>
                 <div style={{display: orginPriceText == '活动价：' ? 'block' : 'none'}} className="originPrice">原价：¥{WaresUnitPrice}</div>

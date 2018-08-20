@@ -180,7 +180,7 @@ const ProductListDialog = Form.create({
               required: true, message: '商品名称必填'
             }]
           })(
-           <Input />
+           <Input maxLength={20}/>
           )}
         </FormItem>
          <FormItem
@@ -232,7 +232,7 @@ const ProductListDialog = Form.create({
               required: false, message: '规格必选'
             }]
           })(
-           <Input />
+           <Input maxLength={50}/>
           )}
         </FormItem>
         <FormItem

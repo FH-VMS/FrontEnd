@@ -38,7 +38,11 @@ const ProductGroupDialog = Form.create({
       WaresStatus: {
        ...props.WaresStatus,
        value: props.WaresStatus
-     }
+     },
+     WaresSpecifications: {
+      ...props.WaresSpecifications,
+      value: props.WaresSpecifications
+    }
     }
   }
 })(class ClassDialog extends Component {
@@ -238,7 +242,7 @@ const ProductGroupDialog = Form.create({
               required: true, message: '商品组名称必填'
             }]
           })(
-           <Input />
+           <Input maxLength={20}/>
           )}
         </FormItem>
          <FormItem
@@ -267,6 +271,19 @@ const ProductGroupDialog = Form.create({
          <InputNumber min={0.01} step="0.01" />
         )}
       </FormItem>
+      <FormItem
+      {...formItemLayout}
+      label="规格："
+      hasFeedback
+    >
+      {getFieldDecorator('WaresSpecifications', {
+        rules: [{
+          required: false
+        }]
+      })(
+       <Input maxLength={50}/>
+      )}
+    </FormItem>
         <FormItem
         {...formItemLayout}
         label="对应商品："
