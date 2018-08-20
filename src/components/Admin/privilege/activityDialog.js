@@ -38,6 +38,10 @@ const ActivityDialog = Form.create({
       RelationData: {
         ...props.RelationData,
         value: props.RelationData
+      },
+      CountPerPerson: {
+        ...props.CountPerPerson,
+        value: props.CountPerPerson
       }
     }
   }
@@ -290,6 +294,19 @@ const ActivityDialog = Form.create({
       style={{width: '100%'}}
       />
   )}
+</FormItem>
+<FormItem
+{...formItemLayout}
+label="次(每人)："
+hasFeedback
+>
+{getFieldDecorator('CountPerPerson', {
+  rules: [{
+      required: false, message: '每人可领取次数'
+  }]
+})(
+  <InputNumber min={0} step={1} max={100} precision={0}/>
+)}
 </FormItem>
   <FormItem
 {...formItemLayout}

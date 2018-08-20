@@ -99,7 +99,7 @@ class Activity extends Component {
                         callback && callback(data) 
                     } else {
                         if (jsonUser) {
-                            this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, principleType: 2}).then(count => {
+                            this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, activityType: 1}).then(count => {
                                 
                                 this.setState({chance: count})
                                 let data = [num, count]

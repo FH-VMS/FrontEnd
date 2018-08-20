@@ -274,7 +274,11 @@ class Activity extends Component {
                         dataIndex="TimeRuleText"
                         key="TimeRuleText"
                     />
-                   
+                    <Column
+                    title="次/人"
+                    dataIndex="CountPerPerson"
+                    key="CountPerPerson"
+                />
                      <Column
                         title="活动开始"
                         dataIndex="StartTime"
