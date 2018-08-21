@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
-import {Icon, Table, Button, message, Avatar, Input} from 'antd'
+import {Icon, Table, Button, message, Avatar, Input, Select} from 'antd'
 import ResourceDialog from 'COMPONENT/admin/ad/resourceDialog'
 
 const { Column } = Table
+const InputGroup = Input.Group;
+const Option = Select.Option;
 
 class Carousel extends Component {
     constructor(props) {
@@ -130,8 +132,14 @@ class Carousel extends Component {
                     title="链接"
                     key="url"
                     render={(record) => {
-                        console.log('bbbbb', record)
-                        return <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" />
+                        return <InputGroup compact>
+                                    <Select showSearch optionFilterProp="children" filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} defaultValue="Zhejiang">
+                                    <Option value="Zhejiang">Zhejiang</Option>
+                                    <Option value="Jiangsu">Jiangsu</Option>
+                                    </Select>
+                                    <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" style={{ width: '50%' }} />
+                                </InputGroup>
+                        // return <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" />
                     }
                         
                     }
