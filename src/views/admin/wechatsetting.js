@@ -13,10 +13,17 @@ class WechatSetting extends Component {
             loading: false,
             clientDicData: [],
             clientId: '',
-            webInfo: {}
+            webInfo: {},
+            productDic: [],
+            data: []
         }
     }
 
+    componentWillMount() {
+    }
+
+
+   
 
     componentDidMount() {
         // 客户字典
@@ -61,9 +68,15 @@ class WechatSetting extends Component {
     getData = (val) => {
         this.props.fetchWebSetting({clientId: val}).then(msg => {
             if (this.props.wechatSetting.webData && this.props.wechatSetting.webData.length > 0) {
-               this.setState({webInfo: this.props.wechatSetting.webData[0]})
+               this.setState({webInfo: this.props.wechatSetting.webData[0], data: JSON.parse(this.props.wechatSetting.webData[0].CarouselJson)})
             } else {
-                this.setState({webInfo: {}})
+                this.setState({webInfo: {}, data: []})
+            }
+        })
+
+        this.props.fetchProductAndGroupDic({clientId: val}).then(msg => {
+            if (msg) {
+                this.setState({productDic: msg})
             }
         })
     }
@@ -88,7 +101,7 @@ class WechatSetting extends Component {
                 /></Col>
                </Row>
                <Tabs defaultActiveKey="1" onChange={this.tabCallback}>
-               <TabPane tab="首页滚动图" key="1"><Carousel saveWebSetting={this.saveWebSetting} webInfo={this.state.webInfo} {...this.props}/></TabPane>
+               <TabPane tab="首页滚动图" key="1"><Carousel clientId={this.state.clientId} productDic={this.state.productDic} data={this.state.data} saveWebSetting={this.saveWebSetting} webInfo={this.state.webInfo} {...this.props}/></TabPane>
                {
                    /*
                    <TabPane tab="客服设置" key="2">Content of Tab Pane 2</TabPane>

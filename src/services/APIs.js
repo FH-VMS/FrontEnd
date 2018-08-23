@@ -38,6 +38,9 @@ const api = {
       GetProductDic: function(data) {
           return apiService('Common', 'GetProductDic', 'GET', data)
       },
+      GetProductAndGroupDic: function(data) {
+          return apiService('Common', 'GetProductAndGroupDic', 'GET', data)
+      },
       GetCabinetDic: function(data) {
           return apiService('Common', 'GetCabinetDic', 'GET', data)
       },

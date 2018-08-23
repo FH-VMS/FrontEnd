@@ -13,6 +13,7 @@ const FETCH_PRODUCTTYPEDIC = 'FETCH_PRODUCTTYPEDIC'
 const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
 const FETCH_PRIVILEGEDIC = 'FETCH_PRIVILEGEDIC'
+const FETCH_PRODUCTANDGROUPDIC = 'FETCH_PRODUCTANDGROUPDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -174,10 +175,23 @@ const fetchDic = (searParam) => dispatch =>
           return msgs
       })
 
+       // 获取商品和商品组做字典
+const fetchProductAndGroupDic = () => dispatch =>
+       apis
+         .Common
+         .GetProductAndGroupDic()
+         .then(msgs => {
+           dispatch({
+              type: FETCH_PRODUCTANDGROUPDIC,
+              payload: msgs
+           })
+           return msgs
+       })
+
 export default {
   fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, 
   fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, 
-  fetchProductDic, fetchMachineDic, fetchPrivilegeDic
+  fetchProductDic, fetchMachineDic, fetchPrivilegeDic, fetchProductAndGroupDic
 }
 
 export const ACTION_HANDLERS = {
@@ -223,6 +237,10 @@ export const ACTION_HANDLERS = {
     return result
 },
 [FETCH_PRIVILEGEDIC]: (result, { payload }) => {
+    result.DicData = payload
+    return result
+},
+[FETCH_PRODUCTANDGROUPDIC]: (result, { payload }) => {
     result.DicData = payload
     return result
 }

@@ -11,13 +11,28 @@ class Carousel extends Component {
 		super(props)
         this.state = {
             visible: false,
-            dataSource: this.props.webInfo.CarouselJson ? JSON.parse(this.props.webInfo.CarouselJson) : [],
+            dataSource: this.props.data,
             loading: false
         }
     }
 
     componentWillMount() {
-      
+        this.productSelect = []
+      this.getProductSelect()
+    }
+
+    componentDidUpdate() {
+        this.getProductSelect()
+    }
+
+    getProductSelect = () => {
+        if (this.props.productDic) {
+           this.productSelect = this.props.productDic.map((item, index) => {
+                return (
+                  <Option value={item.Id}>{item.Name}</Option>
+                )
+              })
+        }
     }
 
     resourceClick = (resourceItem, ev) => {
@@ -92,11 +107,21 @@ class Carousel extends Component {
         this.props.saveWebSetting()
     }
 
+    urlChange = (record, e) => {
+        record.Url = e.target.value
+        this.setState({dataSource: this.state.dataSource})
+    }
+
+    productSelectChange = (record, txt, e) => {
+        
+        record.Url = `${location.origin}/p/wechat.html#/pay/${txt}?clientId=${this.props.clientId}`
+        this.setState({dataSource: this.state.dataSource})
+    }
     
   
     render() {
-        if (this.props.webInfo && this.props.webInfo.CarouselJson) {
-            this.state.dataSource = JSON.parse(this.props.webInfo.CarouselJson)
+        if (this.props.data) {
+            this.state.dataSource = this.props.data
         } else {
             this.state.dataSource = []
         }
@@ -133,11 +158,10 @@ class Carousel extends Component {
                     key="url"
                     render={(record) => {
                         return <InputGroup compact>
-                                    <Select showSearch optionFilterProp="children" filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} defaultValue="Zhejiang">
-                                    <Option value="Zhejiang">Zhejiang</Option>
-                                    <Option value="Jiangsu">Jiangsu</Option>
+                                    <Select showSearch optionFilterProp="children" onChange={this.productSelectChange.bind(this, record)} placeholder='生成商品链接' style={{width: '30%'}} filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
+                                       {this.productSelect}
                                     </Select>
-                                    <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" style={{ width: '50%' }} />
+                                    <Input onChange={this.urlChange.bind(this, record)} value={record.Url ? record.Url : ''} defaultValue={record.Url} placeholder="对应网址（可为空）" style={{ width: '50%' }} />
                                 </InputGroup>
                         // return <Input onChange={(e) => {record.Url = e.target.value}} defaultValue={record.Url} placeholder="对应网址（可为空）" />
                     }
