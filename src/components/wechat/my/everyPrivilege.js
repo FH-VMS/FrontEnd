@@ -14,8 +14,13 @@ class EveryPrivilege extends Component {
 
   }
 
-  gotoUse = () => {
-    hashHistory.push('/' + this.props.location.search)
+  gotoUse = (item) => {
+    if (item.PrincipleType == '3') { // 赠品券直接跳到结算页面
+      hashHistory.push(`/pay/${item.BindProductIds}` + location.search)
+    } else {
+      hashHistory.push('/' + this.props.location.search)
+    }
+    
   }
 
   render() {
@@ -39,7 +44,7 @@ class EveryPrivilege extends Component {
       } else {
           if (PrivilegeStatus == 1 && !isExipire) {
             tmpHtml.push(<div>已领取</div>)
-            tmpHtml.push(<div onClick={this.gotoUse.bind(this)} className="gotoUse">去使用</div>)
+            tmpHtml.push(<div onClick={this.gotoUse.bind(this, this.props.data)} className="gotoUse">去使用</div>)
           } else {
             style = 'expireStyle'
             tmpHtml.push(<div>已过期</div>)
