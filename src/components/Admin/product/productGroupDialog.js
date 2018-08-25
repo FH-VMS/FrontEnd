@@ -149,6 +149,10 @@ const ProductGroupDialog = Form.create({
   }
 
   onCreate = () => {
+    if (this.state.chosenProduct.length > 5) {
+      message.warning('选择商品数不能大于5个')
+      return
+    }
     this.setState({canLoad: true, initData: true})
     this.props.onCreate()
   }
@@ -317,7 +321,7 @@ const ProductGroupDialog = Form.create({
              {getFieldDecorator(item.key, {
                rules: [{required: false}]
              })(
-               <InputNumber placeholder="数量(默认1)" min={1} step={1} max={10} precision={0}/>
+               <InputNumber placeholder="数量(默认1)" min={1} step={1} max={100} precision={0}/>
              )}
            </FormItem>)
          }) 
