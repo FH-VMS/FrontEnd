@@ -99,8 +99,8 @@ class Activity extends Component {
                         callback && callback(data) 
                     } else {
                         if (jsonUser) {
-                            this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, activityType: 1}).then(count => {
-                                
+                            this.props.getCanTicketCount({memberId: JSON.parse(jsonUser).openid, clientId: this.props.location.query.clientId, activityType: '1'}).then(count => {
+                              
                                 this.setState({chance: count})
                                 let data = [num, count]
                                 callback && callback(data) 
@@ -135,6 +135,7 @@ class Activity extends Component {
                         tmpObj.TimeRule = data.TimeRule
                         tmpObj.BindProductIds = data.BindProductIds
                         tmpObj.DisplayText = data.DisplayText
+                        tmpObj.ActivityType = '1'
                         this.props.getTicket({privilegeMemberInfo: tmpObj}).then(result => {
                             // console.log('aaaa', result)
                             if (result && this.state.chance) {

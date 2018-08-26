@@ -365,7 +365,7 @@ const api = {
             return apiService('Wechat', 'GetPrivilegeByMemberId', 'GET', data)
         },
         GetCanTakeTicketCount: function (data) {
-            return apiService('Wechat', 'GetCanTakeTicketCount', 'GET', data)
+            return apiService('Wechat', 'GetCanTakeTicketCount', 'POST', data)
         },
         GetWeixinJsConfig: function (data) {
             return apiService('Wechat', 'GetWeixinJsConfig', 'POST', data)
