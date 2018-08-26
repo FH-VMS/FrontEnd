@@ -179,13 +179,25 @@ class Pay extends Component {
 
 
   privilegeClick = () => {
-   
+    // 检查结算商品中是否有套餐，若有套餐，则优惠券不能用
+    let canUsePrivilege = true
+    for (let i = 0; i < this.state.data.length; i++) {
+      if (this.state.data[i].IsGroup == 1) {
+        canUsePrivilege = false
+        break
+      }
+    }
+    if (!canUsePrivilege) {
+      Toast.warning('套餐商品不参加优惠券活动')
+      return
+    }
     if (this.state.chosenPrivilege.length == 0) {
       let openid = wechatUtility.GetMemberId()
       if (!openid) {
         Toast.warning('未登录')
         return
       }
+       // 查询出所有未过期的优惠券
       this.props.fetchNoneExiprePrivilege({memberId: openid}).then(msg => {
         if (msg) {
           /*
