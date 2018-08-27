@@ -175,7 +175,7 @@ class WechatFrame extends Component {
       this.setState({selectedTab: txt})
     }
     
-    hashHistory.push(txt + this.props.location.search)
+    hashHistory.push(txt + '?clientId=' + wechatUtility.Cart.GetClientId())
   }
   
   componentDidMount() {

@@ -18,7 +18,7 @@ class EveryPrivilege extends Component {
   gotoUse = (item) => {
     if (item.PrincipleType == '3') { // 赠品券直接跳到结算页面
       
-      hashHistory.push(`/pay/${item.BindProductIds}?clientId=` + wechatUtility.Cart.GetClientId())
+      hashHistory.push(`/pay?clientId=${wechatUtility.Cart.GetClientId()}&waresId=${item.BindProductIds}`)
     } else {
       hashHistory.push('/' + this.props.location.search)
     }
