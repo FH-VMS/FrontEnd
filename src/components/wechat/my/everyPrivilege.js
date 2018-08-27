@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {hashHistory} from 'react-router'
+import wechatUtility from 'UTIL/wechatUtility'
 
 class EveryPrivilege extends Component {
 	constructor(props) {
@@ -16,7 +17,8 @@ class EveryPrivilege extends Component {
 
   gotoUse = (item) => {
     if (item.PrincipleType == '3') { // 赠品券直接跳到结算页面
-      hashHistory.push(`/pay/${item.BindProductIds}` + location.search)
+      
+      hashHistory.push(`/pay/${item.BindProductIds}?clientId=` + wechatUtility.Cart.GetClientId())
     } else {
       hashHistory.push('/' + this.props.location.search)
     }
