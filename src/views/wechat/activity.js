@@ -74,7 +74,10 @@ class Activity extends Component {
                         totalRate = totalRate + item.Rate
                         rateArr.push(item.Rate)
                     })
-                    
+                    if (totalRate <= 0) {
+                        let data = [num, 0]
+                        callback && callback(data) 
+                    }
                     let randomRate = Math.random() * totalRate
                     let num = -1
                     let nowIndex = 0
