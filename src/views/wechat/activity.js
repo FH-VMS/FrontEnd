@@ -98,6 +98,7 @@ class Activity extends Component {
                     // let chances = num  // 可抽奖次数
                     
                     if (num == -1) {
+                        this.setState({chance: 0})
                         let data = [num, 0]
                         callback && callback(data) 
                     } else {
@@ -109,6 +110,7 @@ class Activity extends Component {
                                 callback && callback(data) 
                             })
                         } else {
+                            this.setState({chance: 0})
                             let data = [num, 0]
                             callback && callback(data) 
                         }
