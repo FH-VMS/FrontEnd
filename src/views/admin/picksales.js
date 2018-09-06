@@ -219,11 +219,6 @@ class PickSales extends Component {
                         key="WaresName"
                     />
                     <Column
-                        title="数量"
-                        dataIndex="SalesNumber"
-                        key="SalesNumber"
-                    />
-                    <Column
                         title="支付方式"
                         dataIndex="PayType"
                         key="PayType"
