@@ -87,7 +87,7 @@ class PickSales extends Component {
     // 查询
     onSearch = (value) => {
           this.searchPara.machineId = value.machineId
-          this.searchPara.payType = value.payType
+          this.searchPara.pickupCode = value.pickupCode
          if (value.salesDate) {
             this.searchPara.salesDate = Utility.dateFormaterString(value.salesDate[0]) + '^' + Utility.dateFormaterString(value.salesDate[1])
          } else {
@@ -166,12 +166,9 @@ class PickSales extends Component {
             control: <Input placeholder="机器编号" />
         },
         {
-            label: '支付方式',
-            name: 'payType',
-            control: <Select placeholder="支付方式">
-                    <Option value="支付宝">支付宝</Option>
-                    <Option value="微信">微信</Option>
-                </Select>
+            label: '取货码',
+            name: 'pickupCode',
+            control: <Input placeholder="取货码" />
         },
         {
             label: '状态',
@@ -217,11 +214,6 @@ class PickSales extends Component {
                         title="商品名"
                         dataIndex="WaresName"
                         key="WaresName"
-                    />
-                    <Column
-                        title="支付方式"
-                        dataIndex="PayType"
-                        key="PayType"
                     />
                     <Column
                         title="销售日期"
