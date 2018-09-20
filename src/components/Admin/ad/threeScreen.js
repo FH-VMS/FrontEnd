@@ -41,7 +41,6 @@ class ThreeScreen extends Component {
         // let tmpArr = this.state.data.Resources[this.nowPosition]
        
         record.PlayTime = val
-        console.log('tttt', record)
         this.setState({data: this.state.data})
     }
 
@@ -166,7 +165,6 @@ class ThreeScreen extends Component {
         if (this.state.data.Resources) {
             tableResource = this.state.data.Resources[this.nowPosition]
         }
-        console.log('rrrrrrrrrr', tableResource)
        return (
         <div>
            <div className="addEditArea">

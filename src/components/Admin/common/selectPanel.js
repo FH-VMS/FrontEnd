@@ -28,7 +28,6 @@ class SelectPanel extends Component {
 
     getData = (val) => {
         this.props.fetch().then((msg) => {
-            console.log('99999', msg)
               this.setState({dataSource: this.props.tunnelInfo.machineDic, pagination: {
                    showSizeChanger: true,
                    onShowSizeChange: (current, pageSize) => {

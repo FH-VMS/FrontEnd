@@ -190,7 +190,6 @@ guideMaskClick = () => {
 }
 
 onChange = (value) => {
-  console.log('checkbox', value);
   this.setState({
     rdValue: value
   });

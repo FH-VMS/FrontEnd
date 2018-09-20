@@ -22,7 +22,6 @@ class PrivilegeDetailDialog extends Component {
     }
 
     componentWillMount() {
-        // console.log('iiii', this.props)
     }
 
 
@@ -34,13 +33,11 @@ class PrivilegeDetailDialog extends Component {
 
     generatePrivilegeList = () => {
       // let {page} = this.state
-      console.log('oooooo', this.props.nowRecord)
       this.searchPara.memberId = this.props.nowRecord.OpenId
     
       let {fetchPrivilegeByMember} = this.props
       this.state.canLoad = false
       fetchPrivilegeByMember(this.searchPara).then(msg => {
-                console.log('00000', this.props)
               this.setState({
                   dataSource: this.props.member.privilegeData, pagination: {
                   total: this.props.member.privilegePager.TotalRows,

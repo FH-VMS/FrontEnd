@@ -64,7 +64,6 @@ export default {
 // ================================
 export const ACTION_HANDLERS = {
   [FETCH_RESOURCE]: (result, { payload }) => {
-    console.log('ddddd', payload)
     result.resourceData = payload.data
     result.resourcePager = payload.pager
       return result

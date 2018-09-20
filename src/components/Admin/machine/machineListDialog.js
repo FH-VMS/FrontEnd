@@ -59,7 +59,8 @@ const MachineTypeDialog = Form.create({
       this.state = {
         userSelect: [],
         payConfigSelect: [],
-        adDicSelect: []
+        adDicSelect: [],
+        accountSelect: []
       }
     }
 
@@ -67,6 +68,7 @@ const MachineTypeDialog = Form.create({
       this.clientId = ''
       this.payConfigClientId = ''
       this.adDicClientId = ''
+      this.accountId = ''
     }
 
 
@@ -83,7 +85,8 @@ const MachineTypeDialog = Form.create({
      this.clientSelect(value)
      this.payConfigSelect(value)
      this.adDicSelect(value)
-     this.props.form.setFieldsValue({UserAccount: '', MobilePayId: '', AdId: ''})
+     this.setState({accountSelect: []})
+     this.props.form.setFieldsValue({UserAccount: '', MobilePayId: '', AdId: '', TransferAccountId: ''})
  }
 
  clientSelect = (value) => {
@@ -119,6 +122,29 @@ const MachineTypeDialog = Form.create({
             this.payConfigClientId = value
       }
     })
+  }
+
+  payConfigChanged = (val, clid) => {
+    if (this.accountId == val) { 
+      return
+    }
+     if (!clid) {
+      clid = this.clientId
+     }
+     if (val && this.clientId) {
+           this.props.fetchAccountDic({payConfigId: val, clientId: clid}).then(msg => {
+            if (msg) {
+              let accountSelectVal = msg.map((item, index) => {
+                return (
+                  <Option value={item.Id}>{item.Name}</Option>
+                )
+              })
+              
+                  this.setState({accountSelect: accountSelectVal})
+                  this.accountId = val
+            }
+           })
+     }
   }
 
   adDicSelect = (value) => {
@@ -190,6 +216,7 @@ const MachineTypeDialog = Form.create({
       this.clientSelect(this.props.ClientId)
       this.payConfigSelect(this.props.ClientId)
       this.adDicSelect(this.props.ClientId)
+      this.payConfigChanged(this.props.MobilePayId, this.props.ClientId)
       isDisable = true
     }
    
@@ -334,11 +361,27 @@ const MachineTypeDialog = Form.create({
               required: true, message: '支付配置必选'
             }]
           })(
-              <Select>
+              <Select onChange={this.payConfigChanged}>
                  {this.state.payConfigSelect}
               </Select>
           )}
         </FormItem>
+        <FormItem
+        style={{display: this.state.accountSelect.length > 0 ? 'block' : 'none'}}
+        {...formItemLayout}
+        label="分账账号："
+        hasFeedback
+      >
+        {getFieldDecorator('TransferAccountId', {
+          rules: [{
+            required: false
+          }]
+        })(
+            <Select>
+               {this.state.accountSelect}
+            </Select>
+        )}
+      </FormItem>
         <FormItem
           {...formItemLayout}
           label="广告模板："

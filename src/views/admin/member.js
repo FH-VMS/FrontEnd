@@ -124,7 +124,6 @@ class Member extends Component {
             tmpObj.TimeRule = record.TimeRule
             tmpObj.BindProductIds = record.BindProductIds
             tmpObj.DisplayText = record.DisplayText
-            console.log(this.state.nowRecord)
            
             this.props.givePrivilege({privilegeMemberInfo: tmpObj}).then(result => {
                 if (result) {

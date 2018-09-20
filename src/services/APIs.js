@@ -50,6 +50,9 @@ const api = {
       GetPayConfigDic: function(data) {
           return apiService('Common', 'GetPayConfigDic', 'GET', data)
       },
+      GetAccountManageDic: function(data) {
+          return apiService('Common', 'GetAccountManageDic', 'GET', data)
+      },
       GetAdDic: function(data) {
           return apiService('Common', 'GetAdDic', 'GET', data)
       },
@@ -64,6 +67,9 @@ const api = {
       },
       GetPicPathByWaresId: function(data) {
           return apiService('Common', 'GetPicPathByWaresId', 'GET', data)
+      },
+      GetCanDistributePayConfigDic: function(data) {
+          return apiService('Common', 'GetCanDistributePayConfigDic', 'GET', data)
       }
 	}, 
   User: {
@@ -539,6 +545,20 @@ const api = {
         },
         GetActivityRelationById: function (data) {
           return apiService('Activity', 'GetActivityRelationById', 'GET', data)
+        }
+    },
+    AccountManage: {
+        GetData: function (data) {
+          return apiService('AccountManage', 'GetData', 'GET', data)
+        },
+        PostData: function (data) {
+          return apiService('AccountManage', 'PostData', 'POST', data)
+        },
+        PutData: function (data) {
+          return apiService('AccountManage', 'PutData', 'PUT', data)
+        },
+        DeleteData: function (data) {
+          return apiService('AccountManage', 'DeleteData', 'DELETE', data)
         }
     }
     

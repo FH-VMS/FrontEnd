@@ -14,6 +14,8 @@ const FETCH_PRODUCTDIC = 'FETCH_PRODUCTDIC'
 const FETCH_MACHINEDIC = 'FETCH_MACHINEDIC'
 const FETCH_PRIVILEGEDIC = 'FETCH_PRIVILEGEDIC'
 const FETCH_PRODUCTANDGROUPDIC = 'FETCH_PRODUCTANDGROUPDIC'
+const FETCH_ACCOUNTDIC = 'FETCH_ACCOUNTDIC'
+const FETCH_CANDISTRIBUTEDIC = 'FETCH_CANDISTRIBUTEDIC'
 
 const fetchDic = (searParam) => dispatch =>
   apis
@@ -77,6 +79,20 @@ const fetchDic = (searParam) => dispatch =>
     .then(msgs => {
       dispatch({
          type: FETCH_PAYCONFIGDIC,
+         payload: msgs
+      })
+
+      return msgs
+  })
+
+  // 根据客户id和支付id取分账帐户
+  const fetchAccountDic = (params) => dispatch =>
+  apis
+    .Common
+    .GetAccountManageDic(params)
+    .then(msgs => {
+      dispatch({
+         type: FETCH_ACCOUNTDIC,
          payload: msgs
       })
 
@@ -188,10 +204,23 @@ const fetchProductAndGroupDic = () => dispatch =>
            return msgs
        })
 
+// 取可分账的配置作为字典
+const fetchCanDistributeDic = () => dispatch =>
+       apis
+         .Common
+         .GetCanDistributePayConfigDic()
+         .then(msgs => {
+           dispatch({
+              type: FETCH_CANDISTRIBUTEDIC,
+              payload: msgs
+           })
+           return msgs
+})
+
 export default {
   fetchDic, fetchRank, fetchClientDic, fetchUserByClientId, fetchPictureDic, 
   fetchCabinetDic, fetchPayConfigByClientId, fetchAdDic, fetchProductTypeDic, 
-  fetchProductDic, fetchMachineDic, fetchPrivilegeDic, fetchProductAndGroupDic
+  fetchProductDic, fetchMachineDic, fetchPrivilegeDic, fetchProductAndGroupDic, fetchAccountDic, fetchCanDistributeDic
 }
 
 export const ACTION_HANDLERS = {
@@ -241,6 +270,14 @@ export const ACTION_HANDLERS = {
     return result
 },
 [FETCH_PRODUCTANDGROUPDIC]: (result, { payload }) => {
+    result.DicData = payload
+    return result
+},
+[FETCH_ACCOUNTDIC]: (result, { payload }) => {
+    result.DicData = payload
+    return result
+},
+[FETCH_CANDISTRIBUTEDIC]: (result, { payload }) => {
     result.DicData = payload
     return result
 }

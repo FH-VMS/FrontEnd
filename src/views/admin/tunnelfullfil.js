@@ -200,7 +200,6 @@ class TunnelFullfil extends Component {
                         dataIndex="MaxPuts"
                         key="MaxPuts"
                         render={(text, record) => {
-                            console.log('ppppp', record)
                             if (record.CurrStock == '' || record.CurrStock == null) {
                                 return record.MaxPuts
                             } else {

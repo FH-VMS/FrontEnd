@@ -2,18 +2,16 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Table, message, Spin, Popconfirm } from 'antd'
-import Dialog from 'COMPONENT/admin/auth/dialog'
-
+import { Input, Table, message, Spin, Popconfirm } from 'antd'
+import Dialog from 'COMPONENT/admin/accountmanage/dialog'
 const { Column } = Table
 
-class Auth extends Component {
-    constructor(props) {
+class AccountManage extends Component {
+	constructor(props) {
 		super(props)
         this.state = {
             visible: false,
             dataSource: [],
-            rankData: [], // 权限等级
             auth: {
                 CanAdd: 'none',
                 CanDelete: 'none',
@@ -24,8 +22,10 @@ class Auth extends Component {
                 defaultPageSize: model.BaseSetting.PageSize
             },
             loading: false,
-            savePara: model.User.UserModel,
-            menusData: []
+            savePara: model.Pay.ConfigModel,
+            searchDatasource: [],
+            clientDicData: [],
+            accountDicData: []
         }
 
         this.searchPara = {
@@ -35,25 +35,30 @@ class Auth extends Component {
     }
 
     componentWillMount() {
+     
      this.getData(this.searchPara)
      // 页面级权限
      this.setState({auth: Utility.Cookie.getAuth()})
      
-      // 权限等级字典
-      this.props.fetchRank({id: 'rank'}).then(msg => {
-           this.setState({rankData: msg})
-      })
-     
+     // 查询条件
+        let searchDatasource = [{
+            label: '名称',
+            name: 'name',
+            control: <Input placeholder="名称" />
+        }]
+        
+        this.setState({searchDatasource: searchDatasource})
+        
     }
     
     // 取数据方法
     getData = (val) => {
       this.setState({loading: true})
-       this.props.fetchAuth(val).then((msg) => {
-           
-         if (this.props.auth) {
-           this.setState({dataSource: this.props.auth.data, pagination: {
-                total: this.props.auth.pager.TotalRows,
+       this.props.fetchAccountManage(val).then((msg) => {
+         if (this.props.accountManage) {
+          
+           this.setState({dataSource: this.props.accountManage.data, pagination: {
+                total: this.props.accountManage.pager.TotalRows,
                 showSizeChanger: true,
                 onShowSizeChange: (current, pageSize) => {
                     this.searchPara.pageIndex = current
@@ -72,29 +77,34 @@ class Auth extends Component {
     
     // 查询
     onSearch = (value) => {
-         this.searchPara.userName = value.userName
-         this.searchPara.userAccount = value.userAccount
+          this.searchPara.name = value.Name
+         
          this.searchPara.pageIndex = 1
-         this.getData(value)
+         this.getData(this.searchPara)
     }
     
     // 新增或修改
     showDialog = (txt, item, e) => {
          if (txt == '创建') {
-           this.setState({ visible: true, savePara: model.User.UserModel, menusData: this.props.commonInfo.menus })
+           this.setState({ visible: true, savePara: model.Pay.ConfigModel })
          } else {
-             // var menus = this.props.commonInfo.menus
-             // $.each()
-            this.setState({ visible: true, savePara: item, menusData: item.lstAuthRelate })
+             if (item.Cabinets) {
+                 item.CabinetList = []
+                 $.each(item.Cabinets, (index, eItem) => {
+                    item.CabinetList.push(eItem.CabinetId)
+                 })
+             }
+            this.setState({ visible: true, savePara: item })
          }
          
     }
 
     // 删除
     handleDelete = (record, e) => {
-        
-        if (record.Id) {
-            this.props.deleteAuth({idList: record.Id}).then(msg => {
+        if (record.Id == 1) {
+           message.warning('默认配置，不可删除')
+        } else {
+            this.props.deleteAccountManage({idList: record.Id}).then(msg => {
                 if (msg) {
                     message.success('删除成功')
                     this.getData(this.searchPara)
@@ -112,34 +122,22 @@ class Auth extends Component {
         this.setState({ visible: false })
     }
 
-    handleCreate = (authTemplate, e) => {
+    handleCreate = () => {
         const form = this.form
         form.validateFields((err, values) => {
         if (err) {
             return
         }
-      
-        let saveData = []
-        $.each(authTemplate, (pIndex, pItem) => {
-           
-            if (pItem.Menus) {
-                $.each(pItem.Menus, (cIndex, cItem) => {
-                     if (!cItem.Checked) {
-                            return true
-                        }
-                    saveData.push({MenuId: cItem.MenuId, Add: cItem.Add, Del: cItem.Del, Sear: cItem.Sear, Mod: cItem.Mod})
-                })
-            }
-           
-        })
+        if (values.CabinetList && values.CabinetList.length > 0) {
+            values.Cabinets = []
+            $.each(values.CabinetList, (index, item) => {
+                values.Cabinets.push({CabinetId: item})
+            })
+        }
         // 更新
-       
        if (this.state.savePara.Id) {
            values.Id = this.state.savePara.Id
-           if (!isNaN(parseInt(values.rank, 10))) {
-               this.state.savePara.Rank = values.rank
-           }
-           this.props.updateAuth({id: values.Id, name: values.name, rank: this.state.savePara.Rank, lstAuthInfo: saveData}).then((msg) => {
+           this.props.updateAccountManage({accountInfo: values}).then((msg) => {
                if (msg) {
                   message.success('更新成功')
                   this.getData(this.searchPara)
@@ -149,7 +147,7 @@ class Auth extends Component {
            })
           
        } else {
-           this.props.addAuth({name: values.name, rank: values.rank, lstAuthInfo: saveData}).then((msg) => {
+           this.props.addAccountManage({accountInfo: values}).then((msg) => {
              if (msg) {
                 message.success('保存成功')
                 this.getData(this.searchPara)
@@ -166,12 +164,29 @@ class Auth extends Component {
         })
     }
 
-    onChange = (e) => {
-}
+    componentDidMount() {
+         // 客户字典
+       this.props.fetchClientDic().then(msg => {
+        
+        if (msg) {
+            this.setState({clientDicData: Utility.getTreeClient(msg), loading: false})
+        }
+
+        
+        })
+
+        this.props.fetchCanDistributeDic().then(msg => {
+            if (msg) {
+                this.setState({accountDicData: msg, loading: false})
+            }
+        })
+    }
+
+
 
      /* ****************************对弹出框form的操作方法********************************** */
      
-    // 修改和删除的权限控制
+     // 修改和删除的权限控制
     getAuth = () =>{
         if (this.state.auth.CanDelete == 'none' && this.state.auth.CanModify == 'none') {
             this.DeleteAndModify = ''
@@ -213,50 +228,92 @@ class Auth extends Component {
                     />
         }
     }
+    
 
-    
-    
 
     render() {
         this.getAuth()
         
-        // 查询条件
-        let searchDatasource = []
+         // 上传方法
+         
+         
 
         // 修改时直接绑定参数
         const fields = this.state.savePara
-
         return (
             <div>
               <Spin size="large" spinning={this.state.loading}>
-              <Tools auth={this.state.auth} searchDatasource={searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
+              <Tools auth={this.state.auth} searchDatasource={this.state.searchDatasource} onSearch={this.onSearch} onCreate={this.showDialog} />
               <Table dataSource={this.state.dataSource} pagination={this.state.pagination}>
                     <Column
-                        title="模板名称"
-                        dataIndex="DmsName"
-                        key="DmsName"
+                        title="名称"
+                        dataIndex="Name"
+                        key="Name"
                     />
                     <Column
-                        title="等级"
-                        dataIndex="RankName"
-                        key="RankName"
+                        title="所属分账配置"
+                        dataIndex="PayConfigName"
+                        key="PayConfigName"
+                    />
+                    <Column
+                        title="微信配置"
+                        dataIndex="WxAppId"
+                        key="WxAppId"
+                         render={(text, record) => {
+                            if (text) {
+                                return <i className="fa fa-check" style={{color: '#25d508'}} />
+                            } else {
+                                return <i className="fa fa-close" style={{color: '#f61132'}} />
+                            }
+                        }
+                      }
+                    />
+                    
+                    <Column
+                        title="支付宝配置"
+                        dataIndex="AliParter"
+                        key="AliParter"
+                         render={(text, record) => {
+                            if (text) {
+                                return <i className="fa fa-check" style={{color: '#25d508'}} />
+                            } else {
+                                return <i className="fa fa-close" style={{color: '#f61132'}} />
+                            }
+                        }
+                      }
+                    />
+                    <Column
+                        title="所属客户"
+                        dataIndex="ClientName"
+                        key="ClientName"
+                    />
+                    <Column
+                        title="微信费率"
+                        dataIndex="WxRate"
+                        key="WxRate"
+                    />
+                    <Column
+                        title="支付宝费率"
+                        dataIndex="AliRate"
+                        key="AliRate"
                     />
                    {this.DeleteAndModify}
               </Table>
-              <Dialog ref={this.saveFormRef}
+                </Spin>
+                <Dialog ref={this.saveFormRef}
                         visible={this.state.visible}
                         onCancel={this.handleCancel}
                         onCreate={this.handleCreate}
-                        title="创建权限模板"
-                        menus={this.state.menusData}
+                        title="账户配置"
                         {...fields}
-                        rankData={this.state.rankData}
-                    
+                        clientDicData = {this.state.clientDicData}
+                        accountDicData = {this.state.accountDicData}
                  />
-                </Spin>
            </div>
         )
     }
 }
 
-export default Auth
+
+export default AccountManage
+

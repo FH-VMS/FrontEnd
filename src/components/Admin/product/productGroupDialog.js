@@ -202,7 +202,6 @@ const ProductGroupDialog = Form.create({
     const uploadObj = Utility.getUploadObj()
     uploadObj.onChange = (info) => {
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
       }
       if (info.file.status === 'done') {
         message.success(`上传成功`)

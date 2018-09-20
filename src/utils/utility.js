@@ -153,7 +153,6 @@ export default {
                  items[key].push(list[i]);
              }
          }
-        console.log(this.formatTree(items, rClientId))
         return this.formatTree(items, rClientId);
     },
     formatTree: function(items, parentId) {

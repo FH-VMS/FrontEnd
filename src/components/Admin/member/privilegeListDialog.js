@@ -23,7 +23,6 @@ class PrivilegeListDialog extends Component {
     }
 
     componentWillMount() {
-        // console.log('iiii', this.props)
         this.rowData = ''
     }
 
@@ -40,7 +39,6 @@ class PrivilegeListDialog extends Component {
       let {fetchPrivilegeList} = this.props
       this.state.canLoad = false
       fetchPrivilegeList(this.searchPara).then(msg => {
-          console.log('aaaaa', this.props.member)
               this.setState({
                   dataSource: this.props.member.privilegeListData, pagination: {
                   total: this.props.member.privilegeListPager.TotalRows,
@@ -92,7 +90,6 @@ class PrivilegeListDialog extends Component {
     }
 
     onSelectChange = (selectedRowKeys, rows) => {
-        console.log('selectedRowKeys changed: ', rows[0])
         this.rowData = rows[0]
         this.setState({ selectedRowKeys })
     }
