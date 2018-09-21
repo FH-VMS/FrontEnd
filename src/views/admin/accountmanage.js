@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import model from 'STORE/model'
 import Utility from 'UTIL/utility'
 import Tools from 'COMPONENT/admin/common/tools'
-import { Input, Table, message, Spin, Popconfirm } from 'antd'
+import { Input, Table, message, Spin, Popconfirm, Tooltip } from 'antd'
 import Dialog from 'COMPONENT/admin/accountmanage/dialog'
+import QrDialog from 'COMPONENT/admin/accountmanage/qrcodeDialog'
 const { Column } = Table
 
 class AccountManage extends Component {
@@ -25,7 +26,9 @@ class AccountManage extends Component {
             savePara: model.Pay.ConfigModel,
             searchDatasource: [],
             clientDicData: [],
-            accountDicData: []
+            accountDicData: [],
+            qrVisible: false, 
+            qrNowItem: ''
         }
 
         this.searchPara = {
@@ -183,6 +186,10 @@ class AccountManage extends Component {
     }
 
 
+    showQrcode = (item) => {
+        this.setState({qrVisible: true, qrNowItem: item})
+    }
+
 
      /* ****************************对弹出框form的操作方法********************************** */
      
@@ -257,13 +264,13 @@ class AccountManage extends Component {
                     />
                     <Column
                         title="微信配置"
-                        dataIndex="WxAppId"
-                        key="WxAppId"
+                        dataIndex="WxConfig"
+                        key="WxConfig"
                          render={(text, record) => {
-                            if (text) {
+                            if (record.UserOpenid && record.WxUserName) {
                                 return <i className="fa fa-check" style={{color: '#25d508'}} />
                             } else {
-                                return <i className="fa fa-close" style={{color: '#f61132'}} />
+                                return <Tooltip placement="top" title={'生成二维码'}><div onClick={this.showQrcode.bind(this, record)}><i className="fa fa-close" style={{color: '#f61132'}} /><i className="fa fa-qrcode"></i></div></Tooltip>
                             }
                         }
                       }
@@ -271,21 +278,16 @@ class AccountManage extends Component {
                     
                     <Column
                         title="支付宝配置"
-                        dataIndex="AliParter"
-                        key="AliParter"
+                        dataIndex="AliConfig"
+                        key="AliConfig"
                          render={(text, record) => {
-                            if (text) {
+                            if (record.AliAccount && record.AliUserName) {
                                 return <i className="fa fa-check" style={{color: '#25d508'}} />
                             } else {
                                 return <i className="fa fa-close" style={{color: '#f61132'}} />
                             }
                         }
                       }
-                    />
-                    <Column
-                        title="所属客户"
-                        dataIndex="ClientName"
-                        key="ClientName"
                     />
                     <Column
                         title="微信费率"
@@ -309,6 +311,13 @@ class AccountManage extends Component {
                         clientDicData = {this.state.clientDicData}
                         accountDicData = {this.state.accountDicData}
                  />
+                 <QrDialog 
+                 visible={this.state.qrVisible}
+                 onQrCreate = {() => {this.setState({qrVisible: false})}}
+                 onQrCancel = {() => {this.setState({qrVisible: false})}}
+                 qrNowItem = {this.state.qrNowItem}
+                 title='微信分账配置二维码'
+              />
            </div>
         )
     }

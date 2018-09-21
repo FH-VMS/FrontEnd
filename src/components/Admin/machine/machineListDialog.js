@@ -50,7 +50,11 @@ const MachineTypeDialog = Form.create({
       AdId: {
        ...props.AdId,
        value: props.AdId
-     }
+     },
+     TransferAccountId: {
+      ...props.TransferAccountId,
+      value: props.TransferAccountId
+    }
     }
   }
 })(class ClassDialog extends Component {
@@ -110,6 +114,7 @@ const MachineTypeDialog = Form.create({
     if (this.payConfigClientId == value) { 
       return
     }
+    
     this.props.fetchPayConfigByClientId({clientId: value}).then(msg => {
       if (msg) {
         let payConfigSelect = msg.map((item, index) => {
@@ -117,6 +122,7 @@ const MachineTypeDialog = Form.create({
             <Option value={item.Id}>{item.Name}</Option>
           )
         })
+        
         
             this.setState({payConfigSelect: payConfigSelect})
             this.payConfigClientId = value
@@ -139,9 +145,8 @@ const MachineTypeDialog = Form.create({
                   <Option value={item.Id}>{item.Name}</Option>
                 )
               })
-              
-                  this.setState({accountSelect: accountSelectVal})
-                  this.accountId = val
+              this.setState({accountSelect: accountSelectVal})
+              this.accountId = val
             }
            })
      }
