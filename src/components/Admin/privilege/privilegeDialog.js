@@ -243,16 +243,6 @@ getFormItems = (val) => {
   
     break
     case '5':
-    items.push({label: '券折扣：', key: 'Discount', rules: [{
-      required: true, message: '折扣必填'
-    }],
-    control: <InputNumber min={0} max={10} step={0.1} precision={1}/>})
-    items.push({label: '选择赠送商品：', key: 'BindProductIds', rules: [{
-      required: true, message: '选择赠送商品：'
-    }],
-    control: <Select>
-      
-    </Select>})
     break
     case '6':
     items.push({label: '券额：', key: 'Money', rules: [{

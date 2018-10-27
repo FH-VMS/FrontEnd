@@ -241,7 +241,7 @@ const ActivityDialog = Form.create({
              {getFieldDecorator(item.key, {
                rules: [{required: false}]
              })(
-               <InputNumber placeholder="概率(默认1)" min={0} step={1} max={100} precision={0}/>
+               <InputNumber placeholder="概率(默认1)" min={0} step={1} max={100} precision={2}/>
              )}
            </FormItem>)
          }) 
