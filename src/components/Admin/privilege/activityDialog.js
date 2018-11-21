@@ -53,7 +53,8 @@ const ActivityDialog = Form.create({
         privilegeGroupDicSelect: [],
         chosenPrivilege: [],
         canLoad: true,
-        initData: true
+        initData: true,
+        realtionPrivilegeVisible: true
       }
     }
 
@@ -124,12 +125,25 @@ const ActivityDialog = Form.create({
 
   // 优惠券选择改变事件
   relationChange = (item) => {
+    console.log('aaaa', item)
     if (item) {
       this.setState({chosenPrivilege: item, canLoad: false})
     } else {
       this.setState({chosenPrivilege: [], canLoad: false})
     }
   
+  }
+
+
+  activityTypeChange = (val) => {
+    if (val == 2) {
+      let chosenPrivilegeArr = []
+      chosenPrivilegeArr.push({key: 'RatePara', label: '概率参数'})
+      this.setState({realtionPrivilegeVisible: false, chosenPrivilege: chosenPrivilegeArr, canLoad: false})
+      
+    } else {
+      this.setState({realtionPrivilegeVisible: true, chosenPrivilege: [], canLoad: false})
+    }
   }
 
   
@@ -202,7 +216,7 @@ const ActivityDialog = Form.create({
             required: false
           }]
         })(
-          <Select allowClear={true}>
+          <Select allowClear={true} onChange={this.activityTypeChange}>
              {this.privilegeGroupDicSelect}
           </Select>
         )}
@@ -212,6 +226,7 @@ const ActivityDialog = Form.create({
         {...formItemLayout}
         label="对应优惠券："
         hasFeedback
+        style={{display: this.state.realtionPrivilegeVisible ? 'inherit' : 'none'}}
       >
         {getFieldDecorator('RelationData', {
           rules: [{
